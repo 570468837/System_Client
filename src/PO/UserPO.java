@@ -9,7 +9,7 @@ public class UserPO {
     }
     
     public String getPassword(){
-    	return this.password+"";
+    	return this.password;
     	
     }
 }
