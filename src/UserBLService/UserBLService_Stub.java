@@ -1,10 +1,10 @@
-package UserBlService;
+package UserBLService;
 
 import PO.UserPO;
 import ResultMessage.ResultMessage;
 import VO.UserVO;
 
-public class UserBlService_Stub implements UserBlService{
+public class UserBLService_Stub implements UserBLService{
 
 	@Override
 	public ResultMessage login(UserVO vo) {
