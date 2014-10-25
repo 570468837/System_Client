@@ -1,8 +1,8 @@
 package businesslogicservice.GoodsBLService;
 /**
  * 
- * @hutao
- * 
+ * @author hutao
+ *
  */
 public class GoodsBLService_Driver {
 

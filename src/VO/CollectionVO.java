@@ -3,12 +3,12 @@ package VO;
 
 
 public class CollectionVO {
-	//ÊÕ¿îµ¥
+	//æ”¶æ¬¾å•
 		String number ;
-		CustomerVO customer ;//¿Í»§
-		UserVO user ;//²Ù×÷Ô±
-		TransferListVO tfList = null ;//×ªÕËÁĞ±í
-		double sum ;//×Ü½ğ¶î
+		CustomerVO customer ;//å®¢æˆ·
+		UserVO user ;//æ“ä½œå‘˜
+		TransferListVO tfList = null ;//è½¬è´¦åˆ—è¡¨
+		double sum ;//æ€»é‡‘é¢
 		public CollectionVO(){
 			number = null ;
 			customer = null ;

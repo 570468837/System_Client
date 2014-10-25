@@ -2,6 +2,6 @@ package VO;
 
 public class CasesListVO {
 	String casename ;
-	double caseMoney ; //½ğ¶î
-	String remark ;//±¸×¢
+	double caseMoney ; //é‡‘é¢
+	String remark ;//å¤‡æ³¨
 }
