@@ -11,4 +11,10 @@ public enum ResultMessage {
     delete_failure,
     update_success,
     update_failure,
+    add_customer_success,
+    add_customer_failure,
+    delete_customer_success,
+    delete_customer_failure,
+    update_customer_success,
+    update_customer_failure,
 }
