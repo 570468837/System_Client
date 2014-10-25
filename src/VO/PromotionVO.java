@@ -1,15 +1,19 @@
-package PO;
+package VO;
 
-public class PromotionPO {
-     String goodsId;
-     double leastPrice;
-     double offPrice;
-     String presentGoodsId;
-     int presentNum;
-     String startTime;
-   	 String endTime;
- 	
-     public String getGoodsId() {
+public class PromotionVO {
+	String promotionId;
+    String goodsId;
+    double leastPrice;
+    double offPrice;
+    String presentGoodsId;
+    int presentNum;
+    String startTime;
+  	String endTime;
+  	 
+    public String getPromotionId() {
+		return promotionId;
+	}
+	public String getGoodsId() {
 		return goodsId;
 	}
 	public double getLeastPrice() {
@@ -30,5 +34,4 @@ public class PromotionPO {
 	public String getEndTime() {
 		return endTime;
 	}
-
 }
