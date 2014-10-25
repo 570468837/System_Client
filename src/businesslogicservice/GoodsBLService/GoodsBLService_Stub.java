@@ -1,9 +1,10 @@
 package businesslogicservice.GoodsBLService;
-/*
+/**
+ * 
  * @hutao
  * 
  */
 
-public interface GoodsBLService_Stub {
+public class GoodsBLService_Stub implements GoodsBLService {
 
 }

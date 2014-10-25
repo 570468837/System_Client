@@ -1,13 +1,10 @@
 package businesslogicservice.GoodsBLService;
 /**
  * 
- * @hutao
- * 
+ * @author hutao
+ *
  */
 
-public interface GoodsBLService {
-	
-	
-	
+public class GoodsController {
 
 }
