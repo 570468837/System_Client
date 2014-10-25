@@ -1,6 +1,6 @@
 package PO;
 
-public class CashPO {
+public class CashPO extends ReceiptPO {
 	String number ; 
 	UserPO user ;
 	AccountPO account ;

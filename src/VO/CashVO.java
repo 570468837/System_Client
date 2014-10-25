@@ -1,11 +1,11 @@
 package VO;
 
-public class CashVO {
+public class CashVO extends ReceiptVO {
 	String number ; 
 	UserVO user ;
 	AccountVO account ;
-	CasesListVO cases ;//鏉＄洰娓呭崟
-	double sum ;//鎬婚
+	CasesListVO cases ;//条目清单
+	double sum ;//总额
 	public String getNumber() {
 		return number;
 	}

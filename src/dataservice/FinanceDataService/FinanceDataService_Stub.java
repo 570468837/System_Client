@@ -1,4 +1,4 @@
-package dataservice.FinanceDataService;
+package FinanceDataService;
 
 import java.rmi.RemoteException;
 
@@ -29,9 +29,12 @@ public class FinanceDataService_Stub implements FinanceDataService{
 	}
 
 	@Override
-	public void find(AccountPO accout) throws RemoteException {
+	public AccountPO find(AccountPO account) throws RemoteException {
 		// TODO Auto-generated method stub
-		System.out.println("find success") ;
+		if(account.getName().equals("0001")){
+			System.out.println("find success") ;
+		}
+		return new AccountPO() ;
 	}
 
 	@Override

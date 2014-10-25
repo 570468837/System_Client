@@ -1,6 +1,6 @@
 package PO;
 
-public class CollectionPO {
+public class CollectionPO extends ReceiptPO{
 //收款单
 	String number ;
 	CustomerPO customer ;//客户
@@ -14,7 +14,13 @@ public class CollectionPO {
 		tfList = theTfList ;
 		sum = theSum ;
 	}
-	
+	public CollectionPO(){
+		number = null ;
+	    customer = null ;
+	    user = null ;
+	    tfList = null ;
+	    sum = 0 ;
+	}
 	
 
 	public String getNumber() {

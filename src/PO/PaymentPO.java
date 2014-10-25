@@ -1,6 +1,6 @@
 package PO;
 
-public class PaymentPO {
+public class PaymentPO extends ReceiptPO{
 	String number ;
 	CustomerPO customer ;//客户
 	UserPO user ;//操作员
@@ -12,6 +12,13 @@ public class PaymentPO {
 		user = theUser ;
 		tfList = theTfList ;
 		sum = theSum ;
+	}
+	public PaymentPO(){
+		number = null ;
+		customer = null ;
+		user = null ;
+		tfList = null ;
+		sum = 0 ;
 	}
 	
 }

@@ -7,7 +7,10 @@ public class AccountPO {
 		name = theName ;
 		balance = theBalance ;
 	}
-	
+	public AccountPO(){
+		name = null ;
+		balance =  0 ;
+	}
 	
 	
 	

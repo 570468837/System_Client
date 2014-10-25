@@ -1,4 +1,4 @@
-package businesslogicservice.FinanceBLService;
+package FinanceBLService;
 
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
@@ -29,7 +29,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	}
 
 	@Override
-	public ResultMessage updata(AccountVO vo) {
+	public ResultMessage updateAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
 		if(vo.getName().equals("0004"))
 			return ResultMessage.Exist ;
@@ -38,7 +38,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	}
 
 	@Override
-	public ResultMessage find(AccountVO vo) {
+	public ResultMessage findAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
 		if(vo.getName().equals("0005"))
 			return ResultMessage.Exist ;
