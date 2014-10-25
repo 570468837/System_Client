@@ -1,10 +1,10 @@
 package businesslogicservice.CommodityBLService;
 
-/*
- * @hutao
+/**
  * 
+ * @author hutao
+ *
  */
-
 public interface CommodityBLService {
 
 }

@@ -3,10 +3,10 @@ package VO;
 
 public class PaymentVO {
 	String number ;
-	CustomerVO customer ;//¿Í»§
-	UserVO user ;//²Ù×÷Ô±
-	TransferListVO tfList ;//×ªÕËÁĞ±í
-	double sum ;//×Ü½ğ¶î
+	CustomerVO customer ;//å®¢æˆ·
+	UserVO user ;//æ“ä½œå‘˜
+	TransferListVO tfList ;//è½¬è´¦åˆ—è¡¨
+	double sum ;//æ€»é‡‘é¢
 	public PaymentVO(){
 		number = null ;
 		customer = null ;
