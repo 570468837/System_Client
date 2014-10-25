@@ -1,16 +1,21 @@
-package VO;
+package PO;
 
-public class CommodityVO {
+public class GoodsPO {
+	
 	private String serialNumber;
 	private String name;
 	private String model;
 	private int quantity;
 	private long price;
+	private long totalPrice;
 	private String comment;
 	
-	
-	
-	
+	public long getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(long totalPrice) {
+		this.totalPrice = totalPrice;
+	}
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -49,5 +54,6 @@ public class CommodityVO {
 	}
 	
 	
+
 
 }

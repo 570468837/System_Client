@@ -17,4 +17,6 @@ public enum ResultMessage {
     delete_customer_failure,
     update_customer_success,
     update_customer_failure,
+    create_purchasereceipt_success,
+    create_purchasereceipt_failure,
 }
