@@ -1,6 +1,6 @@
 package VO;
 
-public class PurchaseReceiptVO {
+public class PurchaseReceiptVO extends ReceiptVO {
 
 	private String serialNumber;
 	private GoodsVO goodsVO;

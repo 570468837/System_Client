@@ -21,8 +21,6 @@ public class CollectionPO extends ReceiptPO{
 	    tfList = null ;
 	    sum = 0 ;
 	}
-	
-
 	public String getNumber() {
 		return number;
 	}
@@ -47,13 +45,11 @@ public class CollectionPO extends ReceiptPO{
 	public void setTfList(TransferListPO tfList) {
 		this.tfList = tfList;
 	}
-	public String getRemark() {
-		return remark;
+	public double getSum() {
+		return sum;
 	}
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setSum(double sum) {
+		this.sum = sum;
 	}
-	
-	
 	
 }

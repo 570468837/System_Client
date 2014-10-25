@@ -1,4 +1,4 @@
-package FinanceBLService;
+package businesslogicservice.FinanceBLService;
 
 import ResultMessage.ResultMessage;
 import VO.AccountVO;

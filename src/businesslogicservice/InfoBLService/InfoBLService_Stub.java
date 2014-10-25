@@ -1,7 +1,8 @@
-package InfoBLService;
+package businesslogicservice.InfoBLService;
 
 import java.util.ArrayList;
 
+import VO.PurchaseReceiptVO;
 import VO.ReceiptVO;
 
 
@@ -11,7 +12,7 @@ public class InfoBLService_Stub implements InfoBLService {
 	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(
 			PurchaseReceiptVO receipt,PurchaseReceiptVO receipt2) {
 		// TODO Auto-generated method stub
-		if(receipt.getNumber.equals("0001")){
+		if(receipt.getSerialNumber().equals("0001")){
 			System.out.println("success");
 			return new ArrayList<PurchaseReceiptVO>() ;
 		}else{
