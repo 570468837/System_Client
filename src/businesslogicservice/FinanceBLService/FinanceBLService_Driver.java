@@ -1,4 +1,4 @@
-package FinanceBLService;
+package businesslogicservice.FinanceBLService;
 
 import VO.AccountVO;
 import VO.CashVO;

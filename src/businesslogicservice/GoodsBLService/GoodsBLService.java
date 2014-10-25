@@ -1,4 +1,4 @@
-package GoodsBLService;
+package businesslogicservice.GoodsBLService;
 /*
  * @hutao
  * 
