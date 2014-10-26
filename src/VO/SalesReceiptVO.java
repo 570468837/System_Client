@@ -8,7 +8,7 @@ public class SalesReceiptVO {
 	//业务员
 	private String salesman;
 	private UserVO userVO;
-	private CommodityVO commodityVO;
+	private String commodityNum;
 	private GoodsVO goodsVO;
 	private long priveBefore;
 	private long discout;
@@ -39,11 +39,11 @@ public class SalesReceiptVO {
 	public void setUserVO(UserVO userVO) {
 		this.userVO = userVO;
 	}
-	public CommodityVO getCommodityVO() {
-		return commodityVO;
+	public String getCommodityNum() {
+		return commodityNum;
 	}
-	public void setCommodityVO(CommodityVO commodityVO) {
-		this.commodityVO = commodityVO;
+	public void setCommodityNum(String commodityNum) {
+		this.commodityNum = commodityNum;
 	}
 	public GoodsVO getGoodsVO() {
 		return goodsVO;

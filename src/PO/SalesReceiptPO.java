@@ -8,7 +8,7 @@ public class SalesReceiptPO {
 	//业务员
 	private String salesman;
 	private UserPO userPO;
-	private CommodityPO commodityPO;
+	private String commodityNum;
 	private GoodsPO goodsPO;
 	private long priveBefore;
 	private long discout;
@@ -39,11 +39,11 @@ public class SalesReceiptPO {
 	public void setUserVO(UserPO userPO) {
 		this.userPO = userPO;
 	}
-	public CommodityPO getCommodityVO() {
-		return commodityPO;
+	public String getCommodityNum() {
+		return commodityNum;
 	}
-	public void setCommodityVO(CommodityPO commodityVO) {
-		this.commodityPO = commodityPO;
+	public void setCommodityVO(String commodityNum) {
+		this.commodityNum = commodityNum;
 	}
 	public GoodsPO getGoodsPO() {
 		return goodsPO;
