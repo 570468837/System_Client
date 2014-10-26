@@ -1,11 +1,9 @@
 package PO;
-
 /**
  * 
  * @author hutao
- * 
+ *
  */
-
-public class GoodsPO {
+public class SendCommodityPO {
 
 }
