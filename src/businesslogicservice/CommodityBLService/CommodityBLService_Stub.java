@@ -8,26 +8,35 @@ import ResultMessage.ResultMessage;
  *
  */
 public class CommodityBLService_Stub implements CommodityBLService {
-	
+	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
-		return null;
+		
+		return new CheckCommodityVO(time1, time2);
 	}
+
+	@Override
 	public InventoryCommodityVO inventoryCommodity() {
-		return null;
+		
+		return new InventoryCommodityVO();
 	}
-	public ResultMessage sendCommodity(SendCommodityVO sendCommodityVO) {
-		return null;
+
+	@Override
+	public ResultMessage addSendCommodity(SendCommodityVO sendCommodityVO) {
+		
+		return ResultMessage.add_success;
 	}
-	public ResultMessage reportCommodity(ReportCommodityVO reportCommodityVO) {
-		return null;
+	@Override
+	public ResultMessage addReportCommodity(ReportCommodityVO reportCommodityVO) {
+		
+		return ResultMessage.add_success;
 	}
-	
+
+	@Override
 	public void alarmCommodity() {
+		System.out.println("no alarm");
 		
 	}
-	
-	
-	
+
 	
 	
 	

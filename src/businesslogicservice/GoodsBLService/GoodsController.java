@@ -41,43 +41,43 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage addGoods(GoodsVO goodsVO) {
 		
-		return null;
+		return ResultMessage.add_success;
 	}
 
 	@Override
 	public ResultMessage delGoods(int id) {
 		
-		return null;
+		return ResultMessage.delete_success;
 	}
 
 	@Override
 	public ResultMessage updGoods(GoodsVO goodsVO) {
 		
-		return null;
+		return ResultMessage.update_success;
 	}
 
 	@Override
 	public ArrayList<GoodsVO> searchGoods(String info) {
 		
-		return null;
+		return new ArrayList<GoodsVO>();
 	}
 
 	@Override
 	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO) {
 		
-		return null;
+		return ResultMessage.add_success;
 	}
 
 	@Override
 	public ResultMessage delGoodsClass(int id) {
 		
-		return null;
+		return ResultMessage.delete_success;
 	}
 
 	@Override
 	public ResultMessage updGoodsClass(GoodsClassVO goodsClassVO) {
 		
-		return null;
+		return ResultMessage.update_success;
 	}
 
 }

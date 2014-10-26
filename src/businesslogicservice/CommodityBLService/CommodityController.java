@@ -14,30 +14,29 @@ public class CommodityController implements CommodityBLService {
 	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
 		
-		return null;
+		return new CheckCommodityVO(time1, time2);
 	}
 
 	@Override
 	public InventoryCommodityVO inventoryCommodity() {
 		
-		return null;
+		return new InventoryCommodityVO();
 	}
 
 	@Override
-	public ResultMessage sendCommodity(SendCommodityVO sendCommodityVO) {
+	public ResultMessage addSendCommodity(SendCommodityVO sendCommodityVO) {
 		
-		return null;
+		return ResultMessage.add_success;
 	}
-
 	@Override
-	public ResultMessage reportCommodity(ReportCommodityVO reportCommodityVO) {
+	public ResultMessage addReportCommodity(ReportCommodityVO reportCommodityVO) {
 		
-		return null;
+		return ResultMessage.add_success;
 	}
 
 	@Override
 	public void alarmCommodity() {
-		
+		System.out.println("no alarm");
 		
 	}
 

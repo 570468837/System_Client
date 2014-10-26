@@ -10,23 +10,23 @@ import VO.*;
  */
 
 public class CommodityBLService_Driver {
-	public void drive(CommodityController commodityController) {
+	public void drive(CommodityBLService commodityController) {
 		CheckCommodityVO checkCommodityResult = commodityController.checkCommodity(new String(), new String());
 	    checkCommodityResult.print();
 	    
 	    InventoryCommodityVO inventoryCommodityResult = commodityController.inventoryCommodity();
 	    inventoryCommodityResult.print();
 	    
-	    ResultMessage resultMessage = commodityController.sendCommodity(new SendCommodityVO());
-	    if(resultMessage == ResultMessage.add_sendCommodity_success) {
+	    ResultMessage resultMessage = commodityController.addSendCommodity(new SendCommodityVO());
+	    if(resultMessage == ResultMessage.add_success) {
 	    	System.out.println("add_sendCommodity_success");
 	    }
 	    else {
 	    	System.out.println("add_sendCommodity_failure");
 	    }
 	    
-	    resultMessage = commodityController.reportCommodity(new ReportCommodityVO());
-	    if(resultMessage == ResultMessage.add_reportCommodity_success) {
+	    resultMessage = commodityController.addReportCommodity(new ReportCommodityVO());
+	    if(resultMessage == ResultMessage.add_success) {
 	    	System.out.println("add_reportCommodity_success");
 	    }
 	    else {
@@ -38,7 +38,10 @@ public class CommodityBLService_Driver {
 	}
 	
 	
-	
+	public static void main(String[] args) {
+		CommodityBLService_Driver c = new CommodityBLService_Driver();
+		c.drive(new CommodityController());
+	}
 	
 	
 	
