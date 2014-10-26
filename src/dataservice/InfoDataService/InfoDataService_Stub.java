@@ -1,12 +1,10 @@
-package InfoDataService;
-
-import java.rmi.RemoteException;
+package dataservice.InfoDataService;
 
 import PO.ReceiptPO;
 
 public class InfoDataService_Stub implements InfoDataService {
 
-	public ReceiptPO findReceipt(ReceiptPO receipt) throws RemoteException {
+	public ReceiptPO findReceipt(ReceiptPO receipt)  {
 		// TODO Auto-generated method stub
 		if(receipt.getNumber().equals("0001")) {
 			System.out.println("success") ;

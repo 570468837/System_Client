@@ -1,4 +1,4 @@
-package InfoDataService;
+package dataservice.InfoDataService;
 
 import PO.ReceiptPO;
 
