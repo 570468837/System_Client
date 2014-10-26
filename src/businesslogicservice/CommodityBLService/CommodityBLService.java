@@ -1,6 +1,6 @@
 package businesslogicservice.CommodityBLService;
 
-import PO.*;
+import VO.*;
 import ResultMessage.ResultMessage;
 
 /**
@@ -12,10 +12,10 @@ public interface CommodityBLService {
 	
 	
 	
-	public CheckCommodityPO checkCommodity(String time1, String time2);
-	public InventoryCommodityPO inventoryCommodity();
-	public ResultMessage sendCommodity(SendCommodityPO sendCommodityPO);
-	public ResultMessage reportCommodity(ReportCommodityPO reportCommodityPO);
+	public CheckCommodityVO checkCommodity(String time1, String time2);
+	public InventoryCommodityVO inventoryCommodity();
+	public ResultMessage sendCommodity(SendCommodityVO sendCommodityVO);
+	public ResultMessage reportCommodity(ReportCommodityVO reportCommodityVO);
 	
 	public void alarmCommodity();
 	

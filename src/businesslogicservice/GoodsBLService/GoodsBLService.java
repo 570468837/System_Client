@@ -1,8 +1,7 @@
 package businesslogicservice.GoodsBLService;
 
 import java.util.*;
-
-import PO.*;
+import VO.*;
 import ResultMessage.*;
 
 /**
@@ -13,19 +12,19 @@ import ResultMessage.*;
 
 public interface GoodsBLService {
 	
-	public GoodsPO getGoodsByID(int id);
-	public ArrayList<GoodsPO> getGoodsPOList();
-	public GoodsClassPO getGoodsClassByID(int id);
-	public ArrayList<GoodsClassPO> getGoodsClassPOList();
+	public GoodsVO getGoodsByID(int id);
+	public ArrayList<GoodsVO> getGoodsVOList();
+	public GoodsClassVO getGoodsClassByID(int id);
+	public ArrayList<GoodsClassVO> getGoodsClassVOList();
 	
-	public ResultMessage addGoods(GoodsPO goodsPO);
+	public ResultMessage addGoods(GoodsVO goodsVO);
 	public ResultMessage delGoods(int id);
-	public ResultMessage updGoods(GoodsPO goodsPO);
-	public ArrayList<GoodsPO> searchGoods(String info);
+	public ResultMessage updGoods(GoodsVO goodsVO);
+	public ArrayList<GoodsVO> searchGoods(String info);
 	
-	public ResultMessage addGoodsClass(GoodsClassPO goodsClassPO);
+	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO);
 	public ResultMessage delGoodsClass(int id);
-	public ResultMessage updGoodsClass(GoodsClassPO goodsClassPO);
+	public ResultMessage updGoodsClass(GoodsClassVO goodsClassVO);
 
 }
 
