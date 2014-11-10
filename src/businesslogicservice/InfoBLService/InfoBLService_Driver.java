@@ -9,5 +9,5 @@ public class InfoBLService_Driver {
 		infoBLService.showSalesConditionInfo("0001","0002")  ;
 		infoBLService.deletReceipt(new ReceiptVO());
 		infoBLService.deletAndUpdateReceipt(new ReceiptVO()) ;
-	}
+	} 
 }
