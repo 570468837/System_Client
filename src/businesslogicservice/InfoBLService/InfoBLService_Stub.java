@@ -9,10 +9,11 @@ import VO.ReceiptVO;
 public class InfoBLService_Stub implements InfoBLService {
 
 	@Override
-	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(
-			PurchaseReceiptVO receipt,PurchaseReceiptVO receipt2) {
+	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(PurchaseReceiptVO theReceipt1,PurchaseReceiptVO theReceipt2) {
+		PurchaseReceiptVO receipt1 = theReceipt1;
+		PurchaseReceiptVO receipt2 = theReceipt2;
 		// TODO Auto-generated method stub
-		if(receipt.getSerialNumber().equals("0001")){
+		if(receipt1.getSerialNumber().equals("0001")){
 			System.out.println("success");
 			return new ArrayList<PurchaseReceiptVO>() ;
 		}else{
@@ -22,9 +23,10 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ArrayList<ReceiptVO> showSalesProcessInfo(ReceiptVO receipt,ReceiptVO receipt2) {
+	public ArrayList<ReceiptVO> showSalesProcessInfo(ReceiptVO theReceipt1,ReceiptVO theReceipt2) {
 		// TODO Auto-generated method stub
-		if(receipt.getNumber().equals("0001")){
+		ReceiptVO receipt1 = theReceipt1 ;
+		if(receipt1.getNumber().equals("0001")){
 			System.out.println("success");
 			return new ArrayList<ReceiptVO>() ;
 		}
