@@ -1,26 +1,36 @@
 package VO;
 
+import java.util.ArrayList;
+
 public class PurchaseReceiptVO extends ReceiptVO {
 
 	private String serialNumber;
-	private GoodsVO goodsVO;
 	private UserVO userVO;
 	private String time;
 	private String comments;
+	private long totalPrice;
 	
 	
+	private ArrayList<PurchaseListItemVO> purchaseList;
+	
+	public void addPurchaseListItem(PurchaseListItemVO purchaseListItem){
+		this.purchaseList.add(purchaseListItem);
+	}
+	
+	
+	public ArrayList<PurchaseListItemVO> getPurchaseList() {
+		return purchaseList;
+	}
+	public void setPurchaseList(ArrayList<PurchaseListItemVO> purchaseList) {
+		this.purchaseList = purchaseList;
+	}
 	public String getSerialNumber() {
 		return serialNumber;
 	}
 	public void setSerialNumber(String serialNumber) {
 		this.serialNumber = serialNumber;
 	}
-	public GoodsVO getGoodsVO() {
-		return goodsVO;
-	}
-	public void setGoodsVO(GoodsVO goodsVO) {
-		this.goodsVO = goodsVO;
-	}
+	
 	public UserVO getUserVO() {
 		return userVO;
 	}
@@ -38,6 +48,18 @@ public class PurchaseReceiptVO extends ReceiptVO {
 	}
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+	public long getTotalPrice() {
+		//遍历所有商品以获得总价
+		for(int i=0;i<this.purchaseList.size();i++){
+			this.totalPrice+=this.purchaseList.get(i).getTotalPrice();
+		}
+		return totalPrice;
+	}
+
+
+	public void setTotalPrice(long totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	
 	

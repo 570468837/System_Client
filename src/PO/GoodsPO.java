@@ -8,9 +8,7 @@ public class GoodsPO {
 	private String serialNumber;
 	private String name;
 	private String model;
-	private int quantity;
 	private long price;
-	private long totalPrice;
 	private String comment;
 	
 	
@@ -25,9 +23,7 @@ public class GoodsPO {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
-		this.quantity = quantity;
 		this.price = price;
-		this.totalPrice = totalPrice;
 		this.comment = comment;
 	};
 	public GoodsPO(String serialNumber, String name, String model, 
@@ -36,7 +32,6 @@ public class GoodsPO {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
-		this.quantity = quantity;
 		this.price = price;
 		this.salePrice = salePrice;
 		this.latestPrice = latestPrice;
@@ -46,9 +41,7 @@ public class GoodsPO {
 	
 	
 	
-	public long getTotalPrice() {
-		return totalPrice;
-	}
+
 	public String getSerialNumber() {
 		return serialNumber;
 	}
@@ -58,9 +51,7 @@ public class GoodsPO {
 	public String getModel() {
 		return model;
 	}
-	public int getQuantity() {
-		return quantity;
-	}
+
 	public long getPrice() {
 		return price;
 	}

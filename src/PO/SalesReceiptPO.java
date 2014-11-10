@@ -1,5 +1,7 @@
 package PO;
 
+import java.util.ArrayList;
+
 
 public class SalesReceiptPO {
 	private String serialNumber;
@@ -9,11 +11,27 @@ public class SalesReceiptPO {
 	private String salesman;
 	private UserPO userPO;
 	private String commodityNum;
-	private GoodsPO goodsPO;
-	private long priveBefore;
+	private long priceBefore;
 	private long discout;
 	private long finalprice;
 	private String comment;
+	
+	private ArrayList<SalesListItemPO> salesList;
+	
+	
+	//添加商品
+	public void addSalesListItem(SalesListItemPO  salesListItem){
+		this.salesList.add(salesListItem);
+		
+	}
+	
+	public ArrayList<SalesListItemPO> getSalesList() {
+		return salesList;
+	}
+
+	public void setSalesList(ArrayList<SalesListItemPO> salesList) {
+		this.salesList = salesList;
+	}
 	
 	public String getSerialNumber() {
 		return serialNumber;
@@ -45,17 +63,16 @@ public class SalesReceiptPO {
 	public void setCommodityVO(String commodityNum) {
 		this.commodityNum = commodityNum;
 	}
-	public GoodsPO getGoodsPO() {
-		return goodsPO;
-	}
-	public void setGoodsPO(GoodsPO goodsPO) {
-		this.goodsPO = goodsPO;
-	}
+	
 	public long getPriveBefore() {
-		return priveBefore;
+		//遍历所有商品以获得总价
+		for(int i=0;i<salesList.size();i++){
+			this.priceBefore+=salesList.get(i).getTotalPrice();
+		}
+		return priceBefore;
 	}
 	public void setPriveBefore(long priveBefore) {
-		this.priveBefore = priveBefore;
+		this.priceBefore = priveBefore;
 	}
 	public long getDiscout() {
 		return discout;
@@ -64,6 +81,8 @@ public class SalesReceiptPO {
 		this.discout = discout;
 	}
 	public long getFinalprice() {
+		//减去折扣
+		this.finalprice=this.priceBefore-this.discout;
 		return finalprice;
 	}
 	public void setFinalprice(long finalprice) {
