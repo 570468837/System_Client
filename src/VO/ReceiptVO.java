@@ -2,14 +2,14 @@ package VO;
 
 
 
-public class ReceiptVO {
-//单据最初模板，所有的单据都要继承这个类
-	//单据最初模板，所有的单据都要继承这个类
-		String time = null ;//单据创建时间
-		String number = null ;//单据编号，包含单据类型的信息，比如：SKD-xxxxxxxxx代表销售单，FKD-xxxxxxxxxx代表付款单
-		CustomerVO customer = null ;
-		UserVO user = null ;
-		String storage = null ;
+public abstract class ReceiptVO {
+//锟斤拷锟斤拷锟斤拷锟侥ｏ拷澹拷锟斤拷械牡锟斤拷荻锟揭拷坛锟斤拷锟斤拷锟斤拷
+	//锟斤拷锟斤拷锟斤拷锟侥ｏ拷澹拷锟斤拷械牡锟斤拷荻锟揭拷坛锟斤拷锟斤拷锟斤拷
+		protected String time = null ;//锟斤拷锟捷达拷锟斤拷时锟斤拷
+		protected String number = null ;//锟斤拷锟捷憋拷牛锟斤拷锟斤拷锟斤拷锟酵碉拷锟斤拷息锟斤拷锟斤拷锟界：SKD-xxxxxxxxx锟斤拷锟斤拷锟斤拷鄣锟斤拷锟紽KD-xxxxxxxxxx锟斤拷?锟筋单
+		protected CustomerVO customer = null ;
+		protected UserVO user = null ;
+		protected String storage = null ;
 		public String getTime() {
 			return time;
 		}

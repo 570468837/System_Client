@@ -1,6 +1,7 @@
 package PO;
 
 public class PromotionPO {
+	 String promotionType;
      String goodsId;
      double leastPrice;
      double offPrice;

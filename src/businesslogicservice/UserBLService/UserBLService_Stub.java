@@ -55,5 +55,4 @@ public class UserBLService_Stub implements UserBLService{
 		// TODO Auto-generated method stub
 		return new UserVO();
 	}
- 
 }
