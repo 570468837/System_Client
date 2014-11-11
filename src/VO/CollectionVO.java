@@ -2,13 +2,13 @@ package VO;
 
 
 
-public class CollectionVO extends ReceiptVO{
-	//ÊÕ¿îµ¥
+public class CollectionVO {
+	//ï¿½Õ¿îµ¥
 		String number ;
-		CustomerVO customer ;//¿Í»§
-		UserVO user ;//²Ù×÷Ô±
-		TransferListVO tfList = null ;//×ªÕËÁÐ±í
-		double sum ;//×Ü½ð¶î
+		CustomerVO customer ;//ï¿½Í»ï¿½
+		UserVO user ;//ï¿½ï¿½ï¿½ï¿½Ô±
+		TransferListVO tfList = null ;//×ªï¿½ï¿½ï¿½Ð±ï¿½
+		double sum ;//ï¿½Ü½ï¿½ï¿½
 		public CollectionVO(){
 			number = null ;
 			customer = null ;

@@ -2,8 +2,8 @@ package businesslogicservice.InfoBLService;
 
 import java.util.ArrayList;
 
+import ResultMessage.ResultMessage;
 import VO.PurchaseReceiptVO;
-import VO.ReceiptVO;
 
 
 public class InfoBLService_Stub implements InfoBLService {
@@ -23,16 +23,15 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ArrayList<ReceiptVO> showSalesProcessInfo(ReceiptVO theReceipt1,ReceiptVO theReceipt2) {
+	public ResultMessage showSalesProcessInfo(String label) {
 		// TODO Auto-generated method stub
-		ReceiptVO receipt1 = theReceipt1 ;
-		if(receipt1.getNumber().equals("0001")){
+		if(label.equals("0001")){
 			System.out.println("success");
-			return new ArrayList<ReceiptVO>() ;
+			return ResultMessage.Exist ;
 		}
 		else{
 			System.out.println("fail") ;
-			return new ArrayList<ReceiptVO>() ;
+			return ResultMessage.Not_Exist ;
 		}
 	}
 
@@ -48,9 +47,9 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public void deletReceipt(ReceiptVO receipt) {
+	public void deletReceipt(String label) {
 		// TODO Auto-generated method stub
-		if(receipt.getNumber().equals("0001")) {
+		if(label.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
@@ -58,9 +57,9 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public void deletAndUpdateReceipt(ReceiptVO receipt) {
+	public void deletAndUpdateReceipt(String label) {
 		// TODO Auto-generated method stub
-		if(receipt.getNumber().equals("0001")) {
+		if(label.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
