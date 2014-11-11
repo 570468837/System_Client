@@ -3,10 +3,10 @@ package PO;
 public class CollectionPO{
 //�տ
 	String number ;
-	CustomerPO customer ;//�ͻ�
-	UserPO user ;//����Ա
-	TransferListPO tfList = null ;//ת���б�
-	double sum ;//�ܽ��
+	CustomerPO customer ;
+	UserPO user ;
+	TransferListPO tfList = null ;//转账列表
+	double sum ;
 	public CollectionPO(String theNumber,CustomerPO theCustomer,UserPO theUser,TransferListPO theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
