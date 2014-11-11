@@ -2,7 +2,7 @@ package VO;
 
 import java.util.ArrayList;
 
-public class PurchaseReceiptVO extends ReceiptVO {
+public class PurchaseReceiptVO  {
 
 	private String serialNumber;
 	private UserVO userVO;

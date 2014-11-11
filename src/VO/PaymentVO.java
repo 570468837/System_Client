@@ -1,12 +1,12 @@
 package VO;
 
 
-public class PaymentVO extends ReceiptVO{
+public class PaymentVO {
 	String number ;
-	CustomerVO customer ;//¿Í»§
-	UserVO user ;//²Ù×÷Ô±
-	TransferListVO tfList ;//×ªÕËÁÐ±í
-	double sum ;//×Ü½ð¶î
+	CustomerVO customer ;//ï¿½Í»ï¿½
+	UserVO user ;//ï¿½ï¿½ï¿½ï¿½Ô±
+	TransferListVO tfList ;//×ªï¿½ï¿½ï¿½Ð±ï¿½
+	double sum ;//ï¿½Ü½ï¿½ï¿½
 	public PaymentVO(){
 		number = null ;
 		customer = null ;

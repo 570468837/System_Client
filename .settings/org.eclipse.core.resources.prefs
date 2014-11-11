@@ -1,3 +1,6 @@
 eclipse.preferences.version=1
-encoding//src/PO/ReceiptPO.java=UTF-8
+encoding//src/VO/InventoryCommodityVO.java=UTF-8
+encoding//src/VO/SalesReceiptVO.java=UTF-8
 encoding//src/businesslogicservice/InfoBLService/InfoBLService.java=UTF-8
+encoding//src/businesslogicservice/InfoBLService/InfoBLService_Stub.java=UTF-8
+encoding/<project>=UTF-8
