@@ -8,7 +8,7 @@ public class PurchaseReceiptVO extends ReceiptVO {
 	private UserVO userVO;
 	private String time;
 	private String comments;
-	private long totalPrice;
+	private double totalPrice;
 	
 	
 	private ArrayList<PurchaseListItemVO> purchaseList;
@@ -49,7 +49,7 @@ public class PurchaseReceiptVO extends ReceiptVO {
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-	public long getTotalPrice() {
+	public double getTotalPrice() {
 		//遍历所有商品以获得总价
 		for(int i=0;i<this.purchaseList.size();i++){
 			this.totalPrice+=this.purchaseList.get(i).getTotalPrice();

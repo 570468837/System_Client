@@ -9,7 +9,7 @@ public class PurchaseReceiptPO {
 		private UserPO userPO;
 		private String time;
 		private String comments;
-		private long totalPrice;
+		private double totalPrice;
 		
 		//添加商品
 		public void addPurchaseListItem(PurchaseListItemPO purchaseListItemPO){
@@ -24,7 +24,7 @@ public class PurchaseReceiptPO {
 		public void setPurchaseList(ArrayList<PurchaseListItemPO> purchasesList) {
 			this.purchaseList = purchasesList;
 		}
-		public long getTotalPrice() {
+		public double getTotalPrice() {
 			//遍历所有商品以计算总价
 			for(int i=0;i<this.purchaseList.size();i++){
 					this.totalPrice+=this.purchaseList.get(i).getTotalPrice();				

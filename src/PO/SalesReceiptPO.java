@@ -11,9 +11,9 @@ public class SalesReceiptPO {
 	private String salesman;
 	private UserPO userPO;
 	private String commodityNum;
-	private long priceBefore;
-	private long discout;
-	private long finalprice;
+	private double priceBefore;
+	private double discout;
+	private double finalprice;
 	private String comment;
 	
 	private ArrayList<SalesListItemPO> salesList;
@@ -64,7 +64,7 @@ public class SalesReceiptPO {
 		this.commodityNum = commodityNum;
 	}
 	
-	public long getPriveBefore() {
+	public double getPriveBefore() {
 		//遍历所有商品以获得总价
 		for(int i=0;i<salesList.size();i++){
 			this.priceBefore+=salesList.get(i).getTotalPrice();
@@ -74,13 +74,13 @@ public class SalesReceiptPO {
 	public void setPriveBefore(long priveBefore) {
 		this.priceBefore = priveBefore;
 	}
-	public long getDiscout() {
+	public double getDiscout() {
 		return discout;
 	}
 	public void setDiscout(long discout) {
 		this.discout = discout;
 	}
-	public long getFinalprice() {
+	public double getFinalprice() {
 		//减去折扣
 		this.finalprice=this.priceBefore-this.discout;
 		return finalprice;

@@ -5,9 +5,13 @@ public class SalesListItemVO {
 
 	
 	private int quantity;
-	private long totalPrice;
+	private double totalPrice;
 	private GoodsVO goodsVO;
 	
+	public SalesListItemVO(GoodsVO goodsVO,int quantity){
+			this.goodsVO=goodsVO;
+			this.quantity=quantity;		
+	}
 	
 	public int getQuantity() {
 		return quantity;
@@ -15,7 +19,7 @@ public class SalesListItemVO {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public long getTotalPrice() {
+	public double getTotalPrice() {
 		this.totalPrice=this.quantity*this.goodsVO.getPrice();
 		return totalPrice;
 	}

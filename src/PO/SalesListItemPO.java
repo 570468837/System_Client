@@ -4,7 +4,7 @@ package PO;
 public class SalesListItemPO {
 
 	private int quantity;
-	private long totalPrice;
+	private double totalPrice;
 	private GoodsPO goodsPO;
 	
 	
@@ -14,7 +14,7 @@ public class SalesListItemPO {
 		this.quantity=quantity;		
 	}
 	
-	public long getTotalPrice() {
+	public double getTotalPrice() {
 		this.totalPrice=this.quantity*goodsPO.getPrice();
 		return totalPrice;
 	}
