@@ -2,7 +2,7 @@ package VO;
 
 
 
-public abstract class ReceiptVO {
+public  class ReceiptVO {
 //�������ģ�壬���еĵ��ݶ�Ҫ�̳������
 	//�������ģ�壬���еĵ��ݶ�Ҫ�̳������
 		protected String time = null ;//���ݴ���ʱ��

@@ -58,13 +58,13 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ReceiptVO deletAndUpdateReceipt(ReceiptVO receipt) {
+	public void deletAndUpdateReceipt(ReceiptVO receipt) {
 		// TODO Auto-generated method stub
 		if(receipt.getNumber().equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
 		}
-		return new ReceiptVO() ;
+//		return new ReceiptVO() ;
     }
 }
