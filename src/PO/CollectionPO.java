@@ -1,12 +1,12 @@
 package PO;
 
-public class CollectionPO extends ReceiptPO{
-//ÊÕ¿îµ¥
+public class CollectionPO{
+//ï¿½Õ¿îµ¥
 	String number ;
-	CustomerPO customer ;//¿Í»§
-	UserPO user ;//²Ù×÷Ô±
-	TransferListPO tfList = null ;//×ªÕËÁÐ±í
-	double sum ;//×Ü½ð¶î
+	CustomerPO customer ;//ï¿½Í»ï¿½
+	UserPO user ;//ï¿½ï¿½ï¿½ï¿½Ô±
+	TransferListPO tfList = null ;//×ªï¿½ï¿½ï¿½Ð±ï¿½
+	double sum ;//ï¿½Ü½ï¿½ï¿½
 	public CollectionPO(String theNumber,CustomerPO theCustomer,UserPO theUser,TransferListPO theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;

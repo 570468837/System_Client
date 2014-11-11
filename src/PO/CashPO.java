@@ -1,9 +1,9 @@
 package PO;
 
-public class CashPO extends ReceiptPO {
+public class CashPO  {
 	String number ; 
 	UserPO user ;
 	AccountPO account ;
-	CasesListPO cases ;//条目清单
-	double sum ;//总额
+	CasesListPO cases ;//锟斤拷目锟藉单
+	double sum ;//锟杰讹拷
 }
