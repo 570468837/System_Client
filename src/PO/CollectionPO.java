@@ -3,7 +3,7 @@ package PO;
 import java.util.ArrayList;
 
 public class CollectionPO{
-//�տ
+
 	String number ;
 	CustomerPO customer ;
 	UserPO user ;

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class PaymentPO {
 	String number ;
-	CustomerPO customer ;//�ͻ�
-	UserPO user ;//����Ա
+	CustomerPO customer ;
+	UserPO user ;
 	ArrayList<TransferListItem> tfList = null ;//转账列表
-	double sum ;//�ܽ��
+	double sum ;
 	public PaymentPO(String theNumber,CustomerPO theCustomer,UserPO theUser,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;

@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 public class PaymentVO {
 	String number ;
-	CustomerVO customer ;//�ͻ�
-	UserVO user ;//
+	CustomerVO customer ;
+	UserVO user ;
 	ArrayList<TransferListItem> trList = null ;//转账列表
-	double sum ;//�ܽ��
+	double sum ;
 	public PaymentVO(){
 		number = null ;
 		customer = null ;

@@ -3,14 +3,14 @@ package businesslogicservice.FinanceBLService;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import PO.AccountPO;
-
+import VO.AccountVO;
+import ResultMessage.ResultMessage;
 public class FinanceBLService_StubTest {
 	private FinanceBLService_Stub fs = new FinanceBLService_Stub() ;
-	private AccountPO account = new AccountPO("0002",0);
+	private AccountVO account = new AccountVO("0002",0);
 	@Test
 	public void testAddAccount() {
+		assertEquals(fs.addAccount(account),ResultMessage.Exist);
 	}
 
 	@Test
