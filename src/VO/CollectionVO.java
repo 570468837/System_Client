@@ -7,7 +7,7 @@ public class CollectionVO {
 		String number ;
 		CustomerVO customer ;//�ͻ�
 		UserVO user ;//����Ա
-		TransferListVO tfList = null ;//ת���б�
+		TransferListItem tfList = null ;//ת���б�
 		double sum ;//�ܽ��
 		public CollectionVO(){
 			number = null ;
@@ -16,7 +16,7 @@ public class CollectionVO {
 			tfList = null ;
 			sum = 0 ;
 		}
-		public CollectionVO(String theNumber,CustomerVO theCustomer,UserVO theUser,TransferListVO theTfList, double theSum){
+		public CollectionVO(String theNumber,CustomerVO theCustomer,UserVO theUser,TransferListItem theTfList, double theSum){
 			number = theNumber ; 
 			customer = theCustomer ; 
 			user = theUser ; 
@@ -42,10 +42,10 @@ public class CollectionVO {
 		public void setUser(UserVO user) {
 			this.user = user;
 		}
-		public TransferListVO getTfList() {
+		public TransferListItem getTfList() {
 			return tfList;
 		}
-		public void setTfList(TransferListVO tfList) {
+		public void setTfList(TransferListItem tfList) {
 			this.tfList = tfList;
 		}
 		public double getSum() {

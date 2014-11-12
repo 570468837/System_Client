@@ -1,17 +1,18 @@
 package PO;
 
+import java.util.ArrayList;
+
 public class CollectionPO{
 //�տ
 	String number ;
 	CustomerPO customer ;
 	UserPO user ;
-	TransferListPO tfList = null ;//转账列表
+	ArrayList<TransferListItem> tfList = null ;//转账列表
 	double sum ;
-	public CollectionPO(String theNumber,CustomerPO theCustomer,UserPO theUser,TransferListPO theTfList,double theSum){
+	public CollectionPO(String theNumber,CustomerPO theCustomer,UserPO theUser,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
 		user = theUser ;
-		tfList = theTfList ;
 		sum = theSum ;
 	}
 	public CollectionPO(){
@@ -20,6 +21,16 @@ public class CollectionPO{
 	    user = null ;
 	    tfList = null ;
 	    sum = 0 ;
+	}
+	public void addItem(TransferListItem theItem){
+		this.tfList.add(theItem) ;
+	}
+	public double getTotal(){
+		double total = 0 ;
+		for(TransferListItem theItem : tfList){
+			total += theItem.getTransferMoney() ;
+		}
+		return total ;
 	}
 	public String getNumber() {
 		return number;
@@ -38,12 +49,6 @@ public class CollectionPO{
 	}
 	public void setUser(UserPO user) {
 		this.user = user;
-	}
-	public TransferListPO getTfList() {
-		return tfList;
-	}
-	public void setTfList(TransferListPO tfList) {
-		this.tfList = tfList;
 	}
 	public double getSum() {
 		return sum;
