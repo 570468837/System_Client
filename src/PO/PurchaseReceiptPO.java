@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class PurchaseReceiptPO {
 	
 		private String serialNumber;
-		private ArrayList<PurchaseListItemPO> purchaseList;		
+		private ArrayList<PurchaseListItemPO> purchaseList = new ArrayList<PurchaseListItemPO>();		
 		private UserPO userPO;
 		private String time;
 		private String comments;
