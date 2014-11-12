@@ -19,7 +19,7 @@ public class Sales_TotalIntergration_Tester {
 		salesReceipt.addSalesListItem(salesListItem1);
 		salesReceipt.addSalesListItem(salesListItem2);
 		
-		assertEquals(220, salesReceipt.getPriveBefore());
+		assertEquals(190, (int)salesReceipt.getPriveBefore());
 	}
 
 }

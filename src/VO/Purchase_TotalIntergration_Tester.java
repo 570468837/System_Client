@@ -19,7 +19,7 @@ public class Purchase_TotalIntergration_Tester {
 		purchaseReceipt.addPurchaseListItem(purchaseListItem1);
 		purchaseReceipt.addPurchaseListItem(purchaseListItem2);
 		
-		assertEquals(220, purchaseReceipt.getTotalPrice());
+		assertEquals(190, (int)purchaseReceipt.getTotalPrice());
 	}
 
 }

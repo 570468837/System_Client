@@ -10,8 +10,8 @@ public class PurchaseReceiptVO  {
 	private String comments;
 	private double totalPrice;
 	
-	
-	private ArrayList<PurchaseListItemVO> purchaseList;
+	//防止add方法list为空指针
+	private ArrayList<PurchaseListItemVO> purchaseList=new ArrayList<PurchaseListItemVO>();
 	
 	public void addPurchaseListItem(PurchaseListItemVO purchaseListItem){
 		this.purchaseList.add(purchaseListItem);

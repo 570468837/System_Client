@@ -15,8 +15,8 @@ public class SalesReceiptVO {
 	private double discout;
 	private double finalprice;
 	private String comment;
-	
-	private ArrayList<SalesListItemVO> salesList;
+	//防止调用add方法时指针异常，所以要先初始化
+	private ArrayList<SalesListItemVO> salesList=new ArrayList<SalesListItemVO>();
 	
 	public void addSalesListItem(SalesListItemVO saleListItem){
 		this.salesList.add(saleListItem);		
