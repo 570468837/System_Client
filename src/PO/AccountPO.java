@@ -1,8 +1,8 @@
 package PO;
 
 public class AccountPO {
-	private String name ; //¿Í»§Ãû³Æ
-	private double balance ; //Óà¶î
+	private String name ; 
+	private double balance ; 
 	public AccountPO(String theName ,double theBalance){
 		name = theName ;
 		balance = theBalance ;

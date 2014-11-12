@@ -1,11 +1,23 @@
 package VO;
 
+import java.util.ArrayList;
+
 public class CashVO  {
 	String number ; 
 	UserVO user ;
 	AccountVO account ;
-	CasesListVO cases ;//��Ŀ�嵥
-	double sum ;//�ܶ�
+	ArrayList<CaseListItem> cases = null ;
+	double sum ;
+	public void addCase(CaseListItem theCase){
+		this.addCase(theCase);
+	}
+	public double getTotal(){
+		double total = 0 ;
+		for(CaseListItem theCase:cases){
+			total += theCase.getCaseMoney() ;
+		}
+		return total ;
+	}
 	public String getNumber() {
 		return number;
 	}
@@ -23,12 +35,6 @@ public class CashVO  {
 	}
 	public void setAccount(AccountVO account) {
 		this.account = account;
-	}
-	public CasesListVO getCases() {
-		return cases;
-	}
-	public void setCases(CasesListVO cases) {
-		this.cases = cases;
 	}
 	public double getSum() {
 		return sum;
