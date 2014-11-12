@@ -7,22 +7,23 @@ public class PaymentVO {
 	String number ;
 	CustomerVO customer ;
 	UserVO user ;
-	ArrayList<TransferListItem> trList = null ;//转账列表
-	double sum ;
+	ArrayList<TransferListItem> trList = new ArrayList<TransferListItem>();//转账列表
+	double total ;
+	
 	public PaymentVO(){
 		number = null ;
 		customer = null ;
 		user = null ;
-		sum = 0 ;
+		total = 0 ;
 	}
 	public PaymentVO(String theNumber,CustomerVO theCustomer,UserVO theUser,TransferListItem theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
 		user = theUser ;
-		sum = theSum ;
+		total = theSum ;
 	}
 	public void add(TransferListItem theItem){
-		trList.add(theItem) ;
+		trList.add(theItem);
 	}
 	public double getTotal(){
 		double total = 0 ;
@@ -48,12 +49,6 @@ public class PaymentVO {
 	}
 	public void setUser(UserVO user) {
 		this.user = user;
-	}
-	public double getSum() {
-		return sum;
-	}
-	public void setSum(double sum) {
-		this.sum = sum;
 	}
 	
 	

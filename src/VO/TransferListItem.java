@@ -5,6 +5,14 @@ public class TransferListItem {
 	AccountVO account;
 	double transferMoney ;
 	String remark ;
+	
+	public TransferListItem(AccountVO account, double transferMoney,
+			String remark) {
+		this.account = account;
+		this.transferMoney = transferMoney;
+		this.remark = remark;
+	}
+	
 	public AccountVO getAccount() {
 		return account;
 	}

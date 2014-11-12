@@ -2,26 +2,23 @@ package VO;
 
 import java.util.ArrayList;
 
-
-
 public class CollectionVO {
-	
 		String number ;
 		CustomerVO customer ;
 		UserVO user ;
-		ArrayList<TransferListItem> trList = null ;//转账列表
-		double sum ;
+		ArrayList<TransferListItem> trList = new ArrayList<TransferListItem>();//转账列表
+		double total ;
 		public CollectionVO(){
 			number = null ;
 			customer = null ;
 			user = null ;
-			sum = 0 ;
+			total = 0 ;
 		}
 		public CollectionVO(String theNumber,CustomerVO theCustomer,UserVO theUser, double theSum){
 			number = theNumber ; 
 			customer = theCustomer ; 
 			user = theUser ; 
-			sum = theSum ;
+			total = theSum ;
 		}
 		public void add(TransferListItem theItem){
 			trList.add(theItem) ;
@@ -51,12 +48,6 @@ public class CollectionVO {
 		}
 		public void setUser(UserVO user) {
 			this.user = user;
-		}
-		public double getSum() {
-			return sum;
-		}
-		public void setSum(double sum) {
-			this.sum = sum;
 		}
 		
 
