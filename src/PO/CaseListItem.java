@@ -6,12 +6,6 @@ public class CaseListItem {
 	double caseMoney ; //金额
 	String remark;// 备注
 	
-	public CaseListItem(String casename,double caseMoney,String remark){
-		this.casename=casename;
-		this.caseMoney=caseMoney;
-		this.remark=remark;
-	}
-	
 	public CaseListItem(String casename, double caseMoney, String remark) {
 		this.casename = casename;
 		this.caseMoney = caseMoney;
