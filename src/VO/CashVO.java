@@ -6,7 +6,7 @@ public class CashVO  {
 	String number ; 
 	UserVO user ;
 	AccountVO account ;
-	ArrayList<CaseListItem> cases = null ;
+	ArrayList<CaseListItem> cases = new ArrayList<CaseListItem>(); ;
 	double sum ;
 	public void addCase(CaseListItem theCase){
 		this.addCase(theCase);
