@@ -1,27 +1,37 @@
 package VO;
 
+import java.util.ArrayList;
+
 
 
 public class CollectionVO {
-	//�տ
+	
 		String number ;
-		CustomerVO customer ;//�ͻ�
-		UserVO user ;//����Ա
-		TransferListItem tfList = null ;//ת���б�
-		double sum ;//�ܽ��
+		CustomerVO customer ;
+		UserVO user ;
+		ArrayList<TransferListItem> trList = null ;//转账列表
+		double sum ;
 		public CollectionVO(){
 			number = null ;
 			customer = null ;
 			user = null ;
-			tfList = null ;
 			sum = 0 ;
 		}
-		public CollectionVO(String theNumber,CustomerVO theCustomer,UserVO theUser,TransferListItem theTfList, double theSum){
+		public CollectionVO(String theNumber,CustomerVO theCustomer,UserVO theUser, double theSum){
 			number = theNumber ; 
 			customer = theCustomer ; 
 			user = theUser ; 
-			tfList = theTfList ; 
 			sum = theSum ;
+		}
+		public void add(TransferListItem theItem){
+			trList.add(theItem) ;
+		}
+		public double getTotal(){
+			double total = 0 ;
+			for(TransferListItem theItem:trList){
+				total += theItem.getTransferMoney() ;
+			}
+			return total ;
 		}
 		public String getNumber() {
 			return number;
@@ -41,12 +51,6 @@ public class CollectionVO {
 		}
 		public void setUser(UserVO user) {
 			this.user = user;
-		}
-		public TransferListItem getTfList() {
-			return tfList;
-		}
-		public void setTfList(TransferListItem tfList) {
-			this.tfList = tfList;
 		}
 		public double getSum() {
 			return sum;

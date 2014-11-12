@@ -26,7 +26,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	@Override
 	public ResultMessage deletAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
-		if(vo.getName().equals("0003"))
+		if(vo.getName().equals("0002"))
 			return ResultMessage.Exist ;
 		else
 			return ResultMessage.Not_Exist ;
@@ -35,7 +35,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	@Override
 	public ResultMessage updateAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
-		if(vo.getName().equals("0004"))
+		if(vo.getName().equals("0002"))
 			return ResultMessage.Exist ;
 		else
 			return ResultMessage.Not_Exist ;
@@ -44,7 +44,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	@Override
 	public ResultMessage findAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
-		if(vo.getName().equals("0005"))
+		if(vo.getName().equals("0002"))
 			return ResultMessage.Exist ;
 		else
 			return ResultMessage.Not_Exist ;
