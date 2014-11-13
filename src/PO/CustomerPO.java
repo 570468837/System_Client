@@ -17,6 +17,23 @@ public class CustomerPO {
 		private String mail;
 		//业务员
 		private String clerk;
+		
+		public CustomerPO(){}
+		
+		public CustomerPO(String number, Sort sort, Level level, String name,
+				String phone, String address, String zipCode, String mail,
+				String clerk) {
+			this.number=number;
+			this.sort=sort;
+			this.level=level;
+			this.name=name;
+			this.phone=phone;
+			this.address=address;
+			this.zipCode=zipCode;
+			this.mail=mail;
+			this.clerk=clerk;
+		}
+		
 		public String getNumber() {
 			return number;
 		}
