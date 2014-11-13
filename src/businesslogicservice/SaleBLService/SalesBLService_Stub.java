@@ -20,7 +20,7 @@ public class SalesBLService_Stub implements SalesBLService {
 		System.out.println("modify commodity succesfully");
 		return null;
 	}
-
+ 
 	@Override
 	public long getTotal(long price, int quantity) {
 		System.out.println("success");

@@ -18,7 +18,7 @@ public class SalesController implements SalesBLService{
 		// 向仓库中添加或者减少商品
 		System.out.println("modify commodity succesfully");
 		return null;
-	}
+	} 
 
 	@Override
 	public long getTotal(long price, int quantity) {

@@ -8,12 +8,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage login(UserVO vo) {
 		// TODO Auto-generated method stub
-		if(vo.getUserName().equals("0001")&&vo.getPassword().equals("0001")){
-			return ResultMessage.login_success;
-		}
-		else {
-			return ResultMessage.login_failure;
-		}
+		return null;
 	}
 
 	@Override
