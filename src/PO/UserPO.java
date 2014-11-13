@@ -1,17 +1,26 @@
 package PO;
 
-public class UserPO {
+import java.io.Serializable;
+
+
+public class UserPO implements Serializable{
     String userName;
     String password;
     int level;
     
-    public String getUserName(){
+    public UserPO(String userName, String password, int level) {
+		super();
+		this.userName = userName;
+		this.password = password;
+		this.level = level;
+	}
+
+	public String getUserName(){
     	return this.userName;
     }
     
     public String getPassword(){
     	return this.password;
-    	
     }
 
 	public int getLevel() {
