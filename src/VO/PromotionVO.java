@@ -11,7 +11,22 @@ public class PromotionVO {
     String startTime;
   	String endTime;
   	 
-    public String getPromotionId() {
+    public PromotionVO(String promotionType, String promotionId,
+			String goodsId, double leastPrice, double offPrice,
+			String presentGoodsId, int presentNum, String startTime,
+			String endTime) {
+		super();
+		this.promotionType = promotionType;
+		this.promotionId = promotionId;
+		this.goodsId = goodsId;
+		this.leastPrice = leastPrice;
+		this.offPrice = offPrice;
+		this.presentGoodsId = presentGoodsId;
+		this.presentNum = presentNum;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+	public String getPromotionId() {
 		return promotionId;
 	}
 	public String getGoodsId() {

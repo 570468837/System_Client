@@ -11,9 +11,11 @@ import java.rmi.RemoteException;
 import PO.UserPO;
 
 public class Communication_Start {
-	public static void main(String[] args){
+	public static Communication client;
+	
+	public void initial(){
 		try {
-			Communication client=(Communication)Naming.lookup("rmi://localhost:8888/MyServer");
+			client=(Communication)Naming.lookup("rmi://localhost:8888/MyServer");
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

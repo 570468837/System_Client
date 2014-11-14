@@ -5,11 +5,10 @@ public class UserVO {
 	 String password;
 	 int level;
 	 
-	 public UserVO(){ }
-	 
-	 public UserVO(String userName,String password){
+	 public UserVO(String userName,String password,int level){
 		 this.userName=userName;
 		 this.password=password;
+		 this.level=0;
 	 }
 	    
 	    public String getUserName(){

@@ -53,6 +53,6 @@ public class UserBLService_Stub implements UserBLService{
 	@Override
 	public UserVO find(String userName) {
 		// TODO Auto-generated method stub
-		return new UserVO();
+		return new UserVO(userName, userName, 0);
 	}
 }
