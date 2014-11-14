@@ -1,8 +1,7 @@
 package presentation;
 
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -12,19 +11,17 @@ public class LoginFrame extends JFrame {
 	JPasswordField loginPassword;
 	JComboBox<String> loginType;
 	
-	JLabel nameLabel, passwordLabel, typeLabel;
-	
 	JButton loginButton;
 	
 	
 	public LoginFrame() {
 		super();
 		
-		this.setSize(400, 300);
+		this.setSize(400, 500);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
 		this.setLayout(null);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setUndecorated(true);
 		
 		String[] s = new String[] {
 		        "请选择用户类型",
@@ -38,26 +35,8 @@ public class LoginFrame extends JFrame {
 		loginType = new JComboBox<String>(s);
 		loginName = new JTextField("<请输入用户名>");
 	    loginPassword = new JPasswordField("<请输入密码>");
-	    nameLabel = new JLabel();
-	    passwordLabel = new JLabel();
-	    typeLabel = new JLabel();
 	    loginButton = new JButton("登录");
 		
-	    nameLabel.setBounds(30, 65, 100, 80);
-	    nameLabel.setText("用户名");
-	    nameLabel.setFont(new Font("default", 1, 16));
-	    nameLabel.setVisible(true);
-	    
-	    passwordLabel.setBounds(30, 125, 100, 80);
-	    passwordLabel.setText("密码");
-	    passwordLabel.setFont(new Font("default", 1, 16));
-	    passwordLabel.setVisible(true);
-	    
-	    typeLabel.setBounds(30, 5, 100, 80);
-	    typeLabel.setText("用户类型");
-	    typeLabel.setFont(new Font("default", 1, 16));
-	    typeLabel.setVisible(true);
-	    
 	    
 	    loginType.setBounds(110, 32, 200, 32);
 	    loginType.setFont(new Font("default", 0, 16));
@@ -99,7 +78,7 @@ public class LoginFrame extends JFrame {
 	    
 	    
 	    loginButton.setBounds(150, 200, 100, 50);
-	    loginButton.setFont(new Font("微软雅黑", 1, 24));
+	    loginButton.setFont(new Font("default", 1, 24));
 	    
 	    
 	    
@@ -109,10 +88,11 @@ public class LoginFrame extends JFrame {
 		this.add(loginName);
 		this.add(loginPassword);
 		this.add(loginType);
-		this.add(nameLabel);
-		this.add(passwordLabel);
-		this.add(typeLabel);
 		this.add(loginButton);
+		
+		MoveOfFrame m = new MoveOfFrame(this);
+		this.addMouseListener(m.getPoint);
+		this.addMouseMotionListener(m.move);
 		
 		this.setVisible(true);
 	}
@@ -124,3 +104,7 @@ public class LoginFrame extends JFrame {
 	}
 
 }
+
+
+
+
