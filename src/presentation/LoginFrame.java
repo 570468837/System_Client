@@ -1,6 +1,6 @@
 package presentation;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -10,18 +10,26 @@ public class LoginFrame extends JFrame {
 	JTextField loginName;
 	JPasswordField loginPassword;
 	JComboBox<String> loginType;
+	JLabel backgroundLabel;
 	
-	JButton loginButton;
+	JLabel loginButton;
+	JLabel exitButton;
 	
 	
 	public LoginFrame() {
 		super();
 		
-		this.setSize(400, 500);
+		this.setSize(370, 500);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
 		this.setLayout(null);
 		this.setUndecorated(true);
+		this.setBackground(new Color(255, 255, 255, 100));
+		ImageIcon background = new ImageIcon("src/image/sign_in_frame.png");
+		backgroundLabel = new JLabel(background);
+		backgroundLabel.setSize(background.getIconWidth(), background.getIconHeight());
+		this.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
+		
 		
 		String[] s = new String[] {
 		        "请选择用户类型",
@@ -33,43 +41,47 @@ public class LoginFrame extends JFrame {
 		};
 		
 		loginType = new JComboBox<String>(s);
-		loginName = new JTextField("<请输入用户名>");
-	    loginPassword = new JPasswordField("<请输入密码>");
-	    loginButton = new JButton("登录");
+		loginName = new JTextField("username");
+	    loginPassword = new JPasswordField("password");
+	    loginButton = new JLabel("sign in",JLabel.CENTER);
+	    exitButton = new JLabel("exit",JLabel.CENTER);
+        
+	    
+		
 		
 	    
-	    loginType.setBounds(110, 32, 200, 32);
-	    loginType.setFont(new Font("default", 0, 16));
+	    loginType.setBounds(110, 332, 200, 32);
+	    loginType.setFont(new Font("default", 1, 16));
 	    
-	    loginName.setBounds(110, 94, 200, 32);
+	    loginName.setBounds(110, 394, 200, 32);
 	    loginName.setFont(new Font("default", 0, 16));
 	    loginName.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
-	    		if(loginName.getText().equals("<请输入用户名>")) {
+	    		if(loginName.getText().equals("username")) {
 	    			loginName.setText("");
 	    		}
 	    	}
             public void focusLost(FocusEvent e) {
 	    		if(loginName.getText().equals("")) {
-	    			loginName.setText("<请输入用户名>");
+	    			loginName.setText("username");
 	    		}
 	    	}
 	    });
 	    
 	    
-	    loginPassword.setBounds(110, 155, 200, 32);
+	    loginPassword.setBounds(110, 455, 200, 32);
 	    loginPassword.setFont(new Font("default", 0, 16));
 	    loginPassword.setEchoChar((char) 0);
 	    loginPassword.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
-	    		if(new String(loginPassword.getPassword()).equals("<请输入密码>")) {
+	    		if(new String(loginPassword.getPassword()).equals("password")) {
 	    			loginPassword.setText("");
 	    			loginPassword.setEchoChar('*');
 	    		}
 	    	}
             public void focusLost(FocusEvent e) {
 	    		if(new String(loginPassword.getPassword()).equals("")) {
-	    			loginPassword.setText("<请输入密码>");
+	    			loginPassword.setText("password");
 	    			loginPassword.setEchoChar((char) 0);
 	    		}
 	    	}
@@ -78,10 +90,20 @@ public class LoginFrame extends JFrame {
 	    
 	    
 	    loginButton.setBounds(150, 200, 100, 50);
-	    loginButton.setFont(new Font("default", 1, 24));
+	    loginButton.setFont(new Font("Serif", 0, 20));
 	    
-	    
-	    
+	    exitButton.setBounds(150, 400, 100, 50);
+	    exitButton.setFont(new Font("Sanserif", 0, 20));
+	    exitButton.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				System.exit(0);
+			}
+			public void mousePressed(MouseEvent e) {}
+			public void mouseReleased(MouseEvent e) {}
+			public void mouseEntered(MouseEvent e) {}
+			public void mouseExited(MouseEvent e) {}
+	    	
+	    });
 		
 		
 		
@@ -89,6 +111,7 @@ public class LoginFrame extends JFrame {
 		this.add(loginPassword);
 		this.add(loginType);
 		this.add(loginButton);
+		this.add(exitButton);
 		
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.addMouseListener(m.getPoint);

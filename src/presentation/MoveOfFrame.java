@@ -19,7 +19,7 @@ import javax.swing.*;
  * 
  * 然后在前面的设置里加上一条
  * this.setUndecorated(true);
- * 把边框去掉=、=
+ * 用来把边框去掉=、=
  * 
  */
 public class MoveOfFrame {
@@ -34,7 +34,7 @@ public class MoveOfFrame {
 	
 	
 	
-	public class GetPoint extends MouseAdapter {
+	class GetPoint extends MouseAdapter {
 		public void mousePressed(MouseEvent event) {
 			x = event.getX();
 			y = event.getY();	
