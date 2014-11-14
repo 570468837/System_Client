@@ -1,5 +1,7 @@
 package businesslogicservice.UserBLService;
 
+import java.util.ArrayList;
+
 import PO.UserPO;
 import ResultMessage.ResultMessage;
 import VO.UserVO;
@@ -51,8 +53,8 @@ public class UserBLService_Stub implements UserBLService{
 	}
 
 	@Override
-	public UserVO find(String userName) {
+	public ArrayList<UserVO> find(String userName) {
 		// TODO Auto-generated method stub
-		return new UserVO(userName, userName, 0);
+		return null;
 	}
 }
