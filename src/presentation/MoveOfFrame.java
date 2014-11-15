@@ -19,6 +19,7 @@ import javax.swing.*;
  * this.setUndecorated(true);
  * 用来把边框去掉=、=
  * 
+ * 
  */
 public class MoveOfFrame {
 	int x, y;

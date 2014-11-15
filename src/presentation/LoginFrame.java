@@ -4,7 +4,12 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
-
+/**
+ * 
+ * @author hutao
+ *
+ */
+@SuppressWarnings("serial")
 public class LoginFrame extends JFrame {
 	JFrame thisFrame;
 	JTextField loginName;
@@ -24,7 +29,7 @@ public class LoginFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("welcome");
 		this.setLayout(null);
-		this.setUndecorated(true);
+		this.setUndecorated(true); //去边框
 		this.setBackground(new Color(255, 255, 255, 100));
 		ImageIcon background = new ImageIcon("src/image/sign_in_frame.png");
 		backgroundLabel = new JLabel(background);
@@ -56,6 +61,7 @@ public class LoginFrame extends JFrame {
 	    
 	    loginName.setBounds(80, 230, 200, 32);
 	    loginName.setFont(new Font("default", 0, 16));
+	    loginName.enableInputMethods(false);   //屏蔽输入法
 	    loginName.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
 	    		if(loginName.getText().equals("username")) {
@@ -73,6 +79,7 @@ public class LoginFrame extends JFrame {
 	    loginPassword.setBounds(80, 280, 200, 32);
 	    loginPassword.setFont(new Font("default", 0, 16));
 	    loginPassword.setEchoChar((char) 0);
+	    loginName.enableInputMethods(false);
 	    loginPassword.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
 	    		if(new String(loginPassword.getPassword()).equals("password")) {
@@ -95,6 +102,7 @@ public class LoginFrame extends JFrame {
 	    loginButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				thisFrame.dispose();
+				@SuppressWarnings("unused")
 				CommodityFrame c = new CommodityFrame();
 				/*
 				 * 暂定点击出现库存管理界面
@@ -121,12 +129,14 @@ public class LoginFrame extends JFrame {
 		this.add(loginButton);
 		this.add(exitButton);
 		
+		@SuppressWarnings("unused")
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.setVisible(true);
 	}
 	
 	
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		LoginFrame l = new LoginFrame();
 		
 	}

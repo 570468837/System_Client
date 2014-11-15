@@ -1,17 +1,23 @@
 package presentation;
 
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 
 import javax.swing.*;
-
+/**
+ * 
+ * @author hutao
+ *
+ */
+@SuppressWarnings("serial")
 public class CommodityFrame extends JFrame {
+	JFrame theFrame;
 	JLabel 
 	    backgroundLabel,
 	    exitButton,
 	    commodityLabel,
-	    goodsLabel;
+	    goodsLabel,
+	    alarmLabel;
 	GoodsPanel goodsPanel;
 	CommodityPanel commodityPanel;
 	
@@ -19,6 +25,7 @@ public class CommodityFrame extends JFrame {
 	public CommodityFrame() {
 		super();
 		
+		theFrame = this;
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
@@ -41,21 +48,14 @@ public class CommodityFrame extends JFrame {
 	    });
 		
 		goodsPanel = new GoodsPanel(this);
-		//commodityPanel = new CommodityPanel(this);
-		
-		commodityLabel = new JLabel("Goods", JLabel.CENTER);
-		commodityLabel.setBounds(40, 100, 100, 50);
-		commodityLabel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				commodityPanel.setVisible(true);
-				goodsPanel.setVisible(false);
-			}
-		});
+		goodsPanel.setVisible(true);
+		commodityPanel = new CommodityPanel(this);
+		commodityPanel.setVisible(false);
 		
 		
-		
-		goodsLabel = new JLabel("Commodity", JLabel.CENTER);
-		goodsLabel.setBounds(40, 160, 100, 50);
+
+		goodsLabel = new JLabel("Goods", JLabel.CENTER);
+		goodsLabel.setBounds(40, 100, 100, 50);
 		goodsLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				goodsPanel.setVisible(true);
@@ -65,12 +65,33 @@ public class CommodityFrame extends JFrame {
 		
 		
 		
+		commodityLabel = new JLabel("Commodity", JLabel.CENTER);
+		
+		commodityLabel.setBounds(40, 160, 100, 50);
+		commodityLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				commodityPanel.setVisible(true);
+				goodsPanel.setVisible(false);
+			}
+		});
+		
+		
+		alarmLabel = new JLabel("alarming", JLabel.CENTER);
+		alarmLabel.setBounds(40, 470, 100, 50);
+		alarmLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				AlarmFrame a = new AlarmFrame(theFrame);
+			}
+		});
+		
 		
 		
 		this.add(goodsLabel);
 		this.add(commodityLabel);
+		this.add(alarmLabel);
 		this.add(exitButton);
 		
+		@SuppressWarnings("unused")
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.setVisible(true);
 	}
@@ -83,6 +104,12 @@ public class CommodityFrame extends JFrame {
 		public GoodsPanel(JFrame theFrame) {
 			super();
 			
+			this.setBounds(140, 25, 835, 550);
+			this.setBackground(new Color(150, 255, 150, 255));
+			
+			
+			
+			theFrame.add(this);
 		}
 	}
 	
@@ -90,11 +117,28 @@ public class CommodityFrame extends JFrame {
 		public CommodityPanel(JFrame theFrame) {
 			super();
 			
+			this.setBounds(140, 25, 835, 550);
+			this.setBackground(new Color(170, 255, 170, 255));
+			
+			
+			
+			
+			
+			theFrame.add(this);
+		}
+	}
+	
+	class AlarmFrame extends JFrame {
+		public AlarmFrame(JFrame theFrame) {
+			
 		}
 	}
 	
 	
+	
+	
 	public static void main(String[] args) {
+		@SuppressWarnings("unused")
 		CommodityFrame c = new CommodityFrame();
 	}
 	
