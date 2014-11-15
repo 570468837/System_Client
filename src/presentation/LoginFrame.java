@@ -6,7 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class LoginFrame extends JFrame {
-	
+	JFrame thisFrame;
 	JTextField loginName;
 	JPasswordField loginPassword;
 	JComboBox<String> loginType;
@@ -21,6 +21,7 @@ public class LoginFrame extends JFrame {
 		
 		this.setSize(370, 500);
 		this.setLocationRelativeTo(null);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setTitle("welcome");
 		this.setLayout(null);
 		this.setUndecorated(true);
@@ -50,10 +51,10 @@ public class LoginFrame extends JFrame {
 		
 		
 	    
-	    loginType.setBounds(110, 332, 200, 32);
+	    loginType.setBounds(80, 180, 200, 32);
 	    loginType.setFont(new Font("default", 1, 16));
 	    
-	    loginName.setBounds(110, 394, 200, 32);
+	    loginName.setBounds(80, 230, 200, 32);
 	    loginName.setFont(new Font("default", 0, 16));
 	    loginName.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
@@ -69,7 +70,7 @@ public class LoginFrame extends JFrame {
 	    });
 	    
 	    
-	    loginPassword.setBounds(110, 455, 200, 32);
+	    loginPassword.setBounds(80, 280, 200, 32);
 	    loginPassword.setFont(new Font("default", 0, 16));
 	    loginPassword.setEchoChar((char) 0);
 	    loginPassword.addFocusListener(new FocusListener() {
@@ -88,21 +89,28 @@ public class LoginFrame extends JFrame {
 	    	
 	    });
 	    
-	    
-	    loginButton.setBounds(150, 200, 100, 50);
+	    thisFrame = this;
+	    loginButton.setBounds(70, 350, 100, 50);
 	    loginButton.setFont(new Font("Serif", 0, 20));
+	    loginButton.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				thisFrame.dispose();
+				CommodityFrame c = new CommodityFrame();
+				/*
+				 * 暂定点击出现库存管理界面
+				 */
+			}
+	    });
 	    
-	    exitButton.setBounds(150, 400, 100, 50);
-	    exitButton.setFont(new Font("Sanserif", 0, 20));
-	    exitButton.addMouseListener(new MouseListener() {
+	    exitButton.setBounds(180, 350, 100, 50);
+	    exitButton.setFont(new Font("Serif", 0, 20));
+	    exitButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				System.exit(0);
 			}
-			public void mousePressed(MouseEvent e) {}
-			public void mouseReleased(MouseEvent e) {}
-			public void mouseEntered(MouseEvent e) {}
-			public void mouseExited(MouseEvent e) {}
-	    	
+	    	public void mouseEntered(MouseEvent e) {
+	    		//改变鼠标样式
+	    	}
 	    });
 		
 		
@@ -114,9 +122,6 @@ public class LoginFrame extends JFrame {
 		this.add(exitButton);
 		
 		MoveOfFrame m = new MoveOfFrame(this);
-		this.addMouseListener(m.getPoint);
-		this.addMouseMotionListener(m.move);
-		
 		this.setVisible(true);
 	}
 	

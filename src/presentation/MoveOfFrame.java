@@ -14,8 +14,6 @@ import javax.swing.*;
  * 在写的每一个JFrame子类的最后面写上
  * 
  * MoveOfFrame m = new MoveOfFrame(this);
- * this.addMouseListener(m.getPoint);
- * this.addMouseMotionListener(m.move);
  * 
  * 然后在前面的设置里加上一条
  * this.setUndecorated(true);
@@ -24,14 +22,11 @@ import javax.swing.*;
  */
 public class MoveOfFrame {
 	int x, y;
-	GetPoint getPoint;
-	Move move;
 	public MoveOfFrame(JFrame theFrame) {
-		getPoint = new GetPoint();
-	    move = new Move(theFrame);
+	    theFrame.addMouseListener(new GetPoint());
+		theFrame.addMouseMotionListener(new Move(theFrame));
+	    
 	}
-	
-	
 	
 	
 	class GetPoint extends MouseAdapter {
