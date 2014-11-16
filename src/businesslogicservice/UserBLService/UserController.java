@@ -14,7 +14,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage login(UserVO vo) {
 		// TODO Auto-generated method stub
-		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(), vo.getLevel());
+		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(), vo.getUserSort(), vo.getLevel());
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -29,7 +29,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage add(UserVO vo) {
 		// TODO Auto-generated method stub
-		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(), vo.getLevel());
+		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(),vo.getUserSort(), vo.getLevel());
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -44,7 +44,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage delete(UserVO vo) {
 		// TODO Auto-generated method stub
-		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(), vo.getLevel());
+		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(),vo.getUserSort(), vo.getLevel());
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -59,7 +59,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage update(UserVO vo) {
 		// TODO Auto-generated method stub
-		UserPO userpo=new UserPO(vo.getUserName(),vo.getPassword(),vo.getLevel());
+		UserPO userpo=new UserPO(vo.getUserName(),vo.getPassword(),vo.getUserSort(),vo.getLevel());
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -86,7 +86,7 @@ public class UserController implements UserBLService  {
 		}
 		for(Object user:objects){
 			UserPO tmp=(UserPO) user;
-			uservos.add(new UserVO(tmp.getUserName(),tmp.getPassword(),tmp.getLevel()));
+			uservos.add(new UserVO(tmp.getUserName(),tmp.getPassword(),tmp.getUserSort(),tmp.getLevel()));
 		}
 		return uservos;
 	}

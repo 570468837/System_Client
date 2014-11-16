@@ -1,17 +1,21 @@
 package VO;
 
+import Config.UserSort;
+
 public class UserVO {
 	 String userName;
 	 String password;
+	 UserSort userSort;
 	 int level;
 	 
-	 public UserVO(String userName,String password,int level){
-		 this.userName=userName;
-		 this.password=password;
-		 this.level=0;
-	 }
-	    
-	    public String getUserName(){
+	 public UserVO(String userName, String password, UserSort userSort, int level) {
+		this.userName = userName;
+		this.password = password;
+		this.userSort = userSort;
+		this.level = level;
+	}
+
+		public String getUserName(){
 	    	return this.userName;
 	    }
 	    
@@ -27,6 +31,14 @@ public class UserVO {
 			this.password = password;
 		}
 
+		public UserSort getUserSort() {
+			return userSort;
+		}
+
+		public void setUserSort(UserSort userSort) {
+			this.userSort = userSort;
+		}
+
 		public void setLevel(int level) {
 			this.level = level;
 		}
@@ -34,4 +46,6 @@ public class UserVO {
 		public int getLevel() {
 			return level;
 		}
+		
+		
 }
