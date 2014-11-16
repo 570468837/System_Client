@@ -15,10 +15,10 @@ public class LoginFrame extends JFrame {
 	JTextField loginName;
 	JPasswordField loginPassword;
 	JComboBox<String> loginType;
-	JLabel backgroundLabel;
-	
-	JLabel loginButton;
-	JLabel exitButton;
+	JLabel 
+	    backgroundLabel,
+	    loginButton,
+	    exitButton;
 	
 	
 	public LoginFrame() {

@@ -80,7 +80,9 @@ public class CommodityFrame extends JFrame {
 		alarmLabel.setBounds(40, 470, 100, 50);
 		alarmLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				@SuppressWarnings("unused")
 				AlarmFrame a = new AlarmFrame(theFrame);
+				theFrame.setEnabled(false);
 			}
 		});
 		
@@ -100,7 +102,7 @@ public class CommodityFrame extends JFrame {
 	
 	
 	class GoodsPanel extends JPanel {
-		
+		//private JTable goodsTable;
 		public GoodsPanel(JFrame theFrame) {
 			super();
 			
@@ -138,15 +140,38 @@ public class CommodityFrame extends JFrame {
 		
 		
 	}
-	
+	/*
+	 * 报警单区域
+	 */
 	class AlarmFrame extends JFrame {
+		JLabel exitLabel;
+		JFrame alarmFrame, comFrame;
 		public AlarmFrame(JFrame theFrame) {
+			alarmFrame = this;
+			comFrame = theFrame;
 			this.setSize(400, 300);
 			this.setLocationRelativeTo(theFrame);
+			this.setLayout(null);
+			this.setUndecorated(true);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 			
+			exitLabel = new JLabel("X", JLabel.CENTER);
+			exitLabel.setBounds(350, 0, 50, 50);
+			exitLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					comFrame.setVisible(true);
+					alarmFrame.dispose();
+					comFrame.setEnabled(true);
+					
+				}
+			});
 			
+			
+			this.add(exitLabel);
+			
+			@SuppressWarnings("unused")
+			MoveOfFrame m = new MoveOfFrame(this);
 			this.setVisible(true);
 		}
 	}
