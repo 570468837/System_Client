@@ -11,15 +11,15 @@ import javax.swing.*;
  */
 @SuppressWarnings("serial")
 public class CommodityFrame extends JFrame {
-	JFrame theFrame;
-	JLabel 
+	private JFrame theFrame;
+	private JLabel 
 	    backgroundLabel,
 	    exitButton,
 	    commodityLabel,
 	    goodsLabel,
 	    alarmLabel;
-	GoodsPanel goodsPanel;
-	CommodityPanel commodityPanel;
+	private GoodsPanel goodsPanel;
+	private CommodityPanel commodityPanel;
 	
 	
 	public CommodityFrame() {
@@ -114,6 +114,7 @@ public class CommodityFrame extends JFrame {
 	}
 	
 	class CommodityPanel extends JPanel {
+		private JTable comTable;
 		public CommodityPanel(JFrame theFrame) {
 			super();
 			
@@ -124,13 +125,29 @@ public class CommodityFrame extends JFrame {
 			
 			
 			
+			
+			
+			
+			
 			theFrame.add(this);
 		}
+		
+		private String[][] getTableInfo() {
+			return null;
+		}
+		
+		
 	}
 	
 	class AlarmFrame extends JFrame {
 		public AlarmFrame(JFrame theFrame) {
+			this.setSize(400, 300);
+			this.setLocationRelativeTo(theFrame);
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
+			
+			
+			this.setVisible(true);
 		}
 	}
 	

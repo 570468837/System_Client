@@ -47,8 +47,8 @@ public class LoginFrame extends JFrame {
 		};
 		
 		loginType = new JComboBox<String>(s);
-		loginName = new JTextField("username");
-	    loginPassword = new JPasswordField("password");
+		loginName = new JTextField("<请输入用户名>");
+	    loginPassword = new JPasswordField("<请输入密码>");
 	    loginButton = new JLabel("sign in",JLabel.CENTER);
 	    exitButton = new JLabel("exit",JLabel.CENTER);
         
@@ -64,13 +64,13 @@ public class LoginFrame extends JFrame {
 	    loginName.enableInputMethods(false);   //屏蔽输入法
 	    loginName.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
-	    		if(loginName.getText().equals("username")) {
+	    		if(loginName.getText().equals("<请输入用户名>")) {
 	    			loginName.setText("");
 	    		}
 	    	}
             public void focusLost(FocusEvent e) {
 	    		if(loginName.getText().equals("")) {
-	    			loginName.setText("username");
+	    			loginName.setText("<请输入用户名>");
 	    		}
 	    	}
 	    });
@@ -82,14 +82,14 @@ public class LoginFrame extends JFrame {
 	    loginName.enableInputMethods(false);
 	    loginPassword.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
-	    		if(new String(loginPassword.getPassword()).equals("password")) {
+	    		if(new String(loginPassword.getPassword()).equals("<请输入密码>")) {
 	    			loginPassword.setText("");
 	    			loginPassword.setEchoChar('*');
 	    		}
 	    	}
             public void focusLost(FocusEvent e) {
 	    		if(new String(loginPassword.getPassword()).equals("")) {
-	    			loginPassword.setText("password");
+	    			loginPassword.setText("<请输入密码>");
 	    			loginPassword.setEchoChar((char) 0);
 	    		}
 	    	}
