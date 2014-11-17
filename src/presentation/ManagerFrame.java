@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -27,6 +28,8 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+
+import PO.UserPO;
 
 public class ManagerFrame extends JFrame{
 	private JLabel backgroundLabel,exitButton,crLabel,infoLabel,promotionLabel;
@@ -183,7 +186,7 @@ public class ManagerFrame extends JFrame{
 			allButton1.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					for(int i=0;i<table1.getRowCount();i++)
-							table1.setValueAt(true, i, 6);
+							table1.setValueAt(true, i, 7);
 					}
 			});
 			
@@ -191,7 +194,7 @@ public class ManagerFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 				
 						for(int i=0;i<table1.getRowCount();i++)
-							table1.setValueAt(false, i, 6);
+							table1.setValueAt(false, i, 7);
 						}
 			});     
 			
@@ -225,17 +228,17 @@ public class ManagerFrame extends JFrame{
 			allButton2.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					for(int i=0;i<table2.getRowCount();i++)
-							table2.setValueAt(true, i, 6);
+							table2.setValueAt(true, i, 11);
 					}
 			});
 			
 			allNotButton2.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 						for(int i=0;i<table2.getRowCount();i++)
-							table2.setValueAt(false, i, 6);
+							table2.setValueAt(false, i, 11);
 						}
 			});     
-			
+
 			// 表三
 			String[] columnTitle3={"单据类型","单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
 			Object[][] tableData3={
@@ -293,12 +296,18 @@ public class ManagerFrame extends JFrame{
 		}
 	}
 	
-	class PromotionPanel extends JPanel {     //指定促销策略
+	class PromotionPanel extends JPanel {     //指定促销策略panel
 		//private JTable goodsTable;
 		public PromotionPanel(JFrame theFrame) {
+			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(173, 137, 115, 255));
 			
+			String[] columnTitle1={"策略类型","策略编号","降价商品组合","降价金额","需达到的总价","赠品列表","赠送代金券金额","客户最低等级","起始时间","终止时间",};
+			Object[][] tableData1={
+					new Object[]{ },
+					new Object[]{ },
+					           };
 			
 			theFrame.add(this);
 		}
