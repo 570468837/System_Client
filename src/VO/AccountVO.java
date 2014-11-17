@@ -1,8 +1,8 @@
 package VO;
 
 public class AccountVO {
-	private String name ; //¿Í»§Ãû³Æ
-	private double balance ; //Óà¶î
+	private String name ; 
+	private double balance ; 
 	public AccountVO(String theName ,double theBalance){
 		name = theName ;
 		balance = theBalance ;
