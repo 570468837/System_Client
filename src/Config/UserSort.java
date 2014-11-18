@@ -1,6 +1,8 @@
 package Config;
 
-public enum UserSort {
+import java.io.Serializable;
+
+public enum UserSort{
 	Commodity,
 	PurchaseAndSaler,
 	Finance,
