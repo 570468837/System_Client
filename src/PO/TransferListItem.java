@@ -1,6 +1,8 @@
 package PO;
 
-public class TransferListItem {
+import java.io.Serializable;
+
+public class TransferListItem implements Serializable{
 	AccountPO account;
 	double transferMoney ;
 	String remark ;

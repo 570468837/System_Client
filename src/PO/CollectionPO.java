@@ -1,8 +1,9 @@
 package PO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CollectionPO{
+public class CollectionPO implements Serializable{
 
 	String number ;
 	CustomerPO customer ;

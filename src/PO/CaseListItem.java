@@ -1,7 +1,9 @@
 package PO;
 
-public class CaseListItem {
-	
+import java.io.Serializable;
+
+public class CaseListItem implements Serializable{
+//	private static final long serialVersionUID = 2425699451994486793L;
 	String casename ;
 	double caseMoney ; //金额
 	String remark;// 备注

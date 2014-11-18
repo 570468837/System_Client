@@ -1,8 +1,9 @@
 package PO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PaymentPO {
+public class PaymentPO implements Serializable {
 	String number ;
 	CustomerPO customer ;
 	UserPO user ;

@@ -29,13 +29,31 @@ public class FinanceController implements FinanceBLService{
 	@Override
 	public ResultMessage deletAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		AccountPO account = new AccountPO(vo.getName(),vo.getBalance());
+		Communication_Start com = new Communication_Start() ;
+		com.initial();
+		try {
+			result = com.client.messageCommand("accountDelete", vo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public ResultMessage updateAccount(AccountVO vo) {
 		// TODO Auto-generated method stub
-		return null;
+		AccountPO account = new AccountPO(vo.getName(),vo.getBalance());
+		Communication_Start com = new Communication_Start() ;
+		com.initial();
+		try {
+			result = com.client.messageCommand("accountDelete", vo);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override

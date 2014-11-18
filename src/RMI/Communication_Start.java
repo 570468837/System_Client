@@ -1,14 +1,9 @@
 package RMI;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-
-import PO.UserPO;
 
 public class Communication_Start {
 	public static Communication client;
