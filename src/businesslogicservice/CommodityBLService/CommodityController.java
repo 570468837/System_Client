@@ -33,7 +33,7 @@ public class CommodityController implements CommodityBLService {
 		
 		return ResultMessage.add_success;
 	}
-
+	
 	@Override
 	public void alarmCommodity() {
 		System.out.println("no alarm");

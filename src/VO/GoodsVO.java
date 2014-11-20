@@ -12,8 +12,7 @@ public class GoodsVO {
 	private String comment;
 	
 	
-	private GoodsClassVO goodsClass;
-	//什么意思？？
+	private GoodsClassVO goodsClass;//商品所属的分类
 	private long salePrice;
 	private long latestPrice;
 	private long latestSalePrice;

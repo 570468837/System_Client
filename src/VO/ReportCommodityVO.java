@@ -4,7 +4,7 @@ package VO;
  * @author hutao
  *
  */
-public class ReportCommodityVO extends CommodityBillVO {
+public class ReportCommodityVO {
 	private GoodsVO goodsVO;
 	private int num;
 	

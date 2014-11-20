@@ -5,11 +5,11 @@ package VO;
  *
  */
 public class GoodsClassVO {
-	GoodsClassVO goodsClass;
+	GoodsClassVO fatherGoodsClass;
 	
 	public GoodsClassVO() {}
-	public GoodsClassVO(GoodsClassVO fatherClass) {
-		this.goodsClass = fatherClass;
+	public GoodsClassVO(GoodsClassVO fatherGoodsClass) {
+		this.fatherGoodsClass = fatherGoodsClass;
 	}
 	
 
