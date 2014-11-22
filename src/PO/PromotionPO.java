@@ -3,7 +3,6 @@ package PO;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import VO.GoodsVO;
 import Config.Level;
 
 public class PromotionPO implements Serializable{

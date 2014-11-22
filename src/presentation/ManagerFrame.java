@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import Config.Level;
 import PO.UserPO;
 
 public class ManagerFrame extends JFrame{
@@ -167,7 +168,6 @@ public class ManagerFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table1.setDefaultRenderer(Object.class, render);
 		    
-		    
 			JScrollPane tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(630,400);
 			tablePane1.setLocation(50, 10);
@@ -303,12 +303,24 @@ public class ManagerFrame extends JFrame{
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(173, 137, 115, 255));
 			
-			String[] columnTitle1={"策略类型","策略编号","降价商品组合","降价金额","需达到的总价","赠品列表","赠送代金券金额","客户最低等级","起始时间","终止时间",};
-			Object[][] tableData1={
-					new Object[]{ },
-					new Object[]{ },
+			String[] columnTitle={"策略类型","策略编号","组合商品降价","优惠需达金额","降价金额","赠品列表",
+					"赠送代金券金额","起始时间","终止时间","客户最低等级"};
+			Object[][] tableData={
+					new Object[]{"Gifts","P123","无",100,20,"无",10,"2014-11-12","2015-01-01","无"},
+					new Object[]{"Voucher","P124","无",300,60,"无",10,"2014-11-14","2015-01-23","无"},
 					           };
-			
+			JTable table=new JTable(new MyTableModel(tableData,columnTitle));
+			table.setFillsViewportHeight(true);     //显示表头
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+            table.setDefaultRenderer(Object.class, render);
+		    
+		    
+			JScrollPane tablePane=new JScrollPane(table);
+			tablePane.setSize(700,400);
+			tablePane.setLocation(80, 74);
+			this.add(tablePane);
+		
 			theFrame.add(this);
 		}
 	}

@@ -18,7 +18,7 @@ public class PromotionController implements PromotionBLService {
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
-			result=com.client.messageCommand("PromotionAddPackage", po);
+			result=com.client.messageCommand("promotionAddPackage", po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,7 +35,7 @@ public class PromotionController implements PromotionBLService {
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
-			result=com.client.messageCommand("PromotionAddGift", po);
+			result=com.client.messageCommand("promotionAddGift", po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,7 +52,7 @@ public class PromotionController implements PromotionBLService {
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
-			result=com.client.messageCommand("PromotionAddVoucher", po);
+			result=com.client.messageCommand("promotionAddVoucher", po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,7 +67,7 @@ public class PromotionController implements PromotionBLService {
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
-			result=com.client.messageCommand("PromotionDelete", po);
+			result=com.client.messageCommand("promotionDelete", po);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
