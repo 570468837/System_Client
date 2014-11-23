@@ -167,9 +167,8 @@ public class CommodityFrame extends JFrame {
 	}
 	
 	class CommodityPanel extends JPanel {
-		private JScrollPane jsp;
-		private JTable comCheckTable;
-		private JTable comInvenTable;
+		private JScrollPane cctjsp, citjsp;
+		private JTable comCheckTable, comInvenTable;
 		private CommodityController cc = new CommodityController();
 		private JLabel
 		    comCheckLabel,
@@ -177,6 +176,9 @@ public class CommodityFrame extends JFrame {
 		    sendLabel,
 		    reportLabel,
 		    exportLabel;
+		private JTextField
+		    time1,
+		    time2;
 		    
 		
 		public CommodityPanel(JFrame theFrame) {
@@ -187,13 +189,71 @@ public class CommodityFrame extends JFrame {
 			this.setLayout(null);
 			
 			
-			comInvenLabel = new JLabel("库存盘点");
+			comInvenLabel = new JLabel("库存盘点", JLabel.CENTER);
+			comInvenLabel.setBounds(0, 50, 100, 50);
+			comInvenLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					comInven();
+				}
+			});
 			
-			comCheckLabel = new JLabel("库存查看");
+			sendLabel = new JLabel("制定赠送单", JLabel.CENTER);
+			sendLabel.setBounds(100, 50, 100, 50);
+			sendLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					send();
+				}
+			});
 			
-			sendLabel = new JLabel("制定赠送单");
+			reportLabel = new JLabel("制定报单", JLabel.CENTER);
+			reportLabel.setBounds(200, 50, 100, 50);
+			reportLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					report();
+				}
+			});
 			
-			reportLabel = new JLabel("制定报单");
+			time1 = new JTextField("<例如2014/10/10>");
+			time1.setBounds(450, 65, 110, 25);
+			time1.addFocusListener(new FocusListener() {
+		    	public void focusGained(FocusEvent e) {
+		    		if(time1.getText().equals("<例如2014/10/10>")) {
+		    			time1.setText("");
+		    		}
+		    	}
+	            public void focusLost(FocusEvent e) {
+		    		if(time1.getText().equals("")) {
+		    			time1.setText("<例如2014/10/10>");
+		    		}
+		    	}
+		    });
+			time2 = new JTextField("<例如2014/10/11>");
+			time2.setBounds(580, 65, 110, 25);
+			time2.addFocusListener(new FocusListener() {
+		    	public void focusGained(FocusEvent e) {
+		    		if(time2.getText().equals("<例如2014/10/11>")) {
+		    			time2.setText("");
+		    		}
+		    	}
+	            public void focusLost(FocusEvent e) {
+		    		if(time2.getText().equals("")) {
+		    			time2.setText("<例如2014/10/11>");
+		    		}
+		    	}
+		    });
+			
+			comCheckLabel = new JLabel("库存查看", JLabel.CENTER);
+			comCheckLabel.setBounds(700, 50, 100, 50);
+			comCheckLabel.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					comCheck();
+				}
+			});
+			
 			
 			/*
 			 * 初始化显示库存盘点界面
@@ -211,9 +271,19 @@ public class CommodityFrame extends JFrame {
 			comInvenTable.getTableHeader().setFont(new Font("default", 1, 17));
 			comInvenTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
 			comInvenTable.getColumnModel().getColumn(0).setPreferredWidth(30);
-			jsp = new JScrollPane(comInvenTable);
-	    	jsp.setHorizontalScrollBar(null);
-			jsp.setBounds(5, 100, 825, 400);
+			
+			comInvenTable.addMouseListener(new MouseAdapter() {
+				JLabel quickSendLabel;
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					//点击表格 询问是否赠送该商品
+				}
+			});
+			
+			
+			citjsp = new JScrollPane(comInvenTable);
+			citjsp.setHorizontalScrollBar(null);
+			citjsp.setBounds(5, 100, 825, 400);
 			/*
 			 * 导出excel键
 			 */
@@ -224,11 +294,81 @@ public class CommodityFrame extends JFrame {
 				public void mouseClicked(MouseEvent event) {}
 			});
 			
-			
-			
-			this.add(jsp);
+			this.add(time1);
+			this.add(time2);
+			this.add(comCheckLabel);
+			this.add(comInvenLabel);
+			this.add(sendLabel);
+			this.add(reportLabel);
+			this.add(citjsp);
 			this.add(exportLabel);
 			theFrame.add(this);
+			
+			
+			citjsp.setVisible(false);
+			exportLabel.setVisible(false);
+		}
+		/**
+		 * 按下库存盘点时调用的方法
+		 */
+		private void comInven() {
+			citjsp.setVisible(true);
+			exportLabel.setVisible(true);
+			if(cctjsp != null) {
+				cctjsp.setVisible(false);
+			}
+		}
+		/**
+		 * 按下库存查看时调用的方法
+		 */
+		private boolean comCheck() {
+			String[][] cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).Info;
+			if(cctInfo == null) {
+				return false;
+			}
+			
+			citjsp.setVisible(false);
+			exportLabel.setVisible(false);
+			
+			
+			
+			String[] cctHead = {"商品", "数量", "单价", "出入类型", "出入合计"};
+			comCheckTable = new JTable(cctInfo, cctHead);
+			comCheckTable.setAutoResizeMode(0);
+			comCheckTable.setRowHeight(25);
+			comCheckTable.setPreferredSize(new Dimension(825, cctInfo.length * 25));
+			comCheckTable.setEnabled(false);
+			comCheckTable.setFont(new Font("default", 0, 16));
+			comCheckTable.getTableHeader().setReorderingAllowed(false);
+			comCheckTable.getTableHeader().setEnabled(false);
+			comCheckTable.getTableHeader().setFont(new Font("default", 1, 17));
+			comCheckTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
+			cctjsp = new JScrollPane(comCheckTable);
+			cctjsp.setHorizontalScrollBar(null);
+			cctjsp.setBounds(5, 100, 825, 440);
+			this.add(cctjsp);
+			return true;
+		}
+		/**
+		 * 按下制定库存报单时调用的方法
+		 */
+		private void report() {
+			citjsp.setVisible(false);
+			exportLabel.setVisible(false);
+			if(cctjsp != null) {
+				cctjsp.setVisible(false);
+			}
+			
+		}
+		/**
+		 * 按下制定库存赠送单时调用的方法，在库存盘点时也可以通过点击表格选择制定库存赠送单调用此方法
+		 */
+		private void send() {
+			citjsp.setVisible(false);
+			exportLabel.setVisible(false);
+			if(cctjsp != null) {
+				cctjsp.setVisible(false);
+			}
 		}
 		
 	}
