@@ -62,18 +62,7 @@ public class LoginFrame extends JFrame {
 	    loginName.setBounds(80, 230, 200, 32);
 	    loginName.setFont(new Font("default", 0, 16));
 	    loginName.enableInputMethods(false);   //屏蔽输入法
-	    loginName.addFocusListener(new FocusListener() {
-	    	public void focusGained(FocusEvent e) {
-	    		if(loginName.getText().equals("<请输入用户名>")) {
-	    			loginName.setText("");
-	    		}
-	    	}
-            public void focusLost(FocusEvent e) {
-	    		if(loginName.getText().equals("")) {
-	    			loginName.setText("<请输入用户名>");
-	    		}
-	    	}
-	    });
+	    AddWordsChange.change(loginName, "<请输入用户名>");
 	    
 	    
 	    loginPassword.setBounds(80, 280, 200, 32);

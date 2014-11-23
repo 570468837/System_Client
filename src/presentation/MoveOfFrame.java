@@ -6,6 +6,7 @@ import javax.swing.*;
 
 
 /**
+ * 工具类
  * @author hutao
  * 用于实现界面的移动
  * 想知道怎么用吗 ╮(╯▽╰)╭

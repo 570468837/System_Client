@@ -22,7 +22,11 @@ public class CommodityFrame extends JFrame {
 	    goodsLabel,
 	    alarmLabel;
 	private GoodsPanel goodsPanel;
+	
 	private CommodityPanel commodityPanel;
+	private JComponent[] 
+			reportComponent,
+			sendComponent;
 	
 	
 	public CommodityFrame() {
@@ -118,19 +122,7 @@ public class CommodityFrame extends JFrame {
 			this.setLayout(null);
 			
 			searchField.setBounds(310, 20, 200, 25);
-			searchField.addFocusListener(new FocusListener() {
-		    	public void focusGained(FocusEvent e) {
-		    		if(searchField.getText().equals("<请输入商品关键字>")) {
-		    			searchField.setText("");
-		    		}
-		    	}
-	            public void focusLost(FocusEvent e) {
-		    		if(searchField.getText().equals("")) {
-		    			searchField.setText("<请输入商品关键字>");
-		    		}
-		    	}
-		    });
-			
+			AddWordsChange.change(searchField, "<请输入商品关键字>");
 			
 			searchLabel.setFont(new Font("default", 1, 18));
 			searchLabel.setBounds(530, 19, 60, 25);
@@ -218,32 +210,10 @@ public class CommodityFrame extends JFrame {
 			
 			time1 = new JTextField("<例如2014/10/10>");
 			time1.setBounds(450, 65, 110, 25);
-			time1.addFocusListener(new FocusListener() {
-		    	public void focusGained(FocusEvent e) {
-		    		if(time1.getText().equals("<例如2014/10/10>")) {
-		    			time1.setText("");
-		    		}
-		    	}
-	            public void focusLost(FocusEvent e) {
-		    		if(time1.getText().equals("")) {
-		    			time1.setText("<例如2014/10/10>");
-		    		}
-		    	}
-		    });
+			AddWordsChange.change(time1, "<例如2014/10/10>");
 			time2 = new JTextField("<例如2014/10/11>");
 			time2.setBounds(580, 65, 110, 25);
-			time2.addFocusListener(new FocusListener() {
-		    	public void focusGained(FocusEvent e) {
-		    		if(time2.getText().equals("<例如2014/10/11>")) {
-		    			time2.setText("");
-		    		}
-		    	}
-	            public void focusLost(FocusEvent e) {
-		    		if(time2.getText().equals("")) {
-		    			time2.setText("<例如2014/10/11>");
-		    		}
-		    	}
-		    });
+			AddWordsChange.change(time2, "<例如2014/10/11>");
 			
 			comCheckLabel = new JLabel("库存查看", JLabel.CENTER);
 			comCheckLabel.setBounds(700, 50, 100, 50);
@@ -317,6 +287,16 @@ public class CommodityFrame extends JFrame {
 			if(cctjsp != null) {
 				cctjsp.setVisible(false);
 			}
+			if(reportComponent != null) {
+            	for(int i = 0; i < reportComponent.length; i ++) {
+            		reportComponent[i].setVisible(false);
+            	}
+			}
+			if(sendComponent != null) {
+				for(int i = 0; i < sendComponent.length; i ++) {
+            		sendComponent[i].setVisible(false);
+            	}
+			}
 		}
 		/**
 		 * 按下库存查看时调用的方法
@@ -329,8 +309,16 @@ public class CommodityFrame extends JFrame {
 			
 			citjsp.setVisible(false);
 			exportLabel.setVisible(false);
-			
-			
+            if(reportComponent != null) {
+            	for(int i = 0; i < reportComponent.length; i ++) {
+            		reportComponent[i].setVisible(false);
+            	}
+			}
+            if(sendComponent != null) {
+				for(int i = 0; i < sendComponent.length; i ++) {
+            		sendComponent[i].setVisible(false);
+            	}
+			}
 			
 			String[] cctHead = {"商品", "数量", "单价", "出入类型", "出入合计"};
 			comCheckTable = new JTable(cctInfo, cctHead);
@@ -358,6 +346,53 @@ public class CommodityFrame extends JFrame {
 			if(cctjsp != null) {
 				cctjsp.setVisible(false);
 			}
+			if(sendComponent != null) {
+				for(int i = 0; i < sendComponent.length; i ++) {
+            		sendComponent[i].setVisible(false);
+            	}
+			}
+			
+			
+			if(reportComponent == null) {
+				reportComponent = new JComponent[4];
+				
+				JTextField reportName = new JTextField("<商品名>");
+				reportName.setBounds(50, 150, 100, 25);
+				AddWordsChange.change(reportName, "<商品名>");
+				reportComponent[0] = reportName;
+				
+				JTextField reportNum = new JTextField("<商品数量>");
+				reportNum.setBounds(200, 150, 100, 25);
+				AddWordsChange.change(reportNum, "<商品数量>");
+				reportComponent[1] = reportNum;
+				
+				JComboBox<String> reportType = new JComboBox<String>(
+						new String[] {"<单据类型>", "报溢单", "报损单"});
+				reportType.setBounds(350, 150, 100, 25);
+				reportComponent[2] = reportType;
+				
+				
+				JLabel report = new JLabel("添加", JLabel.CENTER);
+				report.setBounds(500, 150, 50, 25);
+				report.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						//添加报单
+					}
+				});
+				reportComponent[3] = report;
+				
+				this.add(reportComponent[0]);
+				this.add(reportComponent[1]);
+				this.add(reportComponent[2]);
+				this.add(reportComponent[3]);
+				this.repaint();
+			}
+			else {
+				for(int i = 0; i < reportComponent.length; i ++) {
+            		reportComponent[i].setVisible(true);
+            	}
+			}
 			
 		}
 		/**
@@ -369,6 +404,59 @@ public class CommodityFrame extends JFrame {
 			if(cctjsp != null) {
 				cctjsp.setVisible(false);
 			}
+			if(reportComponent != null) {
+            	for(int i = 0; i < reportComponent.length; i ++) {
+            		reportComponent[i].setVisible(false);
+            	}
+			}
+			
+			if(sendComponent == null) {
+				sendComponent = new JComponent[5];
+				
+				JTextField sendCustomer = new JTextField("<客户名>");
+				AddWordsChange.change(sendCustomer, "<客户名>");
+				sendCustomer.setBounds(50, 150, 100, 25);
+				sendComponent[0] = sendCustomer;
+				
+				
+				JTextField sendGood = new JTextField("<商品名>");
+				AddWordsChange.change(sendGood, "<商品名>");
+				sendGood.setBounds(200, 150, 100, 25);
+				sendComponent[1] = sendGood;
+				
+				JTextField sendNum = new JTextField("<赠送数量>");
+				AddWordsChange.change(sendNum, "<赠送数量>");
+				sendNum.setBounds(350, 150, 100, 25);
+				sendComponent[2] = sendNum;
+				
+				JTextField sendPrice = new JTextField("<商品单价>");
+				AddWordsChange.change(sendPrice, "<赠送单价>");
+				sendPrice.setBounds(500, 150, 100, 25);
+				sendComponent[3] = sendPrice;
+				
+				
+				JLabel send = new JLabel("赠送", JLabel.CENTER);
+				send.setBounds(650, 150, 50, 25);
+				send.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {}
+				});
+				sendComponent[4] = send;
+				
+				this.add(sendComponent[0]);
+				this.add(sendComponent[1]);
+				this.add(sendComponent[2]);
+				this.add(sendComponent[3]);
+				this.add(sendComponent[4]);
+				this.repaint();
+				
+			}
+			else {
+				for(int i = 0; i < sendComponent.length; i ++) {
+            		sendComponent[i].setVisible(false);
+            	}
+			}
+			
 		}
 		
 	}
