@@ -1,16 +1,18 @@
-package VO;
+package PO;
 
-public class CaseListItem {
+import java.io.Serializable;
+
+public class CaseListItemPO implements Serializable{
+//	private static final long serialVersionUID = 2425699451994486793L;
 	String casename ;
-	double caseMoney ; 
-	String remark ;
+	double caseMoney ; //金额
+	String remark;// 备注
 	
-	public CaseListItem(String casename,double caseMoney,String remark){
-		this.casename=casename;
-		this.caseMoney=caseMoney;
-		this.remark=remark;
+	public CaseListItemPO(String casename, double caseMoney, String remark) {
+		this.casename = casename;
+		this.caseMoney = caseMoney;
+		this.remark = remark;
 	}
-	
 	public String getCasename() {
 		return casename;
 	}
@@ -28,5 +30,5 @@ public class CaseListItem {
 	}
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}//ע
-}
+	}
+	}

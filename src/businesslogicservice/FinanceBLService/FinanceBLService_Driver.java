@@ -10,7 +10,7 @@ public class FinanceBLService_Driver {
 		financeBLService.addAccount(new AccountVO()) ;
 		financeBLService.deletAccount(new AccountVO()) ;
 		financeBLService.updateAccount(new AccountVO()) ;
-		financeBLService.findAccount(new AccountVO()) ;
+		financeBLService.findAccount("0001") ;
 		financeBLService.addCollection(new CollectionVO()) ;
 		financeBLService.addPayment(new PaymentVO()) ;
 		financeBLService.addCash(new CashVO()) ;

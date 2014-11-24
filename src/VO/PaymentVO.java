@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class PaymentVO {
 	String number ;
-	CustomerVO customer ;
-	UserVO user ;
-	ArrayList<TransferListItem> trList = new ArrayList<TransferListItem>();//转账列表
+	String customer ;
+	String user ;
+	ArrayList<TransferListItemVO> trList = new ArrayList<TransferListItemVO>();//转账列表
 	double total ;
 	
 	public PaymentVO(){
@@ -16,18 +16,27 @@ public class PaymentVO {
 		user = null ;
 		total = 0 ;
 	}
-	public PaymentVO(String theNumber,CustomerVO theCustomer,UserVO theUser,TransferListItem theTfList,double theSum){
+	public PaymentVO(String theNumber,String theCustomer,String theUser,TransferListItemVO theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
 		user = theUser ;
 		total = theSum ;
 	}
-	public void add(TransferListItem theItem){
+	public ArrayList<TransferListItemVO> getTrList() {
+		return trList;
+	}
+	public void setTrList(ArrayList<TransferListItemVO> trList) {
+		this.trList = trList;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
+	public void add(TransferListItemVO theItem){
 		trList.add(theItem);
 	}
 	public double getTotal(){
 		double total = 0 ;
-		for(TransferListItem theItem:trList){
+		for(TransferListItemVO theItem:trList){
 			total += theItem.getTransferMoney() ;
 		}
 		return total ;
@@ -38,16 +47,16 @@ public class PaymentVO {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public CustomerVO getCustomer() {
+	public String getCustomer() {
 		return customer;
 	}
-	public void setCustomer(CustomerVO customer) {
+	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
-	public UserVO getUser() {
+	public String getUser() {
 		return user;
 	}
-	public void setUser(UserVO user) {
+	public void setUser(String user) {
 		this.user = user;
 	}
 	

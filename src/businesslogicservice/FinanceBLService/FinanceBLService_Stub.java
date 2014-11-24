@@ -1,5 +1,7 @@
 package businesslogicservice.FinanceBLService;
 
+import java.util.ArrayList;
+
 import businesslogicservice.CustomerBLService.CustomerBLService_Stub;
 import businesslogicservice.GoodsBLService.GoodsBLService_Stub;
 import ResultMessage.ResultMessage;
@@ -42,12 +44,15 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	}
 
 	@Override
-	public ResultMessage findAccount(AccountVO vo) {
+	public ArrayList<AccountVO> findAccount(String keyword) {
 		// TODO Auto-generated method stub
-		if(vo.getName().equals("0002"))
-			return ResultMessage.Exist ;
-		else
-			return ResultMessage.Not_Exist ;
+		if(keyword.equals("0001")){
+			System.out.println("find successd") ;
+			return null ;
+		}else{
+			System.out.println("find fail") ;
+			return null ;
+		}
 	}
 
 	@Override

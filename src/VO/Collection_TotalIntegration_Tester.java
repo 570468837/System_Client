@@ -8,8 +8,8 @@ public class Collection_TotalIntegration_Tester {
 
 	@Test
 	public void test() {
-		TransferListItem listItem1=new TransferListItem(new AccountVO(),100,null);
-		TransferListItem listItem2=new TransferListItem(new AccountVO(),200,null);
+		TransferListItemVO listItem1=new TransferListItemVO("0001",100,null);
+		TransferListItemVO listItem2=new TransferListItemVO("0002",200,null);
 		
 		CollectionVO collection=new CollectionVO();
 		collection.add(listItem1);

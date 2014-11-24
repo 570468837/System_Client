@@ -8,8 +8,8 @@ public class Payment_TotalIntegration_Tester {
 
 	@Test
 	public void test() {
-		TransferListItem transferlist1=new TransferListItem(null, 200, null);
-		TransferListItem transferlist2=new TransferListItem(null, 300, null);
+		TransferListItemVO transferlist1=new TransferListItemVO(null, 200, null);
+		TransferListItemVO transferlist2=new TransferListItemVO(null, 300, null);
 		
 		PaymentVO pay=new PaymentVO();
 		pay.add(transferlist1);
