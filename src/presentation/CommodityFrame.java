@@ -147,14 +147,8 @@ public class CommodityFrame extends JFrame {
 			//this.add(goodsTable); 
 			theFrame.add(this);
 		}
-		/**
-		 * 
-		 * @return 获取所有商品信息
-		 */
-		private String[][] getTableInfo() {
-			
-			return null;
-		}
+		
+		
 		
 	}
 	
@@ -243,10 +237,53 @@ public class CommodityFrame extends JFrame {
 			comInvenTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 			
 			comInvenTable.addMouseListener(new MouseAdapter() {
+				JFrame popFrame;
 				JLabel quickSendLabel;
+				JLabel quickReportLabel;
+				int x, y;
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					//点击表格 询问是否赠送该商品
+					x = comInvenTable.columnAtPoint(e.getPoint());
+					y = comInvenTable.rowAtPoint(e.getPoint());
+					System.out.println(x + "," + y);
+					popFrame = new JFrame();
+					popFrame.setUndecorated(true);
+					popFrame.setLayout(null);
+					popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 50);
+					quickSendLabel = new JLabel("赠送该商品？", JLabel.CENTER);
+					quickSendLabel.setBounds(0, 0, 100, 25);
+					quickSendLabel.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							popFrame.dispose();
+							send();
+							JTextField jtf = (JTextField) sendComponent[1];
+							jtf.setText((String) comInvenTable.getValueAt(y, 1));
+							jtf = (JTextField) sendComponent[3];
+							jtf.setText((String) comInvenTable.getValueAt(y, 4));
+						}
+					});
+					quickReportLabel = new JLabel("报损/溢该商品？", JLabel.CENTER);
+					quickReportLabel.setBounds(0, 25, 100, 25);
+					quickReportLabel.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							popFrame.dispose();
+							report();
+							JTextField jtf = (JTextField) reportComponent[0];
+							jtf.setText((String) comInvenTable.getValueAt(y, 1));
+						}
+					});
+					popFrame.add(quickReportLabel);
+					popFrame.add(quickSendLabel);
+					popFrame.setVisible(true);
+					
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					if (popFrame != null) {
+						popFrame.dispose();
+					}
 				}
 			});
 			
@@ -275,8 +312,6 @@ public class CommodityFrame extends JFrame {
 			theFrame.add(this);
 			
 			
-			citjsp.setVisible(false);
-			exportLabel.setVisible(false);
 		}
 		/**
 		 * 按下库存盘点时调用的方法
@@ -430,7 +465,7 @@ public class CommodityFrame extends JFrame {
 				sendComponent[2] = sendNum;
 				
 				JTextField sendPrice = new JTextField("<商品单价>");
-				AddWordsChange.change(sendPrice, "<赠送单价>");
+				AddWordsChange.change(sendPrice, "<商品单价>");
 				sendPrice.setBounds(500, 150, 100, 25);
 				sendComponent[3] = sendPrice;
 				
@@ -453,7 +488,7 @@ public class CommodityFrame extends JFrame {
 			}
 			else {
 				for(int i = 0; i < sendComponent.length; i ++) {
-            		sendComponent[i].setVisible(false);
+            		sendComponent[i].setVisible(true);
             	}
 			}
 			
