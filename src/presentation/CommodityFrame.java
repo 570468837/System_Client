@@ -11,15 +11,15 @@ import VO.*;
 import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.GoodsBLService.GoodsController;
 /**
- * 
+ * 库存管理人员界面
  * @author hutao
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class CommodityFrame extends JFrame {
 	private JFrame theFrame;
 	private JLabel 
-	    backgroundLabel,
+	    //backgroundLabel,
 	    exitButton,
 	    commodityLabel,
 	    goodsLabel,
@@ -42,10 +42,6 @@ public class CommodityFrame extends JFrame {
 		this.setLayout(null);
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		/*background label*/
-		backgroundLabel = new JLabel();
-		
 		
 		
 		exitButton = new JLabel("X", JLabel.CENTER);
@@ -102,6 +98,7 @@ public class CommodityFrame extends JFrame {
 		this.add(commodityLabel);
 		this.add(alarmLabel);
 		this.add(exitButton);
+		this.repaint();
 		
 		@SuppressWarnings("unused")
 		MoveOfFrame m = new MoveOfFrame(this);
@@ -109,13 +106,17 @@ public class CommodityFrame extends JFrame {
 	}
 	
 	
-	
-	
+	/**
+	 * 商品管理的panel
+	 */
 	class GoodsPanel extends JPanel {
 		private GoodsController gc = new GoodsController();
-		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>();
-		private JLabel searchLabel = new JLabel("搜索", JLabel.CENTER);
-		private JTextField searchField = new JTextField("<请输入商品关键字>");
+		private ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
+		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
+		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
+		private ArrayList<JTable> jtList = new ArrayList<JTable>(); //用来获取jtable的全局引用，和jspList联用
+		private JLabel backToRoot; //回到根商品分类键
+		private JLabel back; //退栈键
 		
 		public GoodsPanel(JFrame theFrame) {
 			super();
@@ -133,6 +134,8 @@ public class CommodityFrame extends JFrame {
 		 * 初始化搜索的几个组件
 		 */
 		private void iniSearch() {
+			JLabel searchLabel = new JLabel("搜索", JLabel.CENTER);
+			JTextField searchField = new JTextField("<请输入商品关键字>");
 			searchField.setBounds(310, 20, 200, 25);
 			AddWordsChange.change(searchField, "<请输入商品关键字>");
 			searchLabel.setFont(new Font("default", 1, 18));
@@ -140,18 +143,19 @@ public class CommodityFrame extends JFrame {
 			searchLabel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					
+					//隐藏goodsmanager的组件，显示搜索的表格     
 				}
 		    });
 			this.add(searchField);
 			this.add(searchLabel);
 		}
-		
+		/**
+		 * 初始化商品/商品分类管理的表格
+		 */
 		private void iniGoodsManager() {
-			ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
-			ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
-			
-			String[] head = {"商品分类"};
+			jspList.clear();
+			jtList.clear();
+			String[] head = {"商品根分类"};
 			ArrayList<GoodsClassVO> gcvBufferList = new ArrayList<GoodsClassVO>();
 			Iterator<GoodsClassVO> iter = gcvList.iterator();
 			GoodsClassVO gcv;
@@ -167,12 +171,93 @@ public class CommodityFrame extends JFrame {
 			for(int i = 0; i < gcvBufferList.size(); i ++) {
 				body[i][0]  = gcvBufferList.get(i).goodsClassName;
 			}
+			JTable table = new JTable(body, head);
+			table.setPreferredSize(new Dimension(120, body.length * 30));
+			table.setAutoResizeMode(0);
+			table.setRowHeight(30);
+			table.setEnabled(false);
+			table.setFont(new Font("default", 0, 16));
+			table.getTableHeader().setReorderingAllowed(false);
+			table.getTableHeader().setEnabled(false);
+			table.getTableHeader().setFont(new Font("default", 1, 17));
+			table.getTableHeader().setPreferredSize(new Dimension(0, 45));
 			
+			createChildTable(table);
 			
+			JScrollPane jsp = new JScrollPane(table);
+			if (body.length > 12) {
+				jsp.setBounds(25, 100, 120, 360);
+			}
+			else {
+				jsp.setBounds(25, 100, 120, body.length * 30 + 48);
+			}
+			jsp.setPreferredSize(new Dimension(120, 360));
+	    	jsp.setHorizontalScrollBar(null);
+	    	jtList.add(table);
+	    	jspList.add(jsp);
+	    	
+	    	
+	    	backToRoot = new JLabel("返回根商品分类", JLabel.CENTER);
+	    	backToRoot.setBounds(30,500, 100, 50);
+	    	backToRoot.addMouseListener(new MouseAdapter() {
+	    		@Override
+	    		public void mouseClicked(MouseEvent e) {
+	    			if(jspList.size() != 1)
+	    				iniGoodsManager();
+	    		}
+	    	});
+	    	back = new JLabel("返回", JLabel.CENTER);
+	    	back.setBounds(30, 10, 100, 50);
+	    	back.addMouseListener(new MouseAdapter() {
+	    		@Override
+	    		public void mouseClicked(MouseEvent e) {
+	    			int size = jspList.size();
+	    			if (size != 1) {
+	    				jspList.remove(size - 1);
+		    			jtList.remove(size - 1);
+		    			JScrollPane jp;
+		    			for (int i = 0; i < size - 1; i ++) {
+		    				jp = jspList.get(i);
+		    				jp.setLocation(jp.getX() + 100, jp.getY());
+		    			}
+		    			jspList.get(size - 2).setVisible(true);
+	    			}
+	    		}
+	    	});
+	    	
+	    	this.add(backToRoot);
+	    	this.add(back);
+	    	this.add(jsp);
+		}
+		/**
+		 * 添加点击则自动产生子分类或子商品分类的响应
+		 * @param table 要添加响应的表格
+		 */
+		private void createChildTable(JTable table) {
+			table.addMouseListener(new MouseAdapter() {
+				int x, y;
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					JTable table = jtList.get(jtList.size() - 1);
+					y = table.rowAtPoint(e.getPoint());
+					x = table.columnAtPoint(e.getPoint());
+					if(table.getColumnCount() == 1) {
+						//是商品分类表格
+						String goodsClassName = (String) table.getValueAt(y, x);
+						//JLabel returnField
+					}
+					else {
+						//是商品表格
+					}
+					
+				}
+			});
 		}
 		
 	}
-	
+	/**
+	 * 库存管理的panel
+	 */
 	class CommodityPanel extends JPanel {
 		private JScrollPane cctjsp, citjsp;
 		private JTable comCheckTable, comInvenTable;
@@ -261,12 +346,13 @@ public class CommodityFrame extends JFrame {
 				JFrame popFrame;
 				JLabel quickSendLabel;
 				JLabel quickReportLabel;
-				int x, y;
+				int //x,
+				y;
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					x = comInvenTable.columnAtPoint(e.getPoint());
+					//x = comInvenTable.columnAtPoint(e.getPoint());
 					y = comInvenTable.rowAtPoint(e.getPoint());
-					System.out.println(x + "," + y);
+					//System.out.println(x + "," + y);
 					popFrame = new JFrame();
 					popFrame.setUndecorated(true);
 					popFrame.setLayout(null);
@@ -312,6 +398,7 @@ public class CommodityFrame extends JFrame {
 			citjsp = new JScrollPane(comInvenTable);
 			citjsp.setHorizontalScrollBar(null);
 			citjsp.setBounds(5, 100, 825, 400);
+			citjsp.setPreferredSize(new Dimension(825, 400));
 			/*
 			 * 导出excel键
 			 */

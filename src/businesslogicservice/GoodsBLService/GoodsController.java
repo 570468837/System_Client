@@ -38,7 +38,9 @@ public class GoodsController implements GoodsBLService {
 		GoodsClassVO a_a = new GoodsClassVO(a ,"a_a");
 		GoodsClassVO a_b = new GoodsClassVO(a ,"a_b");
 		ArrayList<GoodsClassVO> al = new ArrayList<GoodsClassVO>();
-		al.add(a); al.add(a_a); al.add(a_b);
+		for (int i = 0; i < 18; i ++) {al.add(a);}
+		for (int i = 0; i < 8; i ++) {al.add(a_a);}
+		al.add(a_b);
 		return al;
 	}
 
