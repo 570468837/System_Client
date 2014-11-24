@@ -3,6 +3,7 @@ package presentation;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.*;
 
@@ -113,8 +114,6 @@ public class CommodityFrame extends JFrame {
 	class GoodsPanel extends JPanel {
 		private GoodsController gc = new GoodsController();
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>();
-		private JScrollPane jsp;
-		private JTable goodsTable;
 		private JLabel searchLabel = new JLabel("搜索", JLabel.CENTER);
 		private JTextField searchField = new JTextField("<请输入商品关键字>");
 		
@@ -124,9 +123,16 @@ public class CommodityFrame extends JFrame {
 			this.setBackground(new Color(150, 255, 150, 255));
 			this.setLayout(null);
 			
-			/*
-			 * 搜索区
-			 */
+			iniSearch();
+			
+			iniGoodsManager();
+			
+			theFrame.add(this);
+		}
+		/**
+		 * 初始化搜索的几个组件
+		 */
+		private void iniSearch() {
 			searchField.setBounds(310, 20, 200, 25);
 			AddWordsChange.change(searchField, "<请输入商品关键字>");
 			searchLabel.setFont(new Font("default", 1, 18));
@@ -137,24 +143,33 @@ public class CommodityFrame extends JFrame {
 					
 				}
 		    });
-			/*
-			 * 操作区
-			 */
+			this.add(searchField);
+			this.add(searchLabel);
+		}
+		
+		private void iniGoodsManager() {
 			ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
 			ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 			
+			String[] head = {"商品分类"};
+			ArrayList<GoodsClassVO> gcvBufferList = new ArrayList<GoodsClassVO>();
+			Iterator<GoodsClassVO> iter = gcvList.iterator();
+			GoodsClassVO gcv;
+			while(iter.hasNext()) {
+				gcv = iter.next();
+				if(gcv.fatherGoodsClass == null) {
+					gcvBufferList.add(gcv);
+				}
+				else {//break; 该语句取决于goodsclasslist的排列方式
+				}
+			}
+			String[][] body = new String[gcvBufferList.size()][1];
+			for(int i = 0; i < gcvBufferList.size(); i ++) {
+				body[i][0]  = gcvBufferList.get(i).goodsClassName;
+			}
 			
 			
-			
-			
-			
-			
-			this.add(searchField);
-			this.add(searchLabel);
-			theFrame.add(this);
 		}
-		
-		
 		
 	}
 	
