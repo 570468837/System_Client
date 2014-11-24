@@ -31,6 +31,7 @@ import javax.swing.table.TableColumn;
 
 import Config.Level;
 import PO.UserPO;
+import VO.GoodsVO;
 
 public class ManagerFrame extends JFrame{
 	private JLabel backgroundLabel,exitButton,crLabel,infoLabel,promotionLabel;
@@ -306,8 +307,8 @@ public class ManagerFrame extends JFrame{
 			String[] columnTitle={"策略类型","策略编号","组合商品降价","优惠需达金额","降价金额","赠品列表",
 					"赠送代金券金额","起始时间","终止时间","客户最低等级"};
 			Object[][] tableData={
-					new Object[]{"Gifts","P123","无",100,20,"无",10,"2014-11-12","2015-01-01","无"},
-					new Object[]{"Voucher","P124","无",300,60,"无",10,"2014-11-14","2015-01-23","无"},
+					new Object[]{"Gifts","P123",new ArrayList<GoodsVO>(),100,20,"无",10,"2014-11-12","2015-01-01","无"},
+					new Object[]{"Voucher","P124",new ArrayList<GoodsVO>(),300,60,"无",10,"2014-11-14","2015-01-23","无"},
 					           };
 			JTable table=new JTable(new MyTableModel(tableData,columnTitle));
 			table.setFillsViewportHeight(true);     //显示表头
