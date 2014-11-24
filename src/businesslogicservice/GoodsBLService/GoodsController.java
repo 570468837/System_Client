@@ -34,8 +34,12 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ArrayList<GoodsClassVO> getGoodsClassVOList() {
-		
-		return null;
+		GoodsClassVO a = new GoodsClassVO("a");
+		GoodsClassVO a_a = new GoodsClassVO(a ,"a_a");
+		GoodsClassVO a_b = new GoodsClassVO(a ,"a_b");
+		ArrayList<GoodsClassVO> al = new ArrayList<GoodsClassVO>();
+		al.add(a); al.add(a_a); al.add(a_b);
+		return al;
 	}
 
 	@Override

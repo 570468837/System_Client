@@ -5,17 +5,17 @@ package VO;
  *
  */
 public class GoodsVO {
-	private String serialNumber;
-	private String name;
-	private String model;
-	private long price;
-	private String comment;
+	public String serialNumber;
+	public String name;
+	public String model;
+	public long price;
+	public String comment;
 	
 	
-	private GoodsClassVO goodsClass;//商品所属的分类
-	private long salePrice;
-	private long latestPrice;
-	private long latestSalePrice;
+	public String goodsClassName; //商品分类名
+	public long salePrice;
+	public long latestPrice;
+	public long latestSalePrice;
 	
 	public GoodsVO() {}
 	public GoodsVO(String serialNumber, String name, String model, 
@@ -28,7 +28,7 @@ public class GoodsVO {
 	};
 	public GoodsVO(String serialNumber, String name, String model, 
 		 long price, long salePrice, long latestPrice,
-			long latestSalePrice, GoodsClassVO goodsClass) {
+			long latestSalePrice, String goodsClassName) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
@@ -36,39 +36,9 @@ public class GoodsVO {
 		this.salePrice = salePrice;
 		this.latestPrice = latestPrice;
 		this.latestSalePrice = latestSalePrice;
-		this.goodsClass = goodsClass;
+		this.goodsClassName = goodsClassName;
 	};
 	
-	
-
-	public String getSerialNumber() {
-		return serialNumber;
-	}
-	public String getName() {
-		return name;
-	}
-	public String getModel() {
-		return model;
-	}
-
-	public long getPrice() {
-		return price;
-	}
-	public String getComment() {
-		return comment;
-	}
-	public long getSalePrice() {
-		return salePrice;
-	}
-	public long getLatestPrice() {
-		return latestPrice;
-	}
-	public long getLatestSalePrice() {
-		return latestSalePrice;
-	}
-	public GoodsClassVO getGoodsClass() {
-		return goodsClass;
-	}
 
 }
 

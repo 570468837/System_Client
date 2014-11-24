@@ -2,9 +2,11 @@ package presentation;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
+import VO.*;
 import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.GoodsBLService.GoodsController;
 /**
@@ -109,8 +111,9 @@ public class CommodityFrame extends JFrame {
 	
 	
 	class GoodsPanel extends JPanel {
-		private JScrollPane jsp;
 		private GoodsController gc = new GoodsController();
+		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>();
+		private JScrollPane jsp;
 		private JTable goodsTable;
 		private JLabel searchLabel = new JLabel("搜索", JLabel.CENTER);
 		private JTextField searchField = new JTextField("<请输入商品关键字>");
@@ -121,9 +124,11 @@ public class CommodityFrame extends JFrame {
 			this.setBackground(new Color(150, 255, 150, 255));
 			this.setLayout(null);
 			
+			/*
+			 * 搜索区
+			 */
 			searchField.setBounds(310, 20, 200, 25);
 			AddWordsChange.change(searchField, "<请输入商品关键字>");
-			
 			searchLabel.setFont(new Font("default", 1, 18));
 			searchLabel.setBounds(530, 19, 60, 25);
 			searchLabel.addMouseListener(new MouseAdapter() {
@@ -131,10 +136,12 @@ public class CommodityFrame extends JFrame {
 				public void mouseClicked(MouseEvent event) {
 					
 				}
-		});
-			
-			
-			
+		    });
+			/*
+			 * 操作区
+			 */
+			ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
+			ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 			
 			
 			
@@ -144,7 +151,6 @@ public class CommodityFrame extends JFrame {
 			
 			this.add(searchField);
 			this.add(searchLabel);
-			//this.add(goodsTable); 
 			theFrame.add(this);
 		}
 		
