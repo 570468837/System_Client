@@ -15,7 +15,11 @@ public class AddWordsChange {
 	 * @param jtf 传入的JTextField
 	 * @param s 改变的文本内容
 	 */
-	public static void change(JTextField jtf, String s) {
+	public JTextField jtf;
+	private String s;
+	public  AddWordsChange(JTextField j, String string) {
+		this.jtf = j;
+		this.s = string;
 		jtf.addFocusListener(new FocusListener() {
 	    	public void focusGained(FocusEvent e) {
 	    		if(jtf.getText().equals(s)) {

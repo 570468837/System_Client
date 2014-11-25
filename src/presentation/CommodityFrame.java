@@ -137,7 +137,7 @@ public class CommodityFrame extends JFrame {
 			JLabel searchLabel = new JLabel("搜索", JLabel.CENTER);
 			JTextField searchField = new JTextField("<请输入商品关键字>");
 			searchField.setBounds(310, 20, 200, 25);
-			AddWordsChange.change(searchField, "<请输入商品关键字>");
+			new AddWordsChange(searchField, "<请输入商品关键字>");
 			searchLabel.setFont(new Font("default", 1, 18));
 			searchLabel.setBounds(530, 19, 60, 25);
 			searchLabel.addMouseListener(new MouseAdapter() {
@@ -163,8 +163,6 @@ public class CommodityFrame extends JFrame {
 				gcv = iter.next();
 				if(gcv.fatherGoodsClass == null) {
 					gcvBufferList.add(gcv);
-				}
-				else {//break; 该语句取决于goodsclasslist的排列方式
 				}
 			}
 			String[][] body = new String[gcvBufferList.size()][1];
@@ -202,8 +200,11 @@ public class CommodityFrame extends JFrame {
 	    	backToRoot.addMouseListener(new MouseAdapter() {
 	    		@Override
 	    		public void mouseClicked(MouseEvent e) {
-	    			if(jspList.size() != 1)
-	    				iniGoodsManager();
+	    			while(jspList.size() != 1) {
+	    				jspList.remove(jspList.size() - 1);
+	    				jtList.remove(jtList.size() - 1);
+	    				jspList.get(0).setVisible(true);
+	    			}
 	    		}
 	    	});
 	    	back = new JLabel("返回", JLabel.CENTER);
@@ -230,7 +231,7 @@ public class CommodityFrame extends JFrame {
 	    	this.add(jsp);
 		}
 		/**
-		 * 添加点击则自动产生子分类或子商品分类的响应
+		 * 添加点击则自动产生子分类或子商品分类的响应，内含递归
 		 * @param table 要添加响应的表格
 		 */
 		private void createChildTable(JTable table) {
@@ -238,17 +239,7 @@ public class CommodityFrame extends JFrame {
 				int x, y;
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					JTable table = jtList.get(jtList.size() - 1);
-					y = table.rowAtPoint(e.getPoint());
-					x = table.columnAtPoint(e.getPoint());
-					if(table.getColumnCount() == 1) {
-						//是商品分类表格
-						String goodsClassName = (String) table.getValueAt(y, x);
-						//JLabel returnField
-					}
-					else {
-						//是商品表格
-					}
+					
 					
 				}
 			});
@@ -310,10 +301,10 @@ public class CommodityFrame extends JFrame {
 			
 			time1 = new JTextField("<例如2014/10/10>");
 			time1.setBounds(450, 65, 110, 25);
-			AddWordsChange.change(time1, "<例如2014/10/10>");
+			new AddWordsChange(time1, "<例如2014/10/10>");
 			time2 = new JTextField("<例如2014/10/11>");
 			time2.setBounds(580, 65, 110, 25);
-			AddWordsChange.change(time2, "<例如2014/10/11>");
+			new AddWordsChange(time2, "<例如2014/10/11>");
 			
 			comCheckLabel = new JLabel("库存查看", JLabel.CENTER);
 			comCheckLabel.setBounds(700, 50, 100, 50);
@@ -501,12 +492,12 @@ public class CommodityFrame extends JFrame {
 				
 				JTextField reportName = new JTextField("<商品名>");
 				reportName.setBounds(50, 150, 100, 25);
-				AddWordsChange.change(reportName, "<商品名>");
+				new AddWordsChange(reportName, "<商品名>");
 				reportComponent[0] = reportName;
 				
 				JTextField reportNum = new JTextField("<商品数量>");
 				reportNum.setBounds(200, 150, 100, 25);
-				AddWordsChange.change(reportNum, "<商品数量>");
+				new AddWordsChange(reportNum, "<商品数量>");
 				reportComponent[1] = reportNum;
 				
 				JComboBox<String> reportType = new JComboBox<String>(
@@ -557,23 +548,23 @@ public class CommodityFrame extends JFrame {
 				sendComponent = new JComponent[5];
 				
 				JTextField sendCustomer = new JTextField("<客户名>");
-				AddWordsChange.change(sendCustomer, "<客户名>");
+				new AddWordsChange(sendCustomer, "<客户名>");
 				sendCustomer.setBounds(50, 150, 100, 25);
 				sendComponent[0] = sendCustomer;
 				
 				
 				JTextField sendGood = new JTextField("<商品名>");
-				AddWordsChange.change(sendGood, "<商品名>");
+				new AddWordsChange(sendGood, "<商品名>");
 				sendGood.setBounds(200, 150, 100, 25);
 				sendComponent[1] = sendGood;
 				
 				JTextField sendNum = new JTextField("<赠送数量>");
-				AddWordsChange.change(sendNum, "<赠送数量>");
+				new AddWordsChange(sendNum, "<赠送数量>");
 				sendNum.setBounds(350, 150, 100, 25);
 				sendComponent[2] = sendNum;
 				
 				JTextField sendPrice = new JTextField("<商品单价>");
-				AddWordsChange.change(sendPrice, "<商品单价>");
+				new AddWordsChange(sendPrice, "<商品单价>");
 				sendPrice.setBounds(500, 150, 100, 25);
 				sendComponent[3] = sendPrice;
 				

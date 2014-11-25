@@ -62,7 +62,7 @@ public class LoginFrame extends JFrame {
 	    loginName.setBounds(80, 230, 200, 32);
 	    loginName.setFont(new Font("default", 0, 16));
 	    loginName.enableInputMethods(false);   //屏蔽输入法
-	    AddWordsChange.change(loginName, "<请输入用户名>");
+	    new AddWordsChange(loginName, "<请输入用户名>");
 	    
 	    
 	    loginPassword.setBounds(80, 280, 200, 32);
