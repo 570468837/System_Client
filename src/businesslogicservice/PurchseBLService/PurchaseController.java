@@ -36,27 +36,47 @@ public class PurchaseController implements PurchaseBLService {
 
 	@Override
 	public ResultMessage creatReceipt(PurchaseReceiptVO purchaseReceiptVO) {
-		UserPO userPO=new UserPO(purchaseReceiptVO.getUserVO().getUserName(), purchaseReceiptVO.getUserVO().getPassword(),purchaseReceiptVO.getUserVO().getUserSort(),purchaseReceiptVO.getUserVO().getLevel());
-		
+		UserPO userPO = new UserPO(purchaseReceiptVO.getUserVO().getUserName(),
+				purchaseReceiptVO.getUserVO().getPassword(), purchaseReceiptVO
+						.getUserVO().getUserSort(), purchaseReceiptVO
+						.getUserVO().getLevel());
+
 		GoodsPO goodsPO;
+<<<<<<< Updated upstream
 		ArrayList<PurchaseListItemPO> list=new ArrayList<PurchaseListItemPO>();
 		for(int i=0;i<purchaseReceiptVO.getPurchaseList().size();i++){
 			goodsPO=new GoodsPO() ;
 			list.add(new PurchaseListItemPO(goodsPO,purchaseReceiptVO.getPurchaseList().get(i).getQuantity()));
+=======
+		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
+		for (int i = 0; i < purchaseReceiptVO.getPurchaseList().size(); i++) {
+			goodsPO = new GoodsPO(
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().serialNumber,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().name,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().model,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().price,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().comment);
+>>>>>>> Stashed changes
 			
+			list.add(new PurchaseListItemPO(goodsPO, purchaseReceiptVO
+					.getPurchaseList().get(i).getQuantity()));
+
 		}
-		PurchaseReceiptPO po=new PurchaseReceiptPO(purchaseReceiptVO.getSerialNumber(),list,userPO,purchaseReceiptVO.getTime(), purchaseReceiptVO.getComments(), purchaseReceiptVO.getTotalPrice());
+		PurchaseReceiptPO po = new PurchaseReceiptPO(
+				purchaseReceiptVO.getSerialNumber(), list, userPO,
+				purchaseReceiptVO.getTime(), purchaseReceiptVO.getComments(),
+				purchaseReceiptVO.getTotalPrice());
 		Communication_Start com = new Communication_Start();
 		com.initial();
-		
+
 		try {
-			return com.client.messageCommand("create_purchase_receipt",po);
-			
+			return com.client.messageCommand("create_purchase_receipt", po);
+
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return ResultMessage.create_purchasereceipt_failure;
-			
+
 		}
 	}
 }
