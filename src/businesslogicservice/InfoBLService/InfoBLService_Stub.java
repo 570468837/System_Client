@@ -46,9 +46,9 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ResultMessage deletReceipt(String label) {
+	public ResultMessage deletReceipt(String typeOfReceipt,String number) {
 		// TODO Auto-generated method stub
-		if(label.equals("0001")) {
+		if(number.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
@@ -57,9 +57,9 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ResultMessage deletAndUpdateReceipt(String label) {
+	public ResultMessage deletAndUpdateReceipt(String typeOfReceipt,String number) {
 		// TODO Auto-generated method stub
-		if(label.equals("0001")) {
+		if(number.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;

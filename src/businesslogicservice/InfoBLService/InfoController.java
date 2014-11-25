@@ -67,15 +67,32 @@ public class InfoController implements InfoBLService{
 	}
 
 	@Override
-	public ResultMessage deletReceipt(String number) {
+	public ResultMessage deletReceipt(String typeOfReceipt,String number) {
 		// TODO Auto-generated method stub
-		return null ;
+		ResultMessage result = null ;
+		Communication_Start com = new Communication_Start() ;
+		com.initial();
+		try {
+			result = com.client.mangeReceipt("receiptDelet", typeOfReceipt,number) ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result ;
 	}
 
 	@Override
-	public ResultMessage deletAndUpdateReceipt(String label) {
+	public ResultMessage deletAndUpdateReceipt(String typeOfReceipt,String number) {
 		// TODO Auto-generated method stub
-		return null ;
+		ResultMessage result = null ;
+		Communication_Start com = new Communication_Start() ;
+		com.initial();
+		try {
+			result = com.client.mangeReceipt("receiptDeletAndUpdate",typeOfReceipt, number) ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result ;
 	}
-
 }

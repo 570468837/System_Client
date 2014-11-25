@@ -41,7 +41,7 @@ public class PurchaseController implements PurchaseBLService {
 		GoodsPO goodsPO;
 		ArrayList<PurchaseListItemPO> list=new ArrayList<PurchaseListItemPO>();
 		for(int i=0;i<purchaseReceiptVO.getPurchaseList().size();i++){
-			goodsPO=new GoodsPO
+			goodsPO=new GoodsPO() ;
 			list.add(new PurchaseListItemPO(goodsPO,purchaseReceiptVO.getPurchaseList().get(i).getQuantity()));
 			
 		}
