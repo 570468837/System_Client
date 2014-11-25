@@ -19,13 +19,13 @@ public class GoodsPO {
 	
 	public GoodsPO() {}
 	public GoodsPO(String serialNumber, String name, String model, 
-			int quantity, long price, long totalPrice, String comment) {
-		this.serialNumber = serialNumber;
-		this.name = name;
-		this.model = model;
-		this.price = price;
-		this.comment = comment;
-	};
+			 long price, String comment) {
+			this.serialNumber = serialNumber;
+			this.name = name;
+			this.model = model;
+			this.price = price;
+			this.comment = comment;
+		};
 	public GoodsPO(String serialNumber, String name, String model, 
 			int quantity, long price, long salePrice, long latestPrice,
 			long latestSalePrice, GoodsClassPO goodsClass) {
