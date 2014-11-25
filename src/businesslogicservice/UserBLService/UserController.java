@@ -91,4 +91,26 @@ public class UserController implements UserBLService  {
 		return uservos;
 	}
 
+	@Override
+	public ArrayList<UserVO> show() {
+		// TODO Auto-generated method stub
+		ArrayList<Object> objects=new ArrayList<Object>();
+		ArrayList<UserVO> uservos=new ArrayList<UserVO>();
+		Communication_Start com=new Communication_Start();
+		com.initial();
+		try {
+			objects=com.client.showObject("userShow");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		for(Object user:objects){
+			UserPO po=(UserPO)user;
+			UserVO vo=new UserVO(po.getUserName(), po.getPassword(), po.getUserSort(), po.getLevel());
+			uservos.add(vo);
+		}
+		return uservos;
+	}
+
 }

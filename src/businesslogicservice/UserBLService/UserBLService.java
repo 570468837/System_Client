@@ -11,4 +11,5 @@ public interface UserBLService {
     public ResultMessage delete(UserVO vo);
     public ResultMessage update(UserVO vo);
     public ArrayList<UserVO> find(String userName);
+    public ArrayList<UserVO> show();
 }

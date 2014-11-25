@@ -1,4 +1,4 @@
-package presentation;
+﻿package presentation;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,10 +20,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
 
+import businesslogicservice.UserBLService.UserController;
 import Config.UserSort;
-import presentation.ManagerFrame.MyTableModel;
+import VO.UserVO;
+
 
 public class AdminFrame extends JFrame{
 	private JLabel exitButton;
@@ -62,11 +64,20 @@ public class AdminFrame extends JFrame{
 			this.setBackground(new Color(147, 224, 255, 255));
 			this.setVisible(true);
 			
-			String[] columnTitle1={"用户名","用户身份","用户权限","用户信息"};
-			Object[][] tableData1={
-					new Object[]{"小明",UserSort.Commodity,4,"库存管理员"},
-					new Object[]{"小宇",UserSort.Finance,5,"财务人员"},
-					           };
+			String[] columnTitle1={"用户名","用户身份","用户权限(分为1、2、3级)","用户信息"};
+			
+			ArrayList<UserVO> uservos=new ArrayList<UserVO>(new UserController().show());
+			ArrayList<ArrayList<Object>> tableData1=new ArrayList<ArrayList<Object>>();
+			for(int i=0;i<uservos.size();i++){
+				ArrayList<Object> datas=new ArrayList<Object>();
+				datas.add(uservos.get(i).getUserName());
+				datas.add(uservos.get(i).getPassword());
+				datas.add(uservos.get(i).getUserSort());
+				datas.add(uservos.get(i).getLevel());
+				tableData1.add(datas);
+			}
+			
+			
 			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
 			
@@ -90,14 +101,22 @@ public class AdminFrame extends JFrame{
 			tablePane1.setLocation(80, 74);
 			this.add(tablePane1);
 			
+			JLabel addLabel = new JLabel("添加用户");
+			addLabel.setBounds(80, 25, 80, 35);
+			this.add(addLabel);
+			
+			JLabel deleteLabel = new JLabel("删除用户");
+			deleteLabel.setBounds(190, 25, 88, 35);
+			this.add(deleteLabel);
+			
 			theFrame.add(this);
 		}
 	}
 	
 	class MyTableModel extends AbstractTableModel{      //表格模型
-		private Object[][] tableData;
+		private ArrayList<ArrayList<Object>> tableData;
 		private String[] columnTitle;
-		public MyTableModel(Object[][] data,String[] title) {
+		public MyTableModel(ArrayList<ArrayList<Object>> data,String[] title) {
 			tableData=data;
 			columnTitle=title;
 		}
@@ -109,7 +128,7 @@ public class AdminFrame extends JFrame{
 		@Override
 		public int getRowCount() {
 			// TODO Auto-generated method stub
-			return tableData.length;
+			return tableData.size();
 		}
 
 		@Override
@@ -122,7 +141,7 @@ public class AdminFrame extends JFrame{
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			// TODO Auto-generated method stub
-			return tableData[rowIndex][columnIndex];
+			return tableData.get(rowIndex).get(columnIndex);
 		}
 		
 		public Class getColumnClass(int c) {  
@@ -137,13 +156,9 @@ public class AdminFrame extends JFrame{
 		 }
 		
 		public void setValueAt(Object value, int row, int col) {  
-	        tableData[row][col] = value;  
+	        tableData.get(row).set(col,  value);
 	        fireTableCellUpdated(row, col);  
 	    }	
-		
-		
-
-
 
 		
 	}
