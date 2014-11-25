@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import ResultMessage.ResultMessage;
 import VO.PurchaseReceiptVO;
+import VO.ScreeningConditionVO;
 
 public interface InfoBLService {
-	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(PurchaseReceiptVO receipt,PurchaseReceiptVO receipt2);
-	public ResultMessage showSalesProcessInfo(String label) ;
+	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition);
+	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) ;
 	public String showSalesConditionInfo(String time1 ,String time2) ;
-	public void deletReceipt(String label) ;//绾㈠啿
-	public void deletAndUpdateReceipt(String label) ; //绾㈠啿骞跺鍒�
+	public ResultMessage deletReceipt(String number) ;//红冲
+	public ResultMessage deletAndUpdateReceipt(String number) ; //红冲并复制
 }

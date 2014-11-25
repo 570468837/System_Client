@@ -4,16 +4,15 @@ import java.util.ArrayList;
 
 import ResultMessage.ResultMessage;
 import VO.PurchaseReceiptVO;
+import VO.ScreeningConditionVO;
 
 
 public class InfoBLService_Stub implements InfoBLService {
 
 	@Override
-	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(PurchaseReceiptVO theReceipt1,PurchaseReceiptVO theReceipt2) {
-		PurchaseReceiptVO receipt1 = theReceipt1;
-		PurchaseReceiptVO receipt2 = theReceipt2;
+	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
-		if(receipt1.getSerialNumber().equals("0001")){
+		if(condition.getTime1().equals("0001")){
 			System.out.println("success");
 			return new ArrayList<PurchaseReceiptVO>() ;
 		}else{
@@ -23,15 +22,15 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public ResultMessage showSalesProcessInfo(String label) {
+	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
-		if(label.equals("0001")){
+		if(condition.getTime1().equals("0001")){
 			System.out.println("success");
-			return ResultMessage.Exist ;
+			return null ;
 		}
 		else{
 			System.out.println("fail") ;
-			return ResultMessage.Not_Exist ;
+			return null ;
 		}
 	}
 
@@ -47,23 +46,25 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public void deletReceipt(String label) {
+	public ResultMessage deletReceipt(String label) {
 		// TODO Auto-generated method stub
 		if(label.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
 		}
+		return null ;
 	}
 
 	@Override
-	public void deletAndUpdateReceipt(String label) {
+	public ResultMessage deletAndUpdateReceipt(String label) {
 		// TODO Auto-generated method stub
 		if(label.equals("0001")) {
 			System.out.println("success") ;
 		}else{
 			System.out.println("fail") ;
 		}
+		return null ;
 //		return new ReceiptVO() ;
     }
 }
