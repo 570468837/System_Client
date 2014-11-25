@@ -1,9 +1,11 @@
 package PO;
 
+import java.io.Serializable;
+
 import Config.Level;
 import Config.Sort;
 
-public class CustomerPO {
+public class CustomerPO implements Serializable{
 	
 	//TODO 后期需要设置默认值，防止某个属性值为空报异常
 		private String number;

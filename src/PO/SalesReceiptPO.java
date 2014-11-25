@@ -1,9 +1,10 @@
 package PO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class SalesReceiptPO {
+public class SalesReceiptPO implements Serializable{
 	private String serialNumber;
 	//销售商
 	private String retailer;

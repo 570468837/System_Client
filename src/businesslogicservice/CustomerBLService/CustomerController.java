@@ -1,7 +1,11 @@
 package businesslogicservice.CustomerBLService;
 
+import java.rmi.RemoteException;
+
 import Config.Level;
 import Config.Sort;
+import PO.CustomerPO;
+import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 
@@ -9,48 +13,57 @@ public class CustomerController implements CustomerBLService {
 
 	@Override
 	public ResultMessage addCustomer(CustomerVO vo) {
-		if (vo.getAddress().equals("nju") && vo.getClerk().equals("kmn")
-				&& vo.getLevel() == Level.firstClass
-				&& vo.getMail().equals("123@qq.com")
-				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
-				&& vo.getSort() == Sort.importer
-				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.add_customer_success;
-		} else {
+		CustomerPO customerPO = new CustomerPO(vo.getNumber(), vo.getSort(),
+				vo.getLevel(), vo.getName(), vo.getPhone(), vo.getAddress(),
+				vo.getZipCode(), vo.getMail(), vo.getClerk());
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("customerAdd",customerPO);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return ResultMessage.add_customer_failure;
-
+			
 		}
 
 	}
 
 	@Override
 	public ResultMessage deleteCustomer(CustomerVO vo) {
-		if (vo.getAddress().equals("nju") && vo.getClerk().equals("kmn")
-				&& vo.getLevel() == Level.firstClass
-				&& vo.getMail().equals("123@qq.com")
-				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
-				&& vo.getSort() == Sort.importer
-				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.delete_customer_success;
-		} else {
+		CustomerPO customerPO = new CustomerPO(vo.getNumber(), vo.getSort(),
+				vo.getLevel(), vo.getName(), vo.getPhone(), vo.getAddress(),
+				vo.getZipCode(), vo.getMail(), vo.getClerk());
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("customerDelete",customerPO);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return ResultMessage.delete_customer_failure;
-
+			
 		}
 
 	}
 
 	@Override
 	public ResultMessage updateCustmer(CustomerVO vo) {
-		if (vo.getAddress().equals("nju") && vo.getClerk().equals("kmn")
-				&& vo.getLevel() == Level.firstClass
-				&& vo.getMail().equals("123@qq.com")
-				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
-				&& vo.getSort() == Sort.importer
-				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.update_customer_success;
-		} else {
+		CustomerPO customerPO = new CustomerPO(vo.getNumber(), vo.getSort(),
+				vo.getLevel(), vo.getName(), vo.getPhone(), vo.getAddress(),
+				vo.getZipCode(), vo.getMail(), vo.getClerk());
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("customerUpdate",customerPO);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			return ResultMessage.update_customer_failure;
-
+			
 		}
 
 	}
@@ -60,6 +73,5 @@ public class CustomerController implements CustomerBLService {
 		System.out.println("查找客户成功");
 		return null;
 	}
-
 
 }

@@ -1,13 +1,14 @@
 package businesslogicservice.PurchseBLService;
 
+import VO.CustomerVO;
 import VO.GoodsVO;
 import VO.PurchaseReceiptVO;
 
 public class PurchaseBLService_Driver {
 
 	public PurchaseBLService_Driver(PurchaseBLService purchaseController){
-		purchaseController.addGoods(new GoodsVO());
-		purchaseController.addMember("kmn");
+		purchaseController.updateGoods(new GoodsVO());
+		purchaseController.updateCustomer(new CustomerVO());
 		purchaseController.creatReceipt(new PurchaseReceiptVO());
 		purchaseController.getTotal(100,1);
 		
