@@ -115,8 +115,12 @@ public class CommodityFrame extends JFrame {
 		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
 		private ArrayList<JTable> jtList = new ArrayList<JTable>(); //用来获取jtable的全局引用，和jspList联用
+		
 		private JLabel backToRoot; //回到根商品分类键
 		private JLabel back; //退栈键
+		private JFrame 
+		    popFrame, //弹出选项的frame
+		    inputFrame; //
 		
 		public GoodsPanel(JFrame theFrame) {
 			super();
@@ -180,15 +184,10 @@ public class CommodityFrame extends JFrame {
 			table.getTableHeader().setFont(new Font("default", 1, 17));
 			table.getTableHeader().setPreferredSize(new Dimension(0, 45));
 			
-			createChildTable(table);
+			addListener(table);
 			
 			JScrollPane jsp = new JScrollPane(table);
-			if (body.length > 12) {
-				jsp.setBounds(25, 100, 120, 360);
-			}
-			else {
-				jsp.setBounds(25, 100, 120, body.length * 30 + 48);
-			}
+			jsp.setBounds(25, 70, 120 + 15, 360 + 48);
 			jsp.setPreferredSize(new Dimension(120, 360));
 	    	jsp.setHorizontalScrollBar(null);
 	    	jtList.add(table);
@@ -201,9 +200,7 @@ public class CommodityFrame extends JFrame {
 	    		@Override
 	    		public void mouseClicked(MouseEvent e) {
 	    			while(jspList.size() != 1) {
-	    				jspList.remove(jspList.size() - 1);
-	    				jtList.remove(jtList.size() - 1);
-	    				jspList.get(0).setVisible(true);
+	    				iniGoodsManager(); //重新构建，并刷新一遍
 	    			}
 	    		}
 	    	});
@@ -234,15 +231,153 @@ public class CommodityFrame extends JFrame {
 		 * 添加点击则自动产生子分类或子商品分类的响应，内含递归
 		 * @param table 要添加响应的表格
 		 */
-		private void createChildTable(JTable table) {
-			table.addMouseListener(new MouseAdapter() {
-				int x, y;
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					
-					
-				}
-			});
+		private void addListener(JTable table) {
+			//是商品分类表格
+			if(table.getColumnCount() == 1) {
+				table.getTableHeader().addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						popFrame = new JFrame();
+						popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 50);
+						popFrame.setUndecorated(true);
+						popFrame.setLayout(null);
+						JLabel add;
+						if(jspList.size() == 1) {
+							add = new JLabel("增加根分类", JLabel.CENTER);
+						}
+						else add = new JLabel("增加子分类", JLabel.CENTER);
+						add.setBounds(0, 0, 120, 25);
+						add.addMouseListener(new MouseAdapter() {
+							JTextField input;
+							JLabel submit, notice, cancel;
+							public void mouseClicked(MouseEvent e) {
+								if(inputFrame != null) inputFrame.setVisible(false);
+								popFrame.dispose();
+								inputFrame = new JFrame();
+								inputFrame.setUndecorated(true);
+								inputFrame.setLayout(null);
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 70);
+								notice = new JLabel("请输入要添加的商品分类名", JLabel.CENTER);
+								notice.setBounds(10, 0, 200, 30);
+								input = new JTextField();
+								input.setBounds(10, 30, 200, 30);
+								cancel = new JLabel("取消", JLabel.CENTER);
+								cancel.setBounds(210, 0, 50, 30);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
+								submit = new JLabel("添加", JLabel.CENTER);
+								submit.setBounds(210, 30, 50, 30);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										
+									}
+								});
+								
+								inputFrame.add(cancel);
+								inputFrame.add(notice);
+								inputFrame.add(input);
+								inputFrame.add(submit);
+								inputFrame.setVisible(true);
+							}
+						});
+						JLabel upd = new JLabel("更改", JLabel.CENTER);
+						upd.setBounds(0, 25, 120, 25);
+						if(jspList.size() == 1) {
+							upd.setEnabled(false);
+						}
+						else {
+							upd.addMouseListener(new MouseAdapter() {
+								JTextField input;
+								JLabel submit, notice, cancel;
+								public void mouseClicked(MouseEvent e) {
+									if(inputFrame != null) inputFrame.setVisible(false);
+									popFrame.dispose();
+									inputFrame = new JFrame();
+									inputFrame.setUndecorated(true);
+									inputFrame.setLayout(null);
+									inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 70);
+									notice = new JLabel("请输入更改后的商品分类名", JLabel.CENTER);
+									notice.setBounds(10, 0, 200, 30);
+									input = new JTextField();
+									input.setBounds(10, 30, 200, 30);
+									cancel = new JLabel("取消", JLabel.CENTER);
+									cancel.setBounds(210, 0, 50, 30);
+									cancel.addMouseListener(new MouseAdapter() {
+										public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+									});
+									submit = new JLabel("更改", JLabel.CENTER);
+									submit.setBounds(210, 30, 50, 30);
+									submit.addMouseListener(new MouseAdapter() {
+										public void mouseClicked(MouseEvent e) {
+											
+										}
+									});
+									
+									inputFrame.add(cancel);
+									inputFrame.add(notice);
+									inputFrame.add(input);
+									inputFrame.add(submit);
+									inputFrame.setVisible(true);
+								}
+							});
+						}
+						
+						popFrame.add(add);
+						popFrame.add(upd);
+						popFrame.setVisible(true);
+					}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						if(popFrame != null) popFrame.dispose();
+					}
+				});
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						popFrame = new JFrame();
+						popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 50);
+						popFrame.setUndecorated(true);
+						popFrame.setLayout(null);
+						JLabel ext = new JLabel("展开", JLabel.CENTER);
+						ext.setBounds(0, 0, 120, 25);
+						ext.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {}
+						});
+						JLabel del = new JLabel("删除", JLabel.CENTER);
+						del.setBounds(0, 25, 120, 25);
+						del.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {}
+						});
+						popFrame.add(ext);
+						popFrame.add(del);
+						
+						popFrame.setVisible(true);
+					}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						if(popFrame != null) popFrame.dispose();
+					}
+				});
+			}
+			//是商品表格
+			else {
+				table.getTableHeader().addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+					}
+				});
+				table.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+						
+					}
+				});
+			}
+			
+			
 		}
 		
 	}
