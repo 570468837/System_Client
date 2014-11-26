@@ -5,25 +5,15 @@ package VO;
  *
  */
 public class SendCommodityVO {
-	private GoodsVO goodsVO;
-	private CustomerVO customerVO;
-	private int num;
+	public long goodsVOId;
+	public String customerVOName;
+	public int num;
 	
 	public SendCommodityVO() {}
-	public SendCommodityVO(GoodsVO goodsVO, CustomerVO customerVO, int num) {
-		this.goodsVO = goodsVO;
-		this.customerVO = customerVO;
+	public SendCommodityVO(long goodsVOId, String customerVOName, int num) {
+		this.goodsVOId = goodsVOId;
+		this.customerVOName = customerVOName;
 		this.num = num;
-	}
-	
-	public GoodsVO getGoodsVO() {
-		return goodsVO;
-	}
-	public CustomerVO getCustomerVO() {
-		return customerVO;
-	}
-	public int getNum() {
-		return num;
 	}
 
 }

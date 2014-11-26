@@ -17,6 +17,8 @@ public class GoodsVO {
 	public long latestPrice;
 	public long latestSalePrice;
 	
+	public long id;//商品id
+	
 	public GoodsVO() {}
 	public GoodsVO(String serialNumber, String name, String model, 
 		 long price, String comment) {

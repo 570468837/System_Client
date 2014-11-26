@@ -5,18 +5,18 @@ package VO;
  *
  */
 public class GoodsClassVO {
-	public GoodsClassVO fatherGoodsClass;
-	public String goodsClassName;
-	public boolean isBottomGoodsClass = false;
+	public long fatherGoodsClassNum;
 	public long Num;//商品分类编号
+	public String goodsClassName;
+	
 	
 	public GoodsClassVO() {}
 	public GoodsClassVO(GoodsClassVO fatherGoodsClass, String name) {
-		this.fatherGoodsClass = fatherGoodsClass;
+		this.fatherGoodsClassNum = fatherGoodsClass.Num;
 		this.goodsClassName = name;
 	}
 	public GoodsClassVO(String name) {
-		this.fatherGoodsClass = null;
+		this.fatherGoodsClassNum = 0;
 		this.goodsClassName = name;
 	}
 	/**
@@ -28,17 +28,5 @@ public class GoodsClassVO {
 			return true;
 		return false;
 	}
-	/**
-	 * 根据分类名判断两个商品分类是否相同
-	 * @param goodsClassName
-	 * @return
-	 */
-	public boolean equal(String goodsClassName) {
-		if(this.goodsClassName.equals(goodsClassName))
-			return true;
-		return false;
-					
-	}
-	
 
 }

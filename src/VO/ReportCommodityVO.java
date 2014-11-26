@@ -5,20 +5,13 @@ package VO;
  *
  */
 public class ReportCommodityVO {
-	private GoodsVO goodsVO;
-	private int num;
+	public long goodsVOID;
+	public int num;
 	
 	public ReportCommodityVO() {}
-	public ReportCommodityVO(GoodsVO goodsVO, int num) {
-		this.goodsVO = goodsVO;
+	public ReportCommodityVO(long goodsVOID, int num) {
+		this.goodsVOID = goodsVOID;
 		this.num = num;
-	}
-	
-	public GoodsVO getGoodsVO() {
-		return goodsVO;
-	}
-	public int getNum() {
-		return num;
 	}
 	
 }
