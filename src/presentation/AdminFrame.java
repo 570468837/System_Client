@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,7 +31,7 @@ import VO.UserVO;
 public class AdminFrame extends JFrame{
 	private JLabel exitButton;
 	private JLabel manageLabel;
-	private adPanel adPanel=new adPanel(this);
+	private adminPanel adPanel=new adminPanel(this);
 	
 	public AdminFrame(){
 		this.setSize(1000, 600);
@@ -57,59 +59,92 @@ public class AdminFrame extends JFrame{
 		this.setVisible(true);
 	}
 	
-	class adPanel extends JPanel{
-		public adPanel(JFrame theFrame){
+	class adminPanel extends JPanel{
+		private JTable table1;
+		public adminPanel(JFrame theFrame){
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(147, 224, 255, 255));
 			this.setVisible(true);
 			
-			String[] columnTitle1={"用户名","用户身份","用户权限(分为1、2、3级)","用户信息"};
+			JLabel addLabel = new JLabel("添加用户");
+			addLabel.setBounds(80, 25, 80, 35);
+			this.add(addLabel);
 			
+			addLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					new addFrame();
+			}
+			});
+			
+			JLabel deleteLabel = new JLabel("删除用户");
+			deleteLabel.setBounds(190, 25, 88, 35);
+			this.add(deleteLabel);
+			
+			deleteLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					new deleteFrame();
+				}
+			});
+			
+			JLabel refreshLabel = new JLabel("刷新列表");
+			refreshLabel.setBounds(725, 25, 88, 35);
+			this.add(refreshLabel);
+			
+			refreshLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					tableRefresh();
+				}
+			});
+			
+			tableRefresh();    //刷新列表
+			
+			theFrame.add(this);
+		}
+		
+		public ArrayList<ArrayList<Object>> getTableData(){
 			ArrayList<UserVO> uservos=new ArrayList<UserVO>(new UserController().show());
-			ArrayList<ArrayList<Object>> tableData1=new ArrayList<ArrayList<Object>>();
+			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
 			for(int i=0;i<uservos.size();i++){
 				ArrayList<Object> datas=new ArrayList<Object>();
 				datas.add(uservos.get(i).getUserName());
 				datas.add(uservos.get(i).getPassword());
 				datas.add(uservos.get(i).getUserSort());
 				datas.add(uservos.get(i).getLevel());
-				tableData1.add(datas);
-			}
-			
-			
-			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+				tableData.add(datas);
+			} 
+			return tableData;
+		}
+		
+		public  void tableRefresh(){
+			String[] columnTitle={"用户名","用户密码","用户身份","用户等级"};
+			ArrayList<ArrayList<Object>> tableData=getTableData();
+			table1=new JTable(new MyTableModel(tableData,columnTitle));
 			table1.setFillsViewportHeight(true);     //显示表头
 			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table1.setDefaultRenderer(Object.class, render);
 		    
-		    table1.getModel().addTableModelListener(new TableModelListener(){
-		    	public void tableChanged(TableModelEvent e) {
+		    table1.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
+		    	public void tableChanged(TableModelEvent e) {     //进行的操作
 		    		int row = e.getFirstRow();
-		            int column = e.getColumn();
-		            //进行的操作
+		    		UserVO uservo=new UserVO(null, null, null, 0);
+		    		uservo.setUserName((String)table1.getValueAt(row, 0));
+		    		uservo.setPassword((String)table1.getValueAt(row, 1));
+		    		uservo.setUserSort((UserSort)table1.getValueAt(row, 2));
+		    		uservo.setLevel((int)table1.getValueAt(row, 3));
+		    		new UserController().update(uservo);
 		    	}
 		    	
 		    });
+		    table1.repaint();
 
-
-		    
 			JScrollPane tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(700,400);
 			tablePane1.setLocation(80, 74);
+			tablePane1.repaint();
 			this.add(tablePane1);
-			
-			JLabel addLabel = new JLabel("添加用户");
-			addLabel.setBounds(80, 25, 80, 35);
-			this.add(addLabel);
-			
-			JLabel deleteLabel = new JLabel("删除用户");
-			deleteLabel.setBounds(190, 25, 88, 35);
-			this.add(deleteLabel);
-			
-			theFrame.add(this);
 		}
 	}
 	
@@ -159,69 +194,182 @@ public class AdminFrame extends JFrame{
 	        tableData.get(row).set(col,  value);
 	        fireTableCellUpdated(row, col);  
 	    }	
-
+		
 		
 	}
 	
-	class setFrame extends JFrame{
-		private JTextField textfield;
-		public setFrame(){
-			this.setSize(400, 276);
+	class addFrame extends JFrame{
+		private JTextField nameField;
+		private JTextField passwordField;
+		public addFrame(){
+			this.setSize(503, 366);
+			this.setLocationRelativeTo(null);
+			this.setVisible(true);
+			getContentPane().setLayout(null);
+			
+			JLabel registerLabel = new JLabel("注册用户");
+			registerLabel.setFont(new Font("宋体",1,16));
+			registerLabel.setBounds(213, 28, 68, 24);
+			getContentPane().add(registerLabel);
+			
+			JLabel nameLabel = new JLabel("用户名：");
+			nameLabel.setBounds(134, 72, 55, 37);
+			getContentPane().add(nameLabel);
+			
+			nameField = new JTextField();
+			nameField.setBounds(213, 80, 127, 21);
+			getContentPane().add(nameField);
+			nameField.setColumns(10);
+			
+			JLabel passwordLabel = new JLabel("密  码：");
+			passwordLabel.setBounds(134, 122, 64, 15);
+			getContentPane().add(passwordLabel);
+			
+			passwordField = new JTextField();
+			passwordField.setColumns(10);
+			passwordField.setBounds(213, 119, 127, 21);
+			getContentPane().add(passwordField);
+			
+			JLabel userSortLabel = new JLabel("用户身份：");
+			userSortLabel.setBounds(134, 159, 68, 15);
+			getContentPane().add(userSortLabel);
+			
+			JComboBox userSortcomboBox = new JComboBox(new String[]{"库存管理人员","进货销售人员","财务人员","总经理","管理员"});
+			userSortcomboBox.setBounds(213, 156, 104, 21);
+			getContentPane().add(userSortcomboBox);
+			
+			JLabel userLevelLabel = new JLabel("用户等级：");
+			userLevelLabel.setBounds(134, 198, 68, 15);
+			getContentPane().add(userLevelLabel);
+			
+			JComboBox userLevelComboBox = new JComboBox(new String[]{"1","2","3"});
+			userLevelComboBox.setBounds(213, 195, 39, 21);
+			getContentPane().add(userLevelComboBox);
+			
+			JButton registerButton = new JButton("注册");
+			registerButton.setBounds(134, 250, 93, 37);
+			getContentPane().add(registerButton);
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(256, 250, 93, 37);
+			getContentPane().add(cancelButton);
+			
+			registerButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					UserVO newVO=new UserVO(nameField.getText(), passwordField.getText(),null,userLevelComboBox.getSelectedIndex()+1);
+					if(checkValid()){
+						switch((String)userSortcomboBox.getSelectedItem()){
+						case "库存管理人员":newVO.setUserSort(UserSort.Commodity); break;
+						case "进货销售人员":newVO.setUserSort(UserSort.PurchaseAndSaler); break;
+						case "财务人员": newVO.setUserSort(UserSort.Finance);  break;
+						case "总经理": newVO.setUserSort(UserSort.Manager);  break;
+						case "管理员": newVO.setUserSort(UserSort.Admin);  break;
+						}
+						new UserController().add(newVO);
+						dispose();
+					}
+					else{
+						new warningDialog("用户名和密码不能为空！");
+					}
+				}
+			});
+			
+			cancelButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					dispose();
+				}
+				
+			});
+		}
+		
+		public boolean checkValid(){
+			boolean valid=false;
+			if(!nameField.getText().equals("")&&!passwordField.getText().equals(""))
+				valid=true;
+			return valid;
+		}
+		
+	}
+
+	class deleteFrame extends JFrame{
+		private JPanel contentPane;
+		private JTextField textField;
+		private JButton confirmButton;
+		
+		public deleteFrame(){
+		this.setSize(503, 366);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+		getContentPane().setLayout(null);
+		
+		JLabel registerLabel = new JLabel("删除用户");
+		registerLabel.setFont(new Font("宋体",1,16));
+		registerLabel.setBounds(213, 28, 68, 24);
+		getContentPane().add(registerLabel);
+		
+		JLabel remindinglabel = new JLabel("请输入要删除的用户名：");
+		remindinglabel.setBounds(66, 121, 200, 51);
+		getContentPane().add(remindinglabel);
+		
+		textField = new JTextField();
+		textField.setBounds(206, 132, 213, 30);
+		textField.setColumns(10); 
+		getContentPane().add(textField);
+		
+		confirmButton = new JButton("确认删除");
+		confirmButton.setBounds(124, 249, 93, 37);
+		getContentPane().add(confirmButton);
+		
+		JButton cancelButton = new JButton("取消");
+		cancelButton.setBounds(282, 249, 93, 37);
+		getContentPane().add(cancelButton);
+		
+		confirmButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(checkValid()){
+					UserVO deleteUserVO=new UserVO(textField.getText(), null, null,0);
+					new UserController().delete(deleteUserVO);
+					dispose();
+				}
+				else{
+					new warningDialog("删除用户的用户名不能为空！");
+				}
+			}
+		});
+		
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				}
+			});
+		}
+		
+		
+		public boolean checkValid(){
+			if(!textField.getText().equals(""))
+				return true;
+			else
+				return false;
+		}
+	}
+	
+	class warningDialog extends JDialog{
+		public warningDialog(String warnings){
+			this.setSize(284, 158);
 			this.setLocationRelativeTo(null);
 			this.setLayout(null);
+			this.setVisible(true);
+			this.setModal(true);
 			
-			JLabel label = new JLabel("请设置新的用户权限");
-			label.setFont(new Font("宋体",1,16));
-			label.setBounds(118, 10, 162, 50);
-			getContentPane().add(label);
+			JLabel warningLabel = new JLabel(warnings);
+			warningLabel.setBounds(62, 28, 200, 50);
+			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
 			
-			JButton button1 = new JButton("1");
-			button1.setBounds(29, 85, 100, 29);
-			getContentPane().add(button1);
-			
-			JButton button2 = new JButton("2");
-			button2.setBounds(147, 85, 100, 29);
-			getContentPane().add(button2);
-			
-			JButton button3 = new JButton("3");
-			button3.setBounds(257, 85, 100, 29);
-			getContentPane().add(button3);
-			
-			JLabel label_1 = new JLabel("您选择的是：");
-			label_1.setBounds(29, 153, 72, 40);
-			getContentPane().add(label_1);
-			
-			JTextField textField = new JTextField();
-			textField.setBounds(99, 163, 66, 21);
-			getContentPane().add(textField);
-			textField.setColumns(10);
-			
-			button1.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					textField.setText("1");
-				}
-			});
-			button2.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					textField.setText("2");
-				}
-			});
-			button3.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					textField.setText("3");
-				}
-			});
-			
-			JButton comButton = new JButton("完成");
-			comButton.setBounds(223, 162, 93, 23);
-			getContentPane().add(comButton);
-		}
-		
-		public String getContent(){
-			return textfield.getText();
+			this.add(warningLabel);
 		}
 	}
-	
 	public static void main(String[] args){
 		new AdminFrame();
 	}
