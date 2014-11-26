@@ -20,7 +20,7 @@ public class CustomerController implements CustomerBLService {
 		com.initial();
 		
 		try {
-			return com.client.messageCommand("customerAdd",customerPO);
+			return com.client.messageCommand("addCustomer",customerPO);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +39,7 @@ public class CustomerController implements CustomerBLService {
 		com.initial();
 		
 		try {
-			return com.client.messageCommand("customerDelete",customerPO);
+			return com.client.messageCommand("deleteCustomer",customerPO);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

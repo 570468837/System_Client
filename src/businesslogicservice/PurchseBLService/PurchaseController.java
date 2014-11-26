@@ -42,12 +42,7 @@ public class PurchaseController implements PurchaseBLService {
 						.getUserVO().getLevel());
 
 		GoodsPO goodsPO;
-<<<<<<< Updated upstream
-		ArrayList<PurchaseListItemPO> list=new ArrayList<PurchaseListItemPO>();
-		for(int i=0;i<purchaseReceiptVO.getPurchaseList().size();i++){
-			goodsPO=new GoodsPO() ;
-			list.add(new PurchaseListItemPO(goodsPO,purchaseReceiptVO.getPurchaseList().get(i).getQuantity()));
-=======
+
 		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
 		for (int i = 0; i < purchaseReceiptVO.getPurchaseList().size(); i++) {
 			goodsPO = new GoodsPO(
@@ -56,7 +51,6 @@ public class PurchaseController implements PurchaseBLService {
 					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().model,
 					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().price,
 					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().comment);
->>>>>>> Stashed changes
 			
 			list.add(new PurchaseListItemPO(goodsPO, purchaseReceiptVO
 					.getPurchaseList().get(i).getQuantity()));

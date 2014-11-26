@@ -19,7 +19,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class SalesmanFrame extends JFrame {
 	
 
-	private JLabel backgroundLabel,exitButton,customerLabel,salesLabel,purchaseLabel;
+	private JLabel exitButton,customerLabel,salesLabel,purchaseLabel;
 	private CustomerPanel customerPanel=new CustomerPanel(this);
 	private SalesPanel salesPanel=new SalesPanel(this);
 	private PurchasePanel purchasePanel=new PurchasePanel(this);
@@ -42,6 +42,7 @@ public class SalesmanFrame extends JFrame {
 	    });
 		
 		customerLabel = new JLabel("客户管理", JLabel.CENTER);
+		customerLabel.setBackground(new Color(147, 224, 255, 255));
 		customerLabel.setBounds(40, 100, 100, 50);
 		customerLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -52,6 +53,7 @@ public class SalesmanFrame extends JFrame {
 		});
 		
 		salesLabel = new JLabel("销售管理", JLabel.CENTER);
+		salesLabel.setBackground(new Color(185, 227, 217, 255));
 		salesLabel.setBounds(40, 160, 100, 50);
 		salesLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -63,6 +65,7 @@ public class SalesmanFrame extends JFrame {
 		
 		purchaseLabel = new JLabel("进货管理", JLabel.CENTER);
 		purchaseLabel.setBounds(40, 220, 100, 50);
+		purchaseLabel.setBackground(new Color(173, 137, 115, 255));
 		purchaseLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				customerPanel.setVisible(false);

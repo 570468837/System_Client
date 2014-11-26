@@ -2,6 +2,9 @@ package VO;
 
 import java.util.ArrayList;
 
+import PO.SalesListItemPO;
+import PO.UserPO;
+
 public class SalesReceiptVO {
 	
 	private String serialNumber;
@@ -15,8 +18,61 @@ public class SalesReceiptVO {
 	private double discout;
 	private double finalprice;
 	private String comment;
+	private String time;
+	
+	
 	//防止调用add方法时指针异常，所以要先初始化
-	private ArrayList<SalesListItemVO> salesList=new ArrayList<SalesListItemVO>();
+		private ArrayList<SalesListItemVO> salesList=new ArrayList<SalesListItemVO>();
+		
+		public SalesReceiptVO(){}
+		
+		public SalesReceiptVO(String serialNumber, String retailer,
+				String salesman, ArrayList<SalesListItemVO> salesList,
+				UserVO userVO, String commodityNum, double priceBefore,
+				double discount, double finalPrice, String time, String comments) {
+			this.serialNumber=serialNumber;
+			this.retailer=retailer;
+			this.salesman=salesman;
+			this.userVO=userVO;
+			this.commodityNum=commodityNum;
+			this.priceBefore=priceBefore;
+			this.discout=discount;
+			this.finalprice=finalPrice;
+			this.comment=comments;
+			this.time=time;
+			this.salesList=salesList;
+
+		}
+		
+	public double getPriceBefore() {
+		return priceBefore;
+	}
+
+
+	public void setPriceBefore(double priceBefore) {
+		this.priceBefore = priceBefore;
+	}
+
+
+	public String getTime() {
+		return time;
+	}
+
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+
+	public void setDiscout(double discout) {
+		this.discout = discout;
+	}
+
+
+	public void setFinalprice(double finalprice) {
+		this.finalprice = finalprice;
+	}
+	
 	
 	public void addSalesListItem(SalesListItemVO saleListItem){
 		this.salesList.add(saleListItem);		
