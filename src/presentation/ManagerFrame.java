@@ -325,6 +325,12 @@ public class ManagerFrame extends JFrame{
 			add2.setBounds(200,40,130,20);
 			this.add(add2);
 			
+			add2.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					new ManagerFrameHelper("gifts");
+				}
+			});
+			
 			JLabel add3=new JLabel("添加达总价送赠品策略");
 			add3.setBounds(360,40,130,20);
 			this.add(add3);
