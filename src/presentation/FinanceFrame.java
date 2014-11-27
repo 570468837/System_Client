@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import VO.AccountVO;
 import businesslogicservice.FinanceBLService.FinanceController;
 
@@ -100,6 +99,11 @@ public class FinanceFrame extends JFrame{
 			accountFind.setBounds(300,23,120,50) ;
 			this.add(accountFind) ;
 			theFrame.add(this) ;
+			accountFind.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					new FindAccount() ;
+				}
+			});
 			
 			
 			String[] columnNames = {"名称","金额"} ;
@@ -154,7 +158,7 @@ public class FinanceFrame extends JFrame{
 					public void mouseClicked(MouseEvent e){
 						String name = nameField.getText() ;
 			    		String balance =balanceField.getText() ;
-				    	if(!(name.equals(null) || balance.equals(null))){
+				    	if(!(name.equals("") || balance.equals(""))){
 				    		/*
 				    		 * 调用addAccount方法
 				    		 */
@@ -214,7 +218,7 @@ public class FinanceFrame extends JFrame{
 			deleteButton.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e){
 					String name = nameField.getText() ;
-					if(!name.equals(null)){
+					if(!name.equals("")){
 	     		  		fController.deletAccount(new AccountVO(name,0)) ;
 				    	dispose();
 					}
@@ -232,8 +236,57 @@ public class FinanceFrame extends JFrame{
 		}
 
 }
-	
-	
+	class FindAccount extends JFrame{
+
+		private JPanel findAccountPane;
+		private JTextField nameField;
+
+		/**
+		 * Create the frame.
+		 */
+		public FindAccount() {
+			this.setTitle("查找账户");
+			this.setVisible(true);
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			setBounds(500, 200, 307, 220);
+			findAccountPane = new JPanel();
+			findAccountPane.setBorder(new EmptyBorder(5, 5, 1, 5));
+			setContentPane(findAccountPane);
+			findAccountPane.setLayout(null);
+			
+			JLabel nameLabel = new JLabel("账户名称：");
+			nameLabel.setBounds(45, 69, 100, 15);
+			findAccountPane.add(nameLabel);
+			
+			nameField = new JTextField();
+			nameField.setBounds(165, 66, 119, 21);
+			findAccountPane.add(nameField);
+			nameField.setColumns(10);
+			
+			JButton findButton = new JButton("确定");
+			findButton.setBounds(60, 146, 93, 23);
+			findAccountPane.add(findButton);
+			findButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					String nameOfAccount = nameField.getText() ;
+					if(!nameOfAccount.equals("")){
+						fController.findAccount(nameOfAccount) ;
+						dispose() ;
+					}
+				}
+			});
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(191, 146, 93, 23);
+			findAccountPane.add(cancelButton);
+			cancelButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					dispose() ;
+				}
+			});
+		}
+
+	}
 	
 	
 	
