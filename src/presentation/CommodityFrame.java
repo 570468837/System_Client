@@ -115,6 +115,7 @@ public class CommodityFrame extends JFrame {
 	class GoodsPanel extends JPanel {
 		private JPanel goodsPanel = this;
 		private ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
+		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
 		private ArrayList<JTable> jtList = new ArrayList<JTable>(); //用来获取jtable的全局引用，和jspList联用
 		
@@ -277,7 +278,7 @@ public class CommodityFrame extends JFrame {
 		 */
 		private void addListener(JTable table) {
 			//是商品分类表格
-			if(table.getColumnCount() == 1) {
+			if(table.getColumnCount() == 1 && table.getRowCount() != 0) {
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -414,8 +415,42 @@ public class CommodityFrame extends JFrame {
 						ext = new JLabel("展开", JLabel.CENTER);
 						ext.setBounds(0, 0, 120, 25);
 						ext.addMouseListener(new MouseAdapter() {
+							ArrayList<GoodsClassVO> classBufferList;
+							ArrayList<GoodsVO> bufferList;
 							public void mouseClicked(MouseEvent e) {
-								//
+								GoodsClassVO father = gc.getGoodsClassByInfo(className);
+								classBufferList = new ArrayList<GoodsClassVO>();
+								Iterator<GoodsClassVO> classIter = gcvList.iterator();
+								GoodsClassVO gcv;
+								while(classIter.hasNext()) {
+									gcv = classIter.next();
+									if(father.Num == gcv.fatherGoodsClassNum) 
+										classBufferList.add(gcv);
+								}
+								if(classBufferList.size() != 0) {
+									//子目录下还是分类
+								}
+								else {
+									bufferList = new ArrayList<GoodsVO>();
+									Iterator<GoodsVO> iter = gvList.iterator();
+									GoodsVO gv;
+									while(iter.hasNext()) {
+										gv = iter.next();
+										if(gv.goodsClassName.equals(className)) 
+											bufferList.add(gv);
+									}
+									if(bufferList.size() != 0) {
+										//子目录下是商品
+									}
+									else {
+										//子目录下为空
+										
+										
+									}
+								}
+								
+								
+								
 							}
 						});
 						del = new JLabel("删除", JLabel.CENTER);
@@ -438,6 +473,15 @@ public class CommodityFrame extends JFrame {
 					@Override
 					public void mouseEntered(MouseEvent e) {
 						if(popFrame != null) popFrame.dispose();
+					}
+				});
+			}
+			//是空的商品分类表格
+			else if(table.getColumnCount() == 1 && table.getRowCount() == 0) {
+				table.getTableHeader().addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
 					}
 				});
 			}
