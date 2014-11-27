@@ -5,12 +5,12 @@ package VO;
  *
  */
 public class ReportCommodityVO {
-	public String goodsVOID;
+	public long goodsVOID;
 	public int num;
 	
 	public ReportCommodityVO() {}
 	public ReportCommodityVO(String goodsVOID, int num) {
-		this.goodsVOID = goodsVOID;
+		this.goodsVOID = Long.parseLong(goodsVOID);
 		this.num = num;
 	}
 	

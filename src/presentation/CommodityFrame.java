@@ -115,7 +115,6 @@ public class CommodityFrame extends JFrame {
 	class GoodsPanel extends JPanel {
 		private JPanel goodsPanel = this;
 		private ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
-		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
 		private ArrayList<JTable> jtList = new ArrayList<JTable>(); //用来获取jtable的全局引用，和jspList联用
 		
@@ -313,7 +312,7 @@ public class CommodityFrame extends JFrame {
 								submit.setBounds(210, 30, 50, 30);
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
-										
+										//
 									}
 								});
 								
@@ -353,7 +352,7 @@ public class CommodityFrame extends JFrame {
 									submit.setBounds(210, 30, 50, 30);
 									submit.addMouseListener(new MouseAdapter() {
 										public void mouseClicked(MouseEvent e) {
-											
+											//
 										}
 									});
 									
@@ -385,13 +384,17 @@ public class CommodityFrame extends JFrame {
 						JLabel ext = new JLabel("展开", JLabel.CENTER);
 						ext.setBounds(0, 0, 120, 25);
 						ext.addMouseListener(new MouseAdapter() {
-							public void mouseClicked(MouseEvent e) {}
+							public void mouseClicked(MouseEvent e) {
+								//
+							}
 						});
 						JLabel del = new JLabel("删除", JLabel.CENTER);
 						del.setBounds(0, 25, 120, 25);
 						
 						del.addMouseListener(new MouseAdapter() {
-							public void mouseClicked(MouseEvent e) {}
+							public void mouseClicked(MouseEvent e) {
+								//
+							}
 						});
 						popFrame.add(ext);
 						popFrame.add(del);

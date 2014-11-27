@@ -14,7 +14,7 @@ public class GoodsBLService_Stub implements GoodsBLService {
 	
 
 	@Override
-	public GoodsVO getGoodsByID(String id) {
+	public GoodsVO getGoodsByID(long id) {
 		
 		return null;
 	}
@@ -26,7 +26,7 @@ public class GoodsBLService_Stub implements GoodsBLService {
 	}
 
 	@Override
-	public GoodsClassVO getGoodsClassByID(String id) {
+	public GoodsClassVO getGoodsClassByID(long id) {
 		
 		return null;
 	}
@@ -44,7 +44,7 @@ public class GoodsBLService_Stub implements GoodsBLService {
 	}
 
 	@Override
-	public ResultMessage delGoods(String id) {
+	public ResultMessage delGoods(long id) {
 		
 		return ResultMessage.delete_success;
 	}
