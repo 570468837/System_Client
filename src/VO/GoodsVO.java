@@ -5,23 +5,23 @@ package VO;
  *
  */
 public class GoodsVO {
-	public String serialNumber;
+	public String serialNumber; //即id
 	public String name;
 	public String model;
-	public long price;
+	public double price;
 	public String comment;
 	
 	
 	public String goodsClassName; //商品分类名
-	public long salePrice;
-	public long latestPrice;
-	public long latestSalePrice;
+	public double salePrice;
+	public double latestPrice;
+	public double latestSalePrice;
+	public int commodityQuantity; //库存数量
 	
-	public long id;//商品id
 	
 	public GoodsVO() {}
 	public GoodsVO(String serialNumber, String name, String model, 
-		 long price, String comment) {
+			double price, String comment) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
@@ -29,8 +29,8 @@ public class GoodsVO {
 		this.comment = comment;
 	};
 	public GoodsVO(String serialNumber, String name, String model, 
-		 long price, long salePrice, long latestPrice,
-			long latestSalePrice, String goodsClassName) {
+		 double price, double salePrice, double latestPrice,
+		 double latestSalePrice, String goodsClassName) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;

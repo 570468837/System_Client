@@ -33,7 +33,7 @@ public class GoodsBLService_Driver {
 			System.out.println("goods add failure");
 		}
 		
-		resultMessage = goodsController.delGoods(0);
+		resultMessage = goodsController.delGoods("0");
 		if(resultMessage == ResultMessage.delete_success) {
 			System.out.println("goods del success");
 		}

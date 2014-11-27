@@ -113,6 +113,7 @@ public class CommodityFrame extends JFrame {
 	 * 商品管理的panel
 	 */
 	class GoodsPanel extends JPanel {
+		private JPanel goodsPanel = this;
 		private ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
 		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
@@ -124,6 +125,7 @@ public class CommodityFrame extends JFrame {
 		private JFrame 
 		    popFrame, //弹出选项的frame
 		    inputFrame; //
+		
 		
 		public GoodsPanel(JFrame theFrame) {
 			super();
@@ -150,7 +152,45 @@ public class CommodityFrame extends JFrame {
 			searchLabel.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent event) {
-					//隐藏goodsmanager的组件，显示搜索的表格     
+					//隐藏goodsmanager的组件，显示搜索的表格
+					jspList.get(jspList.size() - 1).setVisible(false);
+					String[] head = {"编号", "名称", "型号", "库存数量", "进价", "零售价", "最近进价", "最近零售价"};
+					ArrayList<GoodsVO> searchResult = gc.searchGoods(searchField.getText());
+					String[][] body = new String[searchResult.size()][8];
+					Iterator<GoodsVO> iter = searchResult.iterator();
+					GoodsVO gv;
+					int i = 0;
+					while(iter.hasNext()) {
+						gv = iter.next();
+						body[i][0] = gv.serialNumber;
+						body[i][1] = gv.name;
+						body[i][2] = gv.model;
+						body[i][3] = Integer.toString(gv.commodityQuantity);
+						body[i][4] = Double.toString(gv.price);
+						body[i][5] = Double.toString(gv.salePrice);
+						body[i][6] = Double.toString(gv.latestPrice);
+						body[i][7] = Double.toString(gv.latestSalePrice);
+						i ++;
+					}
+					JTable searchTable = new JTable(body, head);
+					searchTable.setAutoResizeMode(0);
+					searchTable.setRowHeight(25);
+					searchTable.setPreferredSize(new Dimension(825, body.length * 25));
+					searchTable.setEnabled(false);
+					searchTable.setFont(new Font("default", 0, 16));
+					searchTable.getTableHeader().setReorderingAllowed(false);
+					searchTable.getTableHeader().setEnabled(false);
+					searchTable.getTableHeader().setFont(new Font("default", 1, 17));
+					searchTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
+					searchTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+					JScrollPane jsp = new JScrollPane(searchTable);
+					jsp.setHorizontalScrollBar(null);
+					jsp.setBounds(5, 100, 825, 400);
+					jsp.setPreferredSize(new Dimension(825, 400));
+					
+					jspList.add(jsp);
+					jtList.add(searchTable);
+					goodsPanel.add(jsp);
 				}
 		    });
 			this.add(searchField);
@@ -831,7 +871,7 @@ public class CommodityFrame extends JFrame {
 									new ReportCommodityVO(
 											gc.getGoodsByInfo(
 													((JTextField)reportComponent[0]).getText(), 
-													((JTextField)reportComponent[1]).getText()).id, num))
+													((JTextField)reportComponent[1]).getText()).serialNumber, num))
 									== ResultMessage.add_success)
 								infoBoard.setText("添加成功");
 							else infoBoard.setText("添加失败");
@@ -920,7 +960,7 @@ public class CommodityFrame extends JFrame {
 							if(cc.addSendCommodity(new SendCommodityVO(
 									gc.getGoodsByInfo(
 											((JTextField)sendComponent[1]).getText(),
-											((JTextField)sendComponent[2]).getText()).id,
+											((JTextField)sendComponent[2]).getText()).serialNumber,
 									((JTextField)sendComponent[0]).getText(),
 									num)) == ResultMessage.add_success)
 								infoBoard.setText("添加成功");
