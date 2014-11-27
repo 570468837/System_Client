@@ -1,7 +1,10 @@
 package businesslogicservice.PromotionBLService;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collection;
 
+import Config.PromotionSort;
 import PO.PromotionPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
@@ -74,6 +77,33 @@ public class PromotionController implements PromotionBLService {
 		}
 		return result;
 	}
+
+	public ArrayList<PromotionVO> show() {
+		ArrayList<Object> objs=new ArrayList<Object>();
+		ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
+		Communication_Start com=new Communication_Start();
+		com.initial();
+		try {
+			objs=com.client.showObject("promotionShow");
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Object obj:objs){
+			PromotionPO po=(PromotionPO)obj;
+			PromotionVO vo=new PromotionVO(po.getPromotionType(), po.getPromotionId(), 
+					po.getPromotionGoods(), po.getLeastPrice(), po.getOffPrice(), po.getPresents(), 
+					po.getVoucher(), po.getStartTime(), po.getEndTime(), po.getCustomer());
+			switch(vo.getPromotionType()){
+			case Package:vo.setLeastPrice(0);vo.setPresents(null);vo.setVoucher(0); break;
+			case Gifts: vo.setPromotionGoods(null); vo.setOffPrice(0);vo.setVoucher(0); break;
+			case Voucher:vo.setPromotionGoods(null); vo.setOffPrice(0); vo.setPresents(null);break;
+			}
+			promotions.add(vo);
+		}
+		return promotions;
+	}
+
 
 
 }

@@ -1,10 +1,13 @@
 package PO;
+
+import java.io.Serializable;
+
 /**
  * 
  * @author hutao
  *
  */
-public class GoodsClassPO {
+public class GoodsClassPO implements Serializable{
 	GoodsClassPO goodsClass;
 	
 	public GoodsClassPO() {}

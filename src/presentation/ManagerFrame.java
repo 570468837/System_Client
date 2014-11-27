@@ -24,14 +24,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import businesslogicservice.PromotionBLService.PromotionController;
+import businesslogicservice.UserBLService.UserController;
+import presentation.AdminFrame.MyTableModel;
 import Config.Level;
+import Config.PromotionSort;
+import PO.GoodsPO;
 import PO.UserPO;
 import VO.GoodsVO;
+import VO.PromotionVO;
+import VO.UserVO;
 
 public class ManagerFrame extends JFrame{
 	private JLabel backgroundLabel,exitButton,crLabel,infoLabel,promotionLabel;
@@ -157,7 +166,7 @@ public class ManagerFrame extends JFrame{
 				}
 			});
 			// 表一
-			String[] columnTitle1={"单据编号","供应商","仓库","操作员","入库商品列表","备注","总额合计","审批通过"};
+			/*String[] columnTitle1={"单据编号","供应商","仓库","操作员","入库商品列表","备注","总额合计","审批通过"};
 			Object[][] tableData1={
 					new Object[]{"JH123","胡韬","1号","高杨","暂无","^",1000,new Boolean(false)},
 					new Object[]{"JH124","小宇","2号","高杨","暂无","^",2000,new Boolean(false)},
@@ -197,7 +206,7 @@ public class ManagerFrame extends JFrame{
 						for(int i=0;i<table1.getRowCount();i++)
 							table1.setValueAt(false, i, 7);
 						}
-			});     
+			});       */
 			
 			// 表二
 			String[] columnTitle2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注","审批通过"};
@@ -205,7 +214,7 @@ public class ManagerFrame extends JFrame{
 					new Object[]{"TH123","胡韬","姚锰舟","高杨","0011","^",1000,20,50,980,"无",new Boolean(false)},
 					new Object[]{"TH124","小宇","姚锰舟","高杨","0011","^",2000,40,100,1960,"无",new Boolean(false)},
 					           };
-			JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
+		/*	JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
 			table2.setFillsViewportHeight(true);     //显示表头
 			
 		    table2.setDefaultRenderer(Object.class, render);
@@ -214,7 +223,7 @@ public class ManagerFrame extends JFrame{
 			JScrollPane tablePane2=new JScrollPane(table2);
 			tablePane2.setSize(630,400);
 			tablePane2.setLocation(50, 10);
-			panel2.add(tablePane2);
+			panel2.add(tablePane2);  
 				
 			JButton allButton2=new JButton("全选");
 			allButton2.setBounds(685,150,73,30);
@@ -238,15 +247,13 @@ public class ManagerFrame extends JFrame{
 						for(int i=0;i<table2.getRowCount();i++)
 							table2.setValueAt(false, i, 11);
 						}
-			});     
+			});     */
 
 			// 表三
 			String[] columnTitle3={"单据类型","单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
-			Object[][] tableData3={
-					new Object[]{"进货单","XY1321324","飞利浦","胡韬","暂无",1000,new Boolean(false)},
-					new Object[]{"销售单","DI123143","东芝","高杨逸乔","暂无",2000,new Boolean(false)},
-					           };
-			JTable table3=new JTable(new MyTableModel(tableData3,columnTitle3));
+			ArrayList<ArrayList<Object>> tableData3=new ArrayList<ArrayList<Object>>();
+			
+			/*JTable table3=new JTable(new MyTableModel(tableData3,));
 			table3.setFillsViewportHeight(true);     //显示表头
 			
 		    table3.setDefaultRenderer(Object.class, render);
@@ -255,7 +262,7 @@ public class ManagerFrame extends JFrame{
 			JScrollPane tablePane3=new JScrollPane(table3);
 			tablePane3.setSize(630,400);
 			tablePane3.setLocation(50, 10);
-			panel3.add(tablePane3);
+			panel3.add(tablePane3);   
 			
 			JButton allButton3=new JButton("全选");
 			allButton3.setBounds(685,150,73,30);
@@ -280,11 +287,11 @@ public class ManagerFrame extends JFrame{
 						for(int i=0;i<table3.getRowCount();i++)
 							table3.setValueAt(false, i, 6);
 						}
-			});          
+			});          */
 			
 			theFrame.add(this);
 		}
-	}
+	}  
 	
 	class InfoPanel extends JPanel {     //查看报表信息panel
 		//private JTable goodsTable;
@@ -297,39 +304,110 @@ public class ManagerFrame extends JFrame{
 		}
 	}
 	
-	class PromotionPanel extends JPanel {     //指定促销策略panel
-		//private JTable goodsTable;
+	class PromotionPanel extends JPanel {     //制定促销策略panel
+		private JTable table;
 		public PromotionPanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(173, 137, 115, 255));
 			
-			String[] columnTitle={"策略类型","策略编号","组合商品降价","优惠需达金额","降价金额","赠品列表",
-					"赠送代金券金额","起始时间","终止时间","客户最低等级"};
-			Object[][] tableData={
-					new Object[]{"Gifts","P123",new ArrayList<GoodsVO>(),100,20,"无",10,"2014-11-12","2015-01-01","无"},
-					new Object[]{"Voucher","P124",new ArrayList<GoodsVO>(),300,60,"无",10,"2014-11-14","2015-01-23","无"},
-					           };
-			JTable table=new JTable(new MyTableModel(tableData,columnTitle));
-			table.setFillsViewportHeight(true);     //显示表头
-			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
-		    render.setHorizontalAlignment(SwingConstants.CENTER);
-            table.setDefaultRenderer(Object.class, render);
-		    
-		    
-			JScrollPane tablePane=new JScrollPane(table);
-			tablePane.setSize(700,400);
-			tablePane.setLocation(80, 74);
-			this.add(tablePane);
+			JLabel add1=new JLabel("添加特价包策略");
+			add1.setBounds(80,40,100,20);
+			this.add(add1);
+			
+			JLabel add2=new JLabel("添加达总价送赠品策略");
+			add2.setBounds(200,40,130,20);
+			this.add(add2);
+			
+			JLabel add3=new JLabel("添加达总价送赠品策略");
+			add3.setBounds(360,40,130,20);
+			this.add(add3);
+			
+			JLabel delete=new JLabel("删除策略");
+			delete.setBounds(520,40,130,20);
+			this.add(delete);
+			
+			JLabel refresh=new JLabel("刷新列表");
+			refresh.setBounds(727,40,130,20);
+			this.add(refresh);
+			
+			refresh.addMouseListener(new MouseAdapter(){
+				public void mouseClicked(MouseEvent e) {
+					tableRefresh();
+				}
+			});
+			
+			tableRefresh();
 		
 			theFrame.add(this);
+		}
+		
+		public ArrayList<ArrayList<Object>> getTableData(){
+			ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>(new PromotionController().show());
+			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
+			for(int i=0;i<promotions.size();i++){
+				ArrayList<Object> datas=new ArrayList<Object>();
+				datas.add((PromotionSort)promotions.get(i).getPromotionType());
+				datas.add((String)promotions.get(i).getPromotionId());
+				datas.add((ArrayList<GoodsPO>)promotions.get(i).getPromotionGoods());
+				datas.add((double)promotions.get(i).getLeastPrice());
+				datas.add((double)promotions.get(i).getOffPrice());
+				datas.add((ArrayList<GoodsPO>)promotions.get(i).getPresents());
+				datas.add((int)promotions.get(i).getVoucher());
+				datas.add((String)promotions.get(i).getStartTime());
+				datas.add((String)promotions.get(i).getEndTime());
+				datas.add((Level)promotions.get(i).getCustomer());
+				switch ((PromotionSort)datas.get(0)) {
+				case Package:
+					datas.set(3, 0);  //leastPrice
+					datas.set(5, "无");   //presents
+					datas.set(6, 0);   //voucher
+					break;
+				case Gifts:
+					datas.set(2, "无");
+					datas.set(4, 0);
+					datas.set(6,0);
+					break;
+				case Voucher:
+					datas.set(2, "无");
+					datas.set(4, 0);
+					datas.set(5, "无");
+					break;
+				}
+				tableData.add(datas);
+			} 
+			return tableData;
+		}
+		
+		public  void tableRefresh(){
+			String[] columnTitle={"策略类型","策略编号","组合商品降价","优惠需达金额","降价金额","赠品列表",
+					"赠送代金券金额","起始时间","终止时间","客户最低等级"};
+			ArrayList<ArrayList<Object>> tableData=getTableData();
+			table=new JTable(new MyTableModel(tableData,columnTitle));
+			table.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+		    table.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
+		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+		    	}
+		    });
+		    table.repaint();
+		    
+		    JScrollPane tablePane=new JScrollPane(table);
+		    tablePane.setSize(700,400);
+			tablePane.setLocation(80, 74);
+			tablePane.repaint();
+			this.add(tablePane);
 		}
 	}
 	
 	class MyTableModel extends AbstractTableModel{      //表格模型
-		private Object[][] tableData;
+		private ArrayList<ArrayList<Object>> tableData;
 		private String[] columnTitle;
-		public MyTableModel(Object[][] data,String[] title) {
+		public MyTableModel(ArrayList<ArrayList<Object>> data,String[] title) {
 			tableData=data;
 			columnTitle=title;
 		}
@@ -341,7 +419,7 @@ public class ManagerFrame extends JFrame{
 		@Override
 		public int getRowCount() {
 			// TODO Auto-generated method stub
-			return tableData.length;
+			return tableData.size();
 		}
 
 		@Override
@@ -354,7 +432,7 @@ public class ManagerFrame extends JFrame{
 		@Override
 		public Object getValueAt(int rowIndex, int columnIndex) {
 			// TODO Auto-generated method stub
-			return tableData[rowIndex][columnIndex];
+			return tableData.get(rowIndex).get(columnIndex);
 		}
 		
 		public Class getColumnClass(int c) {  
@@ -366,21 +444,15 @@ public class ManagerFrame extends JFrame{
 		 }
 		
 		public void setValueAt(Object value, int row, int col) {  
-	        tableData[row][col] = value;  
+	        tableData.get(row).set(col,  value);
 	        fireTableCellUpdated(row, col);  
 	    }	
-		
 	}
 
 	class TransferFrame extends JFrame{
 		
 	}
 
-	
-
-	       
-	
-	
 	public static void main(String[] args){
 		new ManagerFrame();
 	}

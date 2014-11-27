@@ -1,5 +1,7 @@
 package businesslogicservice.PromotionBLService;
 
+import java.util.ArrayList;
+
 import ResultMessage.ResultMessage;
 import VO.PromotionVO;
 
@@ -28,6 +30,12 @@ public class PromotionBLService_Stub implements PromotionBLService{
 	public ResultMessage delete(PromotionVO vo) {
 		// TODO Auto-generated method stub
 		return ResultMessage.delete_success;
+	}
+
+	@Override
+	public ArrayList<PromotionVO> show() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
