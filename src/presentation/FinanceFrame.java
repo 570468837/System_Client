@@ -78,6 +78,17 @@ public class FinanceFrame extends JFrame{
 			}
 		});
 		
+		infoLabel = new JLabel("查看报表",JLabel.CENTER) ;
+		infoLabel.setBounds(40, 220, 100, 50);
+		this.add(infoLabel) ;
+		infoLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				receiptPanel.setVisible(false);
+				accountPanel.setVisible(false);
+				infoPanel.setVisible(true);
+			}
+		});
+		
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.setVisible(true);
 	}
@@ -92,7 +103,7 @@ public class FinanceFrame extends JFrame{
 		public AccountPanel(JFrame theFrame){
 			super();
 			this.setBounds(140, 25, 835, 550);
-			this.setBackground(new Color(200, 100, 150, 250));
+			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
 			theFrame.add(this) ;
 			
@@ -304,11 +315,7 @@ public class FinanceFrame extends JFrame{
 					// TODO Auto-generated method stub
 					dispose() ;
 				}
-			});/*(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					dispose() ;
-				}
-			});*/
+			});
 		}
 
 	}
@@ -318,43 +325,46 @@ public class FinanceFrame extends JFrame{
 	 * 制定单据的panel
 	 */
 	class ReceiptPanel extends JPanel{
-		JLabel makeCollectionLabel,makePaymentLabel,makeCashLabel;
+		JLabel makeCollectionOrPaymentLabel,makeCashLabel; 
+		MakeCollectionOrPayment makeCollectionPane ;
+		MakeCash makeCashPane ;
 		public ReceiptPanel (JFrame theFrame){
 			super() ;
 			this.setBounds(140, 25, 835, 550);
-			this.setBackground(new Color(200, 100, 150, 250));
+			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
 			this.setVisible(true);
 			theFrame.add(this) ;
+			makeCollectionPane = new MakeCollectionOrPayment() ;
+			this.add(makeCollectionPane) ;
+			makeCashPane = new MakeCash(); 
+			this.add(makeCashPane);
+			makeCashPane.setVisible(false);
 			
-			makeCollectionLabel = new JLabel("制定收款单",JLabel.CENTER) ;
-			makeCollectionLabel.setBounds(100, 23, 120, 50);
-			this.add(makeCollectionLabel) ;
-			makeCollectionLabel.addMouseListener(new MouseAdapter() {
+			makeCollectionOrPaymentLabel = new JLabel("制定收/付款单",JLabel.CENTER) ;
+			makeCollectionOrPaymentLabel.setBounds(210, 23, 120, 50);
+			this.add(makeCollectionOrPaymentLabel) ;
+			makeCollectionOrPaymentLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new MakeCollection() ;
+					makeCollectionPane.setVisible(true);
+					makeCashPane.setVisible(false);
 				}
 			});
-			
-			makePaymentLabel = new JLabel("制定付款单",JLabel.CENTER) ;
-			makePaymentLabel.setBounds(200, 23, 120, 50);
-			this.add(makePaymentLabel) ;
-			makePaymentLabel.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					new MakePayment();
-				}
-			});
-			
 			makeCashLabel = new JLabel("制定现金费用单",JLabel.CENTER) ;
-			makeCashLabel.setBounds(300, 23, 150, 50);
+			makeCashLabel.setBounds(380, 23, 150, 50);
 			this.add(makeCashLabel) ;
+			makeCashLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					makeCollectionPane.setVisible(false);
+					makeCashPane.setVisible(true);
+				}
+			});
 		}
 		
 	}
-	class MakeCollection extends JFrame{
+	class MakeCollectionOrPayment extends JPanel{
 
 
-		private JPanel contentPane;
 		private JTextField numberField;
 		private JTextField nameOfCustomeField;
 		private JTextField nameOfCustomerField;
@@ -362,49 +372,46 @@ public class FinanceFrame extends JFrame{
 		/**
 		 * Create the frame.
 		 */
-		public MakeCollection() {
-			this.setTitle("制定收款单");
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(450, 150, 450, 380);
-			contentPane = new JPanel();
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			contentPane.setLayout(null);
+		public MakeCollectionOrPayment() {
+			setBounds(120, 100, 500, 380);
+			this.setBorder(new EmptyBorder(5, 5, 5, 5));
+//			setContentPane(contentPane);
+			this.setLayout(null);
 			this.setVisible(true);
 			
 			JLabel numberLabel = new JLabel("单据编号：");
 			numberLabel.setBounds(39, 42, 100, 15);
-			contentPane.add(numberLabel);
+			this.add(numberLabel);
 			
 			JLabel nameOfCustomeLabel = new JLabel("客户名称：");
 			nameOfCustomeLabel.setBounds(39, 99, 100, 15);
-			contentPane.add(nameOfCustomeLabel);
+			this.add(nameOfCustomeLabel);
 			
 			JLabel nameOfUserLabel = new JLabel("操作员：");
-			nameOfUserLabel.setBounds(256, 215, 100, 15);
-			contentPane.add(nameOfUserLabel);
+			nameOfUserLabel.setBounds(256, 230, 100, 15);
+			this.add(nameOfUserLabel);
 			
 			JLabel sumOfMoneyLabel = new JLabel("总额汇总：");
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
-			contentPane.add(sumOfMoneyLabel);
+			this.add(sumOfMoneyLabel);
 			
 			numberField = new JTextField();
 			numberField.setBounds(129, 96, 100, 21);
-			contentPane.add(numberField);
+			this.add(numberField);
 			numberField.setColumns(10);
 			
 			nameOfCustomeField = new JTextField();
 			nameOfCustomeField.setBounds(129, 39, 135, 21);
-			contentPane.add(nameOfCustomeField);
+			this.add(nameOfCustomeField);
 			nameOfCustomeField.setColumns(10);
 			
 			JRadioButton supplierRadioButton = new JRadioButton("供应商");
 			supplierRadioButton.setBounds(240, 95, 71, 23);
-			contentPane.add(supplierRadioButton);
+			this.add(supplierRadioButton);
 			
 			JRadioButton retailerRadioButton = new JRadioButton("销售商");
 			retailerRadioButton.setBounds(310, 95, 71, 23);
-			contentPane.add(retailerRadioButton);
+			this.add(retailerRadioButton);
 			
 			supplierRadioButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
@@ -420,170 +427,75 @@ public class FinanceFrame extends JFrame{
 			});
 			
 			
-			JButton tfListButton = new JButton("转账列表");
-			tfListButton.setBounds(39, 140, 100, 23);
-			contentPane.add(tfListButton);
-			tfListButton.addMouseListener(new MouseAdapter() {
+			JButton addTfListButton = new JButton("添加转账账户");
+			addTfListButton.setBounds(39, 140, 130, 23);
+			this.add(addTfListButton);
+			addTfListButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new TfListFrame() ;
+					new AddTfListFrame() ;
 				}
 			});
 			
+			JButton showTfListButton = new JButton("查看已添加账户") ;
+			showTfListButton.setBounds(200, 140, 130, 23);
+			this.add(showTfListButton) ;
+			showTfListButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					new ShowTfListFrame() ;
+				}
+			});
+			
+			
 			nameOfCustomerField = new JTextField();
 			nameOfCustomerField.setBounds(129, 181, 100, 21);
-			contentPane.add(nameOfCustomerField);
+			this.add(nameOfCustomerField);
 			nameOfCustomerField.setColumns(10);
 			
 			JLabel yuanLabel = new JLabel("元");
-			yuanLabel.setBounds(218, 184, 21, 15);
-			contentPane.add(yuanLabel);
+			yuanLabel.setBounds(235, 184, 21, 15);
+			this.add(yuanLabel);
 			
 			JLabel userLabel = new JLabel("当前操作员");
-			userLabel.setBounds(320, 215, 100, 15);
-			contentPane.add(userLabel);
+			userLabel.setBounds(320, 230, 100, 15);
+			this.add(userLabel);
 			
 			JButton sureButton = new JButton("确定 ") ;
 			sureButton.setBounds(80, 270, 100, 23);
-			contentPane.add(sureButton) ;
+			this.add(sureButton) ;
 			sureButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					dispose() ;
-				}
-			});
-			
-			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(250, 270, 100, 23);
-			contentPane.add(cancelButton) ;
-			cancelButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					dispose() ;
-				}
-			});
-		}
-
-	}
-    class MakePayment extends JFrame{
-
-
-		private JPanel contentPane;
-		private JTextField numberField;
-		private JTextField nameOfCustomeField;
-		private JTextField nameOfCustomerField;
-
-		/**
-		 * Create the frame.
-		 */
-		public MakePayment() {
-			this.setTitle("制定收款单");
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(450, 150, 450, 380);
-			contentPane = new JPanel();
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			contentPane.setLayout(null);
-			this.setVisible(true);
-			
-			JLabel numberLabel = new JLabel("单据编号：");
-			numberLabel.setBounds(39, 42, 100, 15);
-			contentPane.add(numberLabel);
-			
-			JLabel nameOfCustomeLabel = new JLabel("客户名称：");
-			nameOfCustomeLabel.setBounds(39, 99, 100, 15);
-			contentPane.add(nameOfCustomeLabel);
-			
-			JLabel nameOfUserLabel = new JLabel("操作员：");
-			nameOfUserLabel.setBounds(256, 215, 100, 15);
-			contentPane.add(nameOfUserLabel);
-			
-			JLabel sumOfMoneyLabel = new JLabel("总额汇总：");
-			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
-			contentPane.add(sumOfMoneyLabel);
-			
-			numberField = new JTextField();
-			numberField.setBounds(129, 96, 100, 21);
-			contentPane.add(numberField);
-			numberField.setColumns(10);
-			
-			nameOfCustomeField = new JTextField();
-			nameOfCustomeField.setBounds(129, 39, 135, 21);
-			contentPane.add(nameOfCustomeField);
-			nameOfCustomeField.setColumns(10);
-			
-			JRadioButton supplierRadioButton = new JRadioButton("供应商");
-			supplierRadioButton.setBounds(240, 95, 71, 23);
-			contentPane.add(supplierRadioButton);
-			
-			JRadioButton retailerRadioButton = new JRadioButton("销售商");
-			retailerRadioButton.setBounds(310, 95, 71, 23);
-			contentPane.add(retailerRadioButton);
-			
-			supplierRadioButton.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					supplierRadioButton.setSelected(true);
+					/*
+					 * 调用逻辑
+					 */
+					numberField.setText("");
+					nameOfCustomeField.setText("");;
+					nameOfCustomerField.setText("");
+					supplierRadioButton.setSelected(false);
 					retailerRadioButton.setSelected(false);
 				}
 			});
-			retailerRadioButton.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					supplierRadioButton.setSelected(false);
-					retailerRadioButton.setSelected(true);
-				}
-			});
-			
-			
-			JButton tfListButton = new JButton("转账列表");
-			tfListButton.setBounds(39, 140, 100, 23);
-			contentPane.add(tfListButton);
-			tfListButton.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					new TfListFrame() ;
-				}
-			});
-			
-			nameOfCustomerField = new JTextField();
-			nameOfCustomerField.setBounds(129, 181, 100, 21);
-			contentPane.add(nameOfCustomerField);
-			nameOfCustomerField.setColumns(10);
-			
-			JLabel yuanLabel = new JLabel("元");
-			yuanLabel.setBounds(218, 184, 21, 15);
-			contentPane.add(yuanLabel);
-			
-			JLabel userLabel = new JLabel("当前操作员");
-			userLabel.setBounds(320, 215, 100, 15);
-			contentPane.add(userLabel);
-			
-			JButton sureButton = new JButton("确定 ") ;
-			sureButton.setBounds(80, 270, 100, 23);
-			contentPane.add(sureButton) ;
-			sureButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					dispose() ;
-				}
-			});
 			
 			JButton cancelButton = new JButton("取消");
 			cancelButton.setBounds(250, 270, 100, 23);
-			contentPane.add(cancelButton) ;
+			this.add(cancelButton) ;
 			cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					dispose() ;
+					numberField.setText("");
+					nameOfCustomeField.setText("");
+					nameOfCustomerField.setText("");
+					supplierRadioButton.setSelected(false);
+					retailerRadioButton.setSelected(false);
 				}
 			});
 		}
 
 	}
-         class TfListFrame extends JFrame{
+    class ShowTfListFrame extends JFrame{
 
     	private JPanel contentPane;
     	private JTable table;
@@ -591,10 +503,10 @@ public class FinanceFrame extends JFrame{
     	/**
     	 * Create the frame.
     	 */
-    	public TfListFrame() {
+    	public ShowTfListFrame() {
     		this.setVisible(true);
     		this.setTitle("转账列表");
-    		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     		setBounds(500, 200, 350, 300);
     		contentPane = new JPanel();
     		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -613,7 +525,7 @@ public class FinanceFrame extends JFrame{
     		contentPane.add(jsc) ;
     		
     		JButton sureButton = new JButton("确定");
-    		sureButton.setBounds(50, 200, 100, 30);
+    		sureButton.setBounds(110, 200, 100, 30);
     		contentPane.add(sureButton) ;
     		sureButton.addMouseListener(new MouseAdapter() {
     			public void mouseClicked(MouseEvent e){
@@ -621,26 +533,359 @@ public class FinanceFrame extends JFrame{
     			}
 			});
     		
-    		JButton cancelButton = new JButton("取消");
-    		cancelButton.setBounds(200,200,100,30);
-    		contentPane.add(cancelButton) ;
-    		cancelButton.addMouseListener(new MouseAdapter() {
-    			public void mouseClicked(MouseEvent e){
-    				dispose();
-    			}
-			});
     	}
 }
-	class MakeCash extends JFrame{
-		
+	class AddTfListFrame extends JFrame{
+
+
+		private JPanel contentPane;
+		private JTextField nameOfAccountField;
+		private JTextField numOfTfField;
+		private JTextField markedField;
+
+
+		/**
+		 * Create the frame.
+		 */
+		public AddTfListFrame() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setBounds(500, 200, 350, 300);
+			contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(contentPane);
+			contentPane.setLayout(null);
+			this.setVisible(true);
+			
+			JLabel nameOfAccountLabel = new JLabel("银行账户：");
+			nameOfAccountLabel.setBounds(41, 37, 66, 15);
+			contentPane.add(nameOfAccountLabel);
+			
+			nameOfAccountField = new JTextField();
+			nameOfAccountField.setBounds(139, 34, 110, 21);
+			contentPane.add(nameOfAccountField);
+			nameOfAccountField.setColumns(10);
+			
+			JLabel numOfMoneyLabel = new JLabel("转账金额：");
+			numOfMoneyLabel.setBounds(41, 96, 66, 15);
+			contentPane.add(numOfMoneyLabel);
+			JLabel yuanLabel = new JLabel("元");
+			yuanLabel.setBounds(260, 95, 20, 15);
+			contentPane.add(yuanLabel) ;
+			
+			numOfTfField = new JTextField();
+			numOfTfField.setBounds(139, 93, 110, 21);
+			contentPane.add(numOfTfField);
+			numOfTfField.setColumns(10);
+			
+			JLabel markedLabel = new JLabel("备        注：");
+			markedLabel.setBounds(41, 149, 66, 15);
+			contentPane.add(markedLabel);
+			
+			markedField = new JTextField();
+			markedField.setBounds(139, 146, 110, 21);
+			contentPane.add(markedField);
+			markedField.setColumns(10);
+			
+			JButton sureButton = new JButton("确定");
+			sureButton.setBounds(70, 187, 66, 23);
+			contentPane.add(sureButton);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					/*
+					 * 调用逻辑
+					 */
+					dispose() ;
+				}
+			});
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(170, 187, 74, 23);
+			contentPane.add(cancelButton);
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					dispose() ;
+				}
+			});
+		}
+
 	}
-         
+
+    class MakeCash extends JPanel{
+
+
+		private JTextField nameOfAccountField;
+		private JTextField numberField;
+		private JTextField sumOfMoneyField;
+
+		/**
+		 * Create the frame.
+		 */
+		public MakeCash() {
+			setBounds(120, 100, 500, 380);
+			this.setBorder(new EmptyBorder(5, 5, 5, 5));
+			this.setLayout(null);
+			this.setVisible(true);
+			
+			JLabel numberLabel = new JLabel("单据编号：");
+			numberLabel.setBounds(39, 42, 100, 15);
+			this.add(numberLabel);
+			
+			JLabel nameOfAccountLabel = new JLabel("银行账户：");
+			nameOfAccountLabel.setBounds(39, 99, 100, 15);
+			this.add(nameOfAccountLabel);
+			
+			JLabel nameOfUserLabel = new JLabel("操作员：");
+			nameOfUserLabel.setBounds(256, 230, 100, 15);
+			this.add(nameOfUserLabel);
+			
+			JLabel sumOfMoneyLabel = new JLabel("总        额："); 
+			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
+			this.add(sumOfMoneyLabel);
+			
+			nameOfAccountField = new JTextField();
+			nameOfAccountField.setBounds(129, 96, 135, 21);
+			this.add(nameOfAccountField);
+			nameOfAccountField.setColumns(10);
+			
+			numberField = new JTextField();
+			numberField.setBounds(129, 39, 135, 21);
+			this.add(numberField);
+			numberField.setColumns(10);
+			
+			JButton addCaseItemButton = new JButton("添加条目");
+			addCaseItemButton.setBounds(50, 140, 100, 23);
+			this.add(addCaseItemButton);
+			addCaseItemButton.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					new AddCaseItem() ;
+				}
+			});
+			
+			JButton showCaseItemButton = new JButton("查看已添加条目") ;
+			showCaseItemButton.setBounds(200, 140, 130, 23);
+			this.add(showCaseItemButton) ;
+			showCaseItemButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					new ShowCaseItem();
+				}
+			});
+			
+			sumOfMoneyField = new JTextField();
+			sumOfMoneyField.setBounds(129, 181, 135, 21);
+			this.add(sumOfMoneyField);
+			sumOfMoneyField.setColumns(10);
+			
+			JLabel yuanLabel = new JLabel("元");
+			yuanLabel.setBounds(270, 184, 21, 15);
+			this.add(yuanLabel);
+			
+			JLabel userLabel = new JLabel("当前操作员");
+			userLabel.setBounds(320, 230, 100, 15);
+			this.add(userLabel);
+			
+			JButton sureButton = new JButton("确定 ") ;
+			sureButton.setBounds(80, 270, 100, 23);
+			this.add(sureButton) ;
+			sureButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					/*
+					 * 调用逻辑
+					 */
+					nameOfAccountField.setText("");
+					numberField.setText("");
+					sumOfMoneyField.setText("");
+				}
+			});
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(250, 270, 100, 23);
+			this.add(cancelButton) ;
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					nameOfAccountField.setText("");
+					numberField.setText("");
+					sumOfMoneyField.setText("");
+				}
+			});
+		}
+
+	}
+    class AddCaseItem extends JFrame{
+
+
+		private JPanel contentPane;
+		private JTextField nameOfCaseField;
+		private JTextField numOfTfField;
+		private JTextField markedField;
+
+
+		/**
+		 * Create the frame.
+		 */
+		public AddCaseItem() {
+			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			setBounds(500, 200, 350, 300);
+			contentPane = new JPanel();
+			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+			setContentPane(contentPane);
+			contentPane.setLayout(null);
+			this.setVisible(true);
+			
+			JLabel nameOfCase = new JLabel("条目名：");
+			nameOfCase.setBounds(41, 37, 66, 15);
+			contentPane.add(nameOfCase);
+			
+			nameOfCaseField = new JTextField();
+			nameOfCaseField.setBounds(139, 34, 110, 21);
+			contentPane.add(nameOfCaseField);
+			nameOfCaseField.setColumns(10);
+			
+			JLabel numOfMoneyLabel = new JLabel("金    额：");
+			numOfMoneyLabel.setBounds(41, 96, 66, 15);
+			contentPane.add(numOfMoneyLabel);
+			JLabel yuanLabel = new JLabel("元");
+			yuanLabel.setBounds(260, 95, 20, 15);
+			contentPane.add(yuanLabel) ;
+			
+			numOfTfField = new JTextField();
+			numOfTfField.setBounds(139, 93, 110, 21);
+			contentPane.add(numOfTfField);
+			numOfTfField.setColumns(10);
+			
+			JLabel markedLabel = new JLabel("备        注：");
+			markedLabel.setBounds(41, 149, 66, 15);
+			contentPane.add(markedLabel);
+			
+			markedField = new JTextField();
+			markedField.setBounds(139, 146, 110, 21);
+			contentPane.add(markedField);
+			markedField.setColumns(10);
+			
+			JButton sureButton = new JButton("确定");
+			sureButton.setBounds(70, 187, 66, 23);
+			contentPane.add(sureButton);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					/*
+					 * 调用逻辑
+					 */
+					dispose() ;
+				}
+			});
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(170, 187, 74, 23);
+			contentPane.add(cancelButton);
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					dispose() ;
+				}
+			});
+		}
+
+	}
+	class ShowCaseItem extends JFrame{
+
+    	private JPanel contentPane;
+    	private JTable table;
+
+    	/**
+    	 * Create the frame.
+    	 */
+    	public ShowCaseItem() {
+    		this.setVisible(true);
+    		this.setTitle("条目清单");
+    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		setBounds(500, 200, 350, 300);
+    		contentPane = new JPanel();
+    		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    		contentPane.setBackground(Color.yellow);
+    		setContentPane(contentPane);
+    		contentPane.setLayout(null);
+    		
+    		String[] columnNames = {"条目名","金额","备注"} ;
+    		String[][] data = {{"dsf","230","dafs"},{"dasd","8760","joe"}} ;
+    		table = new JTable(data,columnNames);
+    		table.setBackground(Color.white);
+    		
+    		JScrollPane jsc = new JScrollPane(table);
+    		jsc.setBounds(0,0,350,170);
+    		jsc.setBackground(Color.green);
+    		contentPane.add(jsc) ;
+    		
+    		JButton sureButton = new JButton("确定");
+    		sureButton.setBounds(110, 200, 100, 30);
+    		contentPane.add(sureButton) ;
+    		sureButton.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				dispose() ;
+    			}
+			});
+    		
+    	}
+}
+	
+	/*
+	 * 查看报表的panel
+	 */
 	class InfoPanel extends JPanel{
 		
 		public InfoPanel(JFrame theFrame){
+			super() ;
+	    	this.setBounds(140, 25, 835, 550);
+	    	this.setBackground(new Color(200, 100, 150, 255));
+	    	this.setLayout(null);
+	    	this.setVisible(true);
+	    	theFrame.add(this) ;
+	    	
+	    	JLabel saleDetailLabel = new JLabel("销售明细表",JLabel.CENTER);
+			saleDetailLabel.setBounds(100, 23, 120, 50);
+			this.add(saleDetailLabel) ;
+			saleDetailLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					new SaleDetailPanel() ;
+				}
+			});
 			
+			
+			JLabel saleProcessLabel = new JLabel("经营里程表",JLabel.CENTER) ;
+			saleProcessLabel.setBounds(200, 23, 120, 50);
+			this.add(saleProcessLabel) ;
+			
+			JLabel saleConditionLabel = new JLabel("经营情况表",JLabel.CENTER) ;
+			saleConditionLabel.setBounds(300,23,120,50) ;
+			this.add(saleConditionLabel) ;
+	    }
+	}
+	class SaleDetailPanel extends JPanel{
+		public SaleDetailPanel(){
+			super();
+     		this.setBounds(140, 25, 835, 550);
+     		this.setBackground(Color.white);
+    		this.setLayout(null);
+	    	infoPanel.add(this) ;
+	    	this.setVisible(true);
 		}
-		
 	}
 	public static void main(String[] marg){
 		new FinanceFrame() ;
