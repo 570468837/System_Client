@@ -201,14 +201,8 @@ public class ManagerFrameHelper {
 					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, 0, null));
 					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, 0, null));
 					
-					Level customer=null;
-					switch((String)customerLevel.getSelectedItem()){
-					case "一级": customer=Level.firstClass; break;
-					case "二级": customer=Level.secondClass; break;
-					case "三级": customer=Level.thirdClass; break;
-					case "四级": customer=Level.forthClass; break;
-					case "五级VIP": customer=Level.fiveClassVIP; break;
-					}
+					Level customer=getCustomerLevel(customerLevel.getSelectedItem());
+					
 					PromotionVO newvo=new PromotionVO(PromotionSort.Package, dateFormat.format(date),
 							goods, 0, Double.parseDouble(offPriceField.getText()), null, 0, 
 							(String)startYearNum.getSelectedItem()+"-"+(String)startMonthNum.getSelectedItem()+"-"+(String)startDayNum.getSelectedItem(), 
@@ -233,7 +227,6 @@ public class ManagerFrameHelper {
 	class AddGiftsFrame extends JFrame{
 		private JTextField textField;
 		private JButton button;
-		private JTextField goods1Field;
 		private JLabel leastPriceLabel;
 		private JTextField leastPriceField;
 		private JLabel startLabel;
@@ -281,6 +274,10 @@ public class ManagerFrameHelper {
 				presentLabel = new JLabel("请输入赠品的商品编号：");
 				presentLabel.setBounds(24, 149, 150, 15);
 				getContentPane().add(presentLabel);
+				
+				JLabel goodsChosenLabel = new JLabel("未选择商品!");
+				goodsChosenLabel.setBounds(296, 146, 234, 21);
+				getContentPane().add(goodsChosenLabel);
 				
 				int yearNow=getYearNow();
 				int monthNow=getMonthNow();
@@ -333,7 +330,7 @@ public class ManagerFrameHelper {
 				label_8.setBounds(24, 318, 200, 15);
 				getContentPane().add(label_8);
 				
-				customerLevel = new JComboBox(new String[]{"一级","二级","三级","四级","五级"});
+				customerLevel = new JComboBox(new String[]{"一级","二级","三级","四级","五级VIP"});
 				customerLevel.setBounds(238, 315, 57, 21);
 				getContentPane().add(customerLevel);
 				
@@ -378,11 +375,33 @@ public class ManagerFrameHelper {
 				presentsField.setBounds(177, 146, 97, 21);
 				getContentPane().add(presentsField);
 				
+				confirmButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Date date=new Date();
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
+						
+						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
+						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, 0, null));
+						
+						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
+						
+						PromotionVO vo=new PromotionVO(PromotionSort.Gifts, dateFormat.format(date), 
+								null, Double.parseDouble(leastPriceField.getText()), 0, presents, 0, 
+								(String)startYearNum.getSelectedItem()+"-"+(String)startMonthNum.getSelectedItem()+"-"+(String)startDayNum.getSelectedItem(),
+								(String)endYearNum.getSelectedItem()+"-"+(String)endMonthNum.getSelectedItem()+"-"+(String)endDayNum.getSelectedItem(),
+								customer);
+						
+						new PromotionController().addGift(vo);
+						dispose();
+					}
+				});
+				
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				}); 
+				
 				this.repaint();
 			}
 		
@@ -432,6 +451,17 @@ public class ManagerFrameHelper {
 		return hour+minute;
 	}
 	
+	public Level getCustomerLevel(Object selected){
+		Level customer=null;
+		switch((String) selected){
+		case "一级": customer=Level.firstClass; break;
+		case "二级": customer=Level.secondClass; break;
+		case "三级": customer=Level.thirdClass; break;
+		case "四级": customer=Level.forthClass; break;
+		case "五级VIP": customer=Level.fiveClassVIP; break;
+		}
+		return customer;
+	}
 
 	public static void main(String[] args){
 		new ManagerFrameHelper("gifts");

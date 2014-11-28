@@ -112,6 +112,7 @@ public class AdminFrame extends JFrame{
 			
 			tableRefresh();    //刷新列表
 			
+			this.repaint();
 			theFrame.add(this);
 		}
 		
@@ -139,6 +140,8 @@ public class AdminFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table1.setDefaultRenderer(Object.class, render);
 		    
+		    table1.repaint();
+		    
 		    table1.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
 		    	public void tableChanged(TableModelEvent e) {     //进行的操作
 		    		int row = e.getFirstRow();
@@ -151,12 +154,12 @@ public class AdminFrame extends JFrame{
 		    	}
 		    	
 		    });
-		    table1.repaint();
-
 			JScrollPane tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(700,400);
 			tablePane1.setLocation(80, 74);
 			tablePane1.repaint();
+			
+			this.repaint();
 			this.add(tablePane1);
 		}
 	}
@@ -207,8 +210,6 @@ public class AdminFrame extends JFrame{
 	        tableData.get(row).set(col,  value);
 	        fireTableCellUpdated(row, col);  
 	    }	
-		
-		
 	}
 	
 	class addFrame extends JFrame{
