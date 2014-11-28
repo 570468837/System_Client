@@ -417,7 +417,10 @@ public class CommodityFrame extends JFrame {
 						ext.addMouseListener(new MouseAdapter() {
 							ArrayList<GoodsClassVO> classBufferList;
 							ArrayList<GoodsVO> bufferList;
+							JTable extTable;
+							JScrollPane extJsp;
 							public void mouseClicked(MouseEvent e) {
+								jspList.get(jspList.size() - 1).setVisible(false);
 								GoodsClassVO father = gc.getGoodsClassByInfo(className);
 								classBufferList = new ArrayList<GoodsClassVO>();
 								Iterator<GoodsClassVO> classIter = gcvList.iterator();
@@ -429,6 +432,28 @@ public class CommodityFrame extends JFrame {
 								}
 								if(classBufferList.size() != 0) {
 									//子目录下还是分类
+									String[] head = {className};
+									String[][] body = new String[classBufferList.size()][1];
+									for(int i = 0; i < classBufferList.size(); i ++) {
+										body[i][0] = classBufferList.get(i).goodsClassName;
+									}
+									extTable = new JTable(body, head);
+									extTable.setPreferredSize(new Dimension(120, body.length * 30));
+									extTable.setAutoResizeMode(0);
+									extTable.setRowHeight(30);
+									extTable.setEnabled(false);
+									extTable.setFont(new Font("default", 0, 16));
+									extTable.getTableHeader().setReorderingAllowed(false);
+									extTable.getTableHeader().setEnabled(false);
+									extTable.getTableHeader().setFont(new Font("default", 1, 17));
+									extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
+									addListener(extTable);
+									extJsp = new JScrollPane(extTable);
+									extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
+									extJsp.setPreferredSize(new Dimension(120, 360));
+									extJsp.setHorizontalScrollBar(null);
+							    	jtList.add(extTable);
+							    	jspList.add(extJsp);
 								}
 								else {
 									bufferList = new ArrayList<GoodsVO>();
@@ -441,10 +466,58 @@ public class CommodityFrame extends JFrame {
 									}
 									if(bufferList.size() != 0) {
 										//子目录下是商品
+										String[] head = {"编号", className, "型号", "库存数量", "进价", "零售价", "最近进价", "最近售价"};
+										String[][] body = new String[bufferList.size()][8];
+										Iterator<GoodsVO> bufferIter = bufferList.iterator();
+										GoodsVO g;
+										int i = 0;
+										while(bufferIter.hasNext()) {
+											g = bufferIter.next();
+											body[i][0] = g.serialNumber;
+											body[i][1] = g.name;
+											body[i][2] = g.model;
+											body[i][3] = Integer.toString(g.commodityQuantity);
+											body[i][4] = Double.toString(g.price);
+											body[i][5] = Double.toString(g.salePrice);
+											body[i][6] = Double.toString(g.latestPrice);
+											body[i][7] = Double.toString(g.latestSalePrice);
+										}
+										extTable = new JTable(body, head);
+										extTable.setPreferredSize(new Dimension(120, body.length * 30));
+										extTable.setAutoResizeMode(0);
+										extTable.setRowHeight(30);
+										extTable.setEnabled(false);
+										extTable.setFont(new Font("default", 0, 16));
+										extTable.getTableHeader().setReorderingAllowed(false);
+										extTable.getTableHeader().setEnabled(false);
+										extTable.getTableHeader().setFont(new Font("default", 1, 17));
+										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
+										addListener(extTable);
+										extJsp = new JScrollPane(extTable);
+										extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
+										extJsp.setPreferredSize(new Dimension(120, 360));
+										extJsp.setHorizontalScrollBar(null);
+								    	jtList.add(extTable);
+								    	jspList.add(extJsp);
 									}
 									else {
 										//子目录下为空
-										
+										String[] head = {className};
+										String[][] body = new String[0][0];
+										extTable = new JTable(body, head);
+										extTable.setPreferredSize(new Dimension(120, 0));
+										extTable.setAutoResizeMode(0);
+										extTable.getTableHeader().setReorderingAllowed(false);
+										extTable.getTableHeader().setEnabled(false);
+										extTable.getTableHeader().setFont(new Font("default", 1, 17));
+										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
+										addListener(extTable);
+										extJsp = new JScrollPane(extTable);
+										extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
+										extJsp.setPreferredSize(new Dimension(120, 360));
+										extJsp.setHorizontalScrollBar(null);
+								    	jtList.add(extTable);
+								    	jspList.add(extJsp);
 										
 									}
 								}
@@ -481,6 +554,33 @@ public class CommodityFrame extends JFrame {
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						popFrame = new JFrame();
+						popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 75);
+						popFrame.setUndecorated(true);
+						popFrame.setLayout(null);
+						JLabel addClass = new JLabel("添加商品分类");
+						addClass.setBounds(0, 0, 120, 0);
+						addClass.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {
+								//
+							}
+						});
+						
+						JLabel add = new JLabel("添加商品");
+						add.setBounds(0, 0, 120, 25);
+						add.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {
+								//
+							}
+						});
+						
+						JLabel upd = new JLabel("更改商品分类信息");
+						upd.setBounds(0, 0, 120, 50);
+						upd.addMouseListener(new MouseAdapter() {
+							public void mouseClicked(MouseEvent e) {
+								//
+							}
+						});
 						
 					}
 				});
