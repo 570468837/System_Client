@@ -331,13 +331,25 @@ public class ManagerFrame extends JFrame{
 				}
 			});
 			
-			JLabel add3=new JLabel("添加达总价送赠品策略");
-			add3.setBounds(360,40,130,20);
+			JLabel add3=new JLabel("添加达总价送代金券策略");
+			add3.setBounds(360,40,150,20);
 			this.add(add3);
+			
+			add3.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					new ManagerFrameHelper("voucher");
+				}
+			});
 			
 			JLabel delete=new JLabel("删除策略");
 			delete.setBounds(520,40,130,20);
 			this.add(delete);
+			
+			delete.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					new ManagerFrameHelper("deletePromotion");
+				}
+			});
 			
 			JLabel refresh=new JLabel("刷新列表");
 			refresh.setBounds(727,40,130,20);

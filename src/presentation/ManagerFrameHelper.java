@@ -1,5 +1,6 @@
 package presentation;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -8,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.zip.DataFormatException;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +21,7 @@ import businesslogicservice.PromotionBLService.PromotionController;
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
+import ResultMessage.ResultMessage;
 import VO.PromotionVO;
 
 public class ManagerFrameHelper {
@@ -26,6 +29,8 @@ public class ManagerFrameHelper {
 		switch (command){
 			case "package":new AddPackageFrame(); break;
 			case "gifts": new AddGiftsFrame(); break;
+			case "voucher": new AddVoucherFrame(); break;
+			case "deletePromotion": new deletePromotionFrame(); break;
 		}
 	}
 	class AddPackageFrame extends JFrame{
@@ -209,8 +214,13 @@ public class ManagerFrameHelper {
 							(String)endYearNum.getSelectedItem()+"-"+(String)endMonthNum.getSelectedItem()+"-"+(String)endDayNum.getSelectedItem(), 
 							customer);
 					
-					new PromotionController().addPackage(newvo);
+					ResultMessage result=new PromotionController().addPackage(newvo);
+					if(result==ResultMessage.add_success){
 					dispose();
+					}
+					else{
+						new warningDialog("已存在相同的策略编号！");
+					}
 				}
 				
 			});
@@ -391,8 +401,13 @@ public class ManagerFrameHelper {
 								(String)endYearNum.getSelectedItem()+"-"+(String)endMonthNum.getSelectedItem()+"-"+(String)endDayNum.getSelectedItem(),
 								customer);
 						
-						new PromotionController().addGift(vo);
-						dispose();
+						ResultMessage result=new PromotionController().addGift(vo);
+						if(result==ResultMessage.add_success){
+							dispose();
+							}
+						else{
+								new warningDialog("已存在相同的策略编号！");
+							}
 					}
 				});
 				
@@ -422,6 +437,265 @@ public class ManagerFrameHelper {
 		}
 		}
 
+	class AddVoucherFrame extends JFrame{
+		private JTextField textField;
+		private JButton button;
+		private JTextField goods1Field;
+		private JLabel leastPriceLabel;
+		private JTextField leastPriceField;
+		private JLabel startLabel;
+		private JLabel presentLabel;
+		private JComboBox startMonthNum;
+		private JLabel label_4;
+		private JComboBox startDayNum;
+		private JLabel lblNewLabel_3;
+		private JLabel endTimeLabel;
+		private JLabel label_8;
+		private JComboBox customerLevel;
+		private JComboBox endYearNum;
+		private JLabel label_5;
+		private JComboBox endMonthNum;
+		private JLabel label_6;
+		private JComboBox endDayNum;
+		private JLabel label_9;
+		private JButton confirmButton;
+		private JButton cancelButton;
+		private JLabel yuanLabel;
+		private JTextField textField_1;
+		public AddVoucherFrame(){
+			
+				this.setVisible(true);
+				setBounds(100, 100, 556, 475);
+				this.setLocationRelativeTo(null);
+				getContentPane().setLayout(null);
+				
+				JLabel titleLabel = new JLabel("制定送代金券促销策略");
+				titleLabel.setBounds(214, 22, 150, 30);
+				getContentPane().add(titleLabel); 
+		
+				leastPriceLabel = new JLabel("请输入购物需满金额：");
+				leastPriceLabel.setBounds(24, 89, 134, 15);
+				getContentPane().add(leastPriceLabel);
+				
+				leastPriceField = new JTextField();
+				leastPriceField.setColumns(10);
+				leastPriceField.setBounds(177, 86, 97, 21);
+				getContentPane().add(leastPriceField);
+				
+				startLabel = new JLabel("请选择策略的起始时间：");
+				startLabel.setBounds(24, 210, 150, 15);
+				getContentPane().add(startLabel);
+				
+				presentLabel = new JLabel("请输入赠送代金券的金额：");
+				presentLabel.setBounds(24, 149, 180, 15);
+				getContentPane().add(presentLabel);
+				
+				int yearNow=getYearNow();
+				int monthNow=getMonthNow();
+				int dayNow=getDateNow();
+				
+				String []startyears=new String[5];
+				String []endyears=new String[5];
+				String []months=new String[12];
+				String []dates=new String[31];
+				for(int i=0;i<5;i++){
+					startyears[i]=String.valueOf(yearNow);
+					endyears[i]=String.valueOf(yearNow++);
+				}
+				for(int i=0;i<12;i++){
+					months[i]=String.valueOf(i+1);
+				}
+				for(int i=0;i<31;i++){
+					dates[i]=String.valueOf(i+1);
+				}
+				
+				JComboBox startYearNum = new JComboBox(startyears); 
+				startYearNum.setBounds(177, 207, 74, 21);
+				getContentPane().add(startYearNum);
+				
+				JLabel lblNewLabel_2 = new JLabel("年");
+				lblNewLabel_2.setBounds(261, 210, 20, 15);
+				getContentPane().add(lblNewLabel_2);
+				
+				startMonthNum = new JComboBox(months);
+				startMonthNum.setBounds(283, 207, 49, 21);
+				getContentPane().add(startMonthNum);
+				
+				label_4 = new JLabel("月");
+				label_4.setBounds(342, 210, 20, 15);
+				getContentPane().add(label_4);
+				
+				startDayNum = new JComboBox(dates);
+				startDayNum.setBounds(366, 207, 49, 21);
+				getContentPane().add(startDayNum);
+				
+				lblNewLabel_3 = new JLabel("日");
+				lblNewLabel_3.setBounds(425, 210, 20, 15);
+				getContentPane().add(lblNewLabel_3);
+				
+				endTimeLabel = new JLabel("请选择策略的终止时间：");
+				endTimeLabel.setBounds(24, 265, 150, 15);
+				getContentPane().add(endTimeLabel);
+				
+				label_8 = new JLabel("请选择享受优惠的最低客户等级：");
+				label_8.setBounds(24, 318, 200, 15);
+				getContentPane().add(label_8);
+				
+				customerLevel = new JComboBox(new String[]{"一级","二级","三级","四级","五级VIP"});
+				customerLevel.setBounds(238, 315, 57, 21);
+				getContentPane().add(customerLevel);
+				
+				endYearNum = new JComboBox(endyears);
+				endYearNum.setBounds(177, 259, 74, 21);
+				getContentPane().add(endYearNum);
+				
+				label_5 = new JLabel("年");
+				label_5.setBounds(261, 262, 20, 15);
+				getContentPane().add(label_5);
+				
+				endMonthNum = new JComboBox(months);
+				endMonthNum.setBounds(283, 259, 49, 21);
+				getContentPane().add(endMonthNum);
+				
+				label_6 = new JLabel("月");
+				label_6.setBounds(342, 262, 20, 15);
+				getContentPane().add(label_6);
+				
+				endDayNum = new JComboBox(dates);
+				endDayNum.setBounds(366, 259, 49, 21);
+				getContentPane().add(endDayNum);
+				
+				label_9 = new JLabel("日");
+				label_9.setBounds(425, 262, 20, 15);
+				getContentPane().add(label_9);
+				
+				confirmButton = new JButton("确认");
+				confirmButton.setBounds(147, 374, 88, 30);
+				getContentPane().add(confirmButton);
+				
+				cancelButton = new JButton("取消");
+				cancelButton.setBounds(296, 374, 88, 30);
+				getContentPane().add(cancelButton);
+				
+				yuanLabel = new JLabel("元");
+				yuanLabel.setBounds(284, 89, 54, 15);
+				getContentPane().add(yuanLabel);
+				
+				textField_1 = new JTextField();
+				textField_1.setColumns(10);
+				textField_1.setBounds(177, 146, 97, 21);
+				getContentPane().add(textField_1);
+				
+				JLabel voucherYuanLabel = new JLabel("元");
+				voucherYuanLabel.setBounds(284, 146, 234, 21);
+				getContentPane().add(voucherYuanLabel);
+				
+				confirmButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Date date=new Date();
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
+						
+						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
+						PromotionVO vo=new PromotionVO(PromotionSort.Voucher, dateFormat.format(date), 
+								null,Double.parseDouble(leastPriceField.getText()), 0, null,Integer.parseInt(textField_1.getText()) , 
+								(String)startYearNum.getSelectedItem()+"-"+(String)startMonthNum.getSelectedItem()+"-"+(String)startDayNum.getSelectedItem(),
+								(String)endYearNum.getSelectedItem()+"-"+(String)endMonthNum.getSelectedItem()+"-"+(String)endDayNum.getSelectedItem(), 
+								customer);
+						
+						ResultMessage result=new PromotionController().addVoucher(vo);
+						if(result==ResultMessage.add_success){
+							dispose();
+							}
+						else{
+							new warningDialog("已存在相同的策略编号！");
+							}
+					}
+				});
+				
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				}); 
+				this.repaint();
+			}
+		
+		}
+	
+	class deletePromotionFrame extends JFrame{
+		private JTextField textField;
+		private JButton button;
+		private JTextField goods1Field;
+		private JButton confirmButton;
+		private JTextField idField;
+		public deletePromotionFrame(){
+				this.setVisible(true);
+				setBounds(100, 100, 529, 389);
+				this.setLocationRelativeTo(null);
+				getContentPane().setLayout(null);
+				
+				JLabel titleLabel = new JLabel("删除促销策略");
+				titleLabel.setBounds(219, 43, 88, 30);
+				getContentPane().add(titleLabel);
+			
+				
+				JLabel remindLabel = new JLabel("请输入删除策略的编号：");
+				remindLabel.setBounds(100, 137, 154, 15);
+				getContentPane().add(remindLabel);
+				
+				idField = new JTextField();
+				idField.setBounds(264, 134, 120, 21);
+				getContentPane().add(idField);
+				idField.setColumns(10);
+				
+				JButton confirmButton = new JButton("确认");
+				confirmButton.setBounds(132, 236, 96, 37);
+				getContentPane().add(confirmButton);
+				
+				JButton cancelButton = new JButton("取消");
+				cancelButton.setBounds(276, 236, 96, 37);
+				getContentPane().add(cancelButton);
+				
+				confirmButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String promotionId=idField.getText();
+						PromotionVO vo=new PromotionVO(null, promotionId, null, 0, 0, null, 0, null, null, null);
+						ResultMessage result=new PromotionController().delete(vo);
+						if(result==ResultMessage.delete_success)
+							dispose();
+						else
+							new warningDialog("不存在此策略编号！");
+						
+					}
+				});
+				
+				cancelButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						dispose();
+					}
+				});
+				
+				this.repaint();
+			}
+		}
+	
+	class warningDialog extends JDialog{
+		public warningDialog(String warnings){
+			this.setSize(284, 158);
+			this.setLocationRelativeTo(null);
+			this.setLayout(null);
+			this.setVisible(true);
+			this.setModal(true);
+			
+			JLabel warningLabel = new JLabel(warnings,JLabel.CENTER);
+			warningLabel.setBounds(50, 28, 200, 50);
+			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
+			
+			this.add(warningLabel);
+		}
+	}
 	
 	public int getYearNow(){
 		Calendar c=Calendar.getInstance();
@@ -464,6 +738,6 @@ public class ManagerFrameHelper {
 	}
 
 	public static void main(String[] args){
-		new ManagerFrameHelper("gifts");
+		new ManagerFrameHelper("deletePromotion");
 	}
 }
