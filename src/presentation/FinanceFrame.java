@@ -849,7 +849,8 @@ public class FinanceFrame extends JFrame{
 	 * 查看报表的panel
 	 */
 	class InfoPanel extends JPanel{
-		
+		SaleDetailPanel saleDetailPanel ;
+		SaleProcessPanel saleProcessPanel ;
 		public InfoPanel(JFrame theFrame){
 			super() ;
 	    	this.setBounds(140, 25, 835, 550);
@@ -857,13 +858,21 @@ public class FinanceFrame extends JFrame{
 	    	this.setLayout(null);
 	    	this.setVisible(true);
 	    	theFrame.add(this) ;
+	    	saleDetailPanel  = new SaleDetailPanel() ;
+	    	this.add(saleDetailPanel) ;
+	    	saleProcessPanel = new SaleProcessPanel() ;
+	    	this.add(saleProcessPanel);
+	    	saleProcessPanel.setVisible(false);
+	    	
 	    	
 	    	JLabel saleDetailLabel = new JLabel("销售明细表",JLabel.CENTER);
 			saleDetailLabel.setBounds(100, 23, 120, 50);
 			this.add(saleDetailLabel) ;
 			saleDetailLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new SaleDetailPanel() ;
+					saleDetailPanel.setVisible(true);
+					saleProcessPanel.setVisible(false);
+//					new SaleDetailPanel() ;
 				}
 			});
 			
@@ -871,22 +880,249 @@ public class FinanceFrame extends JFrame{
 			JLabel saleProcessLabel = new JLabel("经营里程表",JLabel.CENTER) ;
 			saleProcessLabel.setBounds(200, 23, 120, 50);
 			this.add(saleProcessLabel) ;
+			saleProcessLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					saleDetailPanel.setVisible(false);
+					saleProcessPanel.setVisible(true);
+				}
+			});
 			
 			JLabel saleConditionLabel = new JLabel("经营情况表",JLabel.CENTER) ;
 			saleConditionLabel.setBounds(300,23,120,50) ;
 			this.add(saleConditionLabel) ;
+//			JLabel.
+			
 	    }
 	}
 	class SaleDetailPanel extends JPanel{
-		public SaleDetailPanel(){
+
+		private JTextField beginTimeField;
+		private JTextField endTimeField;
+		private JTextField nameOfGoodField;
+		private JTextField nameOfCustomerField;
+		private JTextField nameOfUserField;
+		private JTextField storageField;
+		private JTable saleDetailTable;
+
+		/**
+		 * Create the panel.
+		 */
+		public SaleDetailPanel() {
 			super();
-     		this.setBounds(140, 25, 835, 550);
-     		this.setBackground(Color.white);
-    		this.setLayout(null);
-	    	infoPanel.add(this) ;
-	    	this.setVisible(true);
+			setLayout(null);
+			this.setBackground(Color.LIGHT_GRAY);
+			this.setBounds(80,74, 700,400);
+			
+			JLabel timesLabel = new JLabel("时间区间：");
+			timesLabel.setBounds(44, 24, 100, 15);
+			add(timesLabel);
+			
+			beginTimeField = new JTextField() ;
+			beginTimeField.setBounds(187, 21, 122, 21);
+			add(beginTimeField);
+			beginTimeField.setColumns(10);
+			
+			JLabel beginTimeLabel = new JLabel("起始时间");
+			beginTimeLabel.setBounds(123, 22, 100, 18);
+			add(beginTimeLabel);
+			
+			JLabel endTimeLabel = new JLabel("截止时间");
+			endTimeLabel.setBounds(351, 24, 100, 15);
+			add(endTimeLabel);
+			
+			endTimeField = new JTextField();
+			endTimeField.setColumns(10);
+			endTimeField.setBounds(415, 21, 122, 21);
+			add(endTimeField);
+			
+			JLabel nameOfGoodLabel = new JLabel("商品名称");
+			nameOfGoodLabel.setBounds(123, 51, 100, 15);
+			add(nameOfGoodLabel);
+			
+			nameOfGoodField = new JTextField();
+			nameOfGoodField.setBounds(187, 52, 122, 21);
+			add(nameOfGoodField);
+			nameOfGoodField.setColumns(10);
+			
+			JLabel nameOfCustomerLabel = new JLabel("客户名称");
+			nameOfCustomerLabel.setBounds(351, 55, 100, 15);
+			add(nameOfCustomerLabel);
+			
+			nameOfCustomerField = new JTextField();
+			nameOfCustomerField.setBounds(415, 52, 122, 21);
+			add(nameOfCustomerField);
+			nameOfCustomerField.setColumns(10);
+			
+			JLabel nameOfUserLabel = new JLabel("业务员");
+			nameOfUserLabel.setBounds(123, 86, 100, 15);
+			add(nameOfUserLabel);
+			
+			nameOfUserField = new JTextField();
+			nameOfUserField.setBounds(187, 83, 122, 21);
+			add(nameOfUserField);
+			nameOfUserField.setColumns(10);
+			
+			JLabel storageLabel = new JLabel("仓库");
+			storageLabel.setBounds(351, 86, 100, 15);
+			add(storageLabel);
+			
+			storageField = new JTextField();
+			storageField.setBounds(415, 83, 122, 21);
+			add(storageField);
+			storageField.setColumns(10);
+			
+			String[] columnNames = {"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注"};
+			
+			String[][] data = {{"111","sad","sd","sd","3","f","20","10","1","9","fg"},
+					{"75","kk","ll","kkk","uu","cx","fda","ghf","fgdd","gfd","fgdf"}};
+			
+			saleDetailTable = new JTable(data,columnNames);
+//			saleDetailTable.setBounds(54, 121, 597, 253);
+			saleDetailTable.setFillsViewportHeight(true);
+			
+			JScrollPane jsc = new JScrollPane(saleDetailTable) ;
+			jsc.setBounds(54, 121, 597, 253);
+			add(jsc);
+			
+			JButton sureButton = new JButton("确定");
+			sureButton.setBounds(578, 24, 93, 23);
+			add(sureButton);
+			sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					/*
+					 * 调用方法
+					 */
+				}
+			});
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(578, 68, 93, 23);
+			add(cancelButton);
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO Auto-generated method stub
+					beginTimeField.setText("");
+					endTimeField.setText("");
+					nameOfGoodField.setText("");
+					nameOfCustomerField.setText("");
+					nameOfUserField.setText("");
+					storageField.setText("");
+					
+				}
+			});
+
 		}
+
 	}
+	class SaleProcessPanel extends JPanel{
+		private JTextField beginTimeField;
+		private JTextField endTimeField;
+		private JTextField nameOfCustomerField;
+		private JTextField nameOfUserField;
+		private JTextField storageField;
+		private JTable table;
+
+		/**
+		 * Create the panel.
+		 */
+		public SaleProcessPanel() {
+			setLayout(null);
+			this.setBounds(80,74, 700,400);
+			this.setBackground(Color.LIGHT_GRAY);
+			
+			JLabel timesLabel = new JLabel("时间区间");
+			timesLabel.setBounds(44, 59, 69, 15);
+			add(timesLabel);
+			
+			beginTimeField = new JTextField();
+			beginTimeField.setBounds(188, 56, 122, 21);
+			add(beginTimeField);
+			beginTimeField.setColumns(10);
+			
+			JLabel beginTimeLabel = new JLabel("起始时间");
+			beginTimeLabel.setBounds(124, 57, 54, 18);
+			add(beginTimeLabel);
+			
+			JLabel endTimeLabel = new JLabel("截止时间");
+			endTimeLabel.setBounds(351, 59, 54, 15);
+			add(endTimeLabel);
+			
+			endTimeField = new JTextField();
+			endTimeField.setColumns(10);
+			endTimeField.setBounds(415, 56, 122, 21);
+			add(endTimeField);
+			
+			JLabel nameOfCustomerLabel = new JLabel("客户名称");
+			nameOfCustomerLabel.setBounds(44, 90, 54, 15);
+			add(nameOfCustomerLabel);
+			
+			nameOfCustomerField = new JTextField();
+			nameOfCustomerField.setBounds(124, 87, 77, 21);
+			add(nameOfCustomerField);
+			nameOfCustomerField.setColumns(10);
+			
+			JLabel nameOfUserLabel = new JLabel("业务员");
+			nameOfUserLabel.setBounds(238, 90, 54, 15);
+			add(nameOfUserLabel);
+			
+			nameOfUserField = new JTextField();
+			nameOfUserField.setBounds(293, 87, 77, 21);
+			add(nameOfUserField);
+			nameOfUserField.setColumns(10);
+			
+			JLabel storageLabel = new JLabel("仓库");
+			storageLabel.setBounds(415, 90, 54, 15);
+			add(storageLabel);
+			
+			storageField = new JTextField();
+			storageField.setBounds(459, 87, 77, 21);
+			add(storageField);
+			storageField.setColumns(10);
+			String[] columnNames = {"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注"};
+			
+			String[][] data = {{"111","sad","sd","sd","3","f","20","10","1","9","fg"},
+					{"75","kk","ll","kkk","uu","cx","fda","ghf","fgdd","gfd","fgdf"}};
+			table = new JTable(data,columnNames);
+			table.setBounds(54, 121, 597, 253);
+			add(table);
+			
+			JButton sureButton = new JButton("确定");
+			sureButton.setBounds(578, 35, 93, 23);
+			add(sureButton);
+			
+			JButton cancelButton = new JButton("取消");
+			cancelButton.setBounds(578, 68, 93, 23);
+			add(cancelButton);
+			
+			JLabel typeOfReceiptLabel = new JLabel("单据类型");
+			typeOfReceiptLabel.setBounds(44, 25, 54, 15);
+			add(typeOfReceiptLabel);
+			
+			JRadioButton saleRadioButton = new JRadioButton("销售类");
+			saleRadioButton.setBounds(123, 21, 77, 23);
+			add(saleRadioButton);
+			
+			JRadioButton purchaseRadioButton = new JRadioButton("进货类");
+			purchaseRadioButton.setBounds(222, 21, 77, 23);
+			add(purchaseRadioButton);
+			
+			JRadioButton financeRadioButton = new JRadioButton("财务类");
+			financeRadioButton.setBounds(328, 21, 77, 23);
+			add(financeRadioButton);
+			
+			JRadioButton commodityRadioButton = new JRadioButton("库存类");
+			commodityRadioButton.setBounds(432, 21, 77, 23);
+			add(commodityRadioButton);
+
+		}
+}
+	
+	
 	public static void main(String[] marg){
 		new FinanceFrame() ;
 	}
