@@ -306,6 +306,7 @@ public class ManagerFrame extends JFrame{
 	
 	class PromotionPanel extends JPanel {     //制定促销策略panel
 		private JTable table;
+		private JScrollPane tablePane; 
 		public PromotionPanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
@@ -420,7 +421,9 @@ public class ManagerFrame extends JFrame{
 		    });
 		    table.repaint();
 		    
-		    JScrollPane tablePane=new JScrollPane(table);
+		    if(tablePane!=null)
+		    	tablePane.setVisible(false);    //重要！防止表格出现错位
+		    tablePane=new JScrollPane(table);
 		    tablePane.setSize(700,400);
 			tablePane.setLocation(80, 74);
 			tablePane.repaint();
