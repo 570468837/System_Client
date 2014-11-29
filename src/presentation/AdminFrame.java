@@ -64,6 +64,7 @@ public class AdminFrame extends JFrame{
 	
 	class adminPanel extends JPanel{
 		private JTable table1;
+		JScrollPane tablePane1;
 		public adminPanel(JFrame theFrame){
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
@@ -107,11 +108,13 @@ public class AdminFrame extends JFrame{
 			refreshLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					tableRefresh();
+	
 				}
 			});
 			
 			tableRefresh();    //刷新列表
 			
+			this.repaint();
 			theFrame.add(this);
 		}
 		
@@ -135,9 +138,9 @@ public class AdminFrame extends JFrame{
 			table1=new JTable(new MyTableModel(tableData,columnTitle));
 			table1.setFillsViewportHeight(true);     //显示表头
 			
-			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+			/*DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
-		    table1.setDefaultRenderer(Object.class, render);
+		    table1.setDefaultRenderer(Object.class, render);*/
 		 
 		    table1.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
 		    	public void tableChanged(TableModelEvent e) {     //进行的操作
@@ -150,13 +153,17 @@ public class AdminFrame extends JFrame{
 		    		new UserController().update(uservo);
 		    	}
 		    });
+		    table1.repaint();
+		    table1.updateUI();
 		    
-			JScrollPane tablePane1=new JScrollPane(table1);
+			tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(700,400);
 			tablePane1.setLocation(80, 74);
+			tablePane1.repaint();
+			tablePane1.updateUI();
 			
 			this.add(tablePane1);
-		
+			//System.out.println((String)table1.getValueAt(2, 0));
 		}
 	}
 	
