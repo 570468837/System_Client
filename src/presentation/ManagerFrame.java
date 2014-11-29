@@ -117,7 +117,7 @@ public class ManagerFrame extends JFrame{
 			this.add(Receipt1);
 			
 			JLabel Receipt2 = new JLabel("销售单和销售退货单",JLabel.CENTER);
-			Receipt2.setBounds(350, 23, 120, 50);
+			Receipt2.setBounds(360, 23, 120, 50);
 			this.add(Receipt2);
 			
 			JLabel Receipt3 = new JLabel("收款单和付款单",JLabel.CENTER);

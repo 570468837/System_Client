@@ -105,6 +105,7 @@ public class FinanceFrame extends JFrame{
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
+			this.setVisible(true);
 			theFrame.add(this) ;
 			
 			JLabel accountAdd = new JLabel("添加账户",JLabel.CENTER);
@@ -198,13 +199,15 @@ public class FinanceFrame extends JFrame{
 					
 				});
 				
-				
 				JButton cancel = new JButton("取消");
 				cancel.setBounds(154, 158, 93, 23);
 				addAccountPane.add(cancel);
-				cancel.addMouseListener(new MouseAdapter() {
-					public void mouseClicked(MouseEvent e){
-						dispose() ;
+				cancel.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						dispose();
 					}
 				});
 				
@@ -333,7 +336,6 @@ public class FinanceFrame extends JFrame{
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
-			this.setVisible(true);
 			theFrame.add(this) ;
 			makeCollectionPane = new MakeCollectionOrPayment() ;
 			this.add(makeCollectionPane) ;
@@ -377,7 +379,6 @@ public class FinanceFrame extends JFrame{
 			this.setBorder(new EmptyBorder(5, 5, 5, 5));
 //			setContentPane(contentPane);
 			this.setLayout(null);
-			this.setVisible(true);
 			
 			JLabel numberLabel = new JLabel("单据编号：");
 			numberLabel.setBounds(39, 42, 100, 15);
@@ -630,7 +631,6 @@ public class FinanceFrame extends JFrame{
 			setBounds(120, 100, 500, 380);
 			this.setBorder(new EmptyBorder(5, 5, 5, 5));
 			this.setLayout(null);
-			this.setVisible(true);
 			
 			JLabel numberLabel = new JLabel("单据编号：");
 			numberLabel.setBounds(39, 42, 100, 15);
@@ -856,7 +856,6 @@ public class FinanceFrame extends JFrame{
 	    	this.setBounds(140, 25, 835, 550);
 	    	this.setBackground(new Color(200, 100, 150, 255));
 	    	this.setLayout(null);
-	    	this.setVisible(true);
 	    	theFrame.add(this) ;
 	    	saleDetailPanel  = new SaleDetailPanel() ;
 	    	this.add(saleDetailPanel) ;
@@ -892,6 +891,7 @@ public class FinanceFrame extends JFrame{
 			this.add(saleConditionLabel) ;
 //			JLabel.
 			
+			this.repaint();
 	    }
 	}
 	class SaleDetailPanel extends JPanel{
