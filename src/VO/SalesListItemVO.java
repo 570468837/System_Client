@@ -1,7 +1,9 @@
 package VO;
 
+import java.io.Serializable;
 
-public class SalesListItemVO {
+
+public class SalesListItemVO  {
 
 	
 	private int quantity;

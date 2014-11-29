@@ -1,9 +1,7 @@
 ﻿package presentation;
 
 import java.awt.Color;
-import java.awt.Dialog;
 import java.awt.Font;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -145,10 +143,9 @@ public class AdminFrame extends JFrame{
 		    table1.repaint();
 		    table1.updateUI();
 		    
-		    System.out.println(table1.getWidth()+" "+table1.getHeight());
-		 
 		    table1.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
 		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+		    		System.out.println();
 		    		int row = e.getFirstRow();
 		    		UserVO uservo=new UserVO(null, null, null, 0);
 		    		uservo.setUserName((String)table1.getValueAt(row, 0));

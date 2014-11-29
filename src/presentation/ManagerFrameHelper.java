@@ -7,32 +7,61 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 import java.util.zip.DataFormatException;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import businesslogicservice.PromotionBLService.PromotionController;
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
+import PO.PurchaseListItemPO;
+import PO.SalesListItemPO;
+import PO.TransferListItemPO;
 import ResultMessage.ResultMessage;
 import VO.PromotionVO;
 
 public class ManagerFrameHelper {
+	static ArrayList<PurchaseListItemPO> purchaseListItems;
+	static ArrayList<SalesListItemPO> salesListItems;
+	static ArrayList<TransferListItemPO> transfers;
 	public ManagerFrameHelper(String command){
 		switch (command){
 			case "package":new AddPackageFrame(); break;
 			case "gifts": new AddGiftsFrame(); break;
 			case "voucher": new AddVoucherFrame(); break;
 			case "deletePromotion": new deletePromotionFrame(); break;
+			case "purchaseGoodsInfo": new purchaseGoodsInfoFrame(); break;
+			case "salesGoodsInfo": new saleGoodsInfoFrame(); break;
+			case "transfer": new transferFrame(); break;
 		}
 	}
+	
+	
+	public static void setPurchaseItems(ArrayList<PurchaseListItemPO> purchaseItems) {
+		ManagerFrameHelper.purchaseListItems = purchaseItems;
+	}
+
+	public static void setSalesListItems(ArrayList<SalesListItemPO> salesListItems) {
+		ManagerFrameHelper.salesListItems = salesListItems;
+	}
+
+	public void setTransfers(ArrayList<TransferListItemPO> transfers) {
+		this.transfers = transfers;
+	}
+	
 	class AddPackageFrame extends JFrame{
 		private JTextField textField;
 		private JButton button;
@@ -681,6 +710,122 @@ public class ManagerFrameHelper {
 			}
 		}
 	
+	class purchaseGoodsInfoFrame extends JFrame{
+		public purchaseGoodsInfoFrame(){
+			this.setVisible(true);
+			setBounds(100, 100, 585, 451);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+
+			Vector<String> titles=new Vector<String>();
+			titles.add("商品编号");titles.add("名称");titles.add("型号");
+			titles.add("数量");titles.add("单价");titles.add("金额");//titles.add("备注");
+			
+			Vector allItems=new Vector();
+			for(int i=0;i<purchaseListItems.size();i++){
+				Vector oneItem=new Vector();
+				oneItem.add(purchaseListItems.get(i).getGoodsPO().getSerialNumber());
+				oneItem.add(purchaseListItems.get(i).getGoodsPO().getName());
+				oneItem.add(purchaseListItems.get(i).getGoodsPO().getModel());
+				oneItem.add(purchaseListItems.get(i).getQuantity());
+				oneItem.add(purchaseListItems.get(i).getGoodsPO().getPrice());
+				oneItem.add(purchaseListItems.get(i).getTotalPrice());
+				//oneItem.add(purchaseListItems.get(i).getComment());
+				allItems.add(oneItem);
+			}
+			JTable table=new JTable(new DefaultTableModel(allItems,titles));
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane scrollPane = new JScrollPane(table);
+			scrollPane.setBounds(37, 70, 501, 320);
+			getContentPane().add(scrollPane);
+			
+			JLabel label = new JLabel("商品列表");
+			label.setBounds(259, 29, 54, 15);
+			getContentPane().add(label);
+			
+			this.repaint();
+		}
+	}
+	
+	class saleGoodsInfoFrame extends JFrame{
+		public saleGoodsInfoFrame(){
+			this.setVisible(true);
+			setBounds(100, 100, 585, 451);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+
+			Vector<String> titles=new Vector<String>();
+			titles.add("商品编号");titles.add("名称");titles.add("型号");
+			titles.add("数量");titles.add("单价");titles.add("金额");//titles.add("备注");
+			
+			Vector allItems=new Vector();
+			for(int i=0;i<salesListItems.size();i++){
+				Vector oneItem=new Vector();
+				oneItem.add(salesListItems.get(i).getGoodsPO().getSerialNumber());
+				oneItem.add(salesListItems.get(i).getGoodsPO().getName());
+				oneItem.add(salesListItems.get(i).getGoodsPO().getModel());
+				oneItem.add(salesListItems.get(i).getQuantity());
+				oneItem.add(salesListItems.get(i).getGoodsPO().getPrice());
+				oneItem.add(salesListItems.get(i).getTotalPrice());
+				//oneItem.add(salesListItems.get(i).getComment());
+				allItems.add(oneItem);
+			}
+			JTable table=new JTable(new DefaultTableModel(allItems,titles));
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane scrollPane = new JScrollPane(table);
+			scrollPane.setBounds(37, 70, 501, 320);
+			getContentPane().add(scrollPane);
+			
+			JLabel label = new JLabel("商品列表");
+			label.setBounds(259, 29, 54, 15);
+			getContentPane().add(label);
+			
+			this.repaint();
+		}
+	}
+	
+	class transferFrame extends JFrame{
+		public transferFrame(){
+			this.setVisible(true);
+			setBounds(100, 100, 585, 451);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+			
+			Vector<String> titles=new Vector<String>();
+			titles.add("银行账户");titles.add("转账金额");titles.add("备注");
+			
+			Vector oneTransfer=new Vector();
+			Vector allTransfers=new Vector();
+			oneTransfer.add("131250008"); oneTransfer.add("1000"); oneTransfer.add("收款");
+			
+			allTransfers.add(oneTransfer);
+			
+			JTable table=new JTable(new DefaultTableModel(allTransfers,titles));
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane scrollPane = new JScrollPane(table);
+			scrollPane.setBounds(37, 70, 501, 320);
+			getContentPane().add(scrollPane);
+			
+			JLabel label = new JLabel("转账列表");
+			label.setBounds(259, 29, 54, 15);
+			getContentPane().add(label);
+			 
+			this.repaint();
+		}
+	}
+	
 	class warningDialog extends JDialog{
 		public warningDialog(String warnings){
 			this.setSize(284, 158);
@@ -696,6 +841,8 @@ public class ManagerFrameHelper {
 			this.add(warningLabel);
 		}
 	}
+	
+	
 	
 	public int getYearNow(){
 		Calendar c=Calendar.getInstance();
@@ -738,6 +885,6 @@ public class ManagerFrameHelper {
 	}
 
 	public static void main(String[] args){
-		new ManagerFrameHelper("deletePromotion");
+		new ManagerFrameHelper("transfer");
 	}
 }

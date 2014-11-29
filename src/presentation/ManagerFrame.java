@@ -1,46 +1,32 @@
 ﻿package presentation;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Panel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
+
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 
 import businesslogicservice.PromotionBLService.PromotionController;
-import businesslogicservice.UserBLService.UserController;
-import presentation.AdminFrame.MyTableModel;
+
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
-import PO.UserPO;
-import VO.GoodsVO;
 import VO.PromotionVO;
-import VO.UserVO;
+
 
 public class ManagerFrame extends JFrame{
 	private JLabel backgroundLabel,exitButton,crLabel,infoLabel,promotionLabel;
@@ -166,12 +152,17 @@ public class ManagerFrame extends JFrame{
 				}
 			});
 			// 表一
-			/*String[] columnTitle1={"单据编号","供应商","仓库","操作员","入库商品列表","备注","总额合计","审批通过"};
+			String[] columnTitleString1={"单据编号","供应商","仓库","操作员","入库商品列表","备注",
+			"总额合计","审批通过"};
+			Vector<String> columnTitle1=new Vector<String>();
+			for(int i=0;i<columnTitleString1.length;i++)
+				columnTitle1.add(columnTitleString1[i]);
+			
 			Object[][] tableData1={
 					new Object[]{"JH123","胡韬","1号","高杨","暂无","^",1000,new Boolean(false)},
 					new Object[]{"JH124","小宇","2号","高杨","暂无","^",2000,new Boolean(false)},
 					           };
-			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+			/*JTable table1=new JTable(new DefaultTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
 			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
@@ -209,12 +200,18 @@ public class ManagerFrame extends JFrame{
 			});       */
 			
 			// 表二
-			String[] columnTitle2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注","审批通过"};
+			String[] columnTitleString2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注","审批通过"};
+			Vector<String> columnTitle2=new Vector<String>(); 
+			for(int i=0;i<columnTitleString2.length;i++){
+				columnTitle2.add(columnTitleString2[i]);
+			}
+			
 			Object[][] tableData2={
 					new Object[]{"TH123","胡韬","姚锰舟","高杨","0011","^",1000,20,50,980,"无",new Boolean(false)},
 					new Object[]{"TH124","小宇","姚锰舟","高杨","0011","^",2000,40,100,1960,"无",new Boolean(false)},
 					           };
-		/*	JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
+			
+		/*	JTable table2=new JTable(new DefaultTableModel(tableData2,columnTitle2));
 			table2.setFillsViewportHeight(true);     //显示表头
 			
 		    table2.setDefaultRenderer(Object.class, render);
