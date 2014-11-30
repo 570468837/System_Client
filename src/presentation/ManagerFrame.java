@@ -165,42 +165,6 @@ public class ManagerFrame extends JFrame{
 			// 表三
 			table3Refresh();
 			
-			/*JTable table3=new JTable(new MyTableModel(tableData3,));
-			table3.setFillsViewportHeight(true);     //显示表头
-			
-		    table3.setDefaultRenderer(Object.class, render);
-		    
-		    
-			JScrollPane tablePane3=new JScrollPane(table3);
-			tablePane3.setSize(630,400);
-			tablePane3.setLocation(50, 10);
-			panel3.add(tablePane3);   
-			
-			JButton allButton3=new JButton("全选");
-			allButton3.setBounds(685,150,73,30);
-			panel3.add(allButton3);
-			JButton allNotButton3=new JButton("全不选");
-			allNotButton3.setBounds(685,185,73,30);
-			panel3.add(allNotButton3);
-			JButton doneButton3=new JButton("审批");
-			doneButton3.setBounds(685, 379, 73, 30);
-			panel3.add(doneButton3);
-			
-			allButton3.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					for(int i=0;i<table3.getRowCount();i++)
-							table3.setValueAt(true, i, 6);
-					}
-			});
-			
-			allNotButton3.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-				
-						for(int i=0;i<table3.getRowCount();i++)
-							table3.setValueAt(false, i, 6);
-						}
-			});          */
-			
 			theFrame.add(this);
 		}
 		public void table1Refresh(){
@@ -258,6 +222,14 @@ public class ManagerFrame extends JFrame{
 							table1.setValueAt(false, i, 7);
 						}
 			});   
+			
+			doneButton1.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					
+				}
+			});
 		}
 	
 		public void table2Refresh(){
@@ -290,7 +262,7 @@ public class ManagerFrame extends JFrame{
 			JScrollPane tablePane2=new JScrollPane(table2);
 			tablePane2.setSize(630,400);
 			tablePane2.setLocation(50, 10);
-			panel2.add(tablePane2);  
+			panel2.add(tablePane2);
 				
 			JButton allButton2=new JButton("全选");
 			allButton2.setBounds(685,150,73,30);
@@ -375,7 +347,6 @@ public class ManagerFrame extends JFrame{
 		public InfoPanel(JFrame theFrame) {
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(185, 227, 217, 255));
-			
 			
 			theFrame.add(this);
 		}
