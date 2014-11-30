@@ -23,6 +23,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
 import businesslogicservice.PromotionBLService.PromotionController;
 import Config.Level;
 import Config.PromotionSort;
@@ -226,6 +227,12 @@ public class ManagerFrame extends JFrame{
 			doneButton1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					ArrayList<ArrayList<Object>> isApproved=new ArrayList<ArrayList<Object>>();
+					for(int i=0;i<tableData1.size();i++){
+						if((Boolean)tableData1.get(i).get(7)==true)
+							isApproved.add(tableData1.get(i));
+					}
+					new ApprovalBLService_Controller().changeCustomer(isApproved);
 					
 					
 				}
