@@ -19,6 +19,29 @@ public class SalesReceiptVO {
 	private double finalprice;
 	private String comment;
 	private String time;
+	private boolean isApprovedByManager=false;
+	private boolean isApprovedByCommodity=false;
+	
+	public boolean isApprovedByManager() {
+		return isApprovedByManager;
+	}
+
+
+	public void setApprovedByManager(boolean isApprovedByManager) {
+		this.isApprovedByManager = isApprovedByManager;
+	}
+
+
+	public boolean isApprovedByCommodity() {
+		return isApprovedByCommodity;
+	}
+
+
+	public void setApprovedByCommodity(boolean isApprovedByCommodity) {
+		this.isApprovedByCommodity = isApprovedByCommodity;
+	}
+
+
 	
 	
 	//防止调用add方法时指针异常，所以要先初始化

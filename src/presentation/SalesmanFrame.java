@@ -2,6 +2,8 @@ package presentation;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -126,10 +128,17 @@ public class SalesmanFrame extends JFrame {
 			serchButton.setBounds(520, 30, 40, 20);
 			this.add(serchButton);
 
-			
-			        
-			
+
 			theFrame.getContentPane().add(this);
+			
+			addButton1.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new SalesmanFrameHelper("addCustomer");
+				}
+				
+			});
 		}
 	}
 	

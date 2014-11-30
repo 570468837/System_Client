@@ -248,7 +248,7 @@ public class ManagerFrameHelper {
 					dispose();
 					}
 					else{
-						new warningDialog("已存在相同的策略编号！");
+						new warningDialog("已存在相同的策略编号");
 					}
 				}
 				

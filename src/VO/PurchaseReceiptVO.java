@@ -9,7 +9,33 @@ public class PurchaseReceiptVO  {
 	private String time;
 	private String comments;
 	private double totalPrice;
+	//审批
+	private boolean isApprovedByManager=false;
+	private boolean isApprovedByCommodity=false;
 	
+	public boolean isApprovedByManager() {
+		return isApprovedByManager;
+	}
+
+
+	public void setApprovedByManager(boolean isApprovedByManager) {
+		this.isApprovedByManager = isApprovedByManager;
+	}
+
+
+	public boolean isApprovedByCommodity() {
+		return isApprovedByCommodity;
+	}
+
+
+	public void setApprovedByCommodity(boolean isApprovedByCommodity) {
+		this.isApprovedByCommodity = isApprovedByCommodity;
+	}
+
+
+	
+
+
 	//防止add方法list为空指针
 	private ArrayList<PurchaseListItemVO> purchaseList=new ArrayList<PurchaseListItemVO>();
 	

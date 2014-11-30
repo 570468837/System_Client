@@ -16,7 +16,32 @@ public class SalesReceiptPO implements Serializable {
 	private double finalprice;
 	private String comment;
 	private String time;
+	private boolean isApprovedByManager=false;
+	private boolean isApprovedByCommodity=false;
+	
+	public boolean isApprovedByManager() {
+		return isApprovedByManager;
+	}
+
+
+	public void setApprovedByManager(boolean isApprovedByManager) {
+		this.isApprovedByManager = isApprovedByManager;
+	}
+
+
+	public boolean isApprovedByCommodity() {
+		return isApprovedByCommodity;
+	}
+
+
+	public void setApprovedByCommodity(boolean isApprovedByCommodity) {
+		this.isApprovedByCommodity = isApprovedByCommodity;
+	}
+
+
+	
 	private ArrayList<SalesListItemPO> salesList;
+	
 
 	public SalesReceiptPO(String serialNumber, String retailer,
 			String salesman, ArrayList<SalesListItemPO> salesList,
