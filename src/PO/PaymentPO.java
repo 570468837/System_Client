@@ -9,6 +9,8 @@ public class PaymentPO implements Serializable {
 	String user ;
 	ArrayList<TransferListItemPO> tfList = null ;//转账列表
 	double sum ;
+	boolean isProvedByManege = false ;
+	boolean isProvedByFinancer = false ;
 	public PaymentPO(String theNumber,String theCustomer,String theUser,ArrayList<TransferListItemPO> theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;

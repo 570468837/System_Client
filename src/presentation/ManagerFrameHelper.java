@@ -1,5 +1,6 @@
 package presentation;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,6 +47,7 @@ public class ManagerFrameHelper {
 			case "purchaseGoodsInfo": new purchaseGoodsInfoFrame(); break;
 			case "salesGoodsInfo": new saleGoodsInfoFrame(); break;
 			case "transfer": new transferFrame(); break;
+			default: break;
 		}
 	}
 	
@@ -228,12 +230,13 @@ public class ManagerFrameHelper {
 			confirmButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					if(checkValid()){
 					Date date=new Date();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
 					
 					ArrayList<GoodsPO> goods=new ArrayList<GoodsPO>();
-					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, 0, null));
-					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, 0, null));
+					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, 0, 0, 0, null));
+					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, 0, 0, 0, null));
 					
 					Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 					
@@ -250,6 +253,10 @@ public class ManagerFrameHelper {
 					else{
 						new warningDialog("已存在相同的策略编号");
 					}
+					}
+					else{
+						new warningDialog("商品编号和降价金额不能为空！");
+					}
 				}
 				
 			});
@@ -260,6 +267,13 @@ public class ManagerFrameHelper {
 				}
 			}); 
 			this.repaint();
+		}
+		public boolean checkValid(){
+			boolean valid=false;
+			if(!goods1Field.getText().equals("")&&!goods2Field.getText().equals("")&&
+					!offPriceField.getText().equals(""))
+				valid=true;
+			return valid;
 		}
 	}
 
@@ -416,11 +430,12 @@ public class ManagerFrameHelper {
 				
 				confirmButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(checkValid()){
 						Date date=new Date();
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
 						
 						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
-						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, 0, null));
+						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, 0, 0, 0, null));
 						
 						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 						
@@ -437,6 +452,10 @@ public class ManagerFrameHelper {
 						else{
 								new warningDialog("已存在相同的策略编号！");
 							}
+						}
+						else{
+							new warningDialog("金额和赠品编号不得为空！");
+						}
 					}
 				});
 				
@@ -448,21 +467,12 @@ public class ManagerFrameHelper {
 				
 				this.repaint();
 			}
-		
-		
-		public int getYearNow(){
-			Calendar c=Calendar.getInstance();
-			return c.get(Calendar.YEAR);
-		}
-		
-		public int getMonthNow(){
-			Calendar c=Calendar.getInstance();
-			return c.get(Calendar.MONTH)+1;
-		}
-		
-		public int getDateNow(){
-			Calendar c=Calendar.getInstance();
-			return c.get(Calendar.DATE);
+		public boolean checkValid(){
+			boolean valid=false;
+			if(!leastPriceField.getText().equals("")&&!presentsField.getText().equals(""))
+				valid=true;
+			return valid;
+			
 		}
 		}
 
@@ -621,6 +631,7 @@ public class ManagerFrameHelper {
 				
 				confirmButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(checkValid()){
 						Date date=new Date();
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
 						
@@ -638,6 +649,10 @@ public class ManagerFrameHelper {
 						else{
 							new warningDialog("已存在相同的策略编号！");
 							}
+						}
+						else{
+							new warningDialog("金额栏不能为空！");
+						}
 					}
 				});
 				
@@ -648,7 +663,12 @@ public class ManagerFrameHelper {
 				}); 
 				this.repaint();
 			}
-		
+		public boolean checkValid(){
+			boolean valid=false;
+			if(!leastPriceField.getText().equals("")&&!textField_1.getText().equals(""))
+				valid=true;
+			return valid;
+		}
 		}
 	
 	class deletePromotionFrame extends JFrame{
@@ -687,6 +707,7 @@ public class ManagerFrameHelper {
 				
 				confirmButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						if(checkValid()){
 						String promotionId=idField.getText();
 						PromotionVO vo=new PromotionVO(null, promotionId, null, 0, 0, null, 0, null, null, null);
 						ResultMessage result=new PromotionController().delete(vo);
@@ -694,7 +715,10 @@ public class ManagerFrameHelper {
 							dispose();
 						else
 							new warningDialog("不存在此策略编号！");
-						
+						}
+						else{
+							new warningDialog("策略编号不能为空！");
+						}
 					}
 				});
 				
@@ -708,7 +732,14 @@ public class ManagerFrameHelper {
 				
 				this.repaint();
 			}
+		public boolean checkValid(){
+			boolean valid=false;
+			if(!idField.getText().equals(""))
+				valid=true;
+		
+		return valid;
 		}
+	}
 	
 	class purchaseGoodsInfoFrame extends JFrame{
 		public purchaseGoodsInfoFrame(){
@@ -830,7 +861,6 @@ public class ManagerFrameHelper {
 		public warningDialog(String warnings){
 			this.setSize(284, 158);
 			this.setLocationRelativeTo(null);
-			this.setLayout(null);
 			this.setVisible(true);
 			this.setModal(true);
 			
@@ -885,6 +915,6 @@ public class ManagerFrameHelper {
 	}
 
 	public static void main(String[] args){
-		new ManagerFrameHelper("transfer");
+		new ManagerFrameHelper("deletePromotion");
 	}
 }
