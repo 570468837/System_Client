@@ -1,5 +1,7 @@
 package businesslogicservice.CommodityBLService;
 
+import java.rmi.RemoteException;
+
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.*;
@@ -31,13 +33,24 @@ public class CommodityController implements CommodityBLService {
 
 	@Override
 	public ResultMessage addSendCommodity(SendCommodityVO sendCommodityVO) {
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("commoditySend", sendCommodityVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.add_failure;
+		}
 		
-		return ResultMessage.add_success;
 	}
 	@Override
 	public ResultMessage addReportCommodity(ReportCommodityVO reportCommodityVO) {
-		
-		return ResultMessage.add_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("commodityReport", reportCommodityVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.add_failure;
+		}
 	}
 	
 	@Override

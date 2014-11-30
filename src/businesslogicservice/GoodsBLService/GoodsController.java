@@ -1,7 +1,10 @@
 package businesslogicservice.GoodsBLService;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import PO.GoodsPO;
+import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.GoodsClassVO;
 import VO.GoodsVO;
@@ -46,20 +49,37 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ResultMessage addGoods(GoodsVO goodsVO) {
-		
-		return ResultMessage.add_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("goodsAdd", goodsVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.add_failure;
+		}
 	}
 
 	@Override
 	public ResultMessage delGoods(long id) {
-		
-		return ResultMessage.delete_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		GoodsPO po = new GoodsPO();
+		po.getSerialNumber() = id;
+		try {
+			return com.client.messageCommand("goodsDel", goodsVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.delete_failure;
+		}
 	}
 
 	@Override
 	public ResultMessage updGoods(GoodsVO goodsVO) {
-		
-		return ResultMessage.update_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("goodsUpd", goodsVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.update_failure;
+		}
 	}
 
 	@Override
@@ -70,20 +90,37 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO) {
-		
-		return ResultMessage.add_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("goodsClassAdd", goodsClassVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.add_failure;
+		}
 	}
 
 	@Override
 	public ResultMessage delGoodsClass(long id) {
-		
-		return ResultMessage.delete_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		GoodsClassPO po = new GoodsClassPO();
+		po.id = id;
+		try {
+			return com.client.messageCommand("goodsClassDel", po);
+		} catch (RemoteException e) {
+			return ResultMessage.delete_failure;
+		}
 	}
 
 	@Override
 	public ResultMessage updGoodsClass(GoodsClassVO goodsClassVO) {
-		
-		return ResultMessage.update_success;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			return com.client.messageCommand("goodsClassUpd", goodsClassVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.update_failure;
+		}
 	}
 
 	@Override

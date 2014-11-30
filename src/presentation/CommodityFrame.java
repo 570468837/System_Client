@@ -561,10 +561,46 @@ public class CommodityFrame extends JFrame {
 						JLabel addClass = new JLabel("添加商品分类");
 						addClass.setBounds(0, 0, 120, 0);
 						addClass.addMouseListener(new MouseAdapter() {
+							JTextField input;
+							JLabel notice, submit, cancel;
 							public void mouseClicked(MouseEvent e) {
 								if(inputFrame != null) inputFrame.setVisible(false);
 								popFrame.dispose();
 								inputFrame = new JFrame();
+								inputFrame.setUndecorated(true);
+								inputFrame.setLayout(null);
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 70);
+								notice = new JLabel("请输入要添加的商品分类名", JLabel.CENTER);
+								notice.setBounds(10, 0, 200, 30);
+								input = new JTextField();
+								input.setBounds(10, 30, 200, 30);
+								cancel = new JLabel("取消", JLabel.CENTER);
+								cancel.setBounds(210, 0, 50, 30);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
+								submit = new JLabel("添加", JLabel.CENTER);
+								submit.setBounds(210, 30, 50, 30);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										GoodsClassVO classToBeAdded;
+										classToBeAdded = new GoodsClassVO(
+												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
+												notice.getText());
+										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success)
+											infoBoard.setText("添加成功");
+										else 
+											infoBoard.setText("添加失败");
+										inputFrame.dispose();
+										infoBoard.setVisible(true);
+									}
+								});
+								
+								inputFrame.add(cancel);
+								inputFrame.add(notice);
+								inputFrame.add(input);
+								inputFrame.add(submit);
+								inputFrame.setVisible(true);
 								
 							}
 						});
@@ -572,16 +608,110 @@ public class CommodityFrame extends JFrame {
 						JLabel add = new JLabel("添加商品");
 						add.setBounds(0, 0, 120, 25);
 						add.addMouseListener(new MouseAdapter() {
+							JTextField j1, j2, j3, j4;
+							JLabel submit, cancel;
 							public void mouseClicked(MouseEvent e) {
-								//
+								if(inputFrame != null) inputFrame.setVisible(false);
+								popFrame.dispose();
+								inputFrame = new JFrame();
+								inputFrame.setUndecorated(true);
+								inputFrame.setLayout(null);
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 60);
+								j1 = new JTextField("<商品名>");
+								j1.setBounds(0, 0, 100, 30);
+								new AddWordsChange(j1, "<商品名>");
+								j2 = new JTextField("<型号>");
+								j2.setBounds(100, 0, 100, 30);
+								new AddWordsChange(j2, "<型号>");
+								j3 = new JTextField("<默认进价>");
+								j3.setBounds(0, 30, 100, 30);
+								new AddWordsChange(j3, "<默认进价>");
+								j4 = new JTextField("<默认零售价>");
+								j4.setBounds(100, 30, 100, 30);
+								new AddWordsChange(j4, "<默认零售价>");
+								cancel = new JLabel("取消");
+								cancel.setBounds(200, 0, 100, 30);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
+								submit = new JLabel("添加");
+								submit.setBounds(200, 30, 100, 30);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										GoodsVO gv = new GoodsVO();
+										boolean noProblem = true;
+										gv.name = j1.getText();
+										gv.model = j2.getText();
+										gv.goodsClassName = table.getColumnName(0);
+										try {
+										gv.price = Double.parseDouble(j3.getText());
+										gv.salePrice = Double.parseDouble(j4.getText());
+										} catch(Exception exception) {
+											infoBoard.setText("输入有误");
+											infoBoard.setVisible(true);
+											noProblem = false;
+										}
+										if(noProblem) {
+											if(gc.addGoods(gv) == ResultMessage.add_success)
+												infoBoard.setText("添加成功");
+											else 
+												infoBoard.setText("添加失败");
+										}
+									}
+								});
+								inputFrame.add(j1);
+								inputFrame.add(j2);
+								inputFrame.add(j3);
+								inputFrame.add(j4);
+								inputFrame.add(cancel);
+								inputFrame.add(submit);
+								inputFrame.setVisible(true);
 							}
 						});
 						
 						JLabel upd = new JLabel("更改商品分类信息");
 						upd.setBounds(0, 0, 120, 50);
 						upd.addMouseListener(new MouseAdapter() {
+							JTextField input;
+							JLabel notice, submit, cancel;
 							public void mouseClicked(MouseEvent e) {
-								//
+								if(inputFrame != null) inputFrame.setVisible(false);
+								popFrame.dispose();
+								inputFrame = new JFrame();
+								inputFrame.setUndecorated(true);
+								inputFrame.setLayout(null);
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 70);
+								notice = new JLabel("请输入要更改的商品分类名", JLabel.CENTER);
+								notice.setBounds(10, 0, 200, 30);
+								input = new JTextField();
+								input.setBounds(10, 30, 200, 30);
+								cancel = new JLabel("取消", JLabel.CENTER);
+								cancel.setBounds(210, 0, 50, 30);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
+								submit = new JLabel("更改", JLabel.CENTER);
+								submit.setBounds(210, 30, 50, 30);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										GoodsClassVO classToBeAdded;
+										classToBeAdded = new GoodsClassVO(
+												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
+												notice.getText());
+										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.update_success)
+											infoBoard.setText("更改成功");
+										else 
+											infoBoard.setText("更改失败");
+										inputFrame.dispose();
+										infoBoard.setVisible(true);
+									}
+								});
+								
+								inputFrame.add(cancel);
+								inputFrame.add(notice);
+								inputFrame.add(input);
+								inputFrame.add(submit);
+								inputFrame.setVisible(true);
 							}
 						});
 						
@@ -630,7 +760,25 @@ public class CommodityFrame extends JFrame {
 								submit.setBounds(200, 30, 100, 30);
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
-										//add
+										GoodsVO gv = new GoodsVO();
+										boolean noProblem = true;
+										gv.name = j1.getText();
+										gv.model = j2.getText();
+										gv.goodsClassName = table.getColumnName(0);
+										try {
+										gv.price = Double.parseDouble(j3.getText());
+										gv.salePrice = Double.parseDouble(j4.getText());
+										} catch(Exception exception) {
+											infoBoard.setText("输入有误");
+											infoBoard.setVisible(true);
+											noProblem = false;
+										}
+										if(noProblem) {
+											if(gc.addGoods(gv) == ResultMessage.add_success)
+												infoBoard.setText("添加成功");
+											else 
+												infoBoard.setText("添加失败");
+										}
 									}
 								});
 								inputFrame.add(j1);
@@ -667,7 +815,16 @@ public class CommodityFrame extends JFrame {
 								submit.setBounds(210, 30, 50, 30);
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
-										//upd
+										GoodsClassVO toBeUpd = gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(1));
+										GoodsClassVO upded = new GoodsClassVO();
+										upded.fatherGoodsClassNum = toBeUpd.fatherGoodsClassNum;
+										upded.Num = toBeUpd.Num;
+										upded.goodsClassName = input.getText();
+										if(gc.addGoodsClass(upded) == ResultMessage.update_success)
+											infoBoard.setText("更改成功");
+										else 
+											infoBoard.setText("更改失败");
+										infoBoard.setVisible(true);
 									}
 								});
 								
@@ -703,8 +860,21 @@ public class CommodityFrame extends JFrame {
 								inputFrame = new JFrame();
 								inputFrame.setUndecorated(true);
 								inputFrame.setLayout(null);
-								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 200, 60);
-								//删除商品
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 200, 50);
+								notice = new JLabel("确认删除", JLabel.CENTER);
+								notice.setBounds(0, 0, 200, 25);
+								submit = new JLabel("是", JLabel.CENTER);
+								submit.setBounds(0, 25, 100, 25);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										if(gc.delGoods(gc.getGoodsByInfo(name, model)))
+									}
+								});
+								cancel = new JLabel("否", JLabel.CENTER);
+								cancel.setBounds(100, 25, 100, 25);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
 							}
 						});
 						JLabel upd = new JLabel("更改该商品");
