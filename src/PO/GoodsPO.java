@@ -12,10 +12,7 @@ public class GoodsPO implements Serializable{
 	private String name;
 	private String model;
 	private double price;
-<<<<<<< HEAD
-=======
 	private double totalPrice;
->>>>>>> FETCH_HEAD
 	private String comment;
 	
 	
@@ -27,15 +24,6 @@ public class GoodsPO implements Serializable{
 	
 	public GoodsPO() {}
 	public GoodsPO(String serialNumber, String name, String model, 
-<<<<<<< HEAD
-			 double price, String comment) {
-			this.serialNumber = serialNumber;
-			this.name = name;
-			this.model = model;
-			this.price = price;
-			this.comment = comment;
-		};
-=======
 		 double price, double totalPrice, String comment) {
 		this.serialNumber = serialNumber;
 		this.name = name;
@@ -44,7 +32,6 @@ public class GoodsPO implements Serializable{
 		this.totalPrice = totalPrice;
 		this.comment = comment;
 	};
->>>>>>> FETCH_HEAD
 	public GoodsPO(String serialNumber, String name, String model, 
 			 double price, double salePrice, double latestPrice,
 			double latestSalePrice, GoodsClassPO goodsClass) {
@@ -72,11 +59,7 @@ public class GoodsPO implements Serializable{
 	public String getModel() {
 		return model;
 	}
-<<<<<<< HEAD
-
-=======
 	
->>>>>>> FETCH_HEAD
 	public double getPrice() {
 		return price;
 	}
