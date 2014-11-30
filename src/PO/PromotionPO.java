@@ -4,9 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import Config.Level;
+import Config.PromotionSort;
 
 public class PromotionPO implements Serializable{
-	 String promotionType;
+	 PromotionSort promotionType;
 	 String promotionId;
 	 ArrayList<GoodsPO> promotionGoods=new ArrayList<GoodsPO>();
      double leastPrice;
@@ -17,7 +18,7 @@ public class PromotionPO implements Serializable{
    	 String endTime;
    	 Level customer;
 	
-   	 public PromotionPO(String promotionType, String promotionId,
+   	 public PromotionPO(PromotionSort promotionType, String promotionId,
 			ArrayList<GoodsPO> promotionGoods, double leastPrice,
 			double offPrice, ArrayList<GoodsPO> presents, int voucher,
 			String startTime, String endTime, Level customer) {
@@ -34,11 +35,11 @@ public class PromotionPO implements Serializable{
 		this.customer = customer;
 	}
 
-	public String getPromotionType() {
+	public PromotionSort getPromotionType() {
 		return promotionType;
 	}
 
-	public void setPromotionType(String promotionType) {
+	public void setPromotionType(PromotionSort promotionType) {
 		this.promotionType = promotionType;
 	}
 

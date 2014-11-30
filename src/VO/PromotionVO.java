@@ -3,10 +3,11 @@ package VO;
 import java.util.ArrayList;
 
 import Config.Level;
+import Config.PromotionSort;
 import PO.GoodsPO;
 
 public class PromotionVO {
-	String promotionType;
+	PromotionSort promotionType;
 	String promotionId;
 	ArrayList<GoodsPO> promotionGoods=new ArrayList<GoodsPO>();
     double leastPrice;
@@ -17,7 +18,7 @@ public class PromotionVO {
   	String endTime;
   	Level customer;
   	
-	public PromotionVO(String promotionType, String promotionId,
+	public PromotionVO(PromotionSort promotionType, String promotionId,
 			ArrayList<GoodsPO> promotionGoods, double leastPrice,
 			double offPrice, ArrayList<GoodsPO> presents, int voucher,
 			String startTime, String endTime, Level customer) {
@@ -34,11 +35,11 @@ public class PromotionVO {
 		this.customer = customer;
 	}
 
-	public String getPromotionType() {
+	public PromotionSort getPromotionType() {
 		return promotionType;
 	}
 
-	public void setPromotionType(String promotionType) {
+	public void setPromotionType(PromotionSort promotionType) {
 		this.promotionType = promotionType;
 	}
 

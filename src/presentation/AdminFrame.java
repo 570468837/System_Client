@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import businesslogicservice.UserBLService.UserController;
 import Config.UserSort;
+import ResultMessage.ResultMessage;
 import VO.UserVO;
 
 
@@ -61,13 +62,14 @@ public class AdminFrame extends JFrame{
 	
 	class adminPanel extends JPanel{
 		private JTable table1;
+		private JScrollPane tablePane1;
 		public adminPanel(JFrame theFrame){
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(147, 224, 255, 255));
 			this.setVisible(true);
 			
-			JLabel addLabel = new JLabel("添加用户");
+			JLabel addLabel = new JLabel("添加用户",JLabel.CENTER);
 			addLabel.setBounds(80, 25, 80, 35);
 			this.add(addLabel);
 			
@@ -77,7 +79,7 @@ public class AdminFrame extends JFrame{
 			}
 			});
 			
-			JLabel deleteLabel = new JLabel("删除用户");
+			JLabel deleteLabel = new JLabel("删除用户",JLabel.CENTER);
 			deleteLabel.setBounds(190, 25, 88, 35);
 			this.add(deleteLabel);
 			
@@ -87,18 +89,30 @@ public class AdminFrame extends JFrame{
 				}
 			});
 			
-			JLabel refreshLabel = new JLabel("刷新列表");
+			JTextField searchField=new JTextField();
+			searchField.setBounds(400, 28, 150, 25);
+			searchField.setColumns(10);
+			this.add(searchField);
+			
+			JLabel searchLabel=new JLabel("搜索",JLabel.CENTER);
+			searchLabel.setBounds(530, 25, 88, 35);
+			this.add(searchLabel);
+			
+			
+			JLabel refreshLabel = new JLabel("刷新列表",JLabel.CENTER);
 			refreshLabel.setBounds(725, 25, 88, 35);
 			this.add(refreshLabel);
 			
 			refreshLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					tableRefresh();
+	
 				}
 			});
 			
 			tableRefresh();    //刷新列表
 			
+			this.repaint();
 			theFrame.add(this);
 		}
 		
@@ -126,8 +140,12 @@ public class AdminFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table1.setDefaultRenderer(Object.class, render);
 		    
+		    table1.repaint();
+		    table1.updateUI();
+		    
 		    table1.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
 		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+		    		System.out.println();
 		    		int row = e.getFirstRow();
 		    		UserVO uservo=new UserVO(null, null, null, 0);
 		    		uservo.setUserName((String)table1.getValueAt(row, 0));
@@ -136,14 +154,17 @@ public class AdminFrame extends JFrame{
 		    		uservo.setLevel((int)table1.getValueAt(row, 3));
 		    		new UserController().update(uservo);
 		    	}
-		    	
 		    });
-		    table1.repaint();
-
-			JScrollPane tablePane1=new JScrollPane(table1);
+		    
+		    if(tablePane1!=null)
+		    	tablePane1.setVisible(false);    //重要！防止表格出现错位
+			tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(700,400);
 			tablePane1.setLocation(80, 74);
+			tablePane1.setEnabled(false);
 			tablePane1.repaint();
+			tablePane1.updateUI();
+			
 			this.add(tablePane1);
 		}
 	}
@@ -194,8 +215,6 @@ public class AdminFrame extends JFrame{
 	        tableData.get(row).set(col,  value);
 	        fireTableCellUpdated(row, col);  
 	    }	
-		
-		
 	}
 	
 	class addFrame extends JFrame{
@@ -266,8 +285,12 @@ public class AdminFrame extends JFrame{
 						case "总经理": newVO.setUserSort(UserSort.Manager);  break;
 						case "管理员": newVO.setUserSort(UserSort.Admin);  break;
 						}
-						new UserController().add(newVO);
+						ResultMessage result=new UserController().add(newVO);
+						if(result==ResultMessage.add_success){
 						dispose();
+						}
+						else
+							new warningDialog("已存在相同的用户名！");
 					}
 					else{
 						new warningDialog("用户名和密码不能为空！");
@@ -330,8 +353,13 @@ public class AdminFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(checkValid()){
 					UserVO deleteUserVO=new UserVO(textField.getText(), null, null,0);
-					new UserController().delete(deleteUserVO);
+					ResultMessage result=new UserController().delete(deleteUserVO);
+					if(result==ResultMessage.delete_success){
 					dispose();
+					}
+					else{
+						new warningDialog("不存在此用户名！");
+					}
 				}
 				else{
 					new warningDialog("删除用户的用户名不能为空！");
@@ -363,8 +391,8 @@ public class AdminFrame extends JFrame{
 			this.setVisible(true);
 			this.setModal(true);
 			
-			JLabel warningLabel = new JLabel(warnings);
-			warningLabel.setBounds(62, 28, 200, 50);
+			JLabel warningLabel = new JLabel(warnings,JLabel.CENTER);
+			warningLabel.setBounds(50, 28, 200, 50);
 			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
 			
 			this.add(warningLabel);

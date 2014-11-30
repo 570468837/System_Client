@@ -12,15 +12,15 @@ import ResultMessage.*;
 
 public interface GoodsBLService {
 	
-	public GoodsVO getGoodsByID(String id);
+	public GoodsVO getGoodsByID(long id);
 	public GoodsVO getGoodsByInfo(String name, String model);
 	public ArrayList<GoodsVO> getGoodsVOList();
-	public GoodsClassVO getGoodsClassByID(String id);
+	public GoodsClassVO getGoodsClassByID(long id);
 	public GoodsClassVO getGoodsClassByInfo(String name);
 	public ArrayList<GoodsClassVO> getGoodsClassVOList();
 	
 	public ResultMessage addGoods(GoodsVO goodsVO);
-	public ResultMessage delGoods(String id);
+	public ResultMessage delGoods(long id);
 	public ResultMessage updGoods(GoodsVO goodsVO);
 	public ArrayList<GoodsVO> searchGoods(String info);
 	
