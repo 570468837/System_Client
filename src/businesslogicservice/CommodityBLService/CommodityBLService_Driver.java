@@ -12,10 +12,10 @@ import VO.*;
 public class CommodityBLService_Driver {
 	public void drive(CommodityBLService commodityController) {
 		CheckCommodityVO checkCommodityResult = commodityController.checkCommodity(new String(), new String());
-	    checkCommodityResult.print();
+	    
 	    
 	    InventoryCommodityVO inventoryCommodityResult = commodityController.inventoryCommodity();
-	    inventoryCommodityResult.print();
+	   
 	    
 	    ResultMessage resultMessage = commodityController.addSendCommodity(new SendCommodityVO());
 	    if(resultMessage == ResultMessage.add_success) {

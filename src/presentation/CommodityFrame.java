@@ -562,7 +562,10 @@ public class CommodityFrame extends JFrame {
 						addClass.setBounds(0, 0, 120, 0);
 						addClass.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent e) {
-								//
+								if(inputFrame != null) inputFrame.setVisible(false);
+								popFrame.dispose();
+								inputFrame = new JFrame();
+								
 							}
 						});
 						
@@ -941,7 +944,7 @@ public class CommodityFrame extends JFrame {
 		 * 按下库存查看时调用的方法
 		 */
 		private boolean comCheck() {
-			String[][] cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).Info;
+			String[][] cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).info;
 			if(cctInfo == null) {
 				return false;
 			}
