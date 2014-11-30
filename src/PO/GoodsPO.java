@@ -8,7 +8,7 @@ public class GoodsPO {
 	private String serialNumber;
 	private String name;
 	private String model;
-	private long price;
+	private double price;
 	private String comment;
 	
 	
@@ -19,7 +19,7 @@ public class GoodsPO {
 	
 	public GoodsPO() {}
 	public GoodsPO(String serialNumber, String name, String model, 
-			 long price, String comment) {
+			 double price, String comment) {
 			this.serialNumber = serialNumber;
 			this.name = name;
 			this.model = model;
@@ -52,7 +52,7 @@ public class GoodsPO {
 		return model;
 	}
 
-	public long getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	public String getComment() {
