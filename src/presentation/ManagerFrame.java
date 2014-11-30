@@ -156,89 +156,14 @@ public class ManagerFrame extends JFrame{
 			});
 			// 表一
 			table1Refresh();
-			/*JTable table1=new JTable(new DefaultTableModel(tableData1,columnTitle1));
-			table1.setFillsViewportHeight(true);     //显示表头
 			
-			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
-		    render.setHorizontalAlignment(SwingConstants.CENTER);
-		    table1.setDefaultRenderer(Object.class, render);
-		    
-			JScrollPane tablePane1=new JScrollPane(table1);
-			tablePane1.setSize(630,400);
-			tablePane1.setLocation(50, 10);
-			panel1.add(tablePane1);
-			
-			JButton allButton1=new JButton("全选");
-			allButton1.setBounds(685,150,73,30);
-			panel1.add(allButton1);
-			JButton allNotButton1=new JButton("全不选");
-			allNotButton1.setBounds(685,185,73,30);
-			panel1.add(allNotButton1);
-			JButton doneButton1=new JButton("审批");
-			doneButton1.setBounds(685, 379, 73, 30);
-			panel1.add(doneButton1);
-			
-			allButton1.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					for(int i=0;i<table1.getRowCount();i++)
-							table1.setValueAt(true, i, 7);
-					}
-			});
-			
-			allNotButton1.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-				
-						for(int i=0;i<table1.getRowCount();i++)
-							table1.setValueAt(false, i, 7);
-						}
-			});       */
 			
 			// 表二
-			String[] columnTitleString2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注","审批通过"};
+			table2Refresh();
 			
-			Object[][] tableData2={
-					new Object[]{"TH123","胡韬","姚锰舟","高杨","0011","^",1000,20,50,980,"无",new Boolean(false)},
-					new Object[]{"TH124","小宇","姚锰舟","高杨","0011","^",2000,40,100,1960,"无",new Boolean(false)},
-					           };
-			
-		/*	JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
-			table2.setFillsViewportHeight(true);     //显示表头
-			
-		    table2.setDefaultRenderer(Object.class, render);
-		    
-		    
-			JScrollPane tablePane2=new JScrollPane(table2);
-			tablePane2.setSize(630,400);
-			tablePane2.setLocation(50, 10);
-			panel2.add(tablePane2);  
-				
-			JButton allButton2=new JButton("全选");
-			allButton2.setBounds(685,150,73,30);
-			panel2.add(allButton2);
-			JButton allNotButton2=new JButton("全不选");
-			allNotButton2.setBounds(685,185,73,30);
-			panel2.add(allNotButton2);
-			JButton doneButton2=new JButton("审批");
-			doneButton2.setBounds(685, 379, 73, 30);
-			panel2.add(doneButton2);
-			
-			allButton2.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-					for(int i=0;i<table2.getRowCount();i++)
-							table2.setValueAt(true, i, 11);
-					}
-			});
-			
-			allNotButton2.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e) {
-						for(int i=0;i<table2.getRowCount();i++)
-							table2.setValueAt(false, i, 11);
-						}
-			});     */
-
+		
 			// 表三
-			String[] columnTitle3={"单据类型","单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
-			ArrayList<ArrayList<Object>> tableData3=new ArrayList<ArrayList<Object>>();
+			table3Refresh();
 			
 			/*JTable table3=new JTable(new MyTableModel(tableData3,));
 			table3.setFillsViewportHeight(true);     //显示表头
@@ -284,8 +209,8 @@ public class ManagerFrame extends JFrame{
 					
 			ArrayList<Object> oneData=new ArrayList<Object>();
 			ArrayList<ArrayList<Object>> tableData1=new ArrayList<ArrayList<Object>>();
-			Object[] ex=new Object[]{"JH123","胡韬","1号","高杨","暂无","^",1000,new Boolean(false)};
-			Object[] exo=new Object[]{"JH124","小宇","2号","高杨","暂无","^",2000,new Boolean(false)};
+			Object[] ex=new Object[]{"JH123","胡韬","1号","高杨","暂无","点击查看",1000,new Boolean(false)};
+			Object[] exo=new Object[]{"JH124","小宇","2号","高杨","暂无","点击查看",2000,new Boolean(false)};
 			for(int i=0;i<ex.length;i++){
 				oneData.add(ex[i]);
 			}
@@ -333,6 +258,115 @@ public class ManagerFrame extends JFrame{
 							table1.setValueAt(false, i, 7);
 						}
 			});   
+		}
+	
+		public void table2Refresh(){
+			String[] columnTitle2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额",
+					"折让","使用代金券金额","折让后总额","备注","审批通过"};
+			ArrayList<Object> oneData=new ArrayList<Object>();
+			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
+			Object[] ex=new Object[]{"TH123","胡韬","姚锰舟","高杨","0011","点击查看",1000,20,50,980,"无",new Boolean(false)};
+			Object[] exo=new Object[]{"TH124","小宇","姚锰舟","高杨","0011","点击查看",2000,40,100,1960,"无",new Boolean(false)};
+			
+			for(int i=0;i<ex.length;i++){
+				oneData.add(ex[i]);
+			}
+			tableData2.add(oneData);
+			
+			oneData=new ArrayList<Object>();
+			for(int i=0;i<exo.length;i++){
+				oneData.add(exo[i]);
+			}
+			tableData2.add(oneData);
+			
+			JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
+			table2.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table2.setDefaultRenderer(Object.class, render);
+		    
+		    
+			JScrollPane tablePane2=new JScrollPane(table2);
+			tablePane2.setSize(630,400);
+			tablePane2.setLocation(50, 10);
+			panel2.add(tablePane2);  
+				
+			JButton allButton2=new JButton("全选");
+			allButton2.setBounds(685,150,73,30);
+			panel2.add(allButton2);
+			JButton allNotButton2=new JButton("全不选");
+			allNotButton2.setBounds(685,185,73,30);
+			panel2.add(allNotButton2);
+			JButton doneButton2=new JButton("审批");
+			doneButton2.setBounds(685, 379, 73, 30);
+			panel2.add(doneButton2);
+			
+			allButton2.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					for(int i=0;i<table2.getRowCount();i++)
+							table2.setValueAt(true, i, 11);
+					}
+			});
+			
+			allNotButton2.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+						for(int i=0;i<table2.getRowCount();i++)
+							table2.setValueAt(false, i, 11);
+						}
+			});   
+		}
+		
+		public void table3Refresh(){
+			String[] columnTitle3={"单据类型","单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
+			
+			ArrayList<Object> oneData=new ArrayList<Object>();
+			ArrayList<ArrayList<Object>> tableData3=new ArrayList<ArrayList<Object>>();
+			
+			Object[] ex={"收款单","SKD123","东芝","小宇","点击查看","2333",new Boolean(false)};
+			for(int i=0;i<ex.length;i++){
+				oneData.add(ex[i]);
+			}
+			
+			tableData3.add(oneData);
+			
+			JTable table3=new JTable(new MyTableModel(tableData3,columnTitle3));
+			table3.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table3.setDefaultRenderer(Object.class, render);
+		    
+		    
+			JScrollPane tablePane3=new JScrollPane(table3);
+			tablePane3.setSize(630,400);
+			tablePane3.setLocation(50, 10);
+			panel3.add(tablePane3);
+			
+			JButton allButton3=new JButton("全选");
+			allButton3.setBounds(685,150,73,30);
+			panel3.add(allButton3);
+			JButton allNotButton3=new JButton("全不选");
+			allNotButton3.setBounds(685,185,73,30);
+			panel3.add(allNotButton3);
+			JButton doneButton3=new JButton("审批");
+			doneButton3.setBounds(685, 379, 73, 30);
+			panel3.add(doneButton3);
+			
+			allButton3.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					for(int i=0;i<table3.getRowCount();i++)
+							table3.setValueAt(true, i, 6);
+					}
+			});
+			
+			allNotButton3.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+				
+						for(int i=0;i<table3.getRowCount();i++)
+							table3.setValueAt(false, i, 6);
+						}
+			});         
 		}
 	}  
 	
