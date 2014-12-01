@@ -43,11 +43,12 @@ public class PaymentPO implements Serializable{
 		this.user = user;
 	}
 
-	public PaymentPO(String theNumber,String theCustomer,String theUser,double theSum){
+	public PaymentPO(String theNumber,String theCustomer,String theUser,ArrayList<TransferListItemPO> theTfList ,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
 		user = theUser ;
 		total = theSum ;
+		tfList = theTfList ;
 	}
 	
 

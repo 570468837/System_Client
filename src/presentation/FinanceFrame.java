@@ -851,6 +851,7 @@ public class FinanceFrame extends JFrame{
 	class InfoPanel extends JPanel{
 		SaleDetailPanel saleDetailPanel ;
 		SaleProcessPanel saleProcessPanel ;
+		SaleConditionPanel saleConditionPanel ;
 		public InfoPanel(JFrame theFrame){
 			super() ;
 	    	this.setBounds(140, 25, 835, 550);
@@ -862,6 +863,9 @@ public class FinanceFrame extends JFrame{
 	    	saleProcessPanel = new SaleProcessPanel() ;
 	    	this.add(saleProcessPanel);
 	    	saleProcessPanel.setVisible(false);
+	    	saleConditionPanel = new SaleConditionPanel() ;
+	    	this.add(saleConditionPanel) ;
+	    	saleConditionPanel.setVisible(false);
 	    	
 	    	
 	    	JLabel saleDetailLabel = new JLabel("销售明细表",JLabel.CENTER);
@@ -871,7 +875,7 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					saleDetailPanel.setVisible(true);
 					saleProcessPanel.setVisible(false);
-//					new SaleDetailPanel() ;
+					saleConditionPanel.setVisible(false);
 				}
 			});
 			
@@ -883,13 +887,20 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					saleDetailPanel.setVisible(false);
 					saleProcessPanel.setVisible(true);
+					saleConditionPanel.setVisible(false);
 				}
 			});
 			
 			JLabel saleConditionLabel = new JLabel("经营情况表",JLabel.CENTER) ;
 			saleConditionLabel.setBounds(300,23,120,50) ;
 			this.add(saleConditionLabel) ;
-//			JLabel.
+			saleConditionLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					saleDetailPanel.setVisible(false);
+					saleProcessPanel.setVisible(false);
+					saleConditionPanel.setVisible(true);
+				}
+			});
 			
 			this.repaint();
 	    }
@@ -1121,7 +1132,191 @@ public class FinanceFrame extends JFrame{
 
 		}
 }
-	
+    class SaleConditionPanel extends JPanel{
+    	private JTextField beginTimeField;
+    	private JTextField endTimeField;
+    	private JTextField sumOfComeInField;//总收入
+    	private JTextField discountField;//总折让
+    	private JTextField saleComeInField;//销售收入
+    	private JTextField overFlowField;//报溢
+    	private JTextField changeCostField;//成本调价
+    	private JTextField diffOfInAndOutField;//进退货差价
+    	private JTextField voucherField;//代金券与实际金额差价
+    	private JTextField sumOfCostField;//总支出
+    	private JTextField saleCostField;//销售成本
+    	private JTextField breakageCostField;//报损支出
+    	private JTextField sendCostField;//商品赠送
+    	private JTextField profitField;//总利润
+
+    	/**
+    	 * Create the panel.
+    	 */
+    	public SaleConditionPanel() {
+    		setLayout(null);
+    		setBounds(80,74, 700,400);
+    		
+    		JLabel timesLabel = new JLabel("时间区间：");
+    		timesLabel.setBounds(44, 21, 68, 15);
+    		add(timesLabel);
+    		
+    		JLabel beginTiemLabel = new JLabel("起始时间");
+    		beginTiemLabel.setBounds(122, 21, 68, 15);
+    		add(beginTiemLabel);
+    		
+    		beginTimeField = new JTextField();
+    		beginTimeField.setBounds(200, 18, 84, 21);
+    		add(beginTimeField);
+    		beginTimeField.setColumns(10);
+    		
+    		JLabel endTimeLabel = new JLabel("截止时间");
+    		endTimeLabel.setBounds(319, 21, 68, 15);
+    		add(endTimeLabel);
+    		
+    		endTimeField = new JTextField();
+    		endTimeField.setBounds(397, 18, 84, 21);
+    		add(endTimeField);
+    		endTimeField.setColumns(10);
+    		
+    		JPanel comeInPanel = new JPanel();
+    		comeInPanel.setBounds(103, 61, 538, 126);
+    		comeInPanel.setBackground(Color.red);
+    		add(comeInPanel);
+    		comeInPanel.setLayout(null);
+    		
+    		JLabel sumOfComeInLabel = new JLabel("总收入");
+    		sumOfComeInLabel.setBounds(10, 21, 54, 15);
+    		comeInPanel.add(sumOfComeInLabel);
+    		
+    		sumOfComeInField = new JTextField();
+    		sumOfComeInField.setBounds(76, 18, 66, 21);
+    		comeInPanel.add(sumOfComeInField);
+    		sumOfComeInField.setColumns(10);
+    		
+    		JLabel discountLabel = new JLabel("折让");
+    		discountLabel.setBounds(167, 21, 54, 15);
+    		comeInPanel.add(discountLabel);
+    		
+    		discountField = new JTextField();
+    		discountField.setBounds(212, 18, 66, 21);
+    		comeInPanel.add(discountField);
+    		discountField.setColumns(10);
+    		
+    		JLabel saleComeInLabel = new JLabel("销售收入");
+    		saleComeInLabel.setBounds(23, 60, 54, 15);
+    		comeInPanel.add(saleComeInLabel);
+    		
+    		saleComeInField = new JTextField();
+    		saleComeInField.setBounds(10, 95, 66, 21);
+    		comeInPanel.add(saleComeInField);
+    		saleComeInField.setColumns(10);
+    		
+    		JLabel overFlowLabel = new JLabel("商品报溢");
+    		overFlowLabel.setBounds(92, 60, 72, 15);
+    		comeInPanel.add(overFlowLabel);
+    		
+    		overFlowField = new JTextField();
+    		overFlowField.setBounds(92, 95, 66, 21);
+    		comeInPanel.add(overFlowField);
+    		overFlowField.setColumns(10);
+    		
+    		JLabel changCostLabel = new JLabel("成本调价");
+    		changCostLabel.setBounds(197, 60, 72, 15);
+    		comeInPanel.add(changCostLabel);
+    		
+    		changeCostField = new JTextField();
+    		changeCostField.setBounds(197, 95, 66, 21);
+    		comeInPanel.add(changeCostField);
+    		changeCostField.setColumns(10);
+    	
+    		
+    		JLabel diffOfInAndOutLabel = new JLabel("进货退货差价");
+    		diffOfInAndOutLabel.setBounds(293, 60, 96, 15);
+    		comeInPanel.add(diffOfInAndOutLabel);
+    		
+    		diffOfInAndOutField = new JTextField();
+    		diffOfInAndOutField.setBounds(304, 95, 66, 21);
+    		comeInPanel.add(diffOfInAndOutField);
+    		diffOfInAndOutField.setColumns(10);
+    		
+    		JLabel voucherLabel = new JLabel("代金券与实际收款差额");
+    		voucherLabel.setBounds(399, 60, 140, 15);
+    		comeInPanel.add(voucherLabel);
+    		
+    		voucherField = new JTextField();
+    		voucherField.setBounds(425, 95, 66, 21);
+    		comeInPanel.add(voucherField);
+    		voucherField.setColumns(10);
+    		
+    		JPanel sumOfCostPanel = new JPanel();
+    		sumOfCostPanel.setBounds(103, 207, 538, 101);
+    		sumOfCostPanel.setBackground(Color.yellow);
+    		add(sumOfCostPanel);
+    		sumOfCostPanel.setLayout(null);
+    		
+    		JLabel sumOfCostLabel = new JLabel("总支出");
+    		sumOfCostLabel.setBounds(10, 18, 54, 15);
+    		sumOfCostPanel.add(sumOfCostLabel);
+
+    		sumOfCostField = new JTextField();
+    		sumOfCostField.setBounds(77, 15, 66, 21);
+    		sumOfCostPanel.add(sumOfCostField);
+    		sumOfCostField.setColumns(10);
+    		
+    		JLabel saleCostLabel = new JLabel("销售支出");
+    		saleCostLabel.setBounds(87, 46, 54, 15);
+    		sumOfCostPanel.add(saleCostLabel);
+    		
+    		saleCostField = new JTextField();
+    		saleCostField.setBounds(77, 70, 66, 21);
+    		sumOfCostPanel.add(saleCostField);
+    		saleCostField.setColumns(10);
+    		
+    		JLabel breakageCostLabel = new JLabel("商品报损");
+    		breakageCostLabel.setBounds(212, 46, 54, 15);
+    		sumOfCostPanel.add(breakageCostLabel);
+    		
+    		breakageCostField = new JTextField();
+    		breakageCostField.setBounds(200, 70, 66, 21);
+    		sumOfCostPanel.add(breakageCostField);
+    		breakageCostField.setColumns(10);
+    		
+    		JLabel sendCostLabel = new JLabel("商品赠出");
+    		sendCostLabel.setBounds(340, 46, 54, 15);
+    		sumOfCostPanel.add(sendCostLabel);
+    		
+    		sendCostField = new JTextField();
+    		sendCostField.setBounds(328, 70, 66, 21);
+    		sumOfCostPanel.add(sendCostField);
+    		sendCostField.setColumns(10);
+    		
+    		JPanel profitPanel = new JPanel();
+    		profitPanel.setBounds(103, 326, 538, 35);
+    		profitPanel.setBackground(Color.green);
+    		add(profitPanel);
+    		profitPanel.setLayout(null);
+    		
+    		JLabel profitLabel = new JLabel("利润");
+    		profitLabel.setBounds(10, 10, 54, 15);
+    		profitPanel.add(profitLabel);
+    		
+    		profitField = new JTextField();
+    		profitField.setBounds(74, 7, 66, 21);
+    		profitPanel.add(profitField);
+    		profitField.setColumns(10);
+    		
+    		JLabel typeOfComeInLabel = new JLabel("收入类");
+    		typeOfComeInLabel.setBounds(24, 109, 54, 15);
+    		add(typeOfComeInLabel);
+    		
+    		JLabel typeOfCostLabel = new JLabel("支出类");
+    		typeOfCostLabel.setBounds(24, 254, 54, 15);
+    		add(typeOfCostLabel);
+    		
+    		JLabel typeOfProfitLabel = new JLabel("利润");
+    		typeOfProfitLabel.setBounds(24, 336, 54, 15);
+    		add(typeOfProfitLabel);
+    	}
+}
 	
 	public static void main(String[] marg){
 		new FinanceFrame() ;
