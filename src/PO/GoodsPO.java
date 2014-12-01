@@ -25,11 +25,14 @@ public class GoodsPO implements Serializable{
 	public GoodsPO() {}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	//purchase 专用
 	public GoodsPO(String serialNumber, String name, String model, 
 		 double price, String comment) {
 =======
+=======
+>>>>>>> FETCH_HEAD
 =======
 >>>>>>> FETCH_HEAD
 	public GoodsPO(String serialNumber, String name, String model, 
