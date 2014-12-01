@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import Config.Level;
 import Config.Sort;
+import ResultMessage.ResultMessage;
+import VO.UserVO;
 
 public class CustomerPO implements Serializable{
 	
@@ -19,6 +21,42 @@ public class CustomerPO implements Serializable{
 		private String mail;
 		//业务员
 		private String clerk;
+		//应收应付和应收额度
+		private double getting;
+		private double pay;
+		private double debt_upper_limit;
+		
+		
+		public double getGetting() {
+			return getting;
+		}
+		//只可以在进货管理和销售管理中修改
+		public void setGetting(double getting) {
+			this.getting = getting;
+		}
+
+		public double getPay() {
+			return pay;
+		}
+
+		public void setPay(double pay) {
+			this.pay = pay;
+		}
+
+		public double getDebt_upper_limit() {
+			return debt_upper_limit;
+		}
+
+		public ResultMessage setDebt_upper_limit(double debt_upper_limit,UserPO po) {
+			if(po.level==3){
+				this.debt_upper_limit=debt_upper_limit;
+				return ResultMessage.update_success;
+			}
+			else{
+				System.out.println("权限过低！");
+				return ResultMessage.update_failure;
+			}
+		}
 		
 		public CustomerPO(){}
 		

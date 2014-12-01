@@ -12,10 +12,7 @@ public class GoodsPO implements Serializable{
 	private String name;
 	private String model;
 	private double price;
-<<<<<<< HEAD
 
-=======
->>>>>>> FETCH_HEAD
 	private double totalPrice;
 	private String comment;
 	
@@ -27,27 +24,16 @@ public class GoodsPO implements Serializable{
 	public int commodityQuantity;
 	
 	public GoodsPO() {}
+	//purchase 专用
 	public GoodsPO(String serialNumber, String name, String model, 
-<<<<<<< HEAD
-			 double price, String comment) {
-			this.serialNumber = serialNumber;
-			this.name = name;
-			this.model = model;
-			this.price = price;
-			this.comment = comment;
-		};
 
-		 
-=======
-		 double price, double totalPrice, String comment) {
+		 double price, String comment) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
 		this.price = price;
-		this.totalPrice = totalPrice;
 		this.comment = comment;
 	};
->>>>>>> FETCH_HEAD
 	public GoodsPO(String serialNumber, String name, String model, 
 			 double price, double salePrice, double latestPrice,
 			double latestSalePrice, GoodsClassPO goodsClass) {
@@ -75,11 +61,7 @@ public class GoodsPO implements Serializable{
 	public String getModel() {
 		return model;
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> FETCH_HEAD
 	public double getPrice() {
 		return price;
 	}

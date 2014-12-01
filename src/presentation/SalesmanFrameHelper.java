@@ -40,6 +40,7 @@ public class SalesmanFrameHelper {
 	class AddCustomerFrame extends JFrame {
 		private JButton confirmButton;
 		private JButton cancelButton;
+		
 
 		private JLabel serialnumLabel;
 		private JTextField serialnum;

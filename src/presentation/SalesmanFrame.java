@@ -93,10 +93,10 @@ public class SalesmanFrame extends JFrame {
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(147, 224, 255, 255));
 
-			String[] columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员"};
+			String[] columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员","应收","应付","应收额度"};
 			Object[][] tableData1={
-					new Object[]{"0001","供货商","VIP","胡韬","22222222","南大","210046","@","鹅"},
-					new Object[]{"0002","进货商","VIP","小宇","33333333","南大","210046","@","鹅"},
+					new Object[]{"0001","供货商","VIP","胡韬","22222222","南大","210046","@","鹅","0","0","100"},
+					new Object[]{"0002","进货商","VIP","小宇","33333333","南大","210046","@","鹅","0","0","100"},
 					           };
 			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
