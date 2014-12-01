@@ -14,7 +14,7 @@ public class UserController implements UserBLService  {
 	@Override
 	public ResultMessage login(UserVO vo) {
 		// TODO Auto-generated method stub
-		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(), vo.getUserSort(), vo.getLevel());
+		UserPO userpo=new UserPO(vo.getUserName(), vo.getPassword(),vo.getUserSort(), 0);
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {

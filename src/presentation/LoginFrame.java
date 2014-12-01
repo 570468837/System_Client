@@ -4,6 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
+
+import Config.UserSort;
+import ResultMessage.ResultMessage;
+import VO.UserVO;
+import businesslogicservice.UserBLService.UserController;
 /**
  * 
  * @author hutao
@@ -90,19 +95,37 @@ public class LoginFrame extends JFrame {
 	    loginButton.setFont(new Font("Serif", 0, 20));
 	    loginButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				thisFrame.dispose();
-				
+				String readName=loginName.getText();
+				String readPassword=new String(loginPassword.getPassword());
+				UserSort readUserSort=null;
+				switch((String)loginType.getSelectedItem()) {
+				case "库存管理人员": readUserSort=UserSort.Commodity; break;
+				case "销售人员": readUserSort=UserSort.PurchaseAndSaler; break;
+				case "财务人员": readUserSort=UserSort.Finance;  break;
+				case "总经理": readUserSort=UserSort.Manager; break;
+				case "管理员": readUserSort=UserSort.Admin;  break;
+				default:  break;
+				}
+				if(!((String)loginType.getSelectedItem()).equals("请选择用户类型")){
+					if(new UserController().login(new UserVO(readName,readPassword,readUserSort,0))
+							==ResultMessage.login_success){
 				switch((String)loginType.getSelectedItem()) {
 				case "库存管理人员": new CommodityFrame(); break;
 				case "销售人员": new SalesmanFrame(); break;
 				case "财务人员": new FinanceFrame(); break;
 				case "总经理": new ManagerFrame(); break;
 				case "管理员": new AdminFrame(); break;
-				default:
+				default:  break;
 				}
-				
-				
-				
+				thisFrame.dispose();
+					}
+					else{               //密码错误
+						new warningDialog("用户名或密码错误！");
+					}
+				}
+				else{
+					new warningDialog("请选择用户类型！");
+				}
 			}
 	    });
 	    
@@ -130,12 +153,28 @@ public class LoginFrame extends JFrame {
 		this.setVisible(true);
 	}
 	
+	class warningDialog extends JDialog{
+		public warningDialog(String warnings){
+			this.setSize(284, 158);
+			this.setLocationRelativeTo(null);
+			this.setVisible(true);
+			this.setModal(true);
+			
+			JLabel warningLabel = new JLabel(warnings,JLabel.CENTER);
+			warningLabel.setBounds(50, 28, 200, 50);
+			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
+			
+			this.add(warningLabel);
+		}
+	}
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		LoginFrame l = new LoginFrame();
 		
 	}
+	
+	
 
 }
 

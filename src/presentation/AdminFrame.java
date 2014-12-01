@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -75,8 +77,16 @@ public class AdminFrame extends JFrame{
 			
 			addLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new addFrame();
-			}
+					JFrame aFrame=new addFrame();
+					aFrame.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							tableRefresh();
+						}
+					});
+				
+				}
 			});
 			
 			JLabel deleteLabel = new JLabel("删除用户",JLabel.CENTER);
@@ -85,7 +95,14 @@ public class AdminFrame extends JFrame{
 			
 			deleteLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new deleteFrame();
+					deleteFrame dFrame=new deleteFrame();
+					dFrame.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							tableRefresh();
+						}
+					});
 				}
 			});
 			
@@ -106,7 +123,6 @@ public class AdminFrame extends JFrame{
 			refreshLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					tableRefresh();
-	
 				}
 			});
 			
@@ -356,6 +372,7 @@ public class AdminFrame extends JFrame{
 					ResultMessage result=new UserController().delete(deleteUserVO);
 					if(result==ResultMessage.delete_success){
 					dispose();
+					new warningDialog("删除成功！");
 					}
 					else{
 						new warningDialog("不存在此用户名！");
