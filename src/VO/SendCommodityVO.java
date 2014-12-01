@@ -12,6 +12,7 @@ public class SendCommodityVO {
 	public long goodsVOId;
 	public String customerVOName;
 	public int num;
+	public boolean checked = false;
 	
 	public SendCommodityVO() {}
 	public SendCommodityVO(String goodsVOId, String customerVOName, int num) {
