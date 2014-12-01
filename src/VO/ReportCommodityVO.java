@@ -9,12 +9,12 @@ import PO.ReportCommodityPO;
  *
  */
 public class ReportCommodityVO {
-	public long goodsVOID;
+	public long goodsVOId;
 	public int num;
 	
 	public ReportCommodityVO() {}
-	public ReportCommodityVO(String goodsVOID, int num) {
-		this.goodsVOID = Long.parseLong(goodsVOID);
+	public ReportCommodityVO(String goodsVOId, int num) {
+		this.goodsVOId = Long.parseLong(goodsVOId);
 		this.num = num;
 	}
 	
@@ -25,7 +25,7 @@ public class ReportCommodityVO {
 	 */
 	public ReportCommodityPO toPO() {
 		ReportCommodityPO rcp = new ReportCommodityPO();
-		rcp.goodsVOID = this.goodsVOID;
+		rcp.goodsPOId = this.goodsVOId;
 		rcp.num = this.num;
 		return rcp;
 		
@@ -35,7 +35,7 @@ public class ReportCommodityVO {
 	 * @param po 待转换的PO
 	 */
 	public void toVO(ReportCommodityPO po) {
-		this.goodsVOID = po.goodsVOID;
+		this.goodsVOId = po.goodsPOId;
 		this.num = po.num;
 	}
 	

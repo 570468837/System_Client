@@ -16,7 +16,7 @@ public class GoodsPO implements Serializable{
 	private String comment;
 	
 	
-	private GoodsClassPO goodsClass;
+	private String goodsClassName;
 	private double salePrice;
 	private double latestPrice;
 	private double latestSalePrice;
@@ -37,7 +37,7 @@ public class GoodsPO implements Serializable{
 	};
 	public GoodsPO(String serialNumber, String name, String model, 
 			 double price, double salePrice, double latestPrice,
-			double latestSalePrice, GoodsClassPO goodsClass) {
+			double latestSalePrice, String goodsClassName) {
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
@@ -45,41 +45,75 @@ public class GoodsPO implements Serializable{
 		this.salePrice = salePrice;
 		this.latestPrice = latestPrice;
 		this.latestSalePrice = latestSalePrice;
-		this.goodsClass = goodsClass;
+		this.goodsClassName = goodsClassName;
 	};
 	
-	
-	
-	public double getTotalPrice() {
-		return totalPrice;
-	}
 	public String getSerialNumber() {
 		return serialNumber;
+	}
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
 	public String getName() {
 		return name;
 	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public String getModel() {
 		return model;
 	}
-	
+	public void setModel(String model) {
+		this.model = model;
+	}
 	public double getPrice() {
 		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 	public String getComment() {
 		return comment;
 	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public String getGoodsClassName() {
+		return goodsClassName;
+	}
+	public void setGoodsClassName(String goodsClassName) {
+		this.goodsClassName = goodsClassName;
+	}
 	public double getSalePrice() {
 		return salePrice;
+	}
+	public void setSalePrice(double salePrice) {
+		this.salePrice = salePrice;
 	}
 	public double getLatestPrice() {
 		return latestPrice;
 	}
+	public void setLatestPrice(double latestPrice) {
+		this.latestPrice = latestPrice;
+	}
 	public double getLatestSalePrice() {
 		return latestSalePrice;
 	}
-	public GoodsClassPO getGoodsClass() {
-		return goodsClass;
+	public void setLatestSalePrice(double latestSalePrice) {
+		this.latestSalePrice = latestSalePrice;
 	}
+	public int getCommodityQuantity() {
+		return commodityQuantity;
+	}
+	public void setCommodityQuantity(int commodityQuantity) {
+		this.commodityQuantity = commodityQuantity;
+	}
+	
 
 }

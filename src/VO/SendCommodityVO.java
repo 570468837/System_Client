@@ -28,9 +28,10 @@ public class SendCommodityVO {
 	 */
 	public SendCommodityPO toPO() {
 		SendCommodityPO scp = new SendCommodityPO();
-		scp.goodsVOId = this.goodsVOId;
-		scp.customerVOName = new String(this.customerVOName);
+		scp.goodsPOId = this.goodsVOId;
+		scp.customerPOName = new String(this.customerVOName);
 		scp.num = this.num;
+		scp.checked = this.checked;
 		return scp;
 	}
 	/**
@@ -38,9 +39,10 @@ public class SendCommodityVO {
 	 * @param po 待转换的PO
 	 */
 	public void toVO(SendCommodityPO po) {
-		this.goodsVOId = po.goodsVOId;
-		this.customerVOName = po.customerVOName;
+		this.goodsVOId = po.goodsPOId;
+		this.customerVOName = po.customerPOName;
 		this.num = po.num;
+		this.checked = po.checked;
 	}
 	
 }

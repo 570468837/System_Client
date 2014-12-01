@@ -2,23 +2,18 @@ package PO;
 /**
  * 
  * @author hutao
- *
+ * 
  */
 public class ReportCommodityPO {
-	private GoodsPO goodsPO;
-	private int num;
+	public long goodsPOId;
+	public int num;
 	
 	public ReportCommodityPO() {}
-	public ReportCommodityPO(GoodsPO goodsPO, int num) {
-		this.goodsPO = goodsPO;
+	public ReportCommodityPO(long goodsPOId, int num) {
+		this.goodsPOId = goodsPOId;
 		this.num = num;
 	}
 	
-	public GoodsPO getGoodsPO() {
-		return goodsPO;
-	}
-	public int getNum() {
-		return num;
-	}
+	
 	
 }

@@ -1,4 +1,7 @@
 package VO;
+
+import PO.GoodsClassPO;
+
 /**
  * 
  * @author hutao
@@ -19,14 +22,18 @@ public class GoodsClassVO {
 		this.fatherGoodsClassNum = 0;
 		this.goodsClassName = name;
 	}
-	/**
-	 * 根据编号判断两个商品分类是否相同
-	 * @return
-	 */
-	public boolean equal(GoodsClassVO gcv) {
-		if(this.Num == gcv.Num)
-			return true;
-		return false;
+	
+	public GoodsClassPO toPO() {
+		GoodsClassPO g = new GoodsClassPO();
+		g.fatherGoodsClassNum = this.fatherGoodsClassNum;
+		g.Num = this.Num;
+		g.goodsClassName = this.goodsClassName;
+		return g;
+	}
+	public void toVO(GoodsClassPO po) {
+		po.fatherGoodsClassNum = this.fatherGoodsClassNum;
+		po.Num = this.Num;
+		po.goodsClassName = this.goodsClassName;
 	}
 
 }

@@ -27,9 +27,7 @@ public class CheckCommodityVO {
 	 * @return 返回转换成的PO
 	 */
 	public CheckCommodityPO toPO() {
-		CheckCommodityPO ccp = new CheckCommodityPO();
-		ccp.time1 = this.time1;
-		ccp.time2 = this.time2;
+		CheckCommodityPO ccp = new CheckCommodityPO(time1, time2);
 		ccp.info = this.info;
 		
 		return ccp;
