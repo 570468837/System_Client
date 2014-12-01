@@ -23,21 +23,12 @@ public class GoodsPO implements Serializable{
 	public int commodityQuantity;
 	
 	public GoodsPO() {}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
 	//purchase 专用
 	public GoodsPO(String serialNumber, String name, String model, 
 		 double price, String comment) {
-=======
-=======
->>>>>>> FETCH_HEAD
-=======
->>>>>>> FETCH_HEAD
-	public GoodsPO(String serialNumber, String name, String model, 
-		 double price, double totalPrice, String comment) {
->>>>>>> FETCH_HEAD
+
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
