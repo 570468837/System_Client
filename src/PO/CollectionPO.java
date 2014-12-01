@@ -19,11 +19,12 @@ public class CollectionPO implements Serializable{
 	    total = 0 ;
 	}
 	
-	public CollectionPO(String theNumber,String theCustomer,String theUser,double theSum){
+	public CollectionPO(String theNumber,String theCustomer,String theUser,ArrayList<TransferListItemPO> theTfList,double theSum){
 		number = theNumber ;
 		customer = theCustomer ;
 		user = theUser ;
 		total = theSum ;
+		tfList = theTfList ;
 	}
 	
 	public void add(TransferListItemPO theItem){
