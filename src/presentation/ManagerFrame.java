@@ -96,23 +96,27 @@ public class ManagerFrame extends JFrame{
 	
 	class CheckReceiptPanel extends JPanel {      //审批报表panel
 		//private JTable goodsTable;
-		JPanel panel1,panel2,panel3;
+		JPanel panel1,panel2,panel3,panel4;
 		public CheckReceiptPanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(147, 224, 255, 255));
 			 //选择性标签
 			JLabel Receipt1 = new JLabel("进货单和进货退货单",JLabel.CENTER);
-			Receipt1.setBounds(200, 23, 120, 50);
+			Receipt1.setBounds(130, 23, 120, 50);
 			this.add(Receipt1);
 			
 			JLabel Receipt2 = new JLabel("销售单和销售退货单",JLabel.CENTER);
-			Receipt2.setBounds(360, 23, 120, 50);
+			Receipt2.setBounds(290, 23, 120, 50);
 			this.add(Receipt2);
 			
 			JLabel Receipt3 = new JLabel("收款单和付款单",JLabel.CENTER);
-			Receipt3.setBounds(500, 23, 120, 50);
+			Receipt3.setBounds(440, 23, 120, 50);
 			this.add(Receipt3);
+			
+			JLabel Receipt4 =new JLabel("库存赠送单",JLabel.CENTER);
+			Receipt4.setBounds(565, 23, 120, 50);
+			this.add(Receipt4);
 			
 			panel1=new JPanel();
 			panel1.setLayout(null);
@@ -132,11 +136,18 @@ public class ManagerFrame extends JFrame{
 			panel3.setBackground(new Color(174, 221,129));
 			this.add(panel3);
 			
+			panel4=new JPanel();
+			panel4.setLayout(null);
+			panel4.setBounds(37, 63, 767, 438);
+			panel4.setBackground(new Color(150, 100,110));
+			this.add(panel4);
+			
 			Receipt1.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
 					panel1.setVisible(true);
 					panel2.setVisible(false);
 					panel3.setVisible(false);
+					panel4.setVisible(false);
 				}
 			});
 			
@@ -145,6 +156,7 @@ public class ManagerFrame extends JFrame{
 					panel1.setVisible(false);
 					panel2.setVisible(true);
 					panel3.setVisible(false);
+					panel4.setVisible(false);
 				}
 			});
 			
@@ -153,6 +165,16 @@ public class ManagerFrame extends JFrame{
 					panel1.setVisible(false);
 					panel2.setVisible(false);
 					panel3.setVisible(true);
+					panel4.setVisible(false);
+				}
+			});
+			
+			Receipt4.addMouseListener(new MouseAdapter(){
+				public void mouseClicked(MouseEvent e){
+					panel1.setVisible(false);
+					panel2.setVisible(false);
+					panel3.setVisible(false);
+					panel4.setVisible(true);
 				}
 			});
 			// 表一
@@ -165,6 +187,9 @@ public class ManagerFrame extends JFrame{
 		
 			// 表三
 			table3Refresh();
+			
+			//表四
+			table4Refresh();
 			
 			theFrame.add(this);
 		}
@@ -232,7 +257,7 @@ public class ManagerFrame extends JFrame{
 						if((Boolean)tableData1.get(i).get(7)==true)
 							isApproved.add(tableData1.get(i));
 					}
-					new ApprovalBLService_Controller().changeCustomer(isApproved);
+					new ApprovalBLService_Controller().salesChangeCustomer(null);
 					
 					
 				}
@@ -347,11 +372,64 @@ public class ManagerFrame extends JFrame{
 						}
 			});         
 		}
+		
+		public void table4Refresh(){
+			String[] columnTitle4={"客户","商品编号","商品名称","商品数量","审批通过"};
+			
+			ArrayList<Object> oneData=new ArrayList<Object>();
+			ArrayList<ArrayList<Object>> tableData4=new ArrayList<ArrayList<Object>>();
+			
+			Object[] ex={"东芝","DZ-123","冬至日光灯",1,new Boolean(false)};
+			for(int i=0;i<ex.length;i++){
+				oneData.add(ex[i]);
+			}
+			
+			tableData4.add(oneData);
+			
+			JTable table4=new JTable(new MyTableModel(tableData4,columnTitle4));
+			table4.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table4.setDefaultRenderer(Object.class, render);
+		    
+		    
+			JScrollPane tablePane4=new JScrollPane(table4);
+			tablePane4.setSize(630,400);
+			tablePane4.setLocation(50, 10);
+			panel4.add(tablePane4);
+			
+			JButton allButton4=new JButton("全选");
+			allButton4.setBounds(685,150,73,30);
+			panel4.add(allButton4);
+			JButton allNotButton4=new JButton("全不选");
+			allNotButton4.setBounds(685,185,73,30);
+			panel4.add(allNotButton4);
+			JButton doneButton4=new JButton("审批");
+			doneButton4.setBounds(685, 379, 73, 30);
+			panel4.add(doneButton4);
+			
+			allButton4.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+					for(int i=0;i<table4.getRowCount();i++)
+							table4.setValueAt(true, i, 4);
+					}
+			});
+			
+			allNotButton4.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent e) {
+				
+						for(int i=0;i<table4.getRowCount();i++)
+							table4.setValueAt(false, i, 4);
+						}
+			});         
+		}
 	}  
 	
 	class InfoPanel extends JPanel {     //查看报表信息panel
 		//private JTable goodsTable;
 		public InfoPanel(JFrame theFrame) {
+			this.setVisible(false);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(185, 227, 217, 255));
 			
@@ -363,6 +441,7 @@ public class ManagerFrame extends JFrame{
 		private JTable table;
 		private JScrollPane tablePane; 
 		public PromotionPanel(JFrame theFrame) {
+			this.setVisible(false);
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(173, 137, 115, 255));

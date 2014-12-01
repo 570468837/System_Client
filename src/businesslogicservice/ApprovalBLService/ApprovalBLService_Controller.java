@@ -2,26 +2,60 @@ package businesslogicservice.ApprovalBLService;
 
 import java.util.ArrayList;
 
+import PO.CollectionPO;
 import PO.CustomerPO;
+import PO.PaymentPO;
+import PO.PurchaseReceiptPO;
+import PO.SalesReceiptPO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
 	@Override
-	public void changeCommodity(ArrayList<ArrayList<Object>> objs) {
+	public void purchaseChangeGoods(ArrayList<PurchaseReceiptPO> purchases) {
 		// TODO Auto-generated method stub
+		for(PurchaseReceiptPO p:purchases){
+			p.setApprovedByManager(true);
+		}
 		
 	}
 
 	@Override
-	public void changeCustomer(ArrayList<ArrayList<Object>> objs) {
+	public void purchaseChangeCustomer(ArrayList<PurchaseReceiptPO> purchases) {
 		// TODO Auto-generated method stub
-		ArrayList<CustomerPO> customers=new ArrayList<CustomerPO>();
-		for(int i=0;i<objs.size();i++){
-			ArrayList<Object> oneObj=objs.get(i);
-			CustomerPO po=new CustomerPO();
-			po.setName((String)oneObj.get(1));
-			System.out.println(po.getName());
-			//Customer里为什么没有应收应付？
+		for(PurchaseReceiptPO p:purchases){
+			p.setApprovedByManager(true);
 		}
 		
+	}
+
+	@Override
+	public void salesChangeGoods(ArrayList<SalesReceiptPO> sales) {
+		// TODO Auto-generated method stub
+		for(SalesReceiptPO s:sales){
+			s.setApprovedByManager(true);
+		}
+	}
+
+	@Override
+	public void salesChangeCustomer(ArrayList<SalesReceiptPO> sales) {
+		// TODO Auto-generated method stub
+		for(SalesReceiptPO s:sales){
+			s.setApprovedByManager(true);
+		}
+	}
+
+	@Override
+	public void collectionChangeCustomer(ArrayList<CollectionPO> collections) {
+		// TODO Auto-generated method stub
+		for(CollectionPO c:collections){
+			c.setProvedByManege(true);
+		}
+	}
+
+	@Override
+	public void paymentChangeCustomer(ArrayList<PaymentPO> payments) {
+		// TODO Auto-generated method stub
+		for(PaymentPO p:payments){
+			p.setProvedByManege(true);
+		}
 	}
 }
