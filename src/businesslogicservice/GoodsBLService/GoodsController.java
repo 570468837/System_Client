@@ -3,7 +3,7 @@ package businesslogicservice.GoodsBLService;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import PO.GoodsPO;
+import PO.GoodsClassPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.GoodsClassVO;
@@ -62,10 +62,10 @@ public class GoodsController implements GoodsBLService {
 	public ResultMessage delGoods(long id) {
 		Communication_Start com = new Communication_Start();
 		com.initial();
-		GoodsPO po = new GoodsPO();
-		po.getSerialNumber() = id;
+		GoodsVO vo = new GoodsVO();
+		vo.serialNumber = Long.toString(id);
 		try {
-			return com.client.messageCommand("goodsDel", goodsVO.toPO());
+			return com.client.messageCommand("goodsDel", vo.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.delete_failure;
 		}
@@ -104,7 +104,7 @@ public class GoodsController implements GoodsBLService {
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		GoodsClassPO po = new GoodsClassPO();
-		po.id = id;
+		po.Num = id;
 		try {
 			return com.client.messageCommand("goodsClassDel", po);
 		} catch (RemoteException e) {
