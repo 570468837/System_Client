@@ -844,8 +844,10 @@ public class CommodityFrame extends JFrame {
 					}
 				});
 				table.addMouseListener(new MouseAdapter() {
+					int eventY;
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						eventY = jtList.get(jtList.size() - 1).rowAtPoint(e.getPoint());
 						popFrame = new JFrame();
 						popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 50);
 						popFrame.setUndecorated(true);
@@ -867,7 +869,14 @@ public class CommodityFrame extends JFrame {
 								submit.setBounds(0, 25, 100, 25);
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
-										if(gc.delGoods(gc.getGoodsByInfo(name, model)))
+										JTable t = jtList.get(jtList.size() - 1);
+										if(gc.delGoods(Long.parseLong(gc.getGoodsByInfo((String)t.getValueAt(eventY, 2), (String)t.getValueAt(eventY, 3)).serialNumber)) == ResultMessage.delete_success) {
+											infoBoard.setText("删除成功");
+										}
+										else {
+											infoBoard.setText("删除失败");
+										}
+										infoBoard.setVisible(true);
 									}
 								});
 								cancel = new JLabel("否", JLabel.CENTER);
@@ -882,18 +891,58 @@ public class CommodityFrame extends JFrame {
 						upd.addMouseListener(new MouseAdapter() {
 							JTextField j1, j2, j3, j4;
 							JLabel cancel, submit;
+							JTable t;
 							public void mouseClicked(MouseEvent e) {
 								if(inputFrame != null) inputFrame.setVisible(false);
 								popFrame.dispose();
 								inputFrame = new JFrame();
 								inputFrame.setUndecorated(true);
 								inputFrame.setLayout(null);
-								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 70);
-								j1 = new JTextField("");//商品名
-								j2 = new JTextField("");//型号
-								j3 = new JTextField("");//进价
-								j4 = new JTextField("");//售价
-								//更改
+								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 50);
+								j1 = new JTextField((String)t.getValueAt(eventY, 2));
+								j1.setBounds(0, 0, 100, 25);
+								new AddWordsChange(j1, "<商品名>");
+								j2 = new JTextField((String)t.getValueAt(eventY, 3));
+								j2.setBounds(100, 0, 100, 25);
+								new AddWordsChange(j2, "<型号>");
+								j3 = new JTextField((String)t.getValueAt(eventY, 5));
+								j3.setBounds(0, 25, 100, 25);
+								new AddWordsChange(j3, "<进价>");
+								j4 = new JTextField((String)t.getValueAt(eventY, 6));
+								j4.setBounds(100, 25, 100, 25);
+								new AddWordsChange(j4, "<售价>");
+								cancel = new JLabel("取消");
+								cancel.setBounds(200, 0, 50, 25);
+								cancel.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
+								});
+								submit = new JLabel("更改");
+								submit.setBounds(200, 25, 50, 25);
+								submit.addMouseListener(new MouseAdapter() {
+									public void mouseClicked(MouseEvent e) {
+										GoodsVO g = new GoodsVO();
+										g.serialNumber = (String)t.getValueAt(eventY, 1);
+										g.name = j1.getText();
+										g.model = j2.getText();
+										try {
+											g.price = Double.parseDouble(j3.getText());
+											g.salePrice = Double.parseDouble(j4.getText());
+										}catch (Exception exc) {
+											g.price = -1;
+										}
+										if(g.price <= 0) {
+											infoBoard.setText("填写有误");
+										}
+										else {
+											if(gc.updGoods(g) == ResultMessage.update_success)
+												infoBoard.setText("更改成功");
+											else
+												infoBoard.setText("更改失败");
+										}
+										infoBoard.setVisible(true);
+									}
+								});
+								
 							}
 						});
 						popFrame.add(del);
