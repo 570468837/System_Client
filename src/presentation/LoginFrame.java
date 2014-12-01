@@ -91,11 +91,18 @@ public class LoginFrame extends JFrame {
 	    loginButton.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				thisFrame.dispose();
-				@SuppressWarnings("unused")
-				CommodityFrame c = new CommodityFrame();
-				/*
-				 * 暂定点击出现库存管理界面
-				 */
+				
+				switch((String)loginType.getSelectedItem()) {
+				case "库存管理人员": new CommodityFrame(); break;
+				case "销售人员": new SalesmanFrame(); break;
+				case "财务人员": new FinanceFrame(); break;
+				case "总经理": new ManagerFrame(); break;
+				case "管理员": new AdminFrame(); break;
+				default:
+				}
+				
+				
+				
 			}
 	    });
 	    

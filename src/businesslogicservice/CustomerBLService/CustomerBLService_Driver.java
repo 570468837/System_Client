@@ -9,7 +9,7 @@ public class CustomerBLService_Driver {
 	public CustomerBLService_Driver(CustomerController cbs){
 		ResultMessage result;
 		
-		CustomerVO vo=new CustomerVO("003", Sort.importer, Level.fiveClassVIP, "kue","110","there","00123", "@", "qiao");
+		CustomerVO vo=new CustomerVO("004", Sort.importer, Level.fiveClassVIP, "kue","110","there","00123", "@", "qiao");
 		cbs.addCustomer(vo);
 //		System.out.println(cbs.addCustomer(new CustomerVO()));
 //		cbs.deleteCustomer(new CustomerVO());

@@ -8,37 +8,32 @@ public class CollectionPO implements Serializable{
 	String number ;
 	String customer ;
 	String user ;
-	ArrayList<TransferListItemPO> tfList = null ;//转账列表
-	double sum ;
+	ArrayList<TransferListItemPO> tfList = new ArrayList<TransferListItemPO>() ;//转账列表
+	double total;
 	boolean isProvedByManege = false ;
 	boolean isProvedByFinancer = false ;
-	public CollectionPO(String theNumber,String theCustomer,String theUser,ArrayList<TransferListItemPO> theTfList,double theSum){
-		number = theNumber ;
-		customer = theCustomer ;
-		user = theUser ;
-		tfList = theTfList ;
-		sum = theSum ;
-	}
-	public ArrayList<TransferListItemPO> getTfList() {
-		return tfList;
-	}
-	public void setTfList(ArrayList<TransferListItemPO> tfList) {
-		this.tfList = tfList;
-	}
 	public CollectionPO(){
 		number = null ;
 	    customer = null ;
 	    user = null ;
-	    tfList = null ;
-	    sum = 0 ;
+	    total = 0 ;
 	}
-	public void addItem(TransferListItemPO theItem){
-		this.tfList.add(theItem) ;
+	
+	public CollectionPO(String theNumber,String theCustomer,String theUser,double theSum){
+		number = theNumber ;
+		customer = theCustomer ;
+		user = theUser ;
+		total = theSum ;
 	}
+	
+	public void add(TransferListItemPO theItem){
+		tfList.add(theItem) ;
+	}
+	
 	public double getTotal(){
 		double total = 0 ;
 		for(TransferListItemPO theItem : tfList){
-			total += theItem.getTransferMoney() ;
+			total += theItem.getTransferMoney();
 		}
 		return total ;
 	}
@@ -60,11 +55,24 @@ public class CollectionPO implements Serializable{
 	public void setUser(String user) {
 		this.user = user;
 	}
-	public double getSum() {
-		return sum;
+
+	public boolean isProvedByManege() {
+		return isProvedByManege;
 	}
-	public void setSum(double sum) {
-		this.sum = sum;
+
+	public void setProvedByManege(boolean isProvedByManege) {
+		this.isProvedByManege = isProvedByManege;
 	}
+
+	public boolean isProvedByFinancer() {
+		return isProvedByFinancer;
+	}
+
+	public void setProvedByFinancer(boolean isProvedByFinancer) {
+		this.isProvedByFinancer = isProvedByFinancer;
+	}
+	
+	
+
 	
 }
