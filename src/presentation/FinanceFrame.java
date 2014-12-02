@@ -89,6 +89,7 @@ public class FinanceFrame extends JFrame{
 			}
 		});
 		
+		
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.setVisible(true);
 	}
