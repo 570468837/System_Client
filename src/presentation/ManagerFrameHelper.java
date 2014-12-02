@@ -235,8 +235,8 @@ public class ManagerFrameHelper extends JFrame{
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 					
 					ArrayList<GoodsPO> goods=new ArrayList<GoodsPO>();
-					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, 0, 0, 0, null));
-					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, 0, 0, 0, null));
+					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, null));
+					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, null));
 					
 					Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 					
@@ -435,7 +435,7 @@ public class ManagerFrameHelper extends JFrame{
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 						
 						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
-						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, 0, 0, 0, null));
+						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, null));
 						
 						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 						

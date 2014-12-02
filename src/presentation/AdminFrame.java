@@ -404,7 +404,6 @@ public class AdminFrame extends JFrame{
 		public warningDialog(String warnings){
 			this.setSize(284, 158);
 			this.setLocationRelativeTo(null);
-			this.setLayout(null);
 			this.setVisible(true);
 			this.setModal(true);
 			
