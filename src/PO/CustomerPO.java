@@ -31,7 +31,11 @@ public class CustomerPO implements Serializable{
 			return getting;
 		}
 		//只可以在进货管理和销售管理中修改
-		public void setGetting(double getting) {
+		public void setGetting(double getting,UserPO po) {
+			if(po.getLevel()!=3){
+				System.out.println("权限过低");
+				return;
+			}
 			this.getting = getting;
 		}
 
@@ -39,7 +43,11 @@ public class CustomerPO implements Serializable{
 			return pay;
 		}
 
-		public void setPay(double pay) {
+		public void setPay(double pay,UserPO po) {
+			if(po.getLevel()!=3){
+				System.out.println("权限过低");
+				return;
+			}
 			this.pay = pay;
 		}
 

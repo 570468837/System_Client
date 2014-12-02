@@ -1,10 +1,12 @@
 package businesslogicservice.CustomerBLService;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
-import Config.Level;
-import Config.Sort;
 import PO.CustomerPO;
+import PO.PurchaseReceiptPO;
+import PO.SalesReceiptPO;
+import PO.UserPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
@@ -67,11 +69,67 @@ public class CustomerController implements CustomerBLService {
 		}
 
 	}
+	
+	@Override
+	public ArrayList<CustomerPO> findCustomer(String keyWord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-	public CustomerVO findCustomer(String keyWord, int id) {
-		System.out.println("查找客户成功");
-		return null;
+	public CustomerPO getCustomerPOById(String id) {
+		
+	}
+
+	
+	//修改客户应收
+	public ResultMessage purchaseChangeGetting(PurchaseReceiptPO receipt){
+		//
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("purchase_change_getting",receipt);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResultMessage.update_failure;
+			
+		}
+		
+	}
+	//修改客户应付
+	public ResultMessage salesChangePay(SalesReceiptPO receipt){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			 return com.client.messageCommand("sales_change_pay",receipt);
+			 
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResultMessage.update_failure;
+			
+		}
+	}
+	//返回所有客户
+	public ArrayList<Object> show(){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			ArrayList<Object> result=com.client.showObject("showCustomer");
+			System.out.println(result);
+			 return com.client.showObject("showCustomer");
+			 
+			 
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+			
+		}
 	}
 
 }

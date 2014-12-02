@@ -1,7 +1,10 @@
 package businesslogicservice.CustomerBLService;
 
+import java.util.ArrayList;
+
 import Config.Level;
 import Config.Sort;
+import PO.CustomerPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 
@@ -56,9 +59,17 @@ public class CustomerBLService_Stub implements CustomerBLService {
 	}
 
 	@Override
-	public CustomerVO findCustomer(String keyWord, int id) {
-		System.out.println("查找客户成功");
+	public ArrayList<CustomerPO> findCustomer(String keyWord) {
+		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public CustomerPO getCustomerPOById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 
 }

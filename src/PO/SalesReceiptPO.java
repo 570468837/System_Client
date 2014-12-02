@@ -4,6 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class SalesReceiptPO implements Serializable {
+	private CustomerPO customerPO;
+	
+	public CustomerPO getCustomerPO() {
+		return customerPO;
+	}
+
+	public void setCustomerPO(CustomerPO customerPO) {
+		this.customerPO = customerPO;
+	}
+	
 	private String serialNumber;
 	// 销售商
 	private String retailer;

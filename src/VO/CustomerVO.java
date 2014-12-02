@@ -27,7 +27,11 @@ public class CustomerVO {
 		return getting;
 	}
 	//只可以在进货管理和销售管理中修改
-	public void setGetting(double getting) {
+	public void setGetting(double getting,UserVO vo) {
+		if(vo.getLevel()!=3){
+			System.out.println("权限过低");
+			return;
+		}
 		this.getting = getting;
 	}
 
@@ -35,7 +39,11 @@ public class CustomerVO {
 		return pay;
 	}
 
-	public void setPay(double pay) {
+	public void setPay(double pay,UserVO vo) {
+		if(vo.getLevel()!=3){
+			System.out.println("权限过低");
+			return;
+		}
 		this.pay = pay;
 	}
 

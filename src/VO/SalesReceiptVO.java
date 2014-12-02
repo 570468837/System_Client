@@ -6,6 +6,15 @@ import PO.SalesListItemPO;
 import PO.UserPO;
 
 public class SalesReceiptVO {
+	private CustomerVO customerVO;
+	
+	public CustomerVO getCustomerVO() {
+		return customerVO;
+	}
+
+	public void setCustomerVO(CustomerVO customerVO) {
+		this.customerVO = customerVO;
+	}
 	
 	private String serialNumber;
 	//销售商

@@ -3,6 +3,15 @@ package VO;
 import java.util.ArrayList;
 
 public class PurchaseReceiptVO  {
+	private CustomerVO customerVO;
+	
+	public CustomerVO getCustomerVO() {
+		return customerVO;
+	}
+
+	public void setCustomerVO(CustomerVO customerVO) {
+		this.customerVO = customerVO;
+	}
 
 	private String serialNumber;
 	private UserVO userVO;

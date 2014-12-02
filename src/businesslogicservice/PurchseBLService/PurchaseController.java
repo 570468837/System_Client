@@ -73,4 +73,21 @@ public class PurchaseController implements PurchaseBLService {
 
 		}
 	}
+	
+	public ArrayList<Object> show(){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+
+		try {
+			return com.client.showObject("showPurchaseReceipts");
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("查无此人！！");
+			return null;
+
+		}
+		
+	}
 }
