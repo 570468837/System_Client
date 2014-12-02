@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +20,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import businesslogicservice.FinanceBLService.FinanceController;
 
@@ -151,6 +153,7 @@ public class FinanceFrame extends JFrame{
 			private JPanel addAccountPane;
 			private JTextField nameField;
 			private JTextField balanceField;
+			ResultMessage result ;
 			/**
 			 * Create the frame.
 			 */
@@ -190,12 +193,18 @@ public class FinanceFrame extends JFrame{
 						String name = nameField.getText() ;
 			    		String balance =balanceField.getText() ;
 				    	if(!(name.equals("") || balance.equals(""))){
-				    		/*
-				    		 * 调用addAccount方法
-				    		 */
-//				    		fController.addAccount(new AccountVO(getName,Double.parseDouble(getBalance))) ;
-//				    		System.out.println(this.getClass()) ;
-				    		dispose();
+				    		if(name.equals("")||balance.equals("")){
+				    			new warningDialog("账户信息不完整！") ;
+				    		}else{
+					    		AccountVO accout = new AccountVO(name,Double.parseDouble(balance)) ;
+					    		result = new FinanceController().addAccount(accout) ;
+					    		if(result.equals(ResultMessage.add_success)){
+       					    		new warningDialog("添加成功") ;
+					    		    dispose();
+					    		}else{
+					    			new warningDialog("该账户已存在，添加失败") ;
+					    		}
+				    		}
 			     		}}
 					
 				});
@@ -1318,7 +1327,22 @@ public class FinanceFrame extends JFrame{
     		add(typeOfProfitLabel);
     	}
 }
-	
+
+    class warningDialog extends JDialog{
+		public warningDialog(String warnings){
+			this.setSize(284, 158);
+			this.setLocationRelativeTo(null);
+			this.setLayout(null);
+			this.setVisible(true);
+			this.setModal(true);
+			
+			JLabel warningLabel = new JLabel(warnings,JLabel.CENTER);
+			warningLabel.setBounds(50, 28, 200, 50);
+			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
+			
+			this.add(warningLabel);
+		}
+	}
 	public static void main(String[] marg){
 		new FinanceFrame() ;
 	}
