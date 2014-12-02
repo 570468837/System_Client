@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import Config.PromotionSort;
 import PO.PromotionPO;
+import PO.SalesReceiptPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.PromotionVO;
@@ -104,6 +105,60 @@ public class PromotionController implements PromotionBLService {
 		return promotions;
 	}
 
+	public ArrayList<PromotionPO> ifPackage(SalesReceiptPO receipt){
+		ArrayList<Object> getObjs=new ArrayList<Object>();
+		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		Communication_Start com=new Communication_Start();
+		com.initial();
+		try {
+			getObjs=com.client.showObjectByPO("promotionIfPackage", receipt);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Object o:getObjs){
+			promotions.add((PromotionPO) o);
+		}
+		
+		return promotions;
+	}
 
+	@Override
+	public ArrayList<PromotionPO> ifGift(SalesReceiptPO receipt) {
+		// TODO Auto-generated method stub
+		ArrayList<Object> getObjs=new ArrayList<Object>();
+		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		Communication_Start com=new Communication_Start();
+		com.initial();
+		try {
+			getObjs=com.client.showObjectByPO("promotionIfGift", receipt);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Object o:getObjs){
+			promotions.add((PromotionPO) o);
+		}
+		return promotions;
+	}
+
+	@Override
+	public ArrayList<PromotionPO> ifVoucher(SalesReceiptPO receipt) {
+		// TODO Auto-generated method stub
+		ArrayList<Object> getObjs=new ArrayList<Object>();
+		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		Communication_Start com=new Communication_Start();
+		com.initial();
+		try {
+			getObjs=com.client.showObjectByPO("promotionIfVoucher", receipt);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Object o:getObjs){
+			promotions.add((PromotionPO) o);
+		}
+		return promotions;
+	}
 
 }

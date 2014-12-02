@@ -2,6 +2,8 @@ package businesslogicservice.PromotionBLService;
 
 import java.util.ArrayList;
 
+import PO.PromotionPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.PromotionVO;
 
@@ -34,6 +36,24 @@ public class PromotionBLService_Stub implements PromotionBLService{
 
 	@Override
 	public ArrayList<PromotionVO> show() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PromotionPO> ifPackage(SalesReceiptPO receipt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PromotionPO> ifGift(SalesReceiptPO receipt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<PromotionPO> ifVoucher(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
