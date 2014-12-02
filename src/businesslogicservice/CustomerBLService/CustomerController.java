@@ -78,7 +78,7 @@ public class CustomerController implements CustomerBLService {
 
 	@Override
 	public CustomerPO getCustomerPOById(String id) {
-		
+		return null;
 	}
 
 	
