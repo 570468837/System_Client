@@ -34,11 +34,11 @@ import PO.TransferListItemPO;
 import ResultMessage.ResultMessage;
 import VO.PromotionVO;
 
-public class ManagerFrameHelper {
-	static ArrayList<PurchaseListItemPO> purchaseListItems;
-	static ArrayList<SalesListItemPO> salesListItems;
-	static ArrayList<TransferListItemPO> transfers;
-	public ManagerFrameHelper(String command){
+public class ManagerFrameHelper extends JFrame{
+	 ArrayList<PurchaseListItemPO> purchaseListItems;
+	 ArrayList<SalesListItemPO> salesListItems;
+	 ArrayList<TransferListItemPO> transfers;
+	 public ManagerFrameHelper(String command){
 		switch (command){
 			case "package":new AddPackageFrame(); break;
 			case "gifts": new AddGiftsFrame(); break;
@@ -52,12 +52,12 @@ public class ManagerFrameHelper {
 	}
 	
 	
-	public static void setPurchaseItems(ArrayList<PurchaseListItemPO> purchaseItems) {
-		ManagerFrameHelper.purchaseListItems = purchaseItems;
+	public void setPurchaseItems(ArrayList<PurchaseListItemPO> purchaseItems) {
+		this.purchaseListItems = purchaseItems;
 	}
 
-	public static void setSalesListItems(ArrayList<SalesListItemPO> salesListItems) {
-		ManagerFrameHelper.salesListItems = salesListItems;
+	public void setSalesListItems(ArrayList<SalesListItemPO> salesListItems) {
+		this.salesListItems = salesListItems;
 	}
 
 	public void setTransfers(ArrayList<TransferListItemPO> transfers) {
@@ -232,7 +232,7 @@ public class ManagerFrameHelper {
 					// TODO Auto-generated method stub
 					if(checkValid()){
 					Date date=new Date();
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 					
 					ArrayList<GoodsPO> goods=new ArrayList<GoodsPO>();
 					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, 0, 0, 0, null));
@@ -432,7 +432,7 @@ public class ManagerFrameHelper {
 					public void actionPerformed(ActionEvent e) {
 						if(checkValid()){
 						Date date=new Date();
-						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 						
 						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
 						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, 0, 0, 0, null));
@@ -633,7 +633,7 @@ public class ManagerFrameHelper {
 					public void actionPerformed(ActionEvent e) {
 						if(checkValid()){
 						Date date=new Date();
-						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMM");
+						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 						
 						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 						PromotionVO vo=new PromotionVO(PromotionSort.Voucher, dateFormat.format(date), 

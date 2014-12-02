@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -452,7 +454,15 @@ public class ManagerFrame extends JFrame{
 			
 			add1.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new ManagerFrameHelper("package");
+					//new ManagerFrameHelper("package");
+					ManagerFrameHelper m=new ManagerFrameHelper("");
+					ManagerFrameHelper.AddPackageFrame addFrame=m.new AddPackageFrame();
+					addFrame.addWindowListener(new WindowAdapter() {
+						public void windowClosed(WindowEvent e) {
+							tableRefresh();
+						}
+					});
+					
 				}
 			});
 			
@@ -462,7 +472,15 @@ public class ManagerFrame extends JFrame{
 			
 			add2.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new ManagerFrameHelper("gifts");
+					//new ManagerFrameHelper("gifts");
+					ManagerFrameHelper m=new ManagerFrameHelper("");
+					ManagerFrameHelper.AddGiftsFrame addFrame=m.new AddGiftsFrame();
+					addFrame.addWindowListener(new WindowAdapter() {
+						public void windowClosed(WindowEvent e) {
+							tableRefresh();
+						}
+					});
+					
 				}
 			});
 			
@@ -472,7 +490,14 @@ public class ManagerFrame extends JFrame{
 			
 			add3.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new ManagerFrameHelper("voucher");
+					//new ManagerFrameHelper("voucher");
+					ManagerFrameHelper m=new ManagerFrameHelper("");
+					ManagerFrameHelper.AddVoucherFrame addFrame=m.new AddVoucherFrame();
+					addFrame.addWindowListener(new WindowAdapter() {
+						public void windowClosed(WindowEvent e) {
+							tableRefresh();
+						}
+					});
 				}
 			});
 			
@@ -482,7 +507,14 @@ public class ManagerFrame extends JFrame{
 			
 			delete.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					new ManagerFrameHelper("deletePromotion");
+					//new ManagerFrameHelper("deletePromotion");
+					ManagerFrameHelper m=new ManagerFrameHelper("");
+					ManagerFrameHelper.deletePromotionFrame deleteFrame=m.new deletePromotionFrame();
+					deleteFrame.addWindowListener(new WindowAdapter() {
+						public void windowClosed(WindowEvent e) {
+							tableRefresh();
+						}
+					});
 				}
 			});
 			
