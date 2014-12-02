@@ -36,7 +36,7 @@ public class LoginFrame extends JFrame {
 		this.setLayout(null);
 		this.setUndecorated(true); //去边框
 		this.setBackground(new Color(255, 255, 255, 100));
-		ImageIcon background = new ImageIcon("src/image/sign_in_frame.png");
+		ImageIcon background = new ImageIcon("image/sign_in_frame.png");
 		backgroundLabel = new JLabel(background);
 		backgroundLabel.setSize(background.getIconWidth(), background.getIconHeight());
 		this.add(backgroundLabel, new Integer(Integer.MIN_VALUE));
