@@ -206,7 +206,6 @@ public class AdminFrame extends JFrame{
 		@Override
 		public int getColumnCount() {
 			// TODO Auto-generated method stub
-			
 			return columnTitle.length;
 		}
 
@@ -220,7 +219,7 @@ public class AdminFrame extends JFrame{
 	        return getValueAt(0, c).getClass();  
 	    }
 		
-		 public boolean isCellEditable(int row, int col) { 
+    	 public boolean isCellEditable(int row, int col) { 
 			 if(col==2||col==3)
 				 return true;
 			 else

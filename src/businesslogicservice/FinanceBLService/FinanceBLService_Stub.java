@@ -97,5 +97,11 @@ public class FinanceBLService_Stub implements FinanceBLService {
 		
 		return ResultMessage.Exist;
 	}
+
+	@Override
+	public ArrayList<AccountVO> show() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

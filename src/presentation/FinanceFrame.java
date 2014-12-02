@@ -1,6 +1,7 @@
 package presentation;
 
 import java.awt.Color;
+import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -8,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -18,7 +22,13 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableModel;
 
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
@@ -40,12 +50,11 @@ public class FinanceFrame extends JFrame{
 		super() ;
 		theFrame = this ;
 		this.setSize(1000, 600);
-//		this.setTitle("welcome");
 		this.setLocationRelativeTo(null);
 		this.setLayout(null); 
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		accountPanel.setVisible(false);
+		accountPanel.setVisible(true);
 		
 		exitButton = new JLabel("X",JLabel.CENTER) ;
 		exitButton.setBounds(950, 0, 50, 50);
@@ -102,6 +111,8 @@ public class FinanceFrame extends JFrame{
 	 */
 	class AccountPanel extends JPanel{
 		JLabel addAccount,deletAccount,updatAccount,findAccount;
+		JTable accountTable ;
+		JScrollPane scrollPane ;
 		
 		public AccountPanel(JFrame theFrame){
 			super();
@@ -110,13 +121,22 @@ public class FinanceFrame extends JFrame{
 			this.setLayout(null);
 			this.setVisible(true);
 			theFrame.add(this) ;
+			refreshTable(fController.show()) ;
+			this.setVisible(false);
 			
 			JLabel accountAdd = new JLabel("添加账户",JLabel.CENTER);
 			accountAdd.setBounds(100, 23, 120, 50);
 			this.add(accountAdd) ;
 			accountAdd.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e){
-					new AddAccount();
+					JFrame frame = new AddAccount();
+					frame.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							refreshTable(fController.show());
+						}
+					});
 				}
 			});
 			
@@ -125,28 +145,114 @@ public class FinanceFrame extends JFrame{
 			this.add(accountDelet) ;
 			accountDelet.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new DeleteAccount() ;
+					JFrame frame = new DeleteAccount();
+					frame.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							// TODO Auto-generated method stub
+							refreshTable(fController.show());
+						}
+					});
 				}
 			});
+			JLabel accNameFind = new JLabel("账户名称：",JLabel.CENTER) ;
+			accNameFind.setBounds(300,23,120,50) ;
+			this.add(accNameFind) ;
 			
-			JLabel accountFind = new JLabel("查找账户",JLabel.CENTER) ;
-			accountFind.setBounds(300,23,120,50) ;
+			JLabel accountFind = new JLabel("查找",JLabel.CENTER) ;
+			accountFind.setBounds(500,23,120,50) ;
 			this.add(accountFind) ;
+			
+			JTextField findField = new JTextField() ;
+			findField.setBounds(400, 40, 120, 20);
+			this.add(findField) ;
 			accountFind.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new FindAccount() ;
+					String name = findField.getText() ;
+					if(!name.equals("")){
+						refreshTable(fController.findAccount(name));
+						findField.setText("");
+					}
 				}
 			});
 			
+			JLabel refreshLabel = new JLabel("刷新列表",JLabel.CENTER);
+			refreshLabel.setBounds(600, 40, 120, 20);
+			this.add(refreshLabel) ;
+			refreshLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					refreshTable(fController.show());
+				}
+			});
 			
-			String[] columnNames = {"名称","金额"} ;
-			String[][] data = {{"张三","4000"},{"李四","2000"},{"as","dsd"},{"jsdf","dj"},{"jdsk","dfj"}};
-			JTable accountTable = new JTable(data,columnNames );
+		}
+		public void refreshTable(ArrayList<AccountVO> theAccounts){
+			String[] columNames = {"账户名称","账户余额"} ;
+			ArrayList<AccountVO> accounts = theAccounts ;
+			accountTable = new JTable(new MyTableModel(accounts,columNames)) ;
 			accountTable.setBackground(Color.white);
-			JScrollPane scrollPane = new JScrollPane(accountTable) ;
-			scrollPane.setBounds(80,74, 700,400);
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    accountTable.setDefaultRenderer(Object.class, render);
+			
+		    accountTable.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
+		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+		    		int row = e.getFirstRow();
+		    		AccountVO updAccount = new AccountVO((String)accountTable.getValueAt(row, 0),Double.parseDouble((String)accountTable.getValueAt(row, 1))) ;
+		    		fController.updateAccount(updAccount) ;
+		    	}
+		    }) ;
+		    if(scrollPane != null)
+		    	scrollPane.setVisible(false);
+		    scrollPane = new JScrollPane(accountTable) ;	
+    		scrollPane.setBounds(80,74, 700,400);
 			accountTable.setFillsViewportHeight(true);
 			this.add(scrollPane) ;
+			
+			
+		}
+		class MyTableModel extends AbstractTableModel{
+			private ArrayList<ArrayList<Object>> datas = new ArrayList<ArrayList<Object>>();
+			private String[] column ;
+
+			public MyTableModel(ArrayList<AccountVO> theDatas ,String[] theColumn){
+				for(AccountVO theAccount : theDatas){
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theAccount.getName()) ;
+					oneRow.add(String.valueOf(theAccount.getBalance())) ;
+					datas.add(oneRow) ;
+				}
+				column = theColumn ;
+			}
+			@Override
+			public String getColumnName(int col)
+		     {
+		          return column[col];
+		     }
+			public int getColumnCount() {
+				// TODO Auto-generated method stub
+				return column.length;
+			}
+
+			@Override
+			public int getRowCount() {
+				// TODO Auto-generated method stub
+				return datas.size();
+			}
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				// TODO Auto-generated method stub
+				return datas.get(row).get(column);
+			}
+			public boolean isCellEditable(int row, int col) { 
+					return false ;
+			}
+			public void setValueAt(Object value, int row, int col) {  
+		        datas.get(row).set(col,  value);
+		        fireTableCellUpdated(row, col);  
+		    }	
 		}
 	}
 	class AddAccount extends JFrame{
@@ -192,21 +298,20 @@ public class FinanceFrame extends JFrame{
 					public void mouseClicked(MouseEvent e){
 						String name = nameField.getText() ;
 			    		String balance =balanceField.getText() ;
-				    	if(!(name.equals("") || balance.equals(""))){
-				    		if(name.equals("")||balance.equals("")){
-				    			new warningDialog("账户信息不完整！") ;
+				   		if(name.equals("")||balance.equals("")){
+				    		new warningDialog("账户信息不完整！") ;
+				   		}else{
+				    		AccountVO accout = new AccountVO(name,Double.parseDouble(balance)) ;
+					   		result = fController.addAccount(accout) ;
+					   		if(result.equals(ResultMessage.add_success)){
+       				    		new warningDialog("添加成功") ;
+       				    		
+					   		    dispose();
 				    		}else{
-					    		AccountVO accout = new AccountVO(name,Double.parseDouble(balance)) ;
-					    		result = new FinanceController().addAccount(accout) ;
-					    		if(result.equals(ResultMessage.add_success)){
-       					    		new warningDialog("添加成功") ;
-					    		    dispose();
-					    		}else{
-					    			new warningDialog("该账户已存在，添加失败") ;
-					    		}
+				    			new warningDialog("该账户已存在，添加失败") ;
 				    		}
-			     		}}
-					
+				   		}
+					}
 				});
 				
 				JButton cancel = new JButton("取消");
@@ -231,6 +336,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField nameField;
 		private JButton deleteButton;
 		private JButton cancelButton;
+		ResultMessage result ;
 
 		/**
 		 * Create the frame.
@@ -261,8 +367,17 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					String name = nameField.getText() ;
 					if(!name.equals("")){
-	     		  		fController.deletAccount(new AccountVO(name,0)) ;
-				    	dispose();
+	     		  		result = fController.deletAccount(new AccountVO(name,0)) ;
+	     		  		if(result.equals(ResultMessage.delete_success)){
+	     		  			new warningDialog("删除成功");
+	     		  			dispose();
+	     		  			System.out.print("222222");
+	     		  		}else{
+	     		  			new warningDialog("系统中不存在该账户，删除失败") ;
+	     		  			System.out.print("33333333");
+	     		  		}
+					}else{
+						new warningDialog("输入信息不完整") ;
 					}
 				}
 			});
@@ -278,60 +393,7 @@ public class FinanceFrame extends JFrame{
 		}
 
 }
-	class FindAccount extends JFrame{
 
-		private JPanel findAccountPane;
-		private JTextField nameField;
-
-		/**
-		 * Create the frame.
-		 */
-		public FindAccount() {
-			this.setTitle("查找账户");
-			this.setVisible(true);
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(500, 200, 307, 220);
-			findAccountPane = new JPanel();
-			findAccountPane.setBorder(new EmptyBorder(5, 5, 1, 5));
-			setContentPane(findAccountPane);
-			findAccountPane.setLayout(null);
-			
-			JLabel nameLabel = new JLabel("账户名称：");
-			nameLabel.setBounds(22, 36, 100, 15);
-			findAccountPane.add(nameLabel);
-			
-			nameField = new JTextField();
-			nameField.setBounds(108, 34, 114, 18);
-			findAccountPane.add(nameField);
-			nameField.setColumns(10);
-			
-			JButton findButton = new JButton("确定");
-			findButton.setBounds(22, 94, 93, 23);
-			findAccountPane.add(findButton);
-			findButton.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e){
-					String nameOfAccount = nameField.getText() ;
-					if(!nameOfAccount.equals("")){
-						fController.findAccount(nameOfAccount) ;
-						dispose() ;
-					}
-				}
-			});
-			
-			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(153, 94, 93, 23);
-			findAccountPane.add(cancelButton);
-			cancelButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					dispose() ;
-				}
-			});
-		}
-
-	}
 	
 	
 	/*
@@ -346,6 +408,7 @@ public class FinanceFrame extends JFrame{
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
+			this.setVisible(false);
 			theFrame.add(this) ;
 			makeCollectionPane = new MakeCollectionOrPayment() ;
 			this.add(makeCollectionPane) ;
@@ -876,6 +939,7 @@ public class FinanceFrame extends JFrame{
 	    	saleConditionPanel = new SaleConditionPanel() ;
 	    	this.add(saleConditionPanel) ;
 	    	saleConditionPanel.setVisible(false);
+	    	this.setVisible(false);
 	    	
 	    	
 	    	JLabel saleDetailLabel = new JLabel("销售明细表",JLabel.CENTER);
@@ -1332,12 +1396,10 @@ public class FinanceFrame extends JFrame{
 		public warningDialog(String warnings){
 			this.setSize(284, 158);
 			this.setLocationRelativeTo(null);
-			this.setLayout(null);
 			this.setVisible(true);
 			this.setModal(true);
 			
 			JLabel warningLabel = new JLabel(warnings,JLabel.CENTER);
-			warningLabel.setBounds(50, 28, 200, 50);
 			warningLabel.setFont(new Font("宋体",Font.BOLD,14));
 			
 			this.add(warningLabel);

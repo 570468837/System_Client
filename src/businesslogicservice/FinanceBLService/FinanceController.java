@@ -41,7 +41,7 @@ public class FinanceController implements FinanceBLService{
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
 		try {
-			result = com.client.messageCommand("accountDelete", vo);
+			result = com.client.messageCommand("accountDelete", account);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class FinanceController implements FinanceBLService{
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
 		try {
-			result = com.client.messageCommand("accountDelete", vo);
+			result = com.client.messageCommand("accountDelete", account);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,6 +73,25 @@ public class FinanceController implements FinanceBLService{
 		com.initial();
 		try {
 			objects = com.client.findObject("accountFind", keyword) ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Object theAccount:objects){
+			AccountPO acc = (AccountPO) theAccount ;
+			accounts.add(new AccountVO(acc.getName(),acc.getBalance())) ;
+		}
+		return accounts;
+	}
+	@Override
+	public ArrayList<AccountVO> show() {
+		// TODO Auto-generated method stub
+		ArrayList<Object> objects = new ArrayList<Object>() ;
+		ArrayList<AccountVO> accounts = new ArrayList<AccountVO>() ;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		try {
+			objects = com.client.showObject("accountShow") ;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,11 +165,7 @@ public class FinanceController implements FinanceBLService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public static void main(String[] args){
-		ResultMessage result = null ;
-		AccountVO account  = new AccountVO("0001",100);
-		FinanceController controller = new FinanceController() ;
-		result = controller.addAccount(account) ;
-		System.out.println(result);
-	}
+
+	
+
 }

@@ -18,5 +18,6 @@ public interface FinanceBLService {
 	public ResultMessage addPayment(PaymentVO vo);
 	public ResultMessage addCash(CashVO vo);
 	public ResultMessage init();
+	public ArrayList<AccountVO> show() ;
 }
 
