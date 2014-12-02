@@ -23,7 +23,19 @@ public class GoodsVO {
 	public int commodityQuantity; //库存数量
 	
 	
-	public GoodsVO() {}
+	public GoodsVO() {
+		this.serialNumber = "/";
+		this.name = "/";
+		this.model = "/";
+		this.price = 0;
+		this.totalPrice = 0;
+		this.comment = "/";
+		this.goodsClassName = "/";
+		this.salePrice = 0;
+		this.latestPrice = 0;
+		this.latestSalePrice = 0;
+		this.commodityQuantity = 0;
+	}
 	public GoodsVO(String serialNumber, String name, String model, 
 			double price, double totalPrice, String comment) {
 		this.serialNumber = serialNumber;

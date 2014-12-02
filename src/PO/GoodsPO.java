@@ -22,8 +22,19 @@ public class GoodsPO implements Serializable{
 	private double latestSalePrice;
 	public int commodityQuantity;
 	
-	public GoodsPO() {}
-
+	public GoodsPO() {
+		this.serialNumber = "/";
+		this.name = "/";
+		this.model = "/";
+		this.price = 0;
+		this.totalPrice = 0;
+		this.comment = "/";
+		this.goodsClassName = "/";
+		this.salePrice = 0;
+		this.latestPrice = 0;
+		this.latestSalePrice = 0;
+		this.commodityQuantity = 0;
+	}
 
 	//purchase 专用
 	public GoodsPO(String serialNumber, String name, String model, 
