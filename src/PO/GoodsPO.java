@@ -26,14 +26,14 @@ public class GoodsPO implements Serializable{
 		this.serialNumber = "/";
 		this.name = "/";
 		this.model = "/";
-		this.price = 0;
-		this.totalPrice = 0;
+		this.price = -1;
+		this.totalPrice = -1;
 		this.comment = "/";
 		this.goodsClassName = "/";
-		this.salePrice = 0;
-		this.latestPrice = 0;
-		this.latestSalePrice = 0;
-		this.commodityQuantity = 0;
+		this.salePrice = -1;
+		this.latestPrice = -1;
+		this.latestSalePrice = -1;
+		this.commodityQuantity = -1;
 	}
 
 	//purchase 专用
@@ -46,18 +46,24 @@ public class GoodsPO implements Serializable{
 		this.price = price;
 		this.comment = comment;
 	};
-	public GoodsPO(String serialNumber, String name, String model, 
-			 double price, double salePrice, double latestPrice,
-			double latestSalePrice, String goodsClassName) {
-		this.serialNumber = serialNumber;
-		this.name = name;
-		this.model = model;
-		this.price = price;
-		this.salePrice = salePrice;
-		this.latestPrice = latestPrice;
-		this.latestSalePrice = latestSalePrice;
-		this.goodsClassName = goodsClassName;
-	};
+	/**
+	 * 用于创建新的po对象
+	 * @param po
+	 */
+	public GoodsPO(GoodsPO po) {
+		this.serialNumber = po.serialNumber;
+		this.name = po.name;
+		this.model = po.model;
+		this.price = po.price;
+		this.totalPrice = po.totalPrice;
+		this.comment = po.comment;
+		this.goodsClassName = po.goodsClassName;
+		this.salePrice = po.salePrice;
+		this.latestPrice = po.latestPrice;
+		this.latestSalePrice = po.latestSalePrice;
+		this.commodityQuantity = po.commodityQuantity;
+	}
+	
 	
 	public String getSerialNumber() {
 		return serialNumber;
