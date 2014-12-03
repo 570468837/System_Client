@@ -32,6 +32,7 @@ import javax.swing.table.TableModel;
 
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
+import VO.UserVO;
 import businesslogicservice.FinanceBLService.FinanceController;
 
 /*
@@ -46,7 +47,7 @@ public class FinanceFrame extends JFrame{
 	private ReceiptPanel receiptPanel = new ReceiptPanel(this) ;
 	private InfoPanel infoPanel = new InfoPanel(this) ;
 	
-	public FinanceFrame(){
+	public FinanceFrame(UserVO uservo){
 		super() ;
 		theFrame = this ;
 		this.setSize(1000, 600);
@@ -440,9 +441,9 @@ public class FinanceFrame extends JFrame{
 	class MakeCollectionOrPayment extends JPanel{
 
 
-		private JTextField numberField;
-		private JTextField nameOfCustomeField;
 		private JTextField nameOfCustomerField;
+		private JTextField numberOfReceiptField;
+		private JTextField sumOfMoneyField;
 
 		/**
 		 * Create the frame.
@@ -450,12 +451,50 @@ public class FinanceFrame extends JFrame{
 		public MakeCollectionOrPayment() {
 			setBounds(120, 100, 500, 380);
 			this.setBorder(new EmptyBorder(5, 5, 5, 5));
-//			setContentPane(contentPane);
 			this.setLayout(null);
 			
 			JLabel numberLabel = new JLabel("单据编号：");
 			numberLabel.setBounds(39, 42, 100, 15);
 			this.add(numberLabel);
+			
+			JRadioButton c = new JRadioButton("收款单");
+			c.setBounds(270, 37, 71, 23);
+			this.add(c);
+			
+			JRadioButton f = new JRadioButton("付款单");
+			f.setBounds(340, 37, 71, 23);
+			this.add(f);
+			
+			nameOfCustomerField = new JTextField();
+			nameOfCustomerField.setBounds(129, 96, 100, 21);
+			this.add(nameOfCustomerField);
+			nameOfCustomerField.setColumns(10);
+			
+			numberOfReceiptField = new JTextField();
+			numberOfReceiptField.setBounds(129, 39, 135, 21);
+			this.add(numberOfReceiptField);
+			numberOfReceiptField.setColumns(10);
+			
+			
+			sumOfMoneyField = new JTextField();
+			sumOfMoneyField.setBounds(129, 181, 100, 21);
+			this.add(sumOfMoneyField);
+			sumOfMoneyField.setColumns(10);
+			
+			c.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					c.setSelected(true);
+					f.setSelected(false);
+					numberOfReceiptField.setText(fController.getReceiptNumber("SKD"));
+				}
+			});
+			f.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					c.setSelected(false);
+					f.setSelected(true);
+					numberOfReceiptField.setText(fController.getReceiptNumber("FKD"));
+				}
+			});
 			
 			JLabel nameOfCustomeLabel = new JLabel("客户名称：");
 			nameOfCustomeLabel.setBounds(39, 99, 100, 15);
@@ -469,15 +508,9 @@ public class FinanceFrame extends JFrame{
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
 			this.add(sumOfMoneyLabel);
 			
-			numberField = new JTextField();
-			numberField.setBounds(129, 96, 100, 21);
-			this.add(numberField);
-			numberField.setColumns(10);
 			
-			nameOfCustomeField = new JTextField();
-			nameOfCustomeField.setBounds(129, 39, 135, 21);
-			this.add(nameOfCustomeField);
-			nameOfCustomeField.setColumns(10);
+			
+			
 			
 			JRadioButton supplierRadioButton = new JRadioButton("供应商");
 			supplierRadioButton.setBounds(240, 95, 71, 23);
@@ -500,13 +533,13 @@ public class FinanceFrame extends JFrame{
 				}
 			});
 			
-			
+			ArrayList<ArrayList<String>> tfAccounts = new ArrayList<ArrayList<String>>() ;
 			JButton addTfListButton = new JButton("添加转账账户");
 			addTfListButton.setBounds(39, 140, 130, 23);
 			this.add(addTfListButton);
 			addTfListButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new AddTfListFrame() ;
+					new AddTfListFrame(tfAccounts) ;
 				}
 			});
 			
@@ -515,15 +548,12 @@ public class FinanceFrame extends JFrame{
 			this.add(showTfListButton) ;
 			showTfListButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new ShowTfListFrame() ;
+					new ShowTfListFrame(tfAccounts) ;
 				}
 			});
 			
 			
-			nameOfCustomerField = new JTextField();
-			nameOfCustomerField.setBounds(129, 181, 100, 21);
-			this.add(nameOfCustomerField);
-			nameOfCustomerField.setColumns(10);
+			
 			
 			JLabel yuanLabel = new JLabel("元");
 			yuanLabel.setBounds(235, 184, 21, 15);
@@ -543,9 +573,9 @@ public class FinanceFrame extends JFrame{
 					/*
 					 * 调用逻辑
 					 */
-					numberField.setText("");
-					nameOfCustomeField.setText("");;
 					nameOfCustomerField.setText("");
+					numberOfReceiptField.setText("");;
+					sumOfMoneyField.setText("");
 					supplierRadioButton.setSelected(false);
 					retailerRadioButton.setSelected(false);
 				}
@@ -559,11 +589,13 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					numberField.setText("");
-					nameOfCustomeField.setText("");
 					nameOfCustomerField.setText("");
+					numberOfReceiptField.setText("");
+					sumOfMoneyField.setText("");
 					supplierRadioButton.setSelected(false);
 					retailerRadioButton.setSelected(false);
+					f.setSelected(false);
+					c.setSelected(false);
 				}
 			});
 		}
@@ -577,7 +609,7 @@ public class FinanceFrame extends JFrame{
     	/**
     	 * Create the frame.
     	 */
-    	public ShowTfListFrame() {
+    	public ShowTfListFrame(ArrayList<ArrayList<String>> tfAccounts) {
     		this.setVisible(true);
     		this.setTitle("转账列表");
     		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -621,7 +653,7 @@ public class FinanceFrame extends JFrame{
 		/**
 		 * Create the frame.
 		 */
-		public AddTfListFrame() {
+		public AddTfListFrame(ArrayList<ArrayList<String>> tfAccounts) {
 			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			setBounds(500, 200, 350, 300);
 			contentPane = new JPanel();
@@ -668,10 +700,18 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					/*
-					 * 调用逻辑
-					 */
-					dispose() ;
+					ArrayList<String> tfAccount = new ArrayList<String>(); 
+					String nameOfAccount = nameOfAccountField.getText() ;
+					String numOfTf = numOfTfField.getText() ;
+					String marked = markedField.getText() ;
+					if(nameOfAccount.equals("")||numOfTf.equals("")||marked.equals("")){
+						new warningDialog("信息不完整");
+					}else{
+		    			tfAccount.add(nameOfAccountField.getText()) ;
+				    	tfAccount.add(numOfTfField.getText()) ;
+				    	tfAccount.add(markedField.getText()) ;
+				    	dispose() ;
+					}
 				}
 			});
 			

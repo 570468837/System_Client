@@ -205,12 +205,22 @@ public class SalesmanFrame extends JFrame {
 			JButton creatInButton1=new JButton("创建进货单");
 			creatInButton1.setBounds(725,150,100,30);
 			this.add(creatInButton1);
+			
 			JButton creatOutButton1=new JButton("创建进货退货单");
 			creatOutButton1.setBounds(715,185,120,30);
 			this.add(creatOutButton1);
 			
-		
 			theFrame.getContentPane().add(this);
+			
+			creatInButton1.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new SalesmanFrameHelper("addPurchaseReceipt");
+					
+				}
+			});
+			
 		}
 	}
 	

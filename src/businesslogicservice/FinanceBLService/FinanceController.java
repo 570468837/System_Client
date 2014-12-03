@@ -2,12 +2,12 @@ package businesslogicservice.FinanceBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import PO.AccountPO;
 import PO.CaseListItemPO;
 import PO.CashPO;
-import PO.CollectionPO;
-import PO.PaymentPO;
+import PO.CollectionOrPaymentPO;
 import PO.TransferListItemPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
@@ -110,7 +110,7 @@ public class FinanceController implements FinanceBLService{
 		for(TransferListItemVO theItem:vo.getTrList()){
 			trList.add(new TransferListItemPO(theItem.getAccount(),theItem.getTransferMoney(),theItem.getRemark())) ;
 		}
-		CollectionPO collection = new CollectionPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal());
+		CollectionOrPaymentPO collection = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal());
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
@@ -129,7 +129,7 @@ public class FinanceController implements FinanceBLService{
 		for(TransferListItemVO theItem:vo.getTrList()){
 			trList.add(new TransferListItemPO(theItem.getAccount(),theItem.getTransferMoney(),theItem.getRemark())) ;
 		}
-		PaymentPO payment = new PaymentPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal()) ;
+		CollectionOrPaymentPO payment = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal()) ;
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
 		try {
@@ -159,12 +159,26 @@ public class FinanceController implements FinanceBLService{
 		}
 		return result;
 	}
-
+	@Override
+	public String getReceiptNumber(String typeOfReceipt) {
+		// TODO Auto-generated method stub
+		Communication_Start com = new Communication_Start() ;
+		com.initial(); 
+		String receiptNumber = "" ;
+		try {
+			receiptNumber =  com.client.getReceiptNumber(typeOfReceipt) ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return receiptNumber;
+	}
 	@Override
 	public ResultMessage init() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 	
 

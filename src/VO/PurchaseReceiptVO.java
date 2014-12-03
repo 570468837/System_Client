@@ -4,15 +4,6 @@ import java.util.ArrayList;
 
 public class PurchaseReceiptVO  {
 	private CustomerVO customerVO;
-	
-	public CustomerVO getCustomerVO() {
-		return customerVO;
-	}
-
-	public void setCustomerVO(CustomerVO customerVO) {
-		this.customerVO = customerVO;
-	}
-
 	private String serialNumber;
 	private UserVO userVO;
 	private String time;
@@ -21,6 +12,17 @@ public class PurchaseReceiptVO  {
 	//审批
 	private boolean isApprovedByManager=false;
 	private boolean isApprovedByCommodity=false;
+	
+	//防止add方法list为空指针
+	private ArrayList<PurchaseListItemVO> purchaseList=new ArrayList<PurchaseListItemVO>();
+	
+	public CustomerVO getCustomerVO() {
+		return customerVO;
+	}
+
+	public void setCustomerVO(CustomerVO customerVO) {
+		this.customerVO = customerVO;
+	}
 	
 	public boolean isApprovedByManager() {
 		return isApprovedByManager;
@@ -42,12 +44,6 @@ public class PurchaseReceiptVO  {
 	}
 
 
-	
-
-
-	//防止add方法list为空指针
-	private ArrayList<PurchaseListItemVO> purchaseList=new ArrayList<PurchaseListItemVO>();
-	
 	public void addPurchaseListItem(PurchaseListItemVO purchaseListItem){
 		this.purchaseList.add(purchaseListItem);
 	}

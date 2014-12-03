@@ -2,9 +2,8 @@ package businesslogicservice.ApprovalBLService;
 
 import java.util.ArrayList;
 
-import PO.CollectionPO;
+import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
-import PO.PaymentPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesReceiptPO;
 
@@ -44,18 +43,11 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 	}
 
 	@Override
-	public void collectionChangeCustomer(ArrayList<CollectionPO> collections) {
+	public void collectionOrPaymentChangeCustomer(ArrayList<CollectionOrPaymentPO> collections) {
 		// TODO Auto-generated method stub
-		for(CollectionPO c:collections){
+		for(CollectionOrPaymentPO c:collections){
 			c.setProvedByManege(true);
 		}
 	}
 
-	@Override
-	public void paymentChangeCustomer(ArrayList<PaymentPO> payments) {
-		// TODO Auto-generated method stub
-		for(PaymentPO p:payments){
-			p.setProvedByManege(true);
-		}
-	}
 }

@@ -103,5 +103,11 @@ public class FinanceBLService_Stub implements FinanceBLService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public String getReceiptNumber(String typeOfReceipt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
