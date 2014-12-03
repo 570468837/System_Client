@@ -107,14 +107,16 @@ public class LoginFrame extends JFrame {
 				default:  break;
 				}
 				if(!((String)loginType.getSelectedItem()).equals("请选择用户类型")){
-					if(new UserController().login(new UserVO(readName,readPassword,readUserSort,0))
+					UserVO user=new UserVO(readName,readPassword,readUserSort,1);
+					if(new UserController().login(user)
 							==ResultMessage.login_success){
+						user=new UserController().find(user.getUserName()).get(0);
 				switch((String)loginType.getSelectedItem()) {
-				case "库存管理人员": new CommodityFrame(); break;
-				case "销售人员": new SalesmanFrame(); break;
-				case "财务人员": new FinanceFrame(); break;
-				case "总经理": new ManagerFrame(); break;
-				case "管理员": new AdminFrame(); break;
+				case "库存管理人员": new CommodityFrame(user); break;
+				case "销售人员": new SalesmanFrame(user); break;
+				case "财务人员": new FinanceFrame(user); break;
+				case "总经理": new ManagerFrame(user); break;
+				case "管理员": new AdminFrame(user); break;
 				default:  break;
 				}
 				thisFrame.dispose();

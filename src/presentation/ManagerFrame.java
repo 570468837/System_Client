@@ -31,6 +31,7 @@ import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
 import VO.PromotionVO;
+import VO.UserVO;
 
 
 public class ManagerFrame extends JFrame{
@@ -39,7 +40,8 @@ public class ManagerFrame extends JFrame{
 	private InfoPanel infoPanel=new InfoPanel(this);
 	private PromotionPanel proPanel=new PromotionPanel(this);
 	
-	public ManagerFrame(){   //总Frame
+	public ManagerFrame(UserVO uservo){   //总Frame
+		System.out.println(uservo.getLevel());
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
@@ -648,7 +650,7 @@ public class ManagerFrame extends JFrame{
 	}
 
 	public static void main(String[] args){
-		new ManagerFrame();
+		new ManagerFrame(new UserVO("", "", null,0));
 	}
 }
 

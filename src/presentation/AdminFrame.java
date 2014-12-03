@@ -36,7 +36,7 @@ public class AdminFrame extends JFrame{
 	private JLabel manageLabel;
 	private adminPanel adPanel=new adminPanel(this);
 	
-	public AdminFrame(){
+	public AdminFrame(UserVO uservo){
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
@@ -414,6 +414,6 @@ public class AdminFrame extends JFrame{
 		}
 	}
 	public static void main(String[] args){
-		new AdminFrame();
+		new AdminFrame(new UserVO("", "", null, 0));
 	}
 }
