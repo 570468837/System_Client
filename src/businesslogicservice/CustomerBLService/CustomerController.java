@@ -83,13 +83,13 @@ public class CustomerController implements CustomerBLService {
 
 	
 	//修改客户应收
-	public ResultMessage purchaseChangeGetting(PurchaseReceiptPO receipt){
+	public ResultMessage purchaseChangePay(PurchaseReceiptPO receipt){
 		//
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		
 		try {
-			return com.client.messageCommand("purchase_change_getting",receipt);
+			return com.client.messageCommand("purchase_change_pay",receipt);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -99,12 +99,12 @@ public class CustomerController implements CustomerBLService {
 		
 	}
 	//修改客户应付
-	public ResultMessage salesChangePay(SalesReceiptPO receipt){
+	public ResultMessage salesChangeGetting(SalesReceiptPO receipt){
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		
 		try {
-			 return com.client.messageCommand("sales_change_pay",receipt);
+			 return com.client.messageCommand("sales_change_getting",receipt);
 			 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
