@@ -41,7 +41,6 @@ public class ManagerFrame extends JFrame{
 	private PromotionPanel proPanel=new PromotionPanel(this);
 	
 	public ManagerFrame(UserVO uservo){   //总Frame
-		System.out.println(uservo.getLevel());
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
