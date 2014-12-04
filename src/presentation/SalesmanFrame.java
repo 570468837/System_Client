@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import VO.UserVO;
+
 public class SalesmanFrame extends JFrame {
 	
 
@@ -26,7 +28,7 @@ public class SalesmanFrame extends JFrame {
 	private SalesPanel salesPanel=new SalesPanel(this);
 	private PurchasePanel purchasePanel=new PurchasePanel(this);
 	
-	public SalesmanFrame(){   //总Frame
+	public SalesmanFrame(UserVO uservo){   //总Frame
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
 		this.setTitle("welcome");
@@ -280,7 +282,7 @@ public class SalesmanFrame extends JFrame {
 	
 	
 	public static void main(String[] args){
-		new SalesmanFrame();
+		new SalesmanFrame(new UserVO(null, null, null, 0));
 	}
 
 }

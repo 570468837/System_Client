@@ -35,7 +35,7 @@ public class CommodityFrame extends JFrame {
 	private CommodityController cc = new CommodityController();
 	
 	
-	public CommodityFrame() {
+	public CommodityFrame(UserVO uservo) {
 		super();
 		
 		theFrame = this;
@@ -1441,7 +1441,7 @@ public class CommodityFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		CommodityFrame c = new CommodityFrame();
+		CommodityFrame c = new CommodityFrame(new UserVO(null, null, null, 0));
 	}
 	
 
