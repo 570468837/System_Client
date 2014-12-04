@@ -8,8 +8,6 @@ public class CashVO  {
 	String account ;
 	ArrayList<CaseListItemVO> cases = new ArrayList<CaseListItemVO>(); ;
 	double sum ;
-	public CashVO(){
-	}
 	public CashVO(String number, String user, String account,
 			ArrayList<CaseListItemVO> cases, double sum) {
 		super();

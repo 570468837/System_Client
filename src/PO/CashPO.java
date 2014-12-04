@@ -3,15 +3,15 @@ package PO;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import VO.CaseListItemVO;
+
 public class CashPO implements Serializable  {
 	String number ; 
 	String user ;
 	String account ;
 	ArrayList<CaseListItemPO> cases ;//条目清单
 	double sum ;
-	
-	
-	public CashPO(String number, String user, String account,
+    public CashPO(String number, String user, String account,
 			ArrayList<CaseListItemPO> cases, double sum) {
 		super();
 		this.number = number;
@@ -20,26 +20,19 @@ public class CashPO implements Serializable  {
 		this.cases = cases;
 		this.sum = sum;
 	}
-	
-	
-    double getTotal(){
+	double getTotal(){
     	double total  = 0 ;
     	for(CaseListItemPO theCase:cases){
     		total += theCase.getCaseMoney() ;
     	}
     	return total ;
     }
-    
-    
     void addCase(CaseListItemPO theCase){
     	this.cases.add(theCase) ;
     }
-    
-    
 	public String getNumber() {
 		return number;
 	}
-	
 	public void setNumber(String number) {
 		this.number = number;
 	}
