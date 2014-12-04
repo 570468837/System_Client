@@ -24,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PromotionBLService.PromotionController;
 import Config.Level;
 import Config.PromotionSort;
@@ -32,6 +33,7 @@ import PO.PurchaseListItemPO;
 import PO.SalesListItemPO;
 import PO.TransferListItemPO;
 import ResultMessage.ResultMessage;
+import VO.GoodsVO;
 import VO.PromotionVO;
 
 public class ManagerFrameHelper extends JFrame{
@@ -90,6 +92,8 @@ public class ManagerFrameHelper extends JFrame{
 		private JButton confirmButton;
 		private JButton cancelButton;
 		private JLabel yuanLabel;
+		private GoodsVO goods1;
+		private GoodsVO goods2;
 		public AddPackageFrame(){
 			this.setVisible(true);
 			setBounds(100, 100, 556, 475);
@@ -105,14 +109,62 @@ public class ManagerFrameHelper extends JFrame{
 			getContentPane().add(GoodsInPutLabel);
 			
 			goods1Field = new JTextField();
-			goods1Field.setBounds(249, 82, 97, 21);
+			goods1Field.setBounds(249, 82, 85, 21);
 			getContentPane().add(goods1Field);
 			goods1Field.setColumns(10);
 			
+			JButton checkGoods1Button=new JButton("查询");
+			checkGoods1Button.setBounds(341,82,60,21);
+			getContentPane().add(checkGoods1Button);
+			
+			JLabel checkGoods1Label=new JLabel("未选择商品");
+			checkGoods1Label.setBounds(408,82,140,21);
+			getContentPane().add(checkGoods1Label);
+			
+			checkGoods1Button.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					if(goods1Field.getText().equals("")){
+						checkGoods1Label.setText("未选择商品");
+						return;
+					}
+					goods1=new GoodsController().getGoodsByID(Long.parseLong(goods1Field.getText()));
+					if(goods1!=null)
+						checkGoods1Label.setText(goods1.name);
+					else
+						checkGoods1Label.setText("无此商品");
+				}
+			});
+			
 			goods2Field = new JTextField();
 			goods2Field.setColumns(10);
-			goods2Field.setBounds(249, 125, 97, 21);
+			goods2Field.setBounds(249, 125, 85, 21);
 			getContentPane().add(goods2Field);
+			
+			JButton checkGoods2Button=new JButton("查询");
+			checkGoods2Button.setBounds(341,125,60,21);
+			getContentPane().add(checkGoods2Button);
+			
+			JLabel checkGoods2Label=new JLabel("未选择商品");
+			checkGoods2Label.setBounds(408,125,140,21);
+			getContentPane().add(checkGoods2Label);
+			
+			checkGoods2Button.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					if(goods2Field.getText().equals("")){
+						checkGoods2Label.setText("未选择商品");
+						return;
+					}
+					goods2=new GoodsController().getGoodsByID(Long.parseLong(goods2Field.getText()));
+					if(goods2!=null)
+						checkGoods2Label.setText(goods2.name);
+					else
+						checkGoods2Label.setText("无此商品");
+				}
+			});
 			
 			offPriceLabel = new JLabel("请输入降价金额：");
 			offPriceLabel.setBounds(75, 161, 111, 15);
@@ -235,8 +287,10 @@ public class ManagerFrameHelper extends JFrame{
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 					
 					ArrayList<GoodsPO> goods=new ArrayList<GoodsPO>();
-					goods.add(new GoodsPO(goods1Field.getText(), null, null, 0, null));
-					goods.add(new GoodsPO(goods2Field.getText(), null, null, 0, null));
+					goods1=new GoodsController().getGoodsByID(Long.parseLong(goods1Field.getText()));
+					goods2=new GoodsController().getGoodsByID(Long.parseLong(goods2Field.getText()));
+					goods.add(goods1.toPO());
+					goods.add(goods2.toPO());
 					
 					Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 					
@@ -301,6 +355,7 @@ public class ManagerFrameHelper extends JFrame{
 		private JButton cancelButton;
 		private JLabel yuanLabel;
 		private JTextField presentsField;
+		private GoodsVO presentVO;
 		public AddGiftsFrame(){
 				this.setVisible(true);
 				setBounds(100, 100, 556, 475);
@@ -328,9 +383,34 @@ public class ManagerFrameHelper extends JFrame{
 				presentLabel.setBounds(24, 149, 150, 15);
 				getContentPane().add(presentLabel);
 				
-				JLabel goodsChosenLabel = new JLabel("未选择商品!");
-				goodsChosenLabel.setBounds(296, 146, 234, 21);
+				presentsField = new JTextField();
+				presentsField.setColumns(10);
+				presentsField.setBounds(177, 146, 97, 21);
+				getContentPane().add(presentsField);
+				
+				JButton goodsChosenButton=new JButton("查询");
+				goodsChosenButton.setBounds(282, 146, 60, 21);
+				getContentPane().add(goodsChosenButton);
+				
+				JLabel goodsChosenLabel = new JLabel("未选择商品");
+				goodsChosenLabel.setBounds(350, 146, 200, 21);
 				getContentPane().add(goodsChosenLabel);
+				
+				goodsChosenButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						if(presentsField.getText().equals("")){
+							goodsChosenLabel.setText("未选择商品");
+							return;
+						}
+						presentVO=new GoodsController().getGoodsByID(Long.parseLong(presentsField.getText()));
+						if(presentVO!=null)
+							goodsChosenLabel.setText(presentVO.name);
+						else
+							goodsChosenLabel.setText("无此商品");
+					}
+				});
 				
 				int yearNow=getYearNow();
 				int monthNow=getMonthNow();
@@ -423,10 +503,7 @@ public class ManagerFrameHelper extends JFrame{
 				yuanLabel.setBounds(284, 89, 54, 15);
 				getContentPane().add(yuanLabel);
 				
-				presentsField = new JTextField();
-				presentsField.setColumns(10);
-				presentsField.setBounds(177, 146, 97, 21);
-				getContentPane().add(presentsField);
+
 				
 				confirmButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -435,7 +512,8 @@ public class ManagerFrameHelper extends JFrame{
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 						
 						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
-						presents.add(new GoodsPO(presentsField.getText(), null, null, 0, null));
+						presentVO=new GoodsController().getGoodsByID(Long.parseLong(presentsField.getText()));
+						presents.add(presentVO.toPO());
 						
 						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
 						
@@ -915,6 +993,6 @@ public class ManagerFrameHelper extends JFrame{
 	}
 
 	public static void main(String[] args){
-		new ManagerFrameHelper("deletePromotion");
+		new ManagerFrameHelper("gifts");
 	}
 }
