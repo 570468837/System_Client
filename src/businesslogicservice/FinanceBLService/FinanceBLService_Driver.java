@@ -2,8 +2,7 @@ package businesslogicservice.FinanceBLService;
 
 import VO.AccountVO;
 import VO.CashVO;
-import VO.CollectionVO;
-import VO.PaymentVO;
+import VO.CollectionOrPaymentVO;
 
 public class FinanceBLService_Driver {
 	public void drive(FinanceBLService financeBLService){
@@ -11,8 +10,7 @@ public class FinanceBLService_Driver {
 		financeBLService.deletAccount(new AccountVO()) ;
 		financeBLService.updateAccount(new AccountVO()) ;
 		financeBLService.findAccount("0001") ;
-		financeBLService.addCollection(new CollectionVO()) ;
-		financeBLService.addPayment(new PaymentVO()) ;
+		financeBLService.addCollectionOrPaymentVO(new CollectionOrPaymentVO()) ;
 		financeBLService.addCash(new CashVO()) ;
 		financeBLService.init() ; 
 	}

@@ -7,10 +7,9 @@ import businesslogicservice.GoodsBLService.GoodsBLService_Stub;
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import VO.CashVO;
-import VO.CollectionVO;
+import VO.CollectionOrPaymentVO;
 import VO.CustomerVO;
 import VO.GoodsVO;
-import VO.PaymentVO;
 
 
 
@@ -56,16 +55,7 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	}
 
 	@Override
-	public ResultMessage addCollection(CollectionVO vo) {
-		// TODO Auto-generated method stub
-		if(vo.getNumber().equals("0002"))
-			return ResultMessage.Exist ;
-		else
-			return ResultMessage.Not_Exist ;
-	}
-
-	@Override
-	public ResultMessage addPayment(PaymentVO vo) {
+	public ResultMessage addCollectionOrPaymentVO(CollectionOrPaymentVO vo) {
 		// TODO Auto-generated method stub
 		if(vo.getNumber().equals("0002"))
 			return ResultMessage.Exist ;

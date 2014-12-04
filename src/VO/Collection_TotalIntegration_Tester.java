@@ -11,7 +11,7 @@ public class Collection_TotalIntegration_Tester {
 		TransferListItemVO listItem1=new TransferListItemVO("0001",100,null);
 		TransferListItemVO listItem2=new TransferListItemVO("0002",200,null);
 		
-		CollectionVO collection=new CollectionVO();
+		CollectionOrPaymentVO collection=new CollectionOrPaymentVO();
 		collection.add(listItem1);
 		collection.add(listItem2);
 		

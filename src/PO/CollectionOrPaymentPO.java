@@ -3,45 +3,58 @@ package PO;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class CollectionOrPaymentPO implements Serializable{
-	
+import VO.TransferListItemVO;
 
+public class CollectionOrPaymentPO implements Serializable{
 	String number ;
 	String customer ;
+	String typeOfCustomer ;
 	String user ;
-	ArrayList<TransferListItemPO> tfList = new ArrayList<TransferListItemPO>() ;//转账列表
-	double total;
-	boolean isProvedByManege = false ;
-	boolean isProvedByFinancer = false ;
+	ArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();//转账列表
+	double total ;
 	public CollectionOrPaymentPO(){
 		number = null ;
-	    customer = null ;
-	    user = null ;
-	    total = 0 ;
+		customer = null ;
+		user = null ;
+		total = 0 ;
 	}
-	
-	public CollectionOrPaymentPO(String theNumber,String theCustomer,String theUser,ArrayList<TransferListItemPO> theTfList,double theSum){
-		number = theNumber ;
-		customer = theCustomer ;
-		user = theUser ;
+	public CollectionOrPaymentPO(String theNumber,String theCustomer,String theTypeOfCustomer,String theUser,ArrayList<TransferListItemPO> theTrList , double theSum){
+		number = theNumber ; 
+		customer = theCustomer ; 
+		typeOfCustomer = theTypeOfCustomer ;
+		user = theUser ; 
+		trList = theTrList ;
 		total = theSum ;
-		tfList = theTfList ;
 	}
-	
+	public String getTypeOfCustomer() {
+		return typeOfCustomer;
+	}
+	public void setTypeOfCustomer(String typeOfCustomer) {
+		this.typeOfCustomer = typeOfCustomer;
+	}
+	public ArrayList<TransferListItemPO> getTrList() {
+		return trList;
+	}
+	public void setTrList(ArrayList<TransferListItemPO> trList) {
+		this.trList = trList;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
 	public void add(TransferListItemPO theItem){
-		tfList.add(theItem) ;
+		trList.add(theItem) ;
 	}
-	
 	public double getTotal(){
 		double total = 0 ;
-		for(TransferListItemPO theItem : tfList){
-			total += theItem.getTransferMoney();
+		for(TransferListItemPO theItem:trList){
+			total += theItem.getTransferMoney() ;
 		}
 		return total ;
 	}
 	public String getNumber() {
 		return number;
 	}
+	
 	public void setNumber(String number) {
 		this.number = number;
 	}
@@ -57,24 +70,6 @@ public class CollectionOrPaymentPO implements Serializable{
 	public void setUser(String user) {
 		this.user = user;
 	}
-
-	public boolean isProvedByManege() {
-		return isProvedByManege;
-	}
-
-	public void setProvedByManege(boolean isProvedByManege) {
-		this.isProvedByManege = isProvedByManege;
-	}
-
-	public boolean isProvedByFinancer() {
-		return isProvedByFinancer;
-	}
-
-	public void setProvedByFinancer(boolean isProvedByFinancer) {
-		this.isProvedByFinancer = isProvedByFinancer;
-	}
-	
 	
 
-	
 }

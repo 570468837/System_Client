@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -33,6 +34,8 @@ import javax.swing.table.TableModel;
 import Config.UserSort;
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
+import VO.CollectionOrPaymentVO;
+import VO.TransferListItemVO;
 import VO.UserVO;
 import businesslogicservice.FinanceBLService.FinanceController;
 
@@ -47,8 +50,10 @@ public class FinanceFrame extends JFrame{
 	private AccountPanel accountPanel = new AccountPanel(this) ;
 	private ReceiptPanel receiptPanel = new ReceiptPanel(this) ;
 	private InfoPanel infoPanel = new InfoPanel(this) ;
+	private UserVO user ;
 	
 	public FinanceFrame(UserVO uservo){
+		
 		super() ;
 		theFrame = this ;
 		this.setSize(1000, 600);
@@ -57,6 +62,7 @@ public class FinanceFrame extends JFrame{
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		accountPanel.setVisible(true);
+		user = uservo ;
 		
 		exitButton = new JLabel("X",JLabel.CENTER) ;
 		exitButton.setBounds(950, 0, 50, 50);
@@ -227,6 +233,7 @@ public class FinanceFrame extends JFrame{
 				}
 				column = theColumn ;
 			}
+
 			@Override
 			public String getColumnName(int col)
 		     {
@@ -257,6 +264,7 @@ public class FinanceFrame extends JFrame{
 		    }	
 		}
 	}
+	
 	class AddAccount extends JFrame{
 			private JPanel addAccountPane;
 			private JTextField nameField;
@@ -445,7 +453,8 @@ public class FinanceFrame extends JFrame{
 		private JTextField nameOfCustomerField;
 		private JTextField numberOfReceiptField;
 		private JTextField sumOfMoneyField;
-
+		ArrayList<ArrayList<String>> tfAccounts = new ArrayList<ArrayList<String>>() ;//储存转账账户
+		double sumOfMoney = 0 ;
 		/**
 		 * Create the frame.
 		 */
@@ -534,13 +543,13 @@ public class FinanceFrame extends JFrame{
 				}
 			});
 			
-			ArrayList<ArrayList<String>> tfAccounts = new ArrayList<ArrayList<String>>() ;
+
 			JButton addTfListButton = new JButton("添加转账账户");
 			addTfListButton.setBounds(39, 140, 130, 23);
 			this.add(addTfListButton);
 			addTfListButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new AddTfListFrame(tfAccounts) ;
+					new AddTfListFrame() ;
 				}
 			});
 			
@@ -549,7 +558,7 @@ public class FinanceFrame extends JFrame{
 			this.add(showTfListButton) ;
 			showTfListButton.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
-					new ShowTfListFrame(tfAccounts) ;
+					new ShowTfListFrame() ;
 				}
 			});
 			
@@ -560,7 +569,8 @@ public class FinanceFrame extends JFrame{
 			yuanLabel.setBounds(235, 184, 21, 15);
 			this.add(yuanLabel);
 			
-			JLabel userLabel = new JLabel("当前操作员");
+			JLabel userLabel = new JLabel(user.getUserName());
+//			JLabel userLabel = new JLabel();
 			userLabel.setBounds(320, 230, 100, 15);
 			this.add(userLabel);
 			
@@ -571,14 +581,35 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					/*
-					 * 调用逻辑
-					 */
-					nameOfCustomerField.setText("");
-					numberOfReceiptField.setText("");;
-					sumOfMoneyField.setText("");
-					supplierRadioButton.setSelected(false);
-					retailerRadioButton.setSelected(false);
+					String receiptNumber = numberOfReceiptField.getText() ;
+					String nameOfCustomer = nameOfCustomerField.getText() ;
+					String sumOfMoney = sumOfMoneyField.getText() ;
+					String typeOfCustomer = "" ;
+					if(supplierRadioButton.isSelected()){
+						typeOfCustomer = "供应商";
+					}
+					if(retailerRadioButton.isSelected()){
+		     			typeOfCustomer = "销售商" ;
+					}
+					if(receiptNumber.equals("")||nameOfCustomer.equals("")||sumOfMoney.equals("")||typeOfCustomer.equals("")){
+						new warningDialog("信息不完整");
+					}else{
+						ArrayList<TransferListItemVO> tfList = new ArrayList<TransferListItemVO>() ;
+						for(int i = 0;i<tfAccounts.size() ;i++){
+							ArrayList<String> account = tfAccounts.get(i) ;
+							tfList.add(new TransferListItemVO(account.get(0), Double.parseDouble(account.get(1)),account.get(2))) ;
+						}
+						ResultMessage result = fController.addCollectionOrPaymentVO(new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoney))) ;
+						new warningDialog("添加成功");
+						nameOfCustomerField.setText("");
+						numberOfReceiptField.setText("");;
+						sumOfMoneyField.setText("");
+						supplierRadioButton.setSelected(false);
+						retailerRadioButton.setSelected(false);
+						f.setSelected(false);
+						c.setSelected(false);
+						tfAccounts = new ArrayList<ArrayList<String>>() ;
+					}
 				}
 			});
 			
@@ -593,6 +624,7 @@ public class FinanceFrame extends JFrame{
 					nameOfCustomerField.setText("");
 					numberOfReceiptField.setText("");
 					sumOfMoneyField.setText("");
+					tfAccounts = new ArrayList<ArrayList<String>>() ;
 					supplierRadioButton.setSelected(false);
 					retailerRadioButton.setSelected(false);
 					f.setSelected(false);
@@ -600,135 +632,182 @@ public class FinanceFrame extends JFrame{
 				}
 			});
 		}
+		class MyTableModel extends AbstractTableModel{
+			private ArrayList<ArrayList<Object>> datas = new ArrayList<ArrayList<Object>>();
+			private String[] column ={"银行账户","转账金额","备注"} ;
 
-	}
-    class ShowTfListFrame extends JFrame{
-
-    	private JPanel contentPane;
-    	private JTable table;
-
-    	/**
-    	 * Create the frame.
-    	 */
-    	public ShowTfListFrame(ArrayList<ArrayList<String>> tfAccounts) {
-    		this.setVisible(true);
-    		this.setTitle("转账列表");
-    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    		setBounds(500, 200, 350, 300);
-    		contentPane = new JPanel();
-    		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-    		contentPane.setBackground(Color.yellow);
-    		setContentPane(contentPane);
-    		contentPane.setLayout(null);
-    		
-    		String[] columnNames = {"银行账户","转账金额","备注"} ;
-    		String[][] data = {{"dsf","230","dafs"},{"dasd","8760","joe"}} ;
-    		table = new JTable(data,columnNames);
-    		table.setBackground(Color.white);
-    		
-    		JScrollPane jsc = new JScrollPane(table);
-    		jsc.setBounds(0,0,350,170);
-    		jsc.setBackground(Color.green);
-    		contentPane.add(jsc) ;
-    		
-    		JButton sureButton = new JButton("确定");
-    		sureButton.setBounds(110, 200, 100, 30);
-    		contentPane.add(sureButton) ;
-    		sureButton.addMouseListener(new MouseAdapter() {
-    			public void mouseClicked(MouseEvent e){
-    				dispose() ;
-    			}
-			});
-    		
-    	}
-}
-	class AddTfListFrame extends JFrame{
-
-
-		private JPanel contentPane;
-		private JTextField nameOfAccountField;
-		private JTextField numOfTfField;
-		private JTextField markedField;
-
-
-		/**
-		 * Create the frame.
-		 */
-		public AddTfListFrame(ArrayList<ArrayList<String>> tfAccounts) {
-			setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			setBounds(500, 200, 350, 300);
-			contentPane = new JPanel();
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			contentPane.setLayout(null);
-			this.setVisible(true);
-			
-			JLabel nameOfAccountLabel = new JLabel("银行账户：");
-			nameOfAccountLabel.setBounds(41, 37, 66, 15);
-			contentPane.add(nameOfAccountLabel);
-			
-			nameOfAccountField = new JTextField();
-			nameOfAccountField.setBounds(139, 34, 110, 21);
-			contentPane.add(nameOfAccountField);
-			nameOfAccountField.setColumns(10);
-			
-			JLabel numOfMoneyLabel = new JLabel("转账金额：");
-			numOfMoneyLabel.setBounds(41, 96, 66, 15);
-			contentPane.add(numOfMoneyLabel);
-			JLabel yuanLabel = new JLabel("元");
-			yuanLabel.setBounds(260, 95, 20, 15);
-			contentPane.add(yuanLabel) ;
-			
-			numOfTfField = new JTextField();
-			numOfTfField.setBounds(139, 93, 110, 21);
-			contentPane.add(numOfTfField);
-			numOfTfField.setColumns(10);
-			
-			JLabel markedLabel = new JLabel("备        注：");
-			markedLabel.setBounds(41, 149, 66, 15);
-			contentPane.add(markedLabel);
-			
-			markedField = new JTextField();
-			markedField.setBounds(139, 146, 110, 21);
-			contentPane.add(markedField);
-			markedField.setColumns(10);
-			
-			JButton sureButton = new JButton("确定");
-			sureButton.setBounds(70, 187, 66, 23);
-			contentPane.add(sureButton);
-			sureButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					ArrayList<String> tfAccount = new ArrayList<String>(); 
-					String nameOfAccount = nameOfAccountField.getText() ;
-					String numOfTf = numOfTfField.getText() ;
-					String marked = markedField.getText() ;
-					if(nameOfAccount.equals("")||numOfTf.equals("")||marked.equals("")){
-						new warningDialog("信息不完整");
-					}else{
-		    			tfAccount.add(nameOfAccountField.getText()) ;
-				    	tfAccount.add(numOfTfField.getText()) ;
-				    	tfAccount.add(markedField.getText()) ;
-				    	dispose() ;
-					}
+			public MyTableModel(){
+				for(ArrayList<String> theAccount : tfAccounts){
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theAccount.get(0)) ;
+					oneRow.add(theAccount.get(1)) ;
+					oneRow.add(theAccount.get(2)) ;
+					datas.add(oneRow) ;
 				}
-			});
-			
-			JButton cancelButton = new JButton("取消");
-			cancelButton.setBounds(170, 187, 74, 23);
-			contentPane.add(cancelButton);
-			cancelButton.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					dispose() ;
-				}
-			});
+			}
+
+			@Override
+			public String getColumnName(int col)
+		     {
+		          return column[col];
+		     }
+			public int getColumnCount() {
+				// TODO Auto-generated method stub
+				return column.length;
+			}
+
+			@Override
+			public int getRowCount() {
+				// TODO Auto-generated method stub
+				return datas.size();
+			}
+
+			@Override
+			public Object getValueAt(int row, int column) {
+				// TODO Auto-generated method stub
+				return datas.get(row).get(column);
+			}
+			public boolean isCellEditable(int row, int col) { 
+					return false ;
+			}
+			public void setValueAt(Object value, int row, int col) {  
+		        datas.get(row).set(col,  value);
+		        fireTableCellUpdated(row, col);  
+		    }	
 		}
+	    
 
+	    class ShowTfListFrame extends JFrame{
+
+	    	private JPanel contentPane;
+	    	private JTable table;
+
+	    	/**
+	    	 * Create the frame.
+	    	 */
+	    	public ShowTfListFrame() {
+	    		this.setVisible(true);
+	    		this.setTitle("转账列表");
+	    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    		setBounds(500, 200, 350, 300);
+	    		contentPane = new JPanel();
+	    		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	    		contentPane.setBackground(Color.yellow);
+	    		setContentPane(contentPane);
+	    		contentPane.setLayout(null);
+	 
+	    		table = new JTable(new MyTableModel());
+	    		table.setBackground(Color.white);
+	    		
+	    		JScrollPane jsc = new JScrollPane(table);
+	    		jsc.setBounds(0,0,350,170);
+	    		jsc.setBackground(Color.green);
+	    		contentPane.add(jsc) ;
+	    		
+	    		JButton sureButton = new JButton("确定");
+	    		sureButton.setBounds(110, 200, 100, 30);
+	    		contentPane.add(sureButton) ;
+	    		sureButton.addMouseListener(new MouseAdapter() {
+	    			public void mouseClicked(MouseEvent e){
+	    				dispose() ;
+	    			}
+				});
+	    		
+	    	}
+	}
+	
+
+		class AddTfListFrame extends JFrame{
+
+
+			private JPanel contentPane;
+			private JTextField nameOfAccountField;
+			private JTextField numOfTfField;
+			private JTextField markedField;
+
+
+			/**
+			 * Create the frame.
+			 */
+			public AddTfListFrame() {
+				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				setBounds(500, 200, 350, 300);
+				contentPane = new JPanel();
+				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+				setContentPane(contentPane);
+				contentPane.setLayout(null);
+				this.setVisible(true);
+				
+				JLabel nameOfAccountLabel = new JLabel("银行账户：");
+				nameOfAccountLabel.setBounds(41, 37, 66, 15);
+				contentPane.add(nameOfAccountLabel);
+				
+				nameOfAccountField = new JTextField();
+				nameOfAccountField.setBounds(139, 34, 110, 21);
+				contentPane.add(nameOfAccountField);
+				nameOfAccountField.setColumns(10);
+				
+				JLabel numOfMoneyLabel = new JLabel("转账金额：");
+				numOfMoneyLabel.setBounds(41, 96, 66, 15);
+				contentPane.add(numOfMoneyLabel);
+				JLabel yuanLabel = new JLabel("元");
+				yuanLabel.setBounds(260, 95, 20, 15);
+				contentPane.add(yuanLabel) ;
+				
+				numOfTfField = new JTextField();
+				numOfTfField.setBounds(139, 93, 110, 21);
+				contentPane.add(numOfTfField);
+				numOfTfField.setColumns(10);
+				
+				JLabel markedLabel = new JLabel("备        注：");
+				markedLabel.setBounds(41, 149, 66, 15);
+				contentPane.add(markedLabel);
+				
+				markedField = new JTextField();
+				markedField.setBounds(139, 146, 110, 21);
+				contentPane.add(markedField);
+				markedField.setColumns(10);
+				
+				JButton sureButton = new JButton("确定");
+				sureButton.setBounds(70, 187, 66, 23);
+				contentPane.add(sureButton);
+				sureButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						ArrayList<String> tfAccount = new ArrayList<String>(); 
+						String nameOfAccount = nameOfAccountField.getText() ;
+						String numOfTf = numOfTfField.getText() ;
+						String marked = markedField.getText() ;
+						if(nameOfAccount.equals("")||numOfTf.equals("")||marked.equals("")){
+							new warningDialog("信息不完整");
+						}else{
+			    			tfAccount.add(nameOfAccountField.getText()) ;
+					    	tfAccount.add(numOfTfField.getText()) ;
+					    	tfAccount.add(markedField.getText()) ;
+					    	tfAccounts.add(tfAccount) ;
+					    	dispose() ;
+					    	sumOfMoney += Double.parseDouble(numOfTf) ;
+							sumOfMoneyField.setText(String.valueOf(sumOfMoney));
+						}
+					}
+				});
+				
+				JButton cancelButton = new JButton("取消");
+				cancelButton.setBounds(170, 187, 74, 23);
+				contentPane.add(cancelButton);
+				cancelButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						dispose() ;
+					}
+				});
+			}
+
+		}
 	}
 
     class MakeCash extends JPanel{
@@ -771,6 +850,7 @@ public class FinanceFrame extends JFrame{
 			numberField.setBounds(129, 39, 135, 21);
 			this.add(numberField);
 			numberField.setColumns(10);
+			numberField.setText(fController.getReceiptNumber("XJFYD"));
 			
 			JButton addCaseItemButton = new JButton("添加条目");
 			addCaseItemButton.setBounds(50, 140, 100, 23);

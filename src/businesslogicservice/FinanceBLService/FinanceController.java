@@ -14,8 +14,7 @@ import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import VO.CaseListItemVO;
 import VO.CashVO;
-import VO.CollectionVO;
-import VO.PaymentVO;
+import VO.CollectionOrPaymentVO;
 import VO.TransferListItemVO;
 
 public class FinanceController implements FinanceBLService{
@@ -104,36 +103,17 @@ public class FinanceController implements FinanceBLService{
 	}
 
 	@Override
-	public ResultMessage addCollection(CollectionVO vo) {
+	public ResultMessage addCollectionOrPaymentVO(CollectionOrPaymentVO vo) {
 		// TODO Auto-generated method stub
 		ArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();
 		for(TransferListItemVO theItem:vo.getTrList()){
 			trList.add(new TransferListItemPO(theItem.getAccount(),theItem.getTransferMoney(),theItem.getRemark())) ;
 		}
-		CollectionOrPaymentPO collection = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal());
+		CollectionOrPaymentPO collection = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getTypeOfCustomer(),vo.getUser(),trList,vo.getTotal());
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
-			result = com.client.messageCommand("collectionAdd", collection) ;
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
-
-	@Override
-	public ResultMessage addPayment(PaymentVO vo) {
-		// TODO Auto-generated method stubArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();
-		ArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();
-		for(TransferListItemVO theItem:vo.getTrList()){
-			trList.add(new TransferListItemPO(theItem.getAccount(),theItem.getTransferMoney(),theItem.getRemark())) ;
-		}
-		CollectionOrPaymentPO payment = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getUser(),trList,vo.getTotal()) ;
-		Communication_Start com = new Communication_Start() ;
-		com.initial();
-		try {
-			result = com.client.messageCommand("paymentAdd", payment) ;
+			result = com.client.messageCommand("collectionOrPaymentAdd", collection) ;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

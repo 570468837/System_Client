@@ -5,13 +5,15 @@ import java.io.Serializable;
 public class TransferListItemPO implements Serializable{
 	String account;
 	double transferMoney ;
+	String remark ;
+	
 	public TransferListItemPO(String account, double transferMoney,
 			String remark) {
 		this.account = account;
 		this.transferMoney = transferMoney;
 		this.remark = remark;
 	}
-	String remark ;
+	
 	public String getAccount() {
 		return account;
 	}
