@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import javax.swing.*;
 
+import Config.UserSort;
 import ResultMessage.ResultMessage;
 import VO.*;
 import businesslogicservice.CommodityBLService.CommodityController;
@@ -1441,7 +1442,7 @@ public class CommodityFrame extends JFrame {
 	
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
-		CommodityFrame c = new CommodityFrame(new UserVO(null, null, null, 0));
+		CommodityFrame c = new CommodityFrame(new UserVO("hutao","123", UserSort.Commodity, 1));
 	}
 	
 

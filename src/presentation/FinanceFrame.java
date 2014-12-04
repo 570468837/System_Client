@@ -30,6 +30,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
+import Config.UserSort;
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import VO.UserVO;
@@ -1446,6 +1447,6 @@ public class FinanceFrame extends JFrame{
 		}
 	}
 	public static void main(String[] marg){
-		new FinanceFrame(new UserVO(null, null, null, 0)) ;
+		new FinanceFrame(new UserVO("shengyu", "123", UserSort.Finance, 1)) ;
 	}
 }

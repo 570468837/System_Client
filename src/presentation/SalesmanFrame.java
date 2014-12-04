@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import Config.UserSort;
 import VO.UserVO;
 
 public class SalesmanFrame extends JFrame {
@@ -282,7 +283,7 @@ public class SalesmanFrame extends JFrame {
 	
 	
 	public static void main(String[] args){
-		new SalesmanFrame(new UserVO(null, null, null, 0));
+		new SalesmanFrame(new UserVO("gaoyang", "123", UserSort.PurchaseAndSaler, 1));
 	}
 
 }
