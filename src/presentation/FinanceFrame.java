@@ -1446,6 +1446,6 @@ public class FinanceFrame extends JFrame{
 		}
 	}
 	public static void main(String[] marg){
-		new FinanceFrame() ;
+		new FinanceFrame(new UserVO(null, null, null, 0)) ;
 	}
 }
