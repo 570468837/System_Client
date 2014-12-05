@@ -30,7 +30,7 @@ public class FinanceController implements FinanceBLService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result; 
+		return result;
 	}
 
 	@Override

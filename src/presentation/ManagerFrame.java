@@ -222,6 +222,16 @@ public class ManagerFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table1.setDefaultRenderer(Object.class, render);
 		    
+		    table1.addMouseListener(new MouseAdapter() {
+		    	public void mouseClicked(MouseEvent e){
+		    		int column=table1.columnAtPoint(e.getPoint());
+		    		if(column==4){
+		    			int row=table1.rowAtPoint(e.getPoint());
+		    			System.out.println(row+" "+column);
+		    		}
+		    	}
+			});
+		    
 			JScrollPane tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(630,400);
 			tablePane1.setLocation(50, 10);
@@ -293,6 +303,16 @@ public class ManagerFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table2.setDefaultRenderer(Object.class, render);
 		    
+		    table2.addMouseListener(new MouseAdapter() {
+		    	public void mouseClicked(MouseEvent e){
+		    		int column=table2.columnAtPoint(e.getPoint());
+		    		if(column==5){
+		    			int row=table2.rowAtPoint(e.getPoint());
+		    			System.out.println(row+" "+column);
+		    		}
+		    	}
+			});
+		    
 		    
 			JScrollPane tablePane2=new JScrollPane(table2);
 			tablePane2.setSize(630,400);
@@ -344,6 +364,15 @@ public class ManagerFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table3.setDefaultRenderer(Object.class, render);
 		    
+		    table3.addMouseListener(new MouseAdapter() {
+		    	public void mouseClicked(MouseEvent e){
+		    		int column=table3.columnAtPoint(e.getPoint());
+		    		if(column==4){
+		    			int row=table3.rowAtPoint(e.getPoint());
+		    			System.out.println(row+" "+column);
+		    		}
+		    	}
+			});
 		    
 			JScrollPane tablePane3=new JScrollPane(table3);
 			tablePane3.setSize(630,400);
@@ -643,6 +672,11 @@ public class ManagerFrame extends JFrame{
 	    }	
 	}
 
+	class GoodsInfoFrame extends JFrame{
+		public GoodsInfoFrame(){
+			
+		}
+	}
 	
 	class TransferFrame extends JFrame{
 		

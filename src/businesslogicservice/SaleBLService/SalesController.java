@@ -90,7 +90,6 @@ public class SalesController implements SalesBLService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
-
 		}
 		
 	}
