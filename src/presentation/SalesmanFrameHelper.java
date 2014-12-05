@@ -26,13 +26,18 @@ import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
 import VO.PurchaseReceiptVO;
+import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 
 public class SalesmanFrameHelper {
+	
+	public UserVO userVO;
 
-	public SalesmanFrameHelper(String command) {
+	public SalesmanFrameHelper(String command,UserVO vo) {
+		this.userVO=vo;
+		
 		switch (command) {
 		case "addCustomer":
 			new AddCustomerFrame();
@@ -314,10 +319,10 @@ public class SalesmanFrameHelper {
 				}
 			});
 			
-			String[] columnTitle1={"商品编号","商品名称","商品数量"};
+			String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
 			Object[][] tableData1={
-					new Object[]{"ASD","胡韬牌电灯泡","100"},
-					new Object[]{"DSA","盛宇牌浴霸","100"},
+					new Object[]{"ASD","胡韬牌电灯泡","100","0"},
+					new Object[]{"DSA","盛宇牌浴霸","100","0"},
 					           };
 			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
@@ -369,6 +374,8 @@ public class SalesmanFrameHelper {
 
 		}
 		
+		//用来保存商品列表
+		public ArrayList<GoodsVO> goodList=new ArrayList<GoodsVO>();
 		/**
 		 * @author gaoyang
 		 *默认添加的商品在仓库中可以找到
@@ -381,7 +388,7 @@ public class SalesmanFrameHelper {
 			public AddItemFrame(){
 				this.setTitle("添加商品");
 				this.setVisible(true);
-				setBounds(100, 100, 250, 100);
+				setBounds(100, 100, 250, 150);
 				this.setLocationRelativeTo(null);
 				getContentPane().setLayout(null);
 				
@@ -403,11 +410,11 @@ public class SalesmanFrameHelper {
 				getContentPane().add(goodsQuantity);
 				
 				confirmButton = new JButton("确认");
-				confirmButton.setBounds(20, 100, 100, 20);
+				confirmButton.setBounds(40, 100, 80, 20);
 				getContentPane().add(confirmButton);
 
 				cancelButton = new JButton("取消");
-				cancelButton.setBounds(120, 100, 100, 20);
+				cancelButton.setBounds(130, 100, 80, 20);
 				getContentPane().add(cancelButton);
 				
 				

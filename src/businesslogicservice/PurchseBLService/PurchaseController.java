@@ -74,12 +74,19 @@ public class PurchaseController implements PurchaseBLService {
 		}
 	}
 	
-	public ArrayList<Object> show(){
+	public ArrayList<PurchaseReceiptPO> show(){
 		Communication_Start com = new Communication_Start();
 		com.initial();
-
+		ArrayList<Object> objects;
+		ArrayList<PurchaseReceiptPO> receipts=new ArrayList<PurchaseReceiptPO>();
 		try {
-			return com.client.showObject("showPurchaseReceipts");
+			//逐个强制类型转换
+			objects= com.client.showObject("showPurchaseReceipts");
+			for (int i = 0; i < objects.size(); i++) {
+				receipts.add((PurchaseReceiptPO)objects.get(i));				
+			}
+			
+			return receipts;
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

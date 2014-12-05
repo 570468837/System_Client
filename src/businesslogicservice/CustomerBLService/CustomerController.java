@@ -114,14 +114,18 @@ public class CustomerController implements CustomerBLService {
 		}
 	}
 	//返回所有客户
-	public ArrayList<Object> show(){
+	public ArrayList<CustomerPO> show(){
 		Communication_Start com = new Communication_Start();
 		com.initial();
-		
+		ArrayList<Object> objects;
+		ArrayList<CustomerPO> customers=new ArrayList<CustomerPO>();
 		try {
-			ArrayList<Object> result=com.client.showObject("showCustomer");
-			System.out.println(result);
-			 return com.client.showObject("showCustomer");
+			//遍历服务器返回的结果，逐个强制类型转换
+			objects= com.client.showObject("showCustomer");
+			for(int i=0;i<objects.size();i++){
+				customers.add((CustomerPO)objects.get(i));
+			}
+			return customers;
 			 
 			 
 		} catch (RemoteException e) {

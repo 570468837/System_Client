@@ -37,9 +37,13 @@ import VO.AccountVO;
 import VO.CaseListItemVO;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
+import VO.SalesListItemVO;
+import VO.SalesReceiptVO;
+import VO.ScreeningConditionVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
 import businesslogicservice.FinanceBLService.FinanceController;
+import businesslogicservice.InfoBLService.InfoController;
 
 /*
  * 财务人员界面
@@ -47,6 +51,7 @@ import businesslogicservice.FinanceBLService.FinanceController;
  */
 public class FinanceFrame extends JFrame{
 	private FinanceController fController = new FinanceController() ;
+	private InfoController infoController = new InfoController() ;
 	private JFrame theFrame ;
 	private JLabel exitButton,mangeAccountLabel,infoLabel,makeReceiptLabel; 
 	private AccountPanel accountPanel = new AccountPanel(this) ;
@@ -318,7 +323,6 @@ public class FinanceFrame extends JFrame{
 					   		result = fController.addAccount(accout) ;
 					   		if(result.equals(ResultMessage.add_success)){
        				    		new warningDialog("添加成功") ;
-       				    		
 					   		    dispose();
 				    		}else{
 				    			new warningDialog("该账户已存在，添加失败") ;
@@ -936,7 +940,7 @@ public class FinanceFrame extends JFrame{
 					// TODO Auto-generated method stub
 					items = new ArrayList<ArrayList<String>>() ;
 					sumOfMoney = 0 ;
-					nameOfAccountField.setText("");
+					nameOfAccountField.setText("");                                                          
 					sumOfMoneyField.setText("");
 				}
 			});
@@ -1139,6 +1143,7 @@ public class FinanceFrame extends JFrame{
 	    	theFrame.add(this) ;
 	    	saleDetailPanel  = new SaleDetailPanel() ;
 	    	this.add(saleDetailPanel) ;
+//	    	saleDetailPanel.beginTimeField.requestFocus();
 	    	saleProcessPanel = new SaleProcessPanel() ;
 	    	this.add(saleProcessPanel);
 	    	saleProcessPanel.setVisible(false);
@@ -1194,6 +1199,8 @@ public class FinanceFrame extends JFrame{
 		private JTextField nameOfUserField;
 		private JTextField storageField;
 		private JTable saleDetailTable;
+		JScrollPane jsc = new JScrollPane(saleDetailTable) ;
+		ArrayList<SalesReceiptVO> receipts = new ArrayList<SalesReceiptVO>() ;
 
 		/**
 		 * Create the panel.
@@ -1212,10 +1219,13 @@ public class FinanceFrame extends JFrame{
 			beginTimeField.setBounds(187, 21, 122, 21);
 			add(beginTimeField);
 			beginTimeField.setColumns(10);
+			beginTimeField.setText("<例如2014/10/10>");
+			
 			
 			JLabel beginTimeLabel = new JLabel("起始时间");
 			beginTimeLabel.setBounds(123, 22, 100, 18);
 			add(beginTimeLabel);
+			new AddWordsChange(beginTimeField, "<例如2014/10/10>") ;
 			
 			JLabel endTimeLabel = new JLabel("截止时间");
 			endTimeLabel.setBounds(351, 24, 100, 15);
@@ -1225,6 +1235,8 @@ public class FinanceFrame extends JFrame{
 			endTimeField.setColumns(10);
 			endTimeField.setBounds(415, 21, 122, 21);
 			add(endTimeField);
+			endTimeField.setText("<例如2014/11/10>");
+			new AddWordsChange(endTimeField, "<例如2014/11/10>") ;
 			
 			JLabel nameOfGoodLabel = new JLabel("商品名称");
 			nameOfGoodLabel.setBounds(123, 51, 100, 15);
@@ -1262,17 +1274,8 @@ public class FinanceFrame extends JFrame{
 			add(storageField);
 			storageField.setColumns(10);
 			
-			String[] columnNames = {"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额","折让","使用代金券金额","折让后总额","备注"};
 			
-			String[][] data = {{"111","sad","sd","sd","3","f","20","10","1","9","fg"},
-					{"75","kk","ll","kkk","uu","cx","fda","ghf","fgdd","gfd","fgdf"}};
-			
-			saleDetailTable = new JTable(data,columnNames);
-//			saleDetailTable.setBounds(54, 121, 597, 253);
-			saleDetailTable.setFillsViewportHeight(true);
-			
-			JScrollPane jsc = new JScrollPane(saleDetailTable) ;
-			jsc.setBounds(54, 121, 597, 253);
+			jsc.setBounds(5, 121, 690, 253);
 			add(jsc);
 			
 			JButton sureButton = new JButton("确定");
@@ -1283,9 +1286,20 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					/*
-					 * 调用方法
-					 */
+					String beginTime = beginTimeField.getText() ;
+					String endTime = endTimeField.getText() ;
+					String nameOfGood = nameOfGoodField.getText() ;
+					String nameOfCustomer = nameOfCustomerField.getText();
+					String nameOfuser = nameOfUserField.getText() ;
+					String storage = storageField.getText() ;
+					String typeOfReceipt = "XSD";
+					if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/11/10>")){
+						new warningDialog("请输入完整的时间区间");
+					}else{
+						ScreeningConditionVO condition = new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,nameOfGood,nameOfCustomer,nameOfuser,storage) ;
+						receipts = infoController.showSalesDetailsInfo(condition) ;
+						refreshTable(receipts); 
+					}
 				}
 			});
 			
@@ -1297,18 +1311,163 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO Auto-generated method stub
-					beginTimeField.setText("");
-					endTimeField.setText("");
+					beginTimeField.setText("<例如2014/10/10>");
+					endTimeField.setText("<例如2014/11/10>");
 					nameOfGoodField.setText("");
 					nameOfCustomerField.setText("");
 					nameOfUserField.setText("");
 					storageField.setText("");
-					
+					receipts = new ArrayList<SalesReceiptVO>() ;
+					refreshTable( receipts);
 				}
 			});
 
 		}
+		public void refreshTable(ArrayList<SalesReceiptVO> receipts){
+			String[] columNames ={"单据编号","客户","业务员","操作员","仓库","商品清单","折让前总额","折让","代金券金额","折让后总额","备注"};
+			ArrayList<Object> objects = new ArrayList<Object>() ;
+			for(SalesReceiptVO item:receipts ){
+				objects.add(item) ;
+			}
+			saleDetailTable = new JTable(new MyTableModel(objects,columNames,"XSD")) ;
+			saleDetailTable.setBackground(Color.white);
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    saleDetailTable.setDefaultRenderer(Object.class, render);
+			
+		    saleDetailTable.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
+		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+		    		int row = e.getFirstRow();
+		    		AccountVO updAccount = new AccountVO((String)saleDetailTable.getValueAt(row, 0),Double.parseDouble((String)saleDetailTable.getValueAt(row, 1))) ;
+		    		fController.updateAccount(updAccount) ;
+		    	}
+		    }) ;
+		    if(jsc != null)
+		    	jsc.setVisible(false);
+		    jsc = new JScrollPane(saleDetailTable) ;	
+			jsc.setBounds(80,74, 700,400);
+			saleDetailTable.setFillsViewportHeight(true);
+			this.add(jsc) ;
+		}
+		
+	}
+	class ShowTfListFrame extends JFrame{
 
+    	private JPanel contentPane;
+    	private JTable table;
+
+    	/**
+    	 * Create the frame.
+    	 */
+    	public ShowTfListFrame(ArrayList<Object> items,String[] column) {
+    		this.setVisible(true);
+    		this.setTitle("商品清单");
+    		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    		setBounds(500, 200, 350, 300);
+    		contentPane = new JPanel();
+    		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+    		contentPane.setBackground(Color.yellow);
+    		setContentPane(contentPane);
+    		contentPane.setLayout(null);
+ 
+    		table = new JTable(new MyTableModel(items,column,"SPQD"));
+    		table.setBackground(Color.white);
+    		
+    		JScrollPane jsc = new JScrollPane(table);
+    		jsc.setBounds(0,0,350,170);
+    		jsc.setBackground(Color.green);
+    		contentPane.add(jsc) ;
+    		
+    		JButton sureButton = new JButton("确定");
+    		sureButton.setBounds(110, 200, 100, 30);
+    		contentPane.add(sureButton) ;
+    		sureButton.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				dispose() ;
+    			}
+			});
+    		
+    	}
+}
+	class MyTableModel extends AbstractTableModel{
+		private ArrayList<ArrayList<Object>> datas = new ArrayList<ArrayList<Object>>();
+		private String[] columnOfReceipt ;
+		 
+
+		public MyTableModel(ArrayList<Object> theDatas ,String[] theColumn,String type){
+			if(type.equals("XSD")){
+				String[] columnOfList = {"编号","名称","型号","数量","单据","金额","备注"} ;
+			for(Object object : theDatas){
+				SalesReceiptVO receipt = (SalesReceiptVO)object ;
+				JLabel showList = new JLabel("查看");
+				ArrayList<Object> oneRow = new ArrayList<Object>() ;
+				oneRow.add(receipt.getSerialNumber()) ;
+				oneRow.add(receipt.getCustomerVO().getName()) ;
+				oneRow.add(receipt.getSalesman()) ;
+				oneRow.add(receipt.getUserVO().getUserName()) ;
+				oneRow.add(receipt.getCommodityNum()) ;
+				oneRow.add(showList);
+				oneRow.add(String.valueOf(receipt.getPriceBefore())) ;
+				oneRow.add(String.valueOf(receipt.getDiscout())) ;
+				oneRow.add("代金券总额") ;
+				oneRow.add(String.valueOf(receipt.getFinalprice())) ;
+				oneRow.add(receipt.getComment()) ;
+				datas.add(oneRow) ;
+				showList.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						ArrayList<Object> os = new ArrayList<Object>() ;
+						for(int i = 0 ;i<receipt.getSalesList().size();i++){
+							os.add(receipt.getSalesList().get(i)) ;
+						}
+						new ShowTfListFrame(os,columnOfList) ;
+					}
+				});
+			}
+			}if(type.equals("SPQD")){
+				for(Object object : theDatas){
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					SalesListItemVO item = (SalesListItemVO)object ;
+					oneRow.add(item.getGoodsVO().serialNumber) ;
+					oneRow.add(item.getGoodsVO().name) ;
+					oneRow.add(item.getGoodsVO().model) ;
+					oneRow.add(item.getGoodsVO().price) ;
+					oneRow.add(item.getTotalPrice()) ;
+					oneRow.add(item.getGoodsVO().comment) ;
+					datas.add(oneRow) ;
+				}
+			}
+			columnOfReceipt = theColumn ;
+		}
+
+		@Override
+		public String getColumnName(int col)
+	     {
+	          return columnOfReceipt[col];
+	     }
+		public int getColumnCount() {
+			// TODO Auto-generated method stub
+			return columnOfReceipt.length;
+		}
+
+		@Override
+		public int getRowCount() {
+			// TODO Auto-generated method stub
+			return datas.size();
+		}
+
+		@Override
+		public Object getValueAt(int row, int column) {
+			// TODO Auto-generated method stub
+			return datas.get(row).get(column);
+		}
+		public boolean isCellEditable(int row, int col) { 
+				return false ;
+		}
+		public void setValueAt(Object value, int row, int col) {  
+	        datas.get(row).set(col,  value);
+	        fireTableCellUpdated(row, col);  
+	    }	
 	}
 	class SaleProcessPanel extends JPanel{
 		private JTextField beginTimeField;
