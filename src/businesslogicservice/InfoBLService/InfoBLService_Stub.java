@@ -4,20 +4,21 @@ import java.util.ArrayList;
 
 import ResultMessage.ResultMessage;
 import VO.PurchaseReceiptVO;
+import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
 
 
 public class InfoBLService_Stub implements InfoBLService {
 
 	@Override
-	public ArrayList<PurchaseReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition) {
+	public ArrayList<SalesReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
 		if(condition.getTime1().equals("0001")){
 			System.out.println("success");
-			return new ArrayList<PurchaseReceiptVO>() ;
+			return new ArrayList<SalesReceiptVO>() ;
 		}else{
 			System.out.println("fail") ;
-			return new ArrayList<PurchaseReceiptVO>() ;
+			return null ;
 		}
 	}
 

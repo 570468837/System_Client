@@ -17,6 +17,9 @@ public class CashVO  {
 		this.cases = cases;
 		this.sum = sum;
 	}
+	public CashVO() {
+		// TODO Auto-generated constructor stub
+	}
 	public void addCase(CaseListItemVO theCase){
 		this.addCase(theCase);
 	}
