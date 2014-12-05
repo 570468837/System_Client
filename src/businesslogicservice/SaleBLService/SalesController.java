@@ -2,9 +2,11 @@ package businesslogicservice.SaleBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import PO.CustomerPO;
 import PO.GoodsPO;
-import PO.PurchaseListItemPO;
+import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import PO.UserPO;
@@ -78,13 +80,20 @@ public class SalesController implements SalesBLService {
 
 		}
 	}
-	
-	public ArrayList<Object> show(){
+	//本方法与服务器端不同，返回的时PO
+	public ArrayList<SalesReceiptPO> show(){
 		Communication_Start com = new Communication_Start();
 		com.initial();
-
+		ArrayList<Object> objects;
+		ArrayList<SalesReceiptPO> receipts=new ArrayList<SalesReceiptPO>();
 		try {
-			return com.client.showObject("showSalesReceipts");
+			//逐个强制类型转换
+			objects= com.client.showObject("showSalesReceipts");
+			for (int i = 0; i < objects.size(); i++) {
+				receipts.add((SalesReceiptPO)objects.get(i));				
+			}
+			
+			return receipts;
 
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block

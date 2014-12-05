@@ -23,12 +23,12 @@ import VO.UserVO;
 
 public class SalesmanFrame extends JFrame {
 	
-
+	public UserVO userVO;
 	private JLabel exitButton,customerLabel,salesLabel,purchaseLabel;
 	private CustomerPanel customerPanel=new CustomerPanel(this);
 	private SalesPanel salesPanel=new SalesPanel(this);
 	private PurchasePanel purchasePanel=new PurchasePanel(this);
-	
+	//参数可以用于获取当前操作员信息
 	public SalesmanFrame(UserVO uservo){   //总Frame
 		this.setSize(1000, 600);
 		this.setLocationRelativeTo(null);
@@ -36,6 +36,8 @@ public class SalesmanFrame extends JFrame {
 		getContentPane().setLayout(null);
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		this.userVO=uservo;
 		
 		exitButton = new JLabel("X", JLabel.CENTER);
 		exitButton.setBounds(950, 0, 50, 50);
@@ -138,7 +140,7 @@ public class SalesmanFrame extends JFrame {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new SalesmanFrameHelper("addCustomer");
+					new SalesmanFrameHelper("addCustomer",userVO);
 				}
 				
 			});
@@ -178,6 +180,15 @@ public class SalesmanFrame extends JFrame {
 			
 		
 			theFrame.getContentPane().add(this);
+			
+			creatInButton1.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new SalesmanFrameHelper("addSalesReceipt",userVO);
+					
+				}
+			});
 		}
 	}
 	
@@ -219,7 +230,7 @@ public class SalesmanFrame extends JFrame {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					new SalesmanFrameHelper("addPurchaseReceipt");
+					new SalesmanFrameHelper("addPurchaseReceipt",userVO);
 					
 				}
 			});
