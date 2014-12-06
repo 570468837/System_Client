@@ -12,6 +12,8 @@ public class CollectionOrPaymentPO implements Serializable{
 	String user ;
 	ArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();//转账列表
 	double total ;
+	boolean isApprovedByManager = false ;
+	boolean isApprovedByFinancer = false ;
 	public CollectionOrPaymentPO(){
 		number = null ;
 		customer = null ;

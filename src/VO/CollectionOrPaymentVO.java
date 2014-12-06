@@ -10,6 +10,8 @@ public class CollectionOrPaymentVO implements Serializable{
 		String user ;
 		ArrayList<TransferListItemVO> trList = new ArrayList<TransferListItemVO>();//转账列表
 		double total ;
+		boolean isApprovedByManager = false ;
+		boolean isApprovedByFinancer = false ;
 		public CollectionOrPaymentVO(){
 			number = null ;
 			customer = null ;
