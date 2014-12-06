@@ -35,5 +35,11 @@ public class GoodsClassVO {
 		po.Num = this.Num;
 		po.goodsClassName = this.goodsClassName;
 	}
+	
+	public GoodsClassVO(GoodsClassVO gc) {
+		this.fatherGoodsClassNum = gc.fatherGoodsClassNum;
+		this.goodsClassName = gc.goodsClassName;
+		this.Num = gc.Num;
+	}
 
 }

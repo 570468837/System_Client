@@ -2,8 +2,10 @@ package businesslogicservice.GoodsBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import PO.GoodsClassPO;
+import PO.GoodsPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.GoodsClassVO;
@@ -16,51 +18,55 @@ import VO.GoodsVO;
  */
 
 public class GoodsController implements GoodsBLService {
-	Communication_Start com;
+	private ArrayList<GoodsVO> goodsVOList = new ArrayList<GoodsVO>();
+	private ArrayList<GoodsClassVO> goodsClassVOList = new ArrayList<GoodsClassVO>();
+	private Iterator<GoodsVO> gIter;
+	private Iterator<GoodsClassVO> gcIter;
+	
+	private Communication_Start com;
+	private ListReload listReload;
+	private final static int reloadTime = 2000; //2秒刷新一次
 	
 	public GoodsController() {
 		com = new Communication_Start();
 		com.initial();
+		listReload = new ListReload();
+		listReload.start();
 	}
 
 	@Override
 	public GoodsVO getGoodsByID(long id) {
-		
+		gIter = goodsVOList.iterator();
+		GoodsVO g;
+		while(gIter.hasNext()) {
+			g = gIter.next();
+			if(g.serialNumber.equals(Long.toString(id)))
+				return new GoodsVO(g);
+		}
 		return null;
 	}
 
 	@Override
 	public ArrayList<GoodsVO> getGoodsVOList() {
-		try {
-			ArrayList<Object> o = com.client.showObject("goodsListGet");
-			ArrayList<GoodsVO> g = new ArrayList<GoodsVO>();
-			for(int i = 0; i < o.size(); i ++) {
-				g.add((GoodsVO)o.get(i));
-			}
-			return g;
-		} catch (RemoteException e) {
-			return null;
-		}
+		return goodsVOList;
 	}
 
 	@Override
 	public GoodsClassVO getGoodsClassByID(long id) {
-		
+		gcIter = goodsClassVOList.iterator();
+		GoodsClassVO gc;
+		while(gcIter.hasNext()) {
+			gc = gcIter.next();
+			if(gc.Num == id)
+				return new GoodsClassVO(gc);
+		}
+		System.out.println("goodsClass not found");
 		return null;
 	}
 
 	@Override
 	public ArrayList<GoodsClassVO> getGoodsClassVOList() {
-		try {
-			ArrayList<Object> o = com.client.showObject("goodsClassListGet");
-			ArrayList<GoodsClassVO> g = new ArrayList<GoodsClassVO>();
-			for(int i = 0; i < o.size(); i ++) {
-				g.add((GoodsClassVO)o.get(i));
-			}
-			return g;
-		} catch (RemoteException e) {
-			return null;
-		}
+		return goodsClassVOList;
 	}
 
 	@Override
@@ -94,7 +100,7 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ArrayList<GoodsVO> searchGoods(String info) {
-		
+		//TODO
 		return new ArrayList<GoodsVO>();
 	}
 
@@ -129,6 +135,14 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public GoodsVO getGoodsByInfo(String name, String model) {
+		gIter = goodsVOList.iterator();
+		GoodsVO g;
+		while(gIter.hasNext()) {
+			g = gIter.next();
+			if(g.name.equals(name) && g.model.equals(model))
+				return new GoodsVO(g);
+		}
+		System.out.println("goods not found");
 		return null;
 	}
 
@@ -136,5 +150,43 @@ public class GoodsController implements GoodsBLService {
 	public GoodsClassVO getGoodsClassByInfo(String name) {
 		return null;
 	}
+	
+	class ListReload extends Thread {
+		ArrayList<Object> goodsPOList;
+		ArrayList<Object> goodsClassPOList;
+		GoodsVO g;
+		GoodsClassVO gc;
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					goodsPOList = com.client.showObject("goodsListGet");
+					goodsClassPOList = com.client.showObject("goodsClassListGet");
+				} catch (RemoteException e) {
+					System.out.println("list get error");
+				}
+				
+				for(int i = 0; i < goodsPOList.size(); i ++) {
+					g = new GoodsVO();
+					g.toVO((GoodsPO)goodsPOList.get(i));
+					goodsVOList.add(g);
+				}
+				for(int i = 0; i < goodsClassPOList.size(); i ++) {
+					gc = new GoodsClassVO();
+					gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
+					goodsClassVOList.add(gc);
+				}
+				
+				
+				try {
+					Thread.sleep(reloadTime);
+				} catch (InterruptedException e) {
+					System.out.println("reload error");
+				}
+			}
+		}
+		
+	}
+	
 
 }

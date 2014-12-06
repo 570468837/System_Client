@@ -88,5 +88,19 @@ public class GoodsVO {
 		this.latestSalePrice = po.getLatestSalePrice();
 		this.commodityQuantity = po.getCommodityQuantity();
 	}
+	
+	public GoodsVO(GoodsVO vo) {
+		this.serialNumber = vo.serialNumber;
+		this.name = vo.name;
+		this.model = vo.model;
+		this.price = vo.price;
+		this.totalPrice = vo.totalPrice;
+		this.comment = vo.comment;
+		this.goodsClassName = vo.goodsClassName;
+		this.salePrice = vo.salePrice;
+		this.latestPrice = vo.latestPrice;
+		this.latestSalePrice = vo.latestSalePrice;
+		this.commodityQuantity = vo.commodityQuantity;
+	}
 }
 

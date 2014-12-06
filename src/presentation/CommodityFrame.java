@@ -35,7 +35,6 @@ public class CommodityFrame extends JFrame {
 	private GoodsController gc = new GoodsController();
 	private CommodityController cc = new CommodityController();
 	
-	
 	public CommodityFrame(UserVO uservo) {
 		super();
 		
@@ -280,6 +279,7 @@ public class CommodityFrame extends JFrame {
 		private void addListener(JTable table) {
 			//是商品分类表格
 			if(table.getColumnCount() == 1 && table.getRowCount() != 0) {
+				System.out.println("是商品分类表格");
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -552,6 +552,7 @@ public class CommodityFrame extends JFrame {
 			}
 			//是空的商品分类表格
 			else if(table.getColumnCount() == 1 && table.getRowCount() == 0) {
+				System.out.println("是空的商品分类表格");
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -721,6 +722,7 @@ public class CommodityFrame extends JFrame {
 			}
 			//是商品表格
 			else {
+				System.out.println("是商品表格");
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
