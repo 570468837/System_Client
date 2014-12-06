@@ -3,6 +3,9 @@ package PO;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import VO.CustomerVO;
+import VO.UserVO;
+
 public class PurchaseReceiptPO implements Serializable {
 	
 	private CustomerPO customerPO;
@@ -23,6 +26,16 @@ public class PurchaseReceiptPO implements Serializable {
 	private double totalPrice;
 	private boolean isApprovedByManager=false;
 	private boolean isApprovedByCommodity=false;
+	
+	public PurchaseReceiptPO(CustomerPO customerPO, String serialNumber,
+			UserPO userPO, String time, String comments, double totalPrice) {
+		this.customerPO=customerPO;
+		this.serialNumber=serialNumber;
+		this.userPO=userPO;
+		this.time=time;
+		this.comments=comments;
+		this.totalPrice=totalPrice;
+	}
 	
 	public boolean isApprovedByManager() {
 		return isApprovedByManager;

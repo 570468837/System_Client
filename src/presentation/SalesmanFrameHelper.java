@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,21 +21,52 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import Config.Level;
 import Config.Sort;
+import PO.PurchaseReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
+import VO.PurchaseListItemVO;
 import VO.PurchaseReceiptVO;
+import VO.SalesListItemVO;
+import VO.SalesReceiptVO;
 import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PurchseBLService.PurchaseController;
+import businesslogicservice.SaleBLService.SalesController;
 
 public class SalesmanFrameHelper {
+	public static final int TYPE_PURCHASE=1;
+	public static final int TYPE_PURCHASE_BACK=-1;
+
+	public static final int TYPE_SALES=2;
+	public static final int TYPE_SALES_BACK=-2;
+	
+	public static final int ADD_CUSTOMER=11;
+	public static final int DELETE_CUSTOMER=12;
+	public static final int UPDATE_CUSTOMER=13;
+
+
+	public static final int ADD_PURCHASERECEIPT=21;
+	public static final int ADD_PURCHASERECEIPT_BACK=22;
+
+	public static final int ADD_SALESRECEIPT=31;
+	public static final int ADD_SALESRECEIPT_BACK=33;
+
+	
+	public ArrayList<GoodsVO> goodsList=new ArrayList<GoodsVO>();
+
+	
 	
 	public UserVO userVO;
+	
+	public int yearNow=this.getYearNow();
+	public int monthNow=this.getMonthNow();
+	public int dayNow=this.getDateNow();
 
 	public SalesmanFrameHelper(String command,UserVO vo) {
 		this.userVO=vo;
@@ -242,8 +275,18 @@ public class SalesmanFrameHelper {
 		private JTextArea comment;
 		private JButton cancelButton,confirmButton,addItemButton;
 		private ArrayList<GoodsVO> goodsList;
+		//用来保存商品列表
+		ArrayList<PurchaseListItemVO> listItems=new ArrayList<PurchaseListItemVO>();
+		
+		
+		private JTable table1=new JTable();//商品列表
+		private DefaultTableModel model = new DefaultTableModel();//表格模型
+		private Vector tableColName=new Vector();
+		private Vector tableData=new Vector();
+		private Vector tableRows=new Vector();
 		
 		public AddPurchaseReceiptFrame(){
+			
 			this.setTitle("创建进货单");
 			this.setVisible(true);
 			setBounds(100, 100, 556, 475);
@@ -255,8 +298,10 @@ public class SalesmanFrameHelper {
 			serialNumberLabel=new JLabel("单据编号");
 			serialNumberLabel.setBounds(20,20,80,20);
 			getContentPane().add(serialNumberLabel);
-			//自动填充
-			serialNumber=new JTextField("JHD-YYMMDD-XXXXX",JTextField.CENTER);
+			
+			
+			serialNumber=new JTextField(setSerialNumber(1),JTextField.CENTER);
+			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
 			getContentPane().add(serialNumber);
 			
@@ -274,13 +319,15 @@ public class SalesmanFrameHelper {
 			//自动填充
 			user=new JTextField();
 			user.setBounds(270, 60, 100, 20);
+			user.setText(userVO.getUserName());
 			getContentPane().add(user);
 			
 			timeLabel=new JLabel("创建时间");
 			timeLabel.setBounds(20, 100, 100, 20);
 			getContentPane().add(timeLabel);
 			//自动添加
-			time=new JTextField();
+			time=new JTextField(yearNow+"-"+monthNow+"-"+dayNow);
+			time.setEditable(false);
 			time.setBounds(100, 100, 100, 20);
 			getContentPane().add(time);
 			
@@ -288,14 +335,14 @@ public class SalesmanFrameHelper {
 			commodityLabel.setBounds(210, 100, 100, 20);
 			getContentPane().add(commodityLabel);
 			
-			commodity=new JComboBox(new String[]{"唯一的仓库"});
+			commodity=new JComboBox(new String[]{"仓库1"});
 			commodity.setBounds(270, 100, 100, 20);
 			getContentPane().add(commodity);
 			
 			totalPriceLabel=new JLabel("总价");
 			totalPriceLabel.setBounds(400, 100, 100, 20);
 			getContentPane().add(totalPriceLabel);
-			//自动填充
+			//TODO 自动填充
 			totalPrice=new JTextField();
 			totalPrice.setBounds(440, 100, 100, 20);
 			getContentPane().add(totalPrice);
@@ -319,13 +366,31 @@ public class SalesmanFrameHelper {
 				}
 			});
 			
-			String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
-			Object[][] tableData1={
-					new Object[]{"ASD","胡韬牌电灯泡","100","0"},
-					new Object[]{"DSA","盛宇牌浴霸","100","0"},
-					           };
-			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+//			String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
+//			Object[][] tableData1={
+//					new Object[]{"TEST","TEST","100","0"},
+//					new Object[]{"TEST2","TEST2","100","0"},
+//					           };
+			tableColName.add("商品编号");
+			tableColName.add("商品名称");
+			tableColName.add("商品数量");
+			tableColName.add("商品总价");
+			
+			tableRows.add("Test");
+			tableRows.add("Test");
+			tableRows.add("100");
+			tableRows.add("100");
+			
+			tableData.add(tableRows);
+			
+			table1.setModel(model);
+			
+			model.setDataVector(tableData, tableColName);
+			
+//			table1=new JTable(new MyTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
+			
+			
 			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
 		    render.setHorizontalAlignment(SwingConstants.LEFT);
@@ -349,9 +414,13 @@ public class SalesmanFrameHelper {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					PurchaseReceiptVO receipt=new PurchaseReceiptVO(serialNumber.getText(), purchaseList, userPO, time.getText(), comment.getText(), totalPrice.getText());
+					//有点复杂
+					PurchaseReceiptVO receipt=new PurchaseReceiptVO(new CustomerController().toVO(new CustomerController().getCustomerPOById(customer.getText())), serialNumber.getText(), userVO, time.getText(), comment.getText(), new Double(0).parseDouble(totalPrice.getText()));
 					
+
 					ResultMessage result=new PurchaseController().creatReceipt(receipt);
+					
+					//刷新外部表格
 					
 					if(result==ResultMessage.create_purchasereceipt_success){
 						dispose();
@@ -374,8 +443,7 @@ public class SalesmanFrameHelper {
 
 		}
 		
-		//用来保存商品列表
-		public ArrayList<GoodsVO> goodList=new ArrayList<GoodsVO>();
+		
 		/**
 		 * @author gaoyang
 		 *默认添加的商品在仓库中可以找到
@@ -422,12 +490,27 @@ public class SalesmanFrameHelper {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						GoodsVO good=new GoodsController().getGoodsByID(goodsSerialNumber.getText());
+						//既然胡韬不改ID为string，这里只好强制转换
+						GoodsVO good=new GoodsController().getGoodsByID(new Long(0).parseLong(goodsSerialNumber.getText()));
+//						GoodsVO good=new GoodsVO("001", "hutao", "hutao", 100, 100, "a");//测试
 						//在这里应当向frame添加商品列表中的商品
-						
-						
-						if(result==ResultMessage.add_success){
+						//如果返回null说明没有此商品
+						if(good!=null){
+							//添加商品列表
+							listItems.add(new PurchaseListItemVO(good,new Integer(0).parseInt(goodsQuantity.getText())));
+							//刷新外部类商品列表表格
+							Vector newRows=new Vector();
+							newRows.add(good.serialNumber);
+							newRows.add(good.name);
+							newRows.add(goodsQuantity.getText());
+							//TODO 这么多价格是个意思？
+							newRows.add(new Integer(0).parseInt(goodsQuantity.getText())*good.price);							
+							tableData.add(newRows);
+							table1.updateUI();
+							
 							dispose();
+							
+							
 						}else{
 							new warningDialog("不存在此商品，添加失败!");
 						}
@@ -452,6 +535,294 @@ public class SalesmanFrameHelper {
 	
 
 	class AddSalesReceiptFrame extends JFrame {
+
+		private JLabel serialNumberLabel,customerLabel,userLabel,clerkLabel,timeLabel,commentLabel,beforePriceLabel,discountLabel,finalPriceLabel,commodityLabel;
+		private JComboBox commodity;
+		private JTextField serialNumber,customer,user,time,beforePrice,discount,finalPrice,clerk;
+		private JTextArea comment;
+		private JButton cancelButton,confirmButton,addItemButton;
+		private ArrayList<GoodsVO> goodsList;
+		//用来保存商品列表
+		ArrayList<PurchaseListItemVO> listItems=new ArrayList<PurchaseListItemVO>();
+		ArrayList<SalesListItemVO> salesListItems=new ArrayList<SalesListItemVO>();
+		
+		
+		private JTable table1=new JTable();//商品列表
+		private DefaultTableModel model = new DefaultTableModel();//表格模型
+		private Vector tableColName=new Vector();
+		private Vector tableData=new Vector();
+		private Vector tableRows=new Vector();
+		
+		public AddSalesReceiptFrame(){
+			
+			this.setTitle("创建销售单");
+			this.setVisible(true);
+			setBounds(100, 100, 556, 475);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+			
+			goodsList=new ArrayList<GoodsVO>();
+			
+			serialNumberLabel=new JLabel("单据编号");
+			serialNumberLabel.setBounds(20,20,80,20);
+			getContentPane().add(serialNumberLabel);
+			
+			
+			serialNumber=new JTextField(setSerialNumber(2),JTextField.CENTER);
+			serialNumber.setEditable(false);
+			serialNumber.setBounds(100, 20, 170, 20);
+			getContentPane().add(serialNumber);
+			
+			customerLabel=new JLabel("销售商");
+			customerLabel.setBounds(20, 60, 100, 20);
+			getContentPane().add(customerLabel);
+			
+			customer=new JTextField();
+			customer.setBounds(100, 60, 100, 20);
+			getContentPane().add(customer);
+			
+			clerkLabel=new JLabel("业务员");
+			clerkLabel.setBounds(210, 60, 100, 20);
+			getContentPane().add(clerkLabel);
+			//自动填充
+			clerk=new JTextField();
+			clerk.setBounds(270, 60, 100, 20);
+			getContentPane().add(clerk);
+			
+			timeLabel=new JLabel("创建时间");
+			timeLabel.setBounds(20, 100, 100, 20);
+			getContentPane().add(timeLabel);
+			//自动添加
+			time=new JTextField(yearNow+"-"+monthNow+"-"+dayNow);
+			time.setEditable(false);
+			time.setBounds(100, 100, 100, 20);
+			getContentPane().add(time);
+			
+			commodityLabel=new JLabel("仓库");
+			commodityLabel.setBounds(210, 100, 100, 20);
+			getContentPane().add(commodityLabel);
+			
+			commodity=new JComboBox(new String[]{"仓库1"});
+			commodity.setBounds(270, 100, 100, 20);
+			getContentPane().add(commodity);
+			
+			userLabel=new JLabel("操作员");
+			userLabel.setBounds(400, 100, 100, 20);
+			getContentPane().add(userLabel);
+			//TODO 自动填充
+			user=new JTextField();
+			user.setText(userVO.getUserName());
+			user.setBounds(440, 100, 100, 20);
+			getContentPane().add(user);
+			
+			beforePriceLabel=new JLabel("折让前价格");
+			beforePriceLabel.setBounds(20, 140, 100, 20);
+			getContentPane().add(beforePriceLabel);
+			
+			beforePrice=new JTextField();
+			beforePrice.setBounds(100, 140, 100, 20);
+			getContentPane().add(beforePrice);
+			
+			discountLabel=new JLabel("折让");
+			discountLabel.setBounds(210, 140, 100, 20);
+			getContentPane().add(discountLabel);
+			
+			discount=new JTextField();
+			discount.setBounds(270, 140, 100, 20);
+			getContentPane().add(discount);
+			
+			finalPriceLabel=new JLabel("折让后金额");
+			finalPriceLabel.setBounds(20, 180, 100, 20);
+			getContentPane().add(finalPriceLabel);
+			//TODO 自动填充
+			finalPrice=new JTextField();
+			finalPrice.setBounds(100, 180, 100, 20);
+			getContentPane().add(finalPrice);
+			
+			commentLabel=new JLabel("备注");
+			commentLabel.setBounds(20, 240, 100, 20);
+			getContentPane().add(commentLabel);
+			
+			comment=new JTextArea(50, 50);
+			comment.setBounds(100,240, 440, 40);
+			getContentPane().add(comment);
+			
+			addItemButton=new JButton("添加商品");
+			addItemButton.setBounds(10, 300, 80, 20);
+			getContentPane().add(addItemButton);
+			
+			addItemButton.addActionListener(new ActionListener() {				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new AddItemFrame();					
+				}
+			});
+			
+//			String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
+//			Object[][] tableData1={
+//					new Object[]{"TEST","TEST","100","0"},
+//					new Object[]{"TEST2","TEST2","100","0"},
+//					           };
+			tableColName.add("商品编号");
+			tableColName.add("商品名称");
+			tableColName.add("商品数量");
+			tableColName.add("商品总价");
+			
+			tableRows.add("Test");
+			tableRows.add("Test");
+			tableRows.add("100");
+			tableRows.add("100");
+			
+			tableData.add(tableRows);
+			
+			table1.setModel(model);
+			
+			model.setDataVector(tableData, tableColName);
+			
+//			table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+			table1.setFillsViewportHeight(true);     //显示表头
+			
+			
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.LEFT);
+		    table1.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane tablePane1=new JScrollPane(table1);
+			tablePane1.setSize(440,100);
+			tablePane1.setLocation(100, 300);
+			getContentPane().add(tablePane1);
+			
+			confirmButton = new JButton("确认");
+			confirmButton.setBounds(147, 410, 88, 30);
+			getContentPane().add(confirmButton);
+
+			cancelButton = new JButton("取消");
+			cancelButton.setBounds(296, 410, 88, 30);
+			getContentPane().add(cancelButton);
+			
+			
+			confirmButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					//有点复杂
+					SalesReceiptVO receipt=new SalesReceiptVO(serialNumber.getText(), customer.getText(), clerk.getText(), salesList, userVO, commodity.getSelectedItem(), beforePrice.getText(), discount.getText(), finalPrice.getText(), time.getText(), comment.getText());
+					
+					ResultMessage result=new SalesController().creatReceipt(receipt);
+					
+					//刷新外部表格
+//					TODO
+					if(result==ResultMessage.add_success){
+						dispose();
+					}else{
+						new warningDialog("保存失败!");
+					}
+				}
+			});
+			
+			cancelButton.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();				
+				}
+				
+			});
+
+			this.repaint();
+
+		}
+		
+		
+		/**
+		 * @author gaoyang
+		 *默认添加的商品在仓库中可以找到
+		 */
+		class AddItemFrame extends JFrame{
+			private JLabel goodsSerialNumberLabel,goodsQuantityLabel;
+			private JTextField goodsSerialNumber,goodsQuantity;
+			private JButton confirmButton,cancelButton;
+			
+			public AddItemFrame(){
+				this.setTitle("添加商品");
+				this.setVisible(true);
+				setBounds(100, 100, 250, 150);
+				this.setLocationRelativeTo(null);
+				getContentPane().setLayout(null);
+				
+				
+				goodsSerialNumberLabel=new JLabel("商品编号");
+				goodsSerialNumberLabel.setBounds(20, 20, 100,20);
+				getContentPane().add(goodsSerialNumberLabel);
+				
+				goodsSerialNumber=new JTextField();
+				goodsSerialNumber.setBounds(120, 20, 100, 20);
+				getContentPane().add(goodsSerialNumber);
+				
+				goodsQuantityLabel=new JLabel("商品数量");
+				goodsQuantityLabel.setBounds(20, 60, 100,20);
+				getContentPane().add(goodsQuantityLabel);
+				
+				goodsQuantity=new JTextField();
+				goodsQuantity.setBounds(120, 60, 100, 20);
+				getContentPane().add(goodsQuantity);
+				
+				confirmButton = new JButton("确认");
+				confirmButton.setBounds(40, 100, 80, 20);
+				getContentPane().add(confirmButton);
+
+				cancelButton = new JButton("取消");
+				cancelButton.setBounds(130, 100, 80, 20);
+				getContentPane().add(cancelButton);
+				
+				
+				confirmButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						//既然胡韬不改ID为string，这里只好强制转换
+						GoodsVO good=new GoodsController().getGoodsByID(new Long(0).parseLong(goodsSerialNumber.getText()));
+//						GoodsVO good=new GoodsVO("001", "hutao", "hutao", 100, 100, "a");//测试
+						//在这里应当向frame添加商品列表中的商品
+						//如果返回null说明没有此商品
+						if(good!=null){
+							//添加商品列表
+							salesListItems.add(new SalesListItemVO(good,new Integer(0).parseInt(goodsQuantity.getText())));
+							//刷新外部类商品列表表格
+							Vector newRows=new Vector();
+							newRows.add(good.serialNumber);
+							newRows.add(good.name);
+							newRows.add(goodsQuantity.getText());
+							//TODO 这么多价格是个意思？
+							newRows.add(new Integer(0).parseInt(goodsQuantity.getText())*good.price);							
+							tableData.add(newRows);
+							table1.updateUI();
+							
+							dispose();
+							
+							
+						}else{
+							new warningDialog("不存在此商品，添加失败!");
+						}
+					}
+				});
+				
+				cancelButton.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						dispose();				
+					}
+					
+				});
+				
+				
+			}
+			
+		}
+		
+	
 	}
 	
 
@@ -584,9 +955,75 @@ public class SalesmanFrameHelper {
 	    }	
 		
 	}
+	
+	
+	//设置单据编号
+	public String setSerialNumber(int type){
+		String result=null;
+		//自动填充
+		
+		//日期
+		String year=String.valueOf(yearNow);
+		String day=String.valueOf(dayNow);
+		if(day.length()<2){
+			day="0"+day;
+		}
+		String month=String.valueOf(monthNow);
+		if(month.length()<2){
+			month="0"+month;
+		}
+		
+		String date=year.substring(2, 4)+month+day;
+		
+		//单据次序
+		String order="";
+		
+		
+		ArrayList<PurchaseReceiptPO> list=new PurchaseController().show();
+		int count=0;//计算今天单据的个数
+		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+			PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator.next();
+			
+			if(purchaseReceiptPO.getSerialNumber().contains(date)){
+				count++;
+			}
+			
+		}
+		
+		if(count<10){
+			order="0000"+count;
+		}else if(count<100){
+			order="000"+count;
+		}else if(count<1000){
+			order="00"+count;
+		}else if(count<10000){
+			order="0"+count;
+		}else if(count<100000){
+			order=""+count;
+		}else{
+			System.out.println("You must be crazy!!");
+		}
+		
+		
+		
+		if(type==TYPE_PURCHASE){
+			result="JHD-"+date+"-"+order;
+		}else if(type==TYPE_PURCHASE_BACK){
+			result="JHTHD-"+date+"-"+order;
+		}else if(type==TYPE_SALES){
+			result="XSD-"+date+"-"+order;
+		}else if(type==TYPE_SALES_BACK){
+			result="XSTHD-"+date+"-"+order;
+		}
+		
+		return result;
+		
+		
+	}
 
 	public static void main(String[] args) {
-		new SalesmanFrameHelper("addPurchaseReceipt");
+		SalesmanFrameHelper helper=new SalesmanFrameHelper("addSalesReceipt",null);
+		
 
 	}
 }

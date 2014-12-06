@@ -22,6 +22,7 @@ public class SalesReceiptVO {
 	//业务员
 	private String salesman;
 	private UserVO userVO;
+	//c仓库
 	private String commodityNum;
 	private double priceBefore;
 	private double discout;

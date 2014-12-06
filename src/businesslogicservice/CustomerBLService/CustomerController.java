@@ -135,5 +135,15 @@ public class CustomerController implements CustomerBLService {
 			
 		}
 	}
+	
+	public CustomerPO toPO(CustomerVO vo){
+		CustomerPO po=new CustomerPO(vo.getNumber(), vo.getSort(), vo.getLevel(), vo.getName(), vo.getPhone(), vo.getAddress(), vo.getZipCode(), vo.getMail(), vo.getClerk());
+		return po;
+	}
+	
+	public CustomerVO toVO(CustomerPO po){
+		CustomerVO vo=new CustomerVO(po.getNumber(), po.getSort(), po.getLevel(), po.getName(), po.getPhone(), po.getAddress(), po.getZipCode(), po.getMail(), po.getClerk());
+		return vo;
+	}
 
 }

@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,9 +20,12 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import Config.UserSort;
+import PO.CustomerPO;
 import VO.UserVO;
+import businesslogicservice.CustomerBLService.CustomerController;
 
 public class SalesmanFrame extends JFrame {
 	
@@ -98,12 +104,55 @@ public class SalesmanFrame extends JFrame {
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(147, 224, 255, 255));
 
-			String[] columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员","应收","应付","应收额度"};
-			Object[][] tableData1={
-					new Object[]{"0001","供货商","VIP","胡韬","22222222","南大","210046","@","鹅","0","0","100"},
-					new Object[]{"0002","进货商","VIP","小宇","33333333","南大","210046","@","鹅","0","0","100"},
-					           };
-			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+			
+			//初始化表格
+			 JTable table1=new JTable();//商品列表
+			 DefaultTableModel model = new DefaultTableModel();//表格模型
+			 Vector tableColName=new Vector();
+			 tableColName.add("编号");
+			 tableColName.add("分类");
+			 tableColName.add("级别");
+			 tableColName.add("姓名");
+			 tableColName.add("电话");
+			 tableColName.add("地址");
+			 tableColName.add("邮编");
+			 tableColName.add("电子邮箱");
+			 tableColName.add("业务员");
+			 tableColName.add("应收");
+			 tableColName.add("应付");
+			 tableColName.add("应收额度");
+
+			 Vector tableData=new Vector();
+			 
+			 ArrayList<CustomerPO> customers=new CustomerController().show();
+			 
+			 for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
+				CustomerPO customerPO = (CustomerPO) iterator.next();
+				 Vector tableRows=new Vector();
+				 tableRows.add(customerPO.getNumber());
+				 tableRows.add(customerPO.getSort());
+				 tableRows.add(customerPO.getLevel());
+				 tableRows.add(customerPO.getName());
+				 tableRows.add(customerPO.getPhone());
+				 tableRows.add(customerPO.getAddress());
+				 tableRows.add(customerPO.getZipCode());
+				 tableRows.add(customerPO.getMail());
+				 tableRows.add(customerPO.getClerk());
+				 tableRows.add(customerPO.getGetting());
+				 tableRows.add(customerPO.getPay());
+				 tableRows.add(customerPO.getDebt_upper_limit());
+				 
+				 tableData.add(tableRows);
+			}
+			 
+//			String[] columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员","应收","应付","应收额度"};
+//			Object[][] tableData1={
+//					new Object[]{"0001","供货商","VIP","胡韬","22222222","南大","210046","@","鹅","0","0","100"},
+//					new Object[]{"0002","进货商","VIP","小宇","33333333","南大","210046","@","鹅","0","0","100"},
+//					           };
+//			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
+			table1.setModel(model);
+			model.setDataVector(tableData, tableColName);
 			table1.setFillsViewportHeight(true);     //显示表头
 			
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
