@@ -10,7 +10,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Vector;
+
+
+
+
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,13 +27,22 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+
+
+
+
+
 
 import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
 import businesslogicservice.PromotionBLService.PromotionController;
+import businesslogicservice.PurchseBLService.PurchaseController;
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
+import PO.PurchaseListItemPO;
+import PO.PurchaseReceiptPO;
+import PO.SalesListItemPO;
+import PO.TransferListItemPO;
 import VO.PromotionVO;
 import VO.UserVO;
 
@@ -200,20 +213,25 @@ public class ManagerFrame extends JFrame{
 			String[] columnTitle1={"单据编号","供应商","仓库","操作员","入库商品列表","备注",
 					"总额合计","审批通过"};
 					
-			ArrayList<Object> oneData=new ArrayList<Object>();
+		
 			ArrayList<ArrayList<Object>> tableData1=new ArrayList<ArrayList<Object>>();
-			Object[] ex=new Object[]{"JH123","胡韬","1号","高杨","暂无","点击查看",1000,new Boolean(false)};
-			Object[] exo=new Object[]{"JH124","小宇","2号","高杨","暂无","点击查看",2000,new Boolean(false)};
-			for(int i=0;i<ex.length;i++){
-				oneData.add(ex[i]);
+
+			ArrayList<PurchaseReceiptPO> shows=new PurchaseController().show();
+			ArrayList<ArrayList<PurchaseListItemPO>> itemList=new ArrayList<ArrayList<PurchaseListItemPO>>(); 
+			for(int i=0;i<shows.size();i++){
+				PurchaseReceiptPO p=shows.get(i);
+				ArrayList<Object> oneData=new ArrayList<Object>();
+				oneData.add(p.getSerialNumber());
+				oneData.add(p.getCustomerPO().getName());
+				oneData.add("1");
+				oneData.add(p.getUserPO().getUserName());
+				oneData.add("点击查看");   itemList.add(p.getPurchaseList());
+				oneData.add(p.getComments());
+				oneData.add(p.getTotalPrice());
+				oneData.add(new Boolean(false));
+				tableData1.add(oneData);
 			}
-			tableData1.add(oneData);
 			
-			oneData=new ArrayList<Object>();
-			for(int i=0;i<exo.length;i++){
-				oneData.add(exo[i]);
-			}
-			tableData1.add(oneData);
 			
 			JTable table1=new JTable(new MyTableModel(tableData1,columnTitle1));
 			table1.setFillsViewportHeight(true);     //显示表头
@@ -227,7 +245,7 @@ public class ManagerFrame extends JFrame{
 		    		int column=table1.columnAtPoint(e.getPoint());
 		    		if(column==4){
 		    			int row=table1.rowAtPoint(e.getPoint());
-		    			System.out.println(row+" "+column);
+		    			new GoodsInfoFrame(itemList.get(row),null);
 		    		}
 		    	}
 			});
@@ -673,9 +691,61 @@ public class ManagerFrame extends JFrame{
 	}
 
 	class GoodsInfoFrame extends JFrame{
-		public GoodsInfoFrame(){
+		public GoodsInfoFrame(ArrayList<PurchaseListItemPO> purchaseItems,ArrayList<SalesListItemPO> salesItems){
+			this.setVisible(true);
+			setBounds(100, 100, 585, 451);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
 			
+			JLabel titleLabel = new JLabel("商品列表");
+			titleLabel.setBounds(266, 22, 57, 23);
+			getContentPane().add(titleLabel);
+			
+			String[] tableTitle={"商品编号","商品名称","商品型号","数量","单价","金额","备注"};
+			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
+			if(salesItems==null){
+			for(int i=0;i<purchaseItems.size();i++){
+				GoodsPO goods=purchaseItems.get(i).getGoodsPO();
+				ArrayList<Object> oneData=new ArrayList<Object>();
+				oneData.add(goods.getSerialNumber());
+				oneData.add(goods.getName());
+				oneData.add(goods.getModel());
+				oneData.add(purchaseItems.get(i).getQuantity());
+				oneData.add(goods.getPrice());
+				oneData.add(purchaseItems.get(i).getTotalPrice());
+				oneData.add(goods.getComment());
+				tableData.add(oneData);
+				}
+			}
+			else if(purchaseItems==null){
+				for(int i=0;i<salesItems.size();i++){
+					GoodsPO goods=salesItems.get(i).getGoodsPO();
+					ArrayList<Object> oneData=new ArrayList<Object>();
+					oneData.add(goods.getSerialNumber());
+					oneData.add(goods.getName());
+					oneData.add(goods.getModel());
+					oneData.add(salesItems.get(i).getQuantity());
+					oneData.add(goods.getPrice());
+					oneData.add(salesItems.get(i).getTotalPrice());
+					oneData.add(goods.getComment());
+					tableData.add(oneData);
+					}
+			}
+					
+		    JTable table=new JTable(new MyTableModel(tableData, tableTitle));
+		    table.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane scrollPane = new JScrollPane(table);
+			scrollPane.setBounds(10, 55, 549, 335);
+			getContentPane().add(scrollPane);
+			 
+			this.repaint();
 		}
+		
 	}
 	
 	class TransferFrame extends JFrame{
