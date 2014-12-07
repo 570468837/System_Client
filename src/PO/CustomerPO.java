@@ -5,7 +5,6 @@ import java.io.Serializable;
 import Config.Level;
 import Config.Sort;
 import ResultMessage.ResultMessage;
-import VO.UserVO;
 
 public class CustomerPO implements Serializable{
 	
@@ -31,11 +30,8 @@ public class CustomerPO implements Serializable{
 			return getting;
 		}
 		//只可以在进货管理和销售管理中修改
-		public void setGetting(double getting,UserPO po) {
-			if(po.getLevel()!=3){
-				System.out.println("权限过低");
-				return;
-			}
+		public void setGetting(double getting) {
+			
 			this.getting = getting;
 		}
 
