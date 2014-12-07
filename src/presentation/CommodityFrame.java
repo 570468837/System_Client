@@ -245,10 +245,8 @@ public class CommodityFrame extends JFrame {
 	    	backToRoot.addMouseListener(new MouseAdapter() {
 	    		@Override
 	    		public void mouseClicked(MouseEvent e) {
-	    			while(jspList.size() != 1) {
-	    				iniGoodsManager(); //重新构建
-	    				infoBoard.setVisible(false);
-	    			}
+	    			iniGoodsManager(); //重新构建
+    				infoBoard.setVisible(false);
 	    		}
 	    	});
 	    	back = new JLabel("返回", JLabel.CENTER);

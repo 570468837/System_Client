@@ -107,11 +107,8 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO) {
 		try {
-			Communication_Start com = new Communication_Start();
-			com.initial();
 			return com.client.messageCommand("goodsClassAdd", goodsClassVO.toPO());
 		} catch (RemoteException e) {
-			System.out.println("cacacac");
 			return ResultMessage.add_failure;
 		}
 	}
@@ -163,12 +160,14 @@ public class GoodsController implements GoodsBLService {
 		public void run() {
 			while(true) {
 				try {
+					//TODO
 					goodsPOList = com.client.showObject("goodsListGet");
 					goodsClassPOList = com.client.showObject("goodsClassListGet");
 				} catch (RemoteException e) {
 					System.out.println("list get error");
 				}
-				
+				goodsVOList.clear();
+				goodsClassVOList.clear();
 				for(int i = 0; i < goodsPOList.size(); i ++) {
 					g = new GoodsVO();
 					g.toVO((GoodsPO)goodsPOList.get(i));
