@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 
 import Config.Level;
 import Config.Sort;
+import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
@@ -75,6 +76,13 @@ public class SalesmanFrameHelper {
 		case "addCustomer":
 			new AddCustomerFrame();
 			break;
+			
+		case "deleteCustomer":
+			new DeleteCustomerFrame();
+			break;
+			
+		case "updateCustomer":
+			new UpdateCustomerFrame();
 		case "addPurchaseReceipt":
 			new AddPurchaseReceiptFrame();
 			break;
@@ -267,6 +275,282 @@ public class SalesmanFrameHelper {
 		}
 
 	}
+	
+	 class DeleteCustomerFrame extends JFrame{
+		 private JLabel serialNumberLabel;
+		 private JTextField serialNumber;
+		 private JButton confirmButton,cancelButton;
+		 
+		public DeleteCustomerFrame(){
+			this.setTitle("删除客户");
+			this.setVisible(true);
+			setBounds(100, 100, 250, 150);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+			
+			
+			serialNumberLabel=new JLabel("商品编号");
+			serialNumberLabel.setBounds(20, 20, 100,20);
+			getContentPane().add(serialNumberLabel);
+			
+			serialNumber=new JTextField();
+			serialNumber.setBounds(120, 20, 100, 20);
+			getContentPane().add(serialNumber);
+			
+		
+			
+			confirmButton = new JButton("确认");
+			confirmButton.setBounds(40, 60, 80, 20);
+			getContentPane().add(confirmButton);
+
+			cancelButton = new JButton("取消");
+			cancelButton.setBounds(130, 60, 80, 20);
+			getContentPane().add(cancelButton);
+			
+			confirmButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					CustomerPO customerPO=new CustomerController().getCustomerPOById(serialNumber.getText());
+					if(customerPO!=null){
+						new CustomerController().deleteCustomer(new CustomerController().toVO(customerPO));
+						dispose();
+					}else{
+						new warningDialog("查无此人！！");
+					}
+				}
+			});
+			
+			cancelButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					dispose();					
+				}
+			});
+			
+			
+		}
+		
+	}
+	 
+	 class UpdateCustomerFrame extends JFrame{
+
+			private JButton confirmButton;
+			private JButton cancelButton;
+			
+
+			private JLabel serialnumLabel;
+			private JTextField serialnum;
+			private JLabel classLabel;
+			private JComboBox classes;
+			private JLabel levelLabel;
+			private JComboBox level;
+			private JLabel nameLabel;
+			private JTextField name;
+			private JLabel phoneLabel;
+			private JTextField phone;
+			private JLabel adressLabel;
+			private JTextField adress;
+			private JLabel zipcodeLabel;
+			private JTextField zipcode;
+			private JLabel emailLabel;
+			private JTextField email;
+			private JLabel clerkLabel;
+			private JTextField clerk;
+			
+			private JLabel payLabel,gettingLabel,degreeLabel;
+			private JLabel pay,getting,degree;
+
+			public UpdateCustomerFrame() {
+				this.setTitle("增加客户");
+				this.setVisible(true);
+				setBounds(100, 100, 556, 475);
+				this.setLocationRelativeTo(null);
+				getContentPane().setLayout(null);
+				
+				payLabel=new JLabel("应付：");
+				payLabel.setBounds(400, 40, 100, 20);
+				getContentPane().add(payLabel);
+				
+				pay=new JLabel("0",JLabel.CENTER);
+				pay.setBounds(450, 40, 100, 20);
+				getContentPane().add(pay);
+				
+				gettingLabel=new JLabel("应收：");
+				gettingLabel.setBounds(400, 80, 100, 20);
+				getContentPane().add(gettingLabel);
+				
+				getting=new JLabel("0",JLabel.CENTER);
+				getting.setBounds(450, 80, 100, 20);
+				getContentPane().add(getting);
+				
+				degreeLabel=new JLabel("应收额度：");
+				degreeLabel.setBounds(400, 120, 100, 20);
+				getContentPane().add(degreeLabel);
+				
+				degree=new JLabel("0",JLabel.CENTER);
+				degree.setBounds(450, 120, 100, 20);
+				getContentPane().add(degree);
+
+				serialnumLabel = new JLabel("客户编号");
+				serialnumLabel.setBounds(140, 40, 100, 20);
+				serialnumLabel.setBackground(Color.BLACK);
+				getContentPane().add(serialnumLabel);
+
+				classLabel = new JLabel("分类");
+				classLabel.setBounds(140, 80, 100, 20);
+				getContentPane().add(classLabel);
+
+				levelLabel = new JLabel("级别");
+				levelLabel.setBounds(140, 120, 100, 20);
+				getContentPane().add(levelLabel);
+
+				nameLabel = new JLabel("姓名");
+				nameLabel.setBounds(140, 160, 100, 20);
+				getContentPane().add(nameLabel);
+
+				phoneLabel = new JLabel("电话");
+				phoneLabel.setBounds(140, 200, 100, 20);
+				getContentPane().add(phoneLabel);
+
+				adressLabel = new JLabel("地址");
+				adressLabel.setBounds(140, 240, 100, 20);
+				getContentPane().add(adressLabel);
+
+				zipcodeLabel = new JLabel("邮编");
+				zipcodeLabel.setBounds(140, 280, 100, 20);
+				getContentPane().add(zipcodeLabel);
+
+				emailLabel = new JLabel("电子邮箱");
+				emailLabel.setBounds(140, 320, 100, 20);
+				getContentPane().add(emailLabel);
+
+				clerkLabel = new JLabel("业务员");
+				clerkLabel.setBounds(140, 360, 100, 20);
+				getContentPane().add(clerkLabel);
+
+				confirmButton = new JButton("确认");
+				confirmButton.setBounds(147, 394, 88, 30);
+				getContentPane().add(confirmButton);
+
+				cancelButton = new JButton("取消");
+				cancelButton.setBounds(296, 394, 88, 30);
+				getContentPane().add(cancelButton);
+
+				serialnum = new JTextField("");
+				serialnum.setBounds(240, 40, 100, 20);
+				serialnum.setColumns(10);
+				getContentPane().add(serialnum);
+
+				classes = new JComboBox(new String[] { "进货商", "销售商" });
+				classes.setBounds(240, 80, 100, 21);
+				getContentPane().add(classes);
+
+				level = new JComboBox(new String[] { "一级", "二级", "三级", "四级",
+						"五级VIP" });
+				level.setBounds(240, 120, 100, 21);
+				getContentPane().add(level);
+
+				name = new JTextField();
+				name.setBounds(240, 160, 100, 20);
+				name.setColumns(10);
+				getContentPane().add(name);
+
+				phone = new JTextField();
+				phone.setBounds(240, 200, 150, 20);
+				phone.setColumns(10);
+				getContentPane().add(phone);
+
+				adress = new JTextField();
+				adress.setBounds(240, 240, 150, 20);
+				adress.setColumns(10);
+				getContentPane().add(adress);
+
+				zipcode = new JTextField();
+				zipcode.setBounds(240, 280, 100, 20);
+				zipcode.setColumns(10);
+				getContentPane().add(zipcode);
+
+				email = new JTextField();
+				email.setBounds(240, 320, 150, 20);
+				email.setColumns(10);
+				getContentPane().add(email);
+
+				clerk = new JTextField();
+				clerk.setBounds(240, 360, 100, 20);
+				clerk.setColumns(10);
+				getContentPane().add(clerk);
+
+				
+				//监听编号
+				Thread listener=new  Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						while(true){
+						if(!serialnum.getText().equals("")){
+							CustomerPO customerPO=new CustomerController().getCustomerPOById(serialnum.getText());
+								if(customerPO==null){
+									new warningDialog("查无此人");
+									
+								}else{
+									classes.setSelectedItem(customerPO.getClass());
+									level.setSelectedItem(customerPO.getLevel());
+									name.setText(customerPO.getName());
+									phone.setText(customerPO.getPhone());
+									adress.setText(customerPO.getAddress());
+									zipcode.setText(customerPO.getZipCode());
+									email.setText(customerPO.getMail());
+									clerk.setText(customerPO.getClerk());
+									
+									break;
+								}														
+							}						
+						}
+					}
+				});
+				
+				confirmButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						CustomerVO vo = new CustomerVO(serialnum.getText(),
+								getCustomerSort(classes.getSelectedItem()),
+								getCustomerLevel(level.getSelectedItem()), name
+										.getText(), phone.getText(), adress
+										.getText(), zipcode.getText(), email
+										.getText(), clerk.getText());
+						
+						ResultMessage result = new CustomerController().updateCustmer(vo);
+						
+						if(result==ResultMessage.add_customer_success){
+							listener.stop();
+							dispose();
+						}else{
+							new warningDialog("已经存在该客户！");
+						}
+					}
+				});
+				
+				cancelButton.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						listener.stop();
+						dispose();
+						
+					}
+					
+				});	
+				
+
+				this.repaint();
+			}
+
+		
+	 }
+	
 
 	class AddPurchaseReceiptFrame extends JFrame {
 		private JLabel serialNumberLabel,customerLabel,userLabel,timeLabel,commentLabel,totalPriceLabel,commodityLabel;

@@ -193,6 +193,37 @@ public class SalesmanFrame extends JFrame {
 				}
 				
 			});
+			
+			deleteButton1.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new SalesmanFrameHelper("deleteCustomer",userVO);
+					
+				}
+			});
+			
+			
+			updateButton1.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					new SalesmanFrameHelper("updateCustomer",userVO);
+					
+				}
+			});
+			
+			serchButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(serchField.getText().equals("")){
+						
+					}else{
+						//TODO
+					}
+					
+				}
+			});
 		}
 	}
 	
