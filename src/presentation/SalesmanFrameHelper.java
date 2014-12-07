@@ -83,11 +83,18 @@ public class SalesmanFrameHelper {
 			
 		case "updateCustomer":
 			new UpdateCustomerFrame();
+			break;
 		case "addPurchaseReceipt":
-			new AddPurchaseReceiptFrame();
+			new AddPurchaseReceiptFrame(1);
+			break;
+		case "addPurchaseBackReceipt":
+			new AddPurchaseReceiptFrame(-1);
 			break;
 		case "addSalesReceipt":
-			new AddSalesReceiptFrame();
+			new AddSalesReceiptFrame(2);
+			break;
+		case "addSalesBackReceipt":
+			new AddSalesReceiptFrame(-2);
 			break;
 		}
 
@@ -284,12 +291,12 @@ public class SalesmanFrameHelper {
 		public DeleteCustomerFrame(){
 			this.setTitle("删除客户");
 			this.setVisible(true);
-			setBounds(100, 100, 250, 150);
+			setBounds(100, 100, 250, 130);
 			this.setLocationRelativeTo(null);
 			getContentPane().setLayout(null);
 			
 			
-			serialNumberLabel=new JLabel("商品编号");
+			serialNumberLabel=new JLabel("客户编号");
 			serialNumberLabel.setBounds(20, 20, 100,20);
 			getContentPane().add(serialNumberLabel);
 			
@@ -363,7 +370,7 @@ public class SalesmanFrameHelper {
 			private JLabel pay,getting,degree;
 
 			public UpdateCustomerFrame() {
-				this.setTitle("增加客户");
+				this.setTitle("修改客户");
 				this.setVisible(true);
 				setBounds(100, 100, 556, 475);
 				this.setLocationRelativeTo(null);
@@ -569,9 +576,14 @@ public class SalesmanFrameHelper {
 		private Vector tableData=new Vector();
 		private Vector tableRows=new Vector();
 		
-		public AddPurchaseReceiptFrame(){
+		public AddPurchaseReceiptFrame(int type){
 			
-			this.setTitle("创建进货单");
+			if(type==1){
+				this.setTitle("创建进货单");
+				}
+			else if(type==-1){
+				this.setTitle("创建进货退货单");
+			}
 			this.setVisible(true);
 			setBounds(100, 100, 556, 475);
 			this.setLocationRelativeTo(null);
@@ -583,8 +595,11 @@ public class SalesmanFrameHelper {
 			serialNumberLabel.setBounds(20,20,80,20);
 			getContentPane().add(serialNumberLabel);
 			
-			
-			serialNumber=new JTextField(setSerialNumber(1),JTextField.CENTER);
+			if(type==1){
+				serialNumber=new JTextField(setSerialNumber(1),JTextField.CENTER);
+			}else if(type==-1){
+				serialNumber=new JTextField(setSerialNumber(-1),JTextField.CENTER);
+			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
 			getContentPane().add(serialNumber);
@@ -628,6 +643,7 @@ public class SalesmanFrameHelper {
 			getContentPane().add(totalPriceLabel);
 			//TODO 自动填充
 			totalPrice=new JTextField();
+			totalPrice.setText("0");
 			totalPrice.setBounds(440, 100, 100, 20);
 			getContentPane().add(totalPrice);
 			
@@ -791,6 +807,8 @@ public class SalesmanFrameHelper {
 							newRows.add(new Integer(0).parseInt(goodsQuantity.getText())*good.price);							
 							tableData.add(newRows);
 							table1.updateUI();
+							//刷新总价
+							totalPrice.setText((new Double(0).parseDouble(totalPrice.getText())+new Integer(0).parseInt(goodsQuantity.getText())*good.price)+"");
 							
 							dispose();
 							
@@ -837,9 +855,12 @@ public class SalesmanFrameHelper {
 		private Vector tableData=new Vector();
 		private Vector tableRows=new Vector();
 		
-		public AddSalesReceiptFrame(){
-			
-			this.setTitle("创建销售单");
+		public AddSalesReceiptFrame(int type){
+			if(type==2){
+				this.setTitle("创建销售单");
+			}else{
+				this.setTitle("创建销售退货单");
+			}
 			this.setVisible(true);
 			setBounds(100, 100, 556, 475);
 			this.setLocationRelativeTo(null);
@@ -851,8 +872,12 @@ public class SalesmanFrameHelper {
 			serialNumberLabel.setBounds(20,20,80,20);
 			getContentPane().add(serialNumberLabel);
 			
-			
-			serialNumber=new JTextField(setSerialNumber(2),JTextField.CENTER);
+			if(type==2){
+				serialNumber=new JTextField(setSerialNumber(2),JTextField.CENTER);
+
+			}else{
+				serialNumber=new JTextField(setSerialNumber(-2),JTextField.CENTER);
+			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
 			getContentPane().add(serialNumber);
@@ -991,7 +1016,7 @@ public class SalesmanFrameHelper {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					//有点复杂
-					SalesReceiptVO receipt=new SalesReceiptVO(serialNumber.getText(), customer.getText(), clerk.getText(), salesList, userVO, commodity.getSelectedItem(), beforePrice.getText(), discount.getText(), finalPrice.getText(), time.getText(), comment.getText());
+					SalesReceiptVO receipt=new SalesReceiptVO(serialNumber.getText(), customer.getText(), clerk.getText(), salesListItems, userVO, (String) commodity.getSelectedItem(), new Double(0).parseDouble(beforePrice.getText()), new Double(0).parseDouble(discount.getText()), new Double(0).parseDouble(finalPrice.getText()), time.getText(), comment.getText());
 					
 					ResultMessage result=new SalesController().creatReceipt(receipt);
 					
@@ -1082,6 +1107,7 @@ public class SalesmanFrameHelper {
 							newRows.add(new Integer(0).parseInt(goodsQuantity.getText())*good.price);							
 							tableData.add(newRows);
 							table1.updateUI();
+							
 							
 							dispose();
 							
@@ -1265,13 +1291,15 @@ public class SalesmanFrameHelper {
 		
 		ArrayList<PurchaseReceiptPO> list=new PurchaseController().show();
 		int count=0;//计算今天单据的个数
-		for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-			PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator.next();
+		if(list!=null){
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator.next();
 			
-			if(purchaseReceiptPO.getSerialNumber().contains(date)){
-				count++;
+				if(purchaseReceiptPO.getSerialNumber().contains(date)){
+					count++;
+				}
+			
 			}
-			
 		}
 		
 		if(count<10){
@@ -1306,7 +1334,7 @@ public class SalesmanFrameHelper {
 	}
 
 	public static void main(String[] args) {
-		SalesmanFrameHelper helper=new SalesmanFrameHelper("addSalesReceipt",null);
+		SalesmanFrameHelper helper=new SalesmanFrameHelper("addCustomer",null);
 		
 
 	}

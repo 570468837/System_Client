@@ -16,6 +16,11 @@ public class PurchaseReceiptVO {
 	// 防止add方法list为空指针
 	private ArrayList<PurchaseListItemVO> purchaseList = new ArrayList<PurchaseListItemVO>();
 
+	
+	//
+	public PurchaseReceiptVO(){
+		
+	}
 	public PurchaseReceiptVO(CustomerVO customerVO, String serialNumber,
 			UserVO userVO, String time, String comments, double totalPrice) {
 		this.customerVO=customerVO;

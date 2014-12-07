@@ -52,7 +52,7 @@ public class SalesReceiptPO implements Serializable {
 	
 	private ArrayList<SalesListItemPO> salesList;
 	
-
+	public SalesReceiptPO(){}
 	public SalesReceiptPO(String serialNumber, String retailer,
 			String salesman, ArrayList<SalesListItemPO> salesList,
 			UserPO userPO, String commodityNum, double priceBefore,
