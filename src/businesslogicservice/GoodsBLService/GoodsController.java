@@ -25,7 +25,7 @@ public class GoodsController implements GoodsBLService {
 	
 	private Communication_Start com;
 	private ListReload listReload;
-	private final static int reloadTime = 2000; //2秒刷新一次
+	private final static int reloadTime = 1000; //1秒刷新一次
 	
 	public GoodsController() {
 		com = new Communication_Start();
@@ -72,7 +72,7 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage addGoods(GoodsVO goodsVO) {
 		try {
-			return com.client.messageCommand("goodsAdd", goodsVO.toPO());
+			return Communication_Start.client.messageCommand("goodsAdd", goodsVO.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.add_failure;
 		}
@@ -83,7 +83,7 @@ public class GoodsController implements GoodsBLService {
 		GoodsVO vo = new GoodsVO();
 		vo.serialNumber = Long.toString(id);
 		try {
-			return com.client.messageCommand("goodsDel", vo.toPO());
+			return Communication_Start.client.messageCommand("goodsDel", vo.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.delete_failure;
 		}
@@ -92,7 +92,7 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage updGoods(GoodsVO goodsVO) {
 		try {
-			return com.client.messageCommand("goodsUpd", goodsVO.toPO());
+			return Communication_Start.client.messageCommand("goodsUpd", goodsVO.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.update_failure;
 		}
@@ -107,7 +107,7 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO) {
 		try {
-			return com.client.messageCommand("goodsClassAdd", goodsClassVO.toPO());
+			return Communication_Start.client.messageCommand("goodsClassAdd", goodsClassVO.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.add_failure;
 		}
@@ -118,7 +118,7 @@ public class GoodsController implements GoodsBLService {
 		GoodsClassPO po = new GoodsClassPO();
 		po.Num = id;
 		try {
-			return com.client.messageCommand("goodsClassDel", po);
+			return Communication_Start.client.messageCommand("goodsClassDel", po);
 		} catch (RemoteException e) {
 			return ResultMessage.delete_failure;
 		}
@@ -127,7 +127,7 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage updGoodsClass(GoodsClassVO goodsClassVO) {
 		try {
-			return com.client.messageCommand("goodsClassUpd", goodsClassVO.toPO());
+			return Communication_Start.client.messageCommand("goodsClassUpd", goodsClassVO.toPO());
 		} catch (RemoteException e) {
 			return ResultMessage.update_failure;
 		}
@@ -148,6 +148,14 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public GoodsClassVO getGoodsClassByInfo(String name) {
+		gcIter = goodsClassVOList.iterator();
+		GoodsClassVO gc;
+		while(gcIter.hasNext()) {
+			gc = gcIter.next();
+			if(gc.goodsClassName.equals(name))
+				return new GoodsClassVO(gc);
+		}
+		System.out.println("goodsClass not found");
 		return null;
 	}
 	
@@ -159,15 +167,16 @@ public class GoodsController implements GoodsBLService {
 		@Override
 		public void run() {
 			while(true) {
+				goodsVOList.clear();
+				goodsClassVOList.clear();
 				try {
 					//TODO
-					goodsPOList = com.client.showObject("goodsListGet");
-					goodsClassPOList = com.client.showObject("goodsClassListGet");
+					goodsPOList = Communication_Start.client.showObject("goodsListGet");
+					goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
+					
 				} catch (RemoteException e) {
 					System.out.println("list get error");
 				}
-				goodsVOList.clear();
-				goodsClassVOList.clear();
 				for(int i = 0; i < goodsPOList.size(); i ++) {
 					g = new GoodsVO();
 					g.toVO((GoodsPO)goodsPOList.get(i));

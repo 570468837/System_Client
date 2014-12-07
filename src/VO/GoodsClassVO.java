@@ -31,9 +31,9 @@ public class GoodsClassVO {
 		return g;
 	}
 	public void toVO(GoodsClassPO po) {
-		po.fatherGoodsClassNum = this.fatherGoodsClassNum;
-		po.Num = this.Num;
-		po.goodsClassName = this.goodsClassName;
+		this.fatherGoodsClassNum = po.fatherGoodsClassNum;
+		this.Num = po.Num;
+		this.goodsClassName = po.goodsClassName;
 	}
 	
 	public GoodsClassVO(GoodsClassVO gc) {

@@ -417,6 +417,7 @@ public class CommodityFrame extends JFrame {
 							JTable extTable;
 							JScrollPane extJsp;
 							public void mouseClicked(MouseEvent e) {
+								popFrame.dispose();
 								jspList.get(jspList.size() - 1).setVisible(false);
 								GoodsClassVO father = gc.getGoodsClassByInfo(className);
 								classBufferList = new ArrayList<GoodsClassVO>();
@@ -429,6 +430,7 @@ public class CommodityFrame extends JFrame {
 								}
 								if(classBufferList.size() != 0) {
 									//子目录下还是分类
+									System.out.println("子目录下还是分类");
 									String[] head = {className};
 									String[][] body = new String[classBufferList.size()][1];
 									for(int i = 0; i < classBufferList.size(); i ++) {
@@ -444,13 +446,14 @@ public class CommodityFrame extends JFrame {
 									extTable.getTableHeader().setEnabled(false);
 									extTable.getTableHeader().setFont(new Font("default", 1, 17));
 									extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
-									addListener(extTable);
 									extJsp = new JScrollPane(extTable);
 									extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
 									extJsp.setPreferredSize(new Dimension(120, 360));
 									extJsp.setHorizontalScrollBar(null);
 							    	jtList.add(extTable);
 							    	jspList.add(extJsp);
+							    	goodsPanel.add(extJsp);
+							    	addListener(extTable);
 								}
 								else {
 									bufferList = new ArrayList<GoodsVO>();
@@ -463,6 +466,7 @@ public class CommodityFrame extends JFrame {
 									}
 									if(bufferList.size() != 0) {
 										//子目录下是商品
+										System.out.println("子目录下是商品");
 										String[] head = {"编号", className, "型号", "库存数量", "进价", "零售价", "最近进价", "最近售价"};
 										String[][] body = new String[bufferList.size()][8];
 										Iterator<GoodsVO> bufferIter = bufferList.iterator();
@@ -489,16 +493,18 @@ public class CommodityFrame extends JFrame {
 										extTable.getTableHeader().setEnabled(false);
 										extTable.getTableHeader().setFont(new Font("default", 1, 17));
 										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
-										addListener(extTable);
 										extJsp = new JScrollPane(extTable);
 										extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
 										extJsp.setPreferredSize(new Dimension(120, 360));
 										extJsp.setHorizontalScrollBar(null);
 								    	jtList.add(extTable);
 								    	jspList.add(extJsp);
+								    	goodsPanel.add(extJsp);
+										addListener(extTable);
 									}
 									else {
 										//子目录下为空
+										System.out.println("子目录下为空");
 										String[] head = {className};
 										String[][] body = new String[0][0];
 										extTable = new JTable(body, head);
@@ -508,14 +514,14 @@ public class CommodityFrame extends JFrame {
 										extTable.getTableHeader().setEnabled(false);
 										extTable.getTableHeader().setFont(new Font("default", 1, 17));
 										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
-										addListener(extTable);
 										extJsp = new JScrollPane(extTable);
 										extJsp.setBounds(25, 70, 120 + 15, 360 + 48);
 										extJsp.setPreferredSize(new Dimension(120, 360));
 										extJsp.setHorizontalScrollBar(null);
 								    	jtList.add(extTable);
 								    	jspList.add(extJsp);
-										
+										goodsPanel.add(extJsp);
+										addListener(extTable);
 									}
 								}
 								
