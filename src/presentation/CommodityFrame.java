@@ -232,15 +232,13 @@ public class CommodityFrame extends JFrame {
 			table.getTableHeader().setFont(new Font("default", 1, 17));
 			table.getTableHeader().setPreferredSize(new Dimension(0, 45));
 			
-			addListener(table);
-			
 			JScrollPane jsp = new JScrollPane(table);
 			jsp.setBounds(25, 70, 120 + 15, 360 + 48);
 			jsp.setPreferredSize(new Dimension(120, 360));
 	    	jsp.setHorizontalScrollBar(null);
 	    	jtList.add(table);
 	    	jspList.add(jsp);
-	    	
+	    	addListener(table);
 	    	
 	    	backToRoot = new JLabel("返回根商品分类", JLabel.CENTER);
 	    	backToRoot.setBounds(30,500, 100, 50);
@@ -278,7 +276,7 @@ public class CommodityFrame extends JFrame {
 		 */
 		private void addListener(JTable table) {
 			//是商品分类表格
-			if(table.getColumnCount() == 1 && table.getRowCount() != 0) {
+			if(table.getColumnCount() == 1 && (table.getRowCount() != 0 || (table.getRowCount() == 0 && jspList.size() == 1))) {
 				System.out.println("是商品分类表格");
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
@@ -318,12 +316,12 @@ public class CommodityFrame extends JFrame {
 									public void mouseClicked(MouseEvent e) {
 										GoodsClassVO classToBeAdded;
 										if(jspList.size() == 1) {
-											classToBeAdded = new GoodsClassVO(notice.getText());
+											classToBeAdded = new GoodsClassVO(input.getText());
 										}
 										else {
 											classToBeAdded = new GoodsClassVO(
 													gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
-													notice.getText());
+													input.getText());
 										}
 										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success)
 											infoBoard.setText("添加成功");
@@ -551,7 +549,7 @@ public class CommodityFrame extends JFrame {
 				});
 			}
 			//是空的商品分类表格
-			else if(table.getColumnCount() == 1 && table.getRowCount() == 0) {
+			else if(table.getColumnCount() == 1 && table.getRowCount() == 0 && jspList.size() != 1) {
 				System.out.println("是空的商品分类表格");
 				table.getTableHeader().addMouseListener(new MouseAdapter() {
 					@Override
@@ -561,7 +559,7 @@ public class CommodityFrame extends JFrame {
 						popFrame.setUndecorated(true);
 						popFrame.setLayout(null);
 						JLabel addClass = new JLabel("添加商品分类");
-						addClass.setBounds(0, 0, 120, 0);
+						addClass.setBounds(0, 0, 120, 25);
 						addClass.addMouseListener(new MouseAdapter() {
 							JTextField input;
 							JLabel notice, submit, cancel;
@@ -608,7 +606,7 @@ public class CommodityFrame extends JFrame {
 						});
 						
 						JLabel add = new JLabel("添加商品");
-						add.setBounds(0, 0, 120, 25);
+						add.setBounds(0, 25, 120, 25);
 						add.addMouseListener(new MouseAdapter() {
 							JTextField j1, j2, j3, j4;
 							JLabel submit, cancel;
@@ -672,7 +670,7 @@ public class CommodityFrame extends JFrame {
 						});
 						
 						JLabel upd = new JLabel("更改商品分类信息");
-						upd.setBounds(0, 0, 120, 50);
+						upd.setBounds(0, 50, 120, 25);
 						upd.addMouseListener(new MouseAdapter() {
 							JTextField input;
 							JLabel notice, submit, cancel;
@@ -716,7 +714,10 @@ public class CommodityFrame extends JFrame {
 								inputFrame.setVisible(true);
 							}
 						});
-						
+						popFrame.add(addClass);
+						popFrame.add(add);
+						popFrame.add(upd);
+						popFrame.setVisible(true);
 					}
 				});
 			}

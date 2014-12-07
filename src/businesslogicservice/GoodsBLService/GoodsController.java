@@ -107,8 +107,11 @@ public class GoodsController implements GoodsBLService {
 	@Override
 	public ResultMessage addGoodsClass(GoodsClassVO goodsClassVO) {
 		try {
+			Communication_Start com = new Communication_Start();
+			com.initial();
 			return com.client.messageCommand("goodsClassAdd", goodsClassVO.toPO());
 		} catch (RemoteException e) {
+			System.out.println("cacacac");
 			return ResultMessage.add_failure;
 		}
 	}
