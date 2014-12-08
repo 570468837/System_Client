@@ -371,7 +371,7 @@ public class CommodityFrame extends JFrame {
 											upded.fatherGoodsClassNum = toBeUpd.fatherGoodsClassNum;
 											upded.Num = toBeUpd.Num;
 											upded.goodsClassName = input.getText();
-											if(gc.addGoodsClass(upded) == ResultMessage.update_success)
+											if(gc.updGoodsClass(upded) == ResultMessage.update_success)
 												infoBoard.setText("更改成功");
 											else 
 												infoBoard.setText("更改失败");
@@ -590,7 +590,8 @@ public class CommodityFrame extends JFrame {
 										GoodsClassVO classToBeAdded;
 										classToBeAdded = new GoodsClassVO(
 												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
-												notice.getText());
+												input.getText());
+										System.out.println(classToBeAdded.fatherGoodsClassNum);
 										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success)
 											infoBoard.setText("添加成功");
 										else 
@@ -702,7 +703,7 @@ public class CommodityFrame extends JFrame {
 										classToBeAdded = new GoodsClassVO(
 												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
 												notice.getText());
-										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.update_success)
+										if(gc.updGoodsClass(classToBeAdded) == ResultMessage.update_success)
 											infoBoard.setText("更改成功");
 										else 
 											infoBoard.setText("更改失败");
