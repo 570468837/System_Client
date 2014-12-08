@@ -49,5 +49,4 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			c.setProvedByManege(true);
 		}
 	}
-
 }

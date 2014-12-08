@@ -16,6 +16,9 @@ import java.util.ArrayList;
 
 
 
+
+
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,15 +36,20 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 
+
+
+
 import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
 import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
+import businesslogicservice.SaleBLService.SalesController;
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
+import PO.SalesReceiptPO;
 import PO.TransferListItemPO;
 import VO.PromotionVO;
 import VO.UserVO;
@@ -298,21 +306,29 @@ public class ManagerFrame extends JFrame{
 		public void table2Refresh(){
 			String[] columnTitle2={"单据编号","客户","业务员","操作员","仓库","出货商品清单","折让前总额",
 					"折让","使用代金券金额","折让后总额","备注","审批通过"};
-			ArrayList<Object> oneData=new ArrayList<Object>();
+			
 			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
-			Object[] ex=new Object[]{"TH123","胡韬","姚锰舟","高杨","0011","点击查看",1000,20,50,980,"无",new Boolean(false)};
-			Object[] exo=new Object[]{"TH124","小宇","姚锰舟","高杨","0011","点击查看",2000,40,100,1960,"无",new Boolean(false)};
 			
-			for(int i=0;i<ex.length;i++){
-				oneData.add(ex[i]);
+			ArrayList<SalesReceiptPO> shows=new SalesController().show();
+			ArrayList<ArrayList<SalesListItemPO>> salesitems=new ArrayList<ArrayList<SalesListItemPO>>();
+			for(int i=0;i<shows.size();i++){
+				SalesReceiptPO s=shows.get(i);
+				ArrayList<Object> oneData=new ArrayList<Object>();
+				oneData.add(s.getSerialNumber());
+				oneData.add(s.getCustomerPO().getName());
+				oneData.add(s.getSalesman());
+				oneData.add(s.getUserPO().getUserName());
+				oneData.add("仓库一");
+				oneData.add("点击查看");  salesitems.add(s.getSalesList());
+				oneData.add(s.getPriceBefore());
+				oneData.add(s.getDiscout());
+				oneData.add(s.getVoucher());
+				oneData.add(s.getFinalprice());
+				oneData.add(s.getComment());
+				oneData.add(new Boolean(false));
+				tableData2.add(oneData);
 			}
-			tableData2.add(oneData);
 			
-			oneData=new ArrayList<Object>();
-			for(int i=0;i<exo.length;i++){
-				oneData.add(exo[i]);
-			}
-			tableData2.add(oneData);
 			
 			JTable table2=new JTable(new MyTableModel(tableData2,columnTitle2));
 			table2.setFillsViewportHeight(true);     //显示表头
