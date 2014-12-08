@@ -60,7 +60,7 @@ public class FinanceFrame extends JFrame{
 	private JLabel exitButton,mangeAccountLabel,infoLabel,makeReceiptLabel; 
 	private AccountPanel accountPanel = new AccountPanel(this) ;
 	private UserVO user ;
-	private ReceiptPanel receiptPanel = new ReceiptPanel(this,user) ;
+	private ReceiptPanel receiptPanel = new ReceiptPanel(this) ;
 	private InfoPanel infoPanel = new InfoPanel(this) ;
 	
 	public FinanceFrame(UserVO uservo){
@@ -75,6 +75,7 @@ public class FinanceFrame extends JFrame{
 		accountPanel.setVisible(true);
 		
 		user = uservo ;
+//		System.out.print(user.getUserName());
 		
 		exitButton = new JLabel("X",JLabel.CENTER) ;
 		exitButton.setBounds(950, 0, 50, 50);
@@ -424,14 +425,14 @@ public class FinanceFrame extends JFrame{
 		JLabel makeCollectionOrPaymentLabel,makeCashLabel; 
 		MakeCollectionOrPayment makeCollectionPane ;
 		MakeCash makeCashPane ;
-		public ReceiptPanel (JFrame theFrame,UserVO user){
+		public ReceiptPanel (JFrame theFrame){
 			super() ;
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(200, 100, 150, 255));
 			this.setLayout(null);
 			this.setVisible(false);
 			theFrame.add(this) ;
-			makeCollectionPane = new MakeCollectionOrPayment(user) ;
+			makeCollectionPane = new MakeCollectionOrPayment() ;
 			this.add(makeCollectionPane) ;
 			makeCashPane = new MakeCash(); 
 			this.add(makeCashPane);
@@ -469,7 +470,7 @@ public class FinanceFrame extends JFrame{
 		/**
 		 * Create the frame.
 		 */
-		public MakeCollectionOrPayment(UserVO user) {
+		public MakeCollectionOrPayment() {
 			setBounds(120, 100, 500, 380);
 			this.setBorder(new EmptyBorder(5, 5, 5, 5));
 			this.setLayout(null);
@@ -521,10 +522,10 @@ public class FinanceFrame extends JFrame{
 			nameOfCustomeLabel.setBounds(39, 99, 100, 15);
 			this.add(nameOfCustomeLabel);
 			
-			JLabel nameOfUserLabel = new JLabel("操作员：");
+			/*JLabel nameOfUserLabel = new JLabel("操作员：");
 			nameOfUserLabel.setBounds(256, 230, 100, 15);
 			this.add(nameOfUserLabel);
-			
+			*/
 			JLabel sumOfMoneyLabel = new JLabel("总额汇总：");
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
 			this.add(sumOfMoneyLabel);
@@ -578,10 +579,10 @@ public class FinanceFrame extends JFrame{
 			this.add(yuanLabel);
 			
 //			JLabel userLabel = new JLabel(user.getUserName());
-			JLabel userLabel = new JLabel("当前用户");
+	/*		JLabel userLabel = new JLabel("当前用户");
 			userLabel.setBounds(320, 230, 100, 15);
 			this.add(userLabel);
-			
+		*/	
 			JButton sureButton = new JButton("确定 ") ;
 			sureButton.setBounds(80, 270, 100, 23);
 			this.add(sureButton) ;
@@ -607,7 +608,8 @@ public class FinanceFrame extends JFrame{
 							ArrayList<String> account = tfAccounts.get(i) ;
 							tfList.add(new TransferListItemVO(account.get(0), Double.parseDouble(account.get(1)),account.get(2))) ;
 						}
-						ResultMessage result = fController.addCollectionOrPaymentVO(new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoneys))) ;
+						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoneys)) ;
+						ResultMessage result = fController.addCollectionOrPaymentVO(collectionOrPayment) ;
 						new warningDialog("添加成功");
 						nameOfCustomerField.setText("");
 						numberOfReceiptField.setText("");;
@@ -842,11 +844,11 @@ public class FinanceFrame extends JFrame{
 			JLabel nameOfAccountLabel = new JLabel("银行账户：");
 			nameOfAccountLabel.setBounds(39, 99, 100, 15);
 			this.add(nameOfAccountLabel);
-			
+			/*
 			JLabel nameOfUserLabel = new JLabel("操作员：");
 			nameOfUserLabel.setBounds(256, 230, 100, 15);
 			this.add(nameOfUserLabel);
-			
+			*/
 			JLabel sumOfMoneyLabel = new JLabel("总        额："); 
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
 			this.add(sumOfMoneyLabel);
@@ -891,11 +893,11 @@ public class FinanceFrame extends JFrame{
 			JLabel yuanLabel = new JLabel("元");
 			yuanLabel.setBounds(270, 184, 21, 15);
 			this.add(yuanLabel);
-			
+			/*
 			JLabel userLabel = new JLabel("当前操作员");
 			userLabel.setBounds(320, 230, 100, 15);
 			this.add(userLabel);
-			
+			*/
 			JButton sureButton = new JButton("确定 ") ;
 			sureButton.setBounds(80, 270, 100, 23);
 			this.add(sureButton) ;
@@ -915,7 +917,7 @@ public class FinanceFrame extends JFrame{
 							CaseListItemVO theCase = new CaseListItemVO(thecase.get(0), Double.parseDouble(thecase.get(1)), thecase.get(2)) ;
 							cases.add(theCase) ;
 						}
-						CashVO cash = new CashVO(number,userLabel.getText(),account,cases,Double.parseDouble(sum)) ;
+						CashVO cash = new CashVO(number,user.getUserName(),account,cases,Double.parseDouble(sum)) ;
 						ResultMessage result = fController.addCash(cash) ;
 
 					    new warningDialog("添加成功");
@@ -1166,7 +1168,7 @@ public class FinanceFrame extends JFrame{
 			});
 			
 			
-			JLabel saleProcessLabel = new JLabel("经营里程表",JLabel.CENTER) ;
+			JLabel saleProcessLabel = new JLabel("经营历程表",JLabel.CENTER) ;
 			saleProcessLabel.setBounds(200, 23, 120, 50);
 			this.add(saleProcessLabel) ;
 			saleProcessLabel.addMouseListener(new MouseAdapter() {

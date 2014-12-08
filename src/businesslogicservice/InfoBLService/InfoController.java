@@ -86,15 +86,24 @@ public class InfoController implements InfoBLService{
 	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
 		ArrayList<Object> result1 = new ArrayList<Object>();
-		ScreeningConditionPO theCondition = new ScreeningConditionPO(condition.getTime1(),condition.getTime2(),condition.getTypeOfReceipt(),condition.getNameOfGood(),
-				condition.getCustomer(),condition.getUser(),condition.getRepository());
+//		ScreeningConditionPO theCondition = new ScreeningConditionPO(condition.getTime1(),condition.getTime2(),condition.getTypeOfReceipt(),condition.getNameOfGood(),
+//				condition.getCustomer(),condition.getUser(),condition.getRepository());
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
-		try {
-			result1 = com.client.showReceipt("showSalesProcessInfo", theCondition) ;
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+//		try {
+//			result1 = com.client.showReceipt("showSalesProcessInfo", theCondition) ;
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		if(condition.getTypeOfReceipt().equals("SKD")){
+			try {
+				result1 = com.client.showObject("collectionOrPaymentShow") ;
+				
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return null;
 	}

@@ -210,11 +210,8 @@ public class FinanceController implements FinanceBLService{
 		return null;
 	}
 
-	
-
-
-
-
-	
+public static void main(String[] args){
+	new FinanceController().addCollectionOrPaymentVO(new CollectionOrPaymentVO());
+}
 
 }
