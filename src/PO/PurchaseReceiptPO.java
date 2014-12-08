@@ -24,6 +24,8 @@ public class PurchaseReceiptPO implements Serializable {
 	private String time;
 	private String comments;
 	private double totalPrice;
+	
+	
 	private boolean isApprovedByManager=false;
 	private boolean isApprovedByCommodity=false;
 	

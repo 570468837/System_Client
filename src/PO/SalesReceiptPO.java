@@ -26,6 +26,14 @@ public class SalesReceiptPO implements Serializable {
 	private double finalprice;
 	private String comment;
 	private String time;
+	private PromotionPO promotionPO;
+	public PromotionPO getPromotionPO() {
+		return promotionPO;
+	}
+
+	public void setPromotionPO(PromotionPO promotionPO) {
+		this.promotionPO = promotionPO;
+	}
 	private boolean isApprovedByManager=false;
 	private boolean isApprovedByCommodity=false;
 	
@@ -71,13 +79,7 @@ public class SalesReceiptPO implements Serializable {
 
 	}
 
-	public double getPriceBefore() {
-		return priceBefore;
-	}
-
-	public void setPriceBefore(double priceBefore) {
-		this.priceBefore = priceBefore;
-	}
+	
 
 	public String getTime() {
 		return time;
@@ -159,7 +161,7 @@ public class SalesReceiptPO implements Serializable {
 		this.commodityNum = commodityNum;
 	}
 
-	public double getPriveBefore() {
+	public double getPriceBefore() {
 		// 遍历所有商品以获得总价
 		for (int i = 0; i < salesList.size(); i++) {
 			this.priceBefore += salesList.get(i).getTotalPrice();
@@ -167,8 +169,8 @@ public class SalesReceiptPO implements Serializable {
 		return priceBefore;
 	}
 
-	public void setPriveBefore(long priveBefore) {
-		this.priceBefore = priveBefore;
+	public void setPriceBefore(long priceBefore) {
+		this.priceBefore = priceBefore;
 	}
 
 	public double getDiscout() {

@@ -2,6 +2,7 @@ package VO;
 
 import java.util.ArrayList;
 
+import PO.PromotionPO;
 import PO.SalesListItemPO;
 import PO.UserPO;
 
@@ -29,6 +30,15 @@ public class SalesReceiptVO {
 	private double finalprice;
 	private String comment;
 	private String time;
+	private PromotionVO promotionVO;
+	
+	public PromotionVO getPromotionVO() {
+		return promotionVO;
+	}
+	public void setPromotionVO(PromotionVO promotionVO) {
+		this.promotionVO = promotionVO;
+	}
+	
 	private boolean isApprovedByManager=false;
 	private boolean isApprovedByCommodity=false;
 	

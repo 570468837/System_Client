@@ -9,6 +9,8 @@ public class PurchaseReceiptVO {
 	private String time;
 	private String comments;
 	private double totalPrice;
+	
+
 	// 审批
 	private boolean isApprovedByManager = false;
 	private boolean isApprovedByCommodity = false;
