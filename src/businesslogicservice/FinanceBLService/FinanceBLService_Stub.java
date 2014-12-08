@@ -99,5 +99,17 @@ public class FinanceBLService_Stub implements FinanceBLService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<CollectionOrPaymentVO> showCollectionOrPaymentVOs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<CashVO> showCashVOs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

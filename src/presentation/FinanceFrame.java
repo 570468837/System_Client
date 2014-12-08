@@ -1336,7 +1336,7 @@ public class FinanceFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    
 		    jsc = new JScrollPane(saleDetailTable) ;	
-		    jsc.setBounds(5, 121, 690, 253);
+		    jsc.setBounds(5, 121, 690, 240);
             saleDetailTable.setFillsViewportHeight(true);
             this.add(jsc) ;
 		}
@@ -1363,7 +1363,7 @@ public class FinanceFrame extends JFrame{
 		    if(jsc != null)
 		    	jsc.setVisible(false);
 		    jsc = new JScrollPane(saleDetailTable) ;	
-		    jsc.setBounds(5, 121, 690, 253);
+		    jsc.setBounds(5, 121, 690, 240);
 			saleDetailTable.setFillsViewportHeight(true);
 			this.add(jsc) ;
 		}
@@ -1497,6 +1497,15 @@ public class FinanceFrame extends JFrame{
 				}
 			});;
 			
+			JLabel hcLablel = new JLabel("红冲");
+			hcLablel.setBounds(400, 365, 100, 20);
+			add(hcLablel) ;
+			
+			JLabel hcAndfzLabel = new JLabel("红冲并复制");
+			hcAndfzLabel.setBounds(510, 365, 150, 20);
+			add(hcAndfzLabel) ;
+			
+			
             cancelButton.addActionListener(new ActionListener() {
 				
 				@Override
@@ -1582,7 +1591,7 @@ public class FinanceFrame extends JFrame{
 		    table.setDefaultRenderer(Object.class, render);
 		
 			jsc = new JScrollPane(table) ;
-			 jsc.setBounds(5, 121, 690, 253);
+			 jsc.setBounds(5, 121, 690, 240);
 			add(jsc);
 		}
 		private void freshTable(ArrayList<Object> objects ,String type) {

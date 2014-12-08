@@ -1,5 +1,6 @@
 package businesslogicservice.FinanceBLService;
 
+import java.lang.reflect.Array;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -154,10 +155,64 @@ public class FinanceController implements FinanceBLService{
 		return receiptNumber;
 	}
 	@Override
+	public ArrayList<CollectionOrPaymentVO> showCollectionOrPaymentVOs() {
+		// TODO Auto-generated method stub
+		ArrayList<Object> objects = new ArrayList<Object>() ;
+		Communication_Start com = new Communication_Start() ;
+		com.initial(); 
+		try {
+			objects = com.client.showObject("collectionOrPaymentShow") ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<CollectionOrPaymentVO> result = new ArrayList<CollectionOrPaymentVO>() ;
+		
+		for(Object theObject :objects){
+			CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObject ;
+			ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+			for(TransferListItemPO theItem : theReceipt.getTrList()){
+				TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+				tfItems.add(item) ;
+				}
+			result.add(new CollectionOrPaymentVO(theReceipt.getNumber(),theReceipt.getCustomer(),theReceipt.getTypeOfCustomer(),theReceipt.getUser(),tfItems,theReceipt.getTotal())) ;
+			
+		}
+		return result;
+	}
+	@Override
+	public ArrayList<CashVO> showCashVOs() {
+		// TODO Auto-generated method stub
+		ArrayList<Object> objects = new ArrayList<Object>() ;
+		Communication_Start com = new Communication_Start() ;
+		com.initial(); 
+		try {
+			objects = com.client.showObject("cashShow") ;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<CashVO> result = new ArrayList<CashVO>() ;
+		for(Object theObject : objects){
+			CashPO theCash = (CashPO) theObject ;
+			ArrayList<CaseListItemVO> items = new ArrayList<CaseListItemVO>() ;
+			for(CaseListItemPO theItem : theCash.getCases()){
+				CaseListItemVO item = new CaseListItemVO(theItem.getCasename(), theItem.getCaseMoney(), theItem.getRemark());
+				items.add(item) ;
+			}
+			result.add(new CashVO(theCash.getNumber(),theCash.getUser(),theCash.getAccount(),items,theCash.getSum())) ;
+		}
+		return result ;
+	}
+	@Override
 	public ResultMessage init() {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
+
+
 
 
 	

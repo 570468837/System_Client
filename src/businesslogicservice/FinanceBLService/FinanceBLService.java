@@ -18,5 +18,7 @@ public interface FinanceBLService {
 	public ArrayList<AccountVO> show() ;
 	public String getReceiptNumber(String typeOfReceipt) ;
 	ResultMessage addCollectionOrPaymentVO(CollectionOrPaymentVO vo);
-}
+	public ArrayList<CollectionOrPaymentVO> showCollectionOrPaymentVOs(); 
+	public ArrayList<CashVO> showCashVOs() ;
+ }
 

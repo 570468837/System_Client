@@ -20,6 +20,12 @@ public class CashPO implements Serializable  {
 		this.cases = cases;
 		this.sum = sum;
 	}
+	public ArrayList<CaseListItemPO> getCases() {
+		return cases;
+	}
+	public void setCases(ArrayList<CaseListItemPO> cases) {
+		this.cases = cases;
+	}
 	double getTotal(){
     	double total  = 0 ;
     	for(CaseListItemPO theCase:cases){
