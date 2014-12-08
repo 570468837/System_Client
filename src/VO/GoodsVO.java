@@ -38,6 +38,7 @@ public class GoodsVO {
 	}
 	public GoodsVO(String serialNumber, String name, String model, 
 			double price, double totalPrice, String comment) {
+		this();
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
@@ -48,6 +49,7 @@ public class GoodsVO {
 	public GoodsVO(String serialNumber, String name, String model, 
 		 double price, double salePrice, double latestPrice,
 		 double latestSalePrice, String goodsClassName) {
+		this();
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
