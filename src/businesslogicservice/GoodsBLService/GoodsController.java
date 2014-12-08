@@ -25,7 +25,7 @@ public class GoodsController implements GoodsBLService {
 	
 	private Communication_Start com;
 	private ListReload listReload;
-	private final static int reloadTime = 1000; //1秒刷新一次
+	private final static int reloadTime = 500; //0.5秒刷新一次
 	
 	public GoodsController() {
 		com = new Communication_Start();

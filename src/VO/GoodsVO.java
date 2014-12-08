@@ -16,7 +16,7 @@ public class GoodsVO {
 	public String comment;
 	
 	
-	public String goodsClassName; //商品分类名
+	public long goodsClassNum; //商品分类编号
 	public double salePrice;
 	public double latestPrice;
 	public double latestSalePrice;
@@ -30,7 +30,7 @@ public class GoodsVO {
 		this.price = -1;
 		this.totalPrice = -1;
 		this.comment = "/";
-		this.goodsClassName = "/";
+		this.goodsClassNum = -1;
 		this.salePrice = -1;
 		this.latestPrice = -1;
 		this.latestSalePrice = -1;
@@ -48,7 +48,7 @@ public class GoodsVO {
 	};
 	public GoodsVO(String serialNumber, String name, String model, 
 		 double price, double salePrice, double latestPrice,
-		 double latestSalePrice, String goodsClassName) {
+		 double latestSalePrice, long goodsClassNum) {
 		this();
 		this.serialNumber = serialNumber;
 		this.name = name;
@@ -57,7 +57,7 @@ public class GoodsVO {
 		this.salePrice = salePrice;
 		this.latestPrice = latestPrice;
 		this.latestSalePrice = latestSalePrice;
-		this.goodsClassName = goodsClassName;
+		this.goodsClassNum = goodsClassNum;
 	};
 	
 	
@@ -69,7 +69,7 @@ public class GoodsVO {
 		po.setPrice(this.price);
 		po.setTotalPrice(this.totalPrice);
 		po.setComment(this.comment);
-		po.setGoodsClassName(this.goodsClassName);
+		po.setGoodsClassNum(this.goodsClassNum);
 		po.setSalePrice(this.salePrice);
 		po.setLatestPrice(this.latestPrice);
 		po.setLatestSalePrice(this.latestSalePrice);
@@ -84,7 +84,7 @@ public class GoodsVO {
 		this.price = po.getPrice();
 		this.totalPrice = po.getTotalPrice();
 		this.comment = po.getComment();
-		this.goodsClassName = po.getGoodsClassName();
+		this.goodsClassNum = po.getGoodsClassNum();
 		this.salePrice = po.getSalePrice();
 		this.latestPrice = po.getLatestPrice();
 		this.latestSalePrice = po.getLatestSalePrice();
@@ -98,7 +98,7 @@ public class GoodsVO {
 		this.price = vo.price;
 		this.totalPrice = vo.totalPrice;
 		this.comment = vo.comment;
-		this.goodsClassName = vo.goodsClassName;
+		this.goodsClassNum = vo.goodsClassNum;
 		this.salePrice = vo.salePrice;
 		this.latestPrice = vo.latestPrice;
 		this.latestSalePrice = vo.latestSalePrice;

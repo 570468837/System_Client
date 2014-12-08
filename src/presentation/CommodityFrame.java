@@ -233,7 +233,7 @@ public class CommodityFrame extends JFrame {
 			table.getTableHeader().setPreferredSize(new Dimension(0, 45));
 			
 			JScrollPane jsp = new JScrollPane(table);
-			jsp.setBounds(25, 70, 180 + 15, 360 + 48);
+			jsp.setBounds(25, 70, 180, 360 + 48);
 			jsp.setPreferredSize(new Dimension(180, 360));
 	    	jsp.setHorizontalScrollBar(null);
 	    	jtList.add(table);
@@ -321,8 +321,10 @@ public class CommodityFrame extends JFrame {
 													gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
 													input.getText());
 										}
-										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success)
+										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success) {
 											infoBoard.setText("添加成功");
+											iniGoodsManager();
+										}
 										else 
 											infoBoard.setText("添加失败");
 										inputFrame.dispose();
@@ -373,8 +375,10 @@ public class CommodityFrame extends JFrame {
 											upded.fatherGoodsClassNum = toBeUpd.fatherGoodsClassNum;
 											upded.Num = toBeUpd.Num;
 											upded.goodsClassName = input.getText();
-											if(gc.updGoodsClass(upded) == ResultMessage.update_success)
+											if(gc.updGoodsClass(upded) == ResultMessage.update_success) {
 												infoBoard.setText("更改成功");
+												iniGoodsManager();
+											}
 											else 
 												infoBoard.setText("更改失败");
 											infoBoard.setVisible(true);
@@ -449,7 +453,7 @@ public class CommodityFrame extends JFrame {
 									extTable.getTableHeader().setFont(new Font("default", 1, 17));
 									extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
 									extJsp = new JScrollPane(extTable);
-									extJsp.setBounds(25, 70, 180 + 15, 360 + 48);
+									extJsp.setBounds(25, 70, 180, 360 + 48);
 									extJsp.setPreferredSize(new Dimension(180, 360));
 									extJsp.setHorizontalScrollBar(null);
 							    	jtList.add(extTable);
@@ -461,9 +465,10 @@ public class CommodityFrame extends JFrame {
 									bufferList = new ArrayList<GoodsVO>();
 									Iterator<GoodsVO> iter = gvList.iterator();
 									GoodsVO gv;
+									long classNum = gc.getGoodsClassByInfo(className).Num;
 									while(iter.hasNext()) {
 										gv = iter.next();
-										if(gv.goodsClassName.equals(className)) 
+										if(gv.goodsClassNum == classNum) 
 											bufferList.add(gv);
 									}
 									if(bufferList.size() != 0) {
@@ -484,9 +489,10 @@ public class CommodityFrame extends JFrame {
 											body[i][5] = Double.toString(g.salePrice);
 											body[i][6] = Double.toString(g.latestPrice);
 											body[i][7] = Double.toString(g.latestSalePrice);
+											i ++;
 										}
 										extTable = new JTable(body, head);
-										extTable.setPreferredSize(new Dimension(770, body.length * 30));
+										extTable.setPreferredSize(new Dimension(780, body.length * 30));
 										extTable.setAutoResizeMode(0);
 										extTable.setRowHeight(30);
 										extTable.setEnabled(false);
@@ -496,8 +502,8 @@ public class CommodityFrame extends JFrame {
 										extTable.getTableHeader().setFont(new Font("default", 1, 15));
 										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
 										extJsp = new JScrollPane(extTable);
-										extJsp.setBounds(25, 70, 770 + 15, 360 + 48);
-										extJsp.setPreferredSize(new Dimension(770, 360));
+										extJsp.setBounds(25, 70, 780, 360 + 48);
+										extJsp.setPreferredSize(new Dimension(780, 360));
 										extJsp.setHorizontalScrollBar(null);
 								    	jtList.add(extTable);
 								    	jspList.add(extJsp);
@@ -510,15 +516,15 @@ public class CommodityFrame extends JFrame {
 										String[] head = {className};
 										String[][] body = new String[0][0];
 										extTable = new JTable(body, head);
-										extTable.setPreferredSize(new Dimension(150, 0));
+										extTable.setPreferredSize(new Dimension(180, 0));
 										extTable.setAutoResizeMode(0);
 										extTable.getTableHeader().setReorderingAllowed(false);
 										extTable.getTableHeader().setEnabled(false);
 										extTable.getTableHeader().setFont(new Font("default", 1, 17));
 										extTable.getTableHeader().setPreferredSize(new Dimension(0, 45));
 										extJsp = new JScrollPane(extTable);
-										extJsp.setBounds(25, 70, 150 + 15, 360 + 48);
-										extJsp.setPreferredSize(new Dimension(150, 360));
+										extJsp.setBounds(25, 70, 180, 360 + 48);
+										extJsp.setPreferredSize(new Dimension(180, 360));
 										extJsp.setHorizontalScrollBar(null);
 								    	jtList.add(extTable);
 								    	jspList.add(extJsp);
@@ -536,8 +542,10 @@ public class CommodityFrame extends JFrame {
 						
 						del.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent e) {
-								if(gc.delGoodsClass(gc.getGoodsClassByInfo(className).Num) == ResultMessage.delete_success)
+								if(gc.delGoodsClass(gc.getGoodsClassByInfo(className).Num) == ResultMessage.delete_success) {
 									infoBoard.setText("删除成功");
+									iniGoodsManager();
+								}
 								else 
 									infoBoard.setText("删除失败");
 								infoBoard.setVisible(true);
@@ -594,8 +602,10 @@ public class CommodityFrame extends JFrame {
 												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
 												input.getText());
 										System.out.println(classToBeAdded.fatherGoodsClassNum);
-										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success)
+										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success) {
 											infoBoard.setText("添加成功");
+											iniGoodsManager();
+										}
 										else 
 											infoBoard.setText("添加失败");
 										inputFrame.dispose();
@@ -649,7 +659,7 @@ public class CommodityFrame extends JFrame {
 										boolean noProblem = true;
 										gv.name = j1.getText();
 										gv.model = j2.getText();
-										gv.goodsClassName = table.getColumnName(0);
+										gv.goodsClassNum = gc.getGoodsClassByInfo(table.getColumnName(0)).Num;
 										try {
 										    gv.price = Double.parseDouble(j3.getText());
 										    gv.salePrice = Double.parseDouble(j4.getText());
@@ -659,8 +669,10 @@ public class CommodityFrame extends JFrame {
 											noProblem = false;
 										}
 										if(noProblem) {
-											if(gc.addGoods(gv) == ResultMessage.add_success)
+											if(gc.addGoods(gv) == ResultMessage.add_success) {
 												infoBoard.setText("添加成功");
+												iniGoodsManager();
+											}
 											else 
 												infoBoard.setText("添加失败");
 										}
@@ -706,8 +718,10 @@ public class CommodityFrame extends JFrame {
 										GoodsClassVO classToBeAdded;
 										classToBeAdded = new GoodsClassVO(gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)));
 										classToBeAdded.goodsClassName = input.getText();
-										if(gc.updGoodsClass(classToBeAdded) == ResultMessage.update_success)
+										if(gc.updGoodsClass(classToBeAdded) == ResultMessage.update_success) {
 											infoBoard.setText("更改成功");
+											iniGoodsManager();
+										}
 										else 
 											infoBoard.setText("更改失败");
 										inputFrame.dispose();
@@ -777,7 +791,7 @@ public class CommodityFrame extends JFrame {
 										boolean noProblem = true;
 										gv.name = j1.getText();
 										gv.model = j2.getText();
-										gv.goodsClassName = table.getColumnName(0);
+										gv.goodsClassNum = gc.getGoodsClassByInfo(table.getColumnName(1)).Num;
 										try {
 										    gv.price = Double.parseDouble(j3.getText());
 										    gv.salePrice = Double.parseDouble(j4.getText());
@@ -787,8 +801,10 @@ public class CommodityFrame extends JFrame {
 											noProblem = false;
 										}
 										if(noProblem) {
-											if(gc.addGoods(gv) == ResultMessage.add_success)
+											if(gc.addGoods(gv) == ResultMessage.add_success) {
 												infoBoard.setText("添加成功");
+												iniGoodsManager();
+											}
 											else 
 												infoBoard.setText("添加失败");
 										}
@@ -835,11 +851,14 @@ public class CommodityFrame extends JFrame {
 										upded.fatherGoodsClassNum = toBeUpd.fatherGoodsClassNum;
 										upded.Num = toBeUpd.Num;
 										upded.goodsClassName = input.getText();
-										if(gc.addGoodsClass(upded) == ResultMessage.update_success)
+										if(gc.updGoodsClass(upded) == ResultMessage.update_success) {
 											infoBoard.setText("更改成功");
+											iniGoodsManager();
+										}
 										else 
 											infoBoard.setText("更改失败");
 										infoBoard.setVisible(true);
+										inputFrame.dispose();
 									}
 								});
 								
@@ -861,9 +880,11 @@ public class CommodityFrame extends JFrame {
 				});
 				table.addMouseListener(new MouseAdapter() {
 					int eventY;
+					JTable t;
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						eventY = jtList.get(jtList.size() - 1).rowAtPoint(e.getPoint());
+						t = jtList.get(jtList.size() - 1);
 						popFrame = new JFrame();
 						popFrame.setBounds(e.getXOnScreen() - 5, e.getYOnScreen() - 5, 120, 50);
 						popFrame.setUndecorated(true);
@@ -885,14 +906,15 @@ public class CommodityFrame extends JFrame {
 								submit.setBounds(0, 25, 100, 25);
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
-										JTable t = jtList.get(jtList.size() - 1);
-										if(gc.delGoods(Long.parseLong(gc.getGoodsByInfo((String)t.getValueAt(eventY, 2), (String)t.getValueAt(eventY, 3)).serialNumber)) == ResultMessage.delete_success) {
+										if(gc.delGoods(Long.parseLong((String)t.getValueAt(eventY, 0))) == ResultMessage.delete_success) {
 											infoBoard.setText("删除成功");
+											iniGoodsManager();
 										}
 										else {
 											infoBoard.setText("删除失败");
 										}
 										infoBoard.setVisible(true);
+										inputFrame.dispose();
 									}
 								});
 								cancel = new JLabel("否", JLabel.CENTER);
@@ -900,6 +922,10 @@ public class CommodityFrame extends JFrame {
 								cancel.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {inputFrame.dispose();}
 								});
+								inputFrame.add(notice);
+								inputFrame.add(cancel);
+								inputFrame.add(submit);
+								inputFrame.setVisible(true);
 							}
 						});
 						JLabel upd = new JLabel("更改该商品");
@@ -907,7 +933,6 @@ public class CommodityFrame extends JFrame {
 						upd.addMouseListener(new MouseAdapter() {
 							JTextField j1, j2, j3, j4;
 							JLabel cancel, submit;
-							JTable t;
 							public void mouseClicked(MouseEvent e) {
 								if(inputFrame != null) inputFrame.setVisible(false);
 								popFrame.dispose();
@@ -915,16 +940,16 @@ public class CommodityFrame extends JFrame {
 								inputFrame.setUndecorated(true);
 								inputFrame.setLayout(null);
 								inputFrame.setBounds(e.getXOnScreen() - 30, e.getYOnScreen() - 30, 300, 50);
-								j1 = new JTextField((String)t.getValueAt(eventY, 2));
+								j1 = new JTextField((String)t.getValueAt(eventY, 1));
 								j1.setBounds(0, 0, 100, 25);
 								new AddWordsChange(j1, "<商品名>");
-								j2 = new JTextField((String)t.getValueAt(eventY, 3));
+								j2 = new JTextField((String)t.getValueAt(eventY, 2));
 								j2.setBounds(100, 0, 100, 25);
 								new AddWordsChange(j2, "<型号>");
-								j3 = new JTextField((String)t.getValueAt(eventY, 5));
+								j3 = new JTextField((String)t.getValueAt(eventY, 4));
 								j3.setBounds(0, 25, 100, 25);
 								new AddWordsChange(j3, "<进价>");
-								j4 = new JTextField((String)t.getValueAt(eventY, 6));
+								j4 = new JTextField((String)t.getValueAt(eventY, 5));
 								j4.setBounds(100, 25, 100, 25);
 								new AddWordsChange(j4, "<售价>");
 								cancel = new JLabel("取消");
@@ -937,7 +962,7 @@ public class CommodityFrame extends JFrame {
 								submit.addMouseListener(new MouseAdapter() {
 									public void mouseClicked(MouseEvent e) {
 										GoodsVO g = new GoodsVO();
-										g.serialNumber = (String)t.getValueAt(eventY, 1);
+										g.serialNumber = (String)t.getValueAt(eventY, 0);
 										g.name = j1.getText();
 										g.model = j2.getText();
 										try {
@@ -950,14 +975,24 @@ public class CommodityFrame extends JFrame {
 											infoBoard.setText("填写有误");
 										}
 										else {
-											if(gc.updGoods(g) == ResultMessage.update_success)
+											if(gc.updGoods(g) == ResultMessage.update_success) {
 												infoBoard.setText("更改成功");
+												iniGoodsManager();
+											}
 											else
 												infoBoard.setText("更改失败");
 										}
 										infoBoard.setVisible(true);
+										inputFrame.dispose();
 									}
 								});
+								inputFrame.add(cancel);
+								inputFrame.add(submit);
+								inputFrame.add(j1);
+								inputFrame.add(j2);
+								inputFrame.add(j3);
+								inputFrame.add(j4);
+								inputFrame.setVisible(true);
 								
 							}
 						});
