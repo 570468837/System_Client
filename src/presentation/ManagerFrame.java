@@ -296,7 +296,8 @@ public class ManagerFrame extends JFrame{
 						if((Boolean)tableData1.get(i).get(7)==true)
 							isApproved.add(tableData1.get(i));
 					}
-					new ApprovalBLService_Controller().salesChangeCustomer(null);
+					new ApprovalBLService_Controller().purchaseChangeGoods(shows);
+					new ApprovalBLService_Controller().purchaseChangeCustomer(shows);
 					
 					
 				}
@@ -310,7 +311,7 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SalesReceiptPO> shows=new SalesController().show();
-			ArrayList<ArrayList<SalesListItemPO>> salesitems=new ArrayList<ArrayList<SalesListItemPO>>();
+			ArrayList<ArrayList<SalesListItemPO>> salesItems=new ArrayList<ArrayList<SalesListItemPO>>();
 			for(int i=0;i<shows.size();i++){
 				SalesReceiptPO s=shows.get(i);
 				ArrayList<Object> oneData=new ArrayList<Object>();
@@ -319,7 +320,7 @@ public class ManagerFrame extends JFrame{
 				oneData.add(s.getSalesman());
 				oneData.add(s.getUserPO().getUserName());
 				oneData.add("仓库一");
-				oneData.add("点击查看");  salesitems.add(s.getSalesList());
+				oneData.add("点击查看");  salesItems.add(s.getSalesList());
 				oneData.add(s.getPriceBefore());
 				oneData.add(s.getDiscout());
 				oneData.add(s.getVoucher());
@@ -342,11 +343,10 @@ public class ManagerFrame extends JFrame{
 		    		int column=table2.columnAtPoint(e.getPoint());
 		    		if(column==5){
 		    			int row=table2.rowAtPoint(e.getPoint());
-		    			System.out.println(row+" "+column);
+		    			new GoodsInfoFrame(null, salesItems.get(row));
 		    		}
 		    	}
 			});
-		    
 		    
 			JScrollPane tablePane2=new JScrollPane(table2);
 			tablePane2.setSize(630,400);
@@ -376,6 +376,20 @@ public class ManagerFrame extends JFrame{
 							table2.setValueAt(false, i, 11);
 						}
 			});   
+			
+			doneButton2.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					ArrayList<ArrayList<Object>> isApproved=new ArrayList<ArrayList<Object>>();
+					for(int i=0;i<tableData2.size();i++){
+						if((Boolean)tableData2.get(i).get(11)==true)
+							isApproved.add(tableData2.get(i));
+					}
+					new ApprovalBLService_Controller().salesChangeGoods(shows);
+					new ApprovalBLService_Controller().salesChangeCustomer(shows);
+				}
+			});
 		}
 		
 		public void table3Refresh(){
