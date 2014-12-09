@@ -1093,7 +1093,7 @@ public class CommodityFrame extends JFrame {
 			comInvenTable.setRowHeight(25);
 			comInvenTable.setPreferredSize(new Dimension(825, citInfo.length * 25));
 			comInvenTable.setEnabled(false);
-			comInvenTable.setFont(new Font("default", 0, 16));
+			comInvenTable.setFont(new Font("default", 0, 12));
 			comInvenTable.getTableHeader().setReorderingAllowed(false);
 			comInvenTable.getTableHeader().setEnabled(false);
 			comInvenTable.getTableHeader().setFont(new Font("default", 1, 17));
