@@ -6,6 +6,7 @@ import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesReceiptPO;
+import VO.CollectionOrPaymentVO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
 	@Override
@@ -43,10 +44,11 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 	}
 
 	@Override
-	public void collectionOrPaymentChangeCustomer(ArrayList<CollectionOrPaymentPO> collections) {
+	public void collectionOrPaymentChangeCustomer(ArrayList<CollectionOrPaymentVO> receipts) {
 		// TODO Auto-generated method stub
-		for(CollectionOrPaymentPO c:collections){
-			c.setProvedByManege(true);
+		for(CollectionOrPaymentVO c:receipts){
+			
+			c.setApprovedByManager(true);
 		}
 	}
 }

@@ -14,11 +14,6 @@ import java.util.ArrayList;
 
 
 
-
-
-
-
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,24 +29,23 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 
-
-
-
-
-
 import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
+import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
 import Config.Level;
 import Config.PromotionSort;
+import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import PO.TransferListItemPO;
+import VO.CollectionOrPaymentVO;
 import VO.PromotionVO;
+import VO.TransferListItemVO;
 import VO.UserVO;
 
 
@@ -291,13 +285,13 @@ public class ManagerFrame extends JFrame{
 			doneButton1.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					ArrayList<ArrayList<Object>> isApproved=new ArrayList<ArrayList<Object>>();
+					ArrayList<PurchaseReceiptPO> isApproved=new ArrayList<PurchaseReceiptPO>();
 					for(int i=0;i<tableData1.size();i++){
 						if((Boolean)tableData1.get(i).get(7)==true)
-							isApproved.add(tableData1.get(i));
+							isApproved.add(shows.get(i));
 					}
-					new ApprovalBLService_Controller().purchaseChangeGoods(shows);
-					new ApprovalBLService_Controller().purchaseChangeCustomer(shows);
+					new ApprovalBLService_Controller().purchaseChangeGoods(isApproved);
+					new ApprovalBLService_Controller().purchaseChangeCustomer(isApproved);
 					
 					
 				}
@@ -381,29 +375,35 @@ public class ManagerFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					ArrayList<ArrayList<Object>> isApproved=new ArrayList<ArrayList<Object>>();
+					ArrayList<SalesReceiptPO> isApproved=new ArrayList<SalesReceiptPO>();
 					for(int i=0;i<tableData2.size();i++){
 						if((Boolean)tableData2.get(i).get(11)==true)
-							isApproved.add(tableData2.get(i));
+							isApproved.add(shows.get(i));
 					}
-					new ApprovalBLService_Controller().salesChangeGoods(shows);
-					new ApprovalBLService_Controller().salesChangeCustomer(shows);
+					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
+					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);
 				}
 			});
 		}
 		
 		public void table3Refresh(){
-			String[] columnTitle3={"单据类型","单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
+			String[] columnTitle3={"单据编号","客户","操作员","转账列表","总额汇总","审批通过"};
 			
-			ArrayList<Object> oneData=new ArrayList<Object>();
 			ArrayList<ArrayList<Object>> tableData3=new ArrayList<ArrayList<Object>>();
 			
-			Object[] ex={"收款单","SKD123","东芝","小宇","点击查看","2333",new Boolean(false)};
-			for(int i=0;i<ex.length;i++){
-				oneData.add(ex[i]);
+			ArrayList<CollectionOrPaymentVO> shows=new FinanceController().showCollectionOrPaymentVOs();
+			ArrayList<ArrayList<TransferListItemVO>> transfers=new ArrayList<ArrayList<TransferListItemVO>>();
+			for(int i=0;i<shows.size();i++){
+				CollectionOrPaymentVO v=shows.get(i);
+				ArrayList<Object> oneData=new ArrayList<Object>();
+				oneData.add(v.getNumber());
+				oneData.add(v.getCustomer());
+				oneData.add(v.getUser());
+				oneData.add("点击查看");  transfers.add(v.getTrList());
+				oneData.add(v.getTotal());
+				oneData.add(new Boolean(false));
+				tableData3.add(oneData);
 			}
-			
-			tableData3.add(oneData);
 			
 			JTable table3=new JTable(new MyTableModel(tableData3,columnTitle3));
 			table3.setFillsViewportHeight(true);     //显示表头
@@ -415,9 +415,9 @@ public class ManagerFrame extends JFrame{
 		    table3.addMouseListener(new MouseAdapter() {
 		    	public void mouseClicked(MouseEvent e){
 		    		int column=table3.columnAtPoint(e.getPoint());
-		    		if(column==4){
+		    		if(column==3){
 		    			int row=table3.rowAtPoint(e.getPoint());
-		    			System.out.println(row+" "+column);
+		    			new TransferFrame(transfers.get(row));
 		    		}
 		    	}
 			});
@@ -440,7 +440,7 @@ public class ManagerFrame extends JFrame{
 			allButton3.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					for(int i=0;i<table3.getRowCount();i++)
-							table3.setValueAt(true, i, 6);
+							table3.setValueAt(true, i, 5);
 					}
 			});
 			
@@ -448,9 +448,22 @@ public class ManagerFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 				
 						for(int i=0;i<table3.getRowCount();i++)
-							table3.setValueAt(false, i, 6);
+							table3.setValueAt(false, i, 5);
 						}
 			});         
+			
+			doneButton3.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					ArrayList<CollectionOrPaymentVO> isApproved=new ArrayList<CollectionOrPaymentVO>();
+					for(int i=0;i<tableData3.size();i++){
+						if((Boolean)tableData3.get(i).get(5)==true)
+							isApproved.add(shows.get(i));
+					}
+					new ApprovalBLService_Controller().collectionOrPaymentChangeCustomer(isApproved);
+				}
+			});
 		}
 		
 		public void table4Refresh(){
@@ -779,8 +792,42 @@ public class ManagerFrame extends JFrame{
 	}
 	
 	class TransferFrame extends JFrame{
-		
-	}
+		public TransferFrame(ArrayList<TransferListItemVO> transfers){
+			this.setVisible(true);
+			setBounds(100, 100, 585, 451);
+			this.setLocationRelativeTo(null);
+			getContentPane().setLayout(null);
+			
+			JLabel titleLabel = new JLabel("转账列表");
+			titleLabel.setBounds(266, 22, 57, 23);
+			getContentPane().add(titleLabel);
+			
+			String[] tableTitle={"银行账户","转账金额","备注"};
+			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
+			if(transfers!=null){
+				for(int i=0;i<transfers.size();i++){
+					TransferListItemVO t=transfers.get(i);
+					ArrayList<Object> oneData=new ArrayList<Object>();
+					oneData.add(t.getAccount());
+					oneData.add(t.getTransferMoney());
+					oneData.add(t.getRemark());
+					tableData.add(oneData);
+					}
+				}
+			JTable table=new JTable(new MyTableModel(tableData, tableTitle));
+		    table.setFillsViewportHeight(true);     //显示表头
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		    
+			JScrollPane scrollPane = new JScrollPane(table);
+			scrollPane.setBounds(10, 55, 549, 335);
+			getContentPane().add(scrollPane);
+			 
+			this.repaint();
+			}
+		}
 
 	public static void main(String[] args){
 		new ManagerFrame(new UserVO("", "", null,0));

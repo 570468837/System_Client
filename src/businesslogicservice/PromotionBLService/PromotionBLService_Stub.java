@@ -41,19 +41,19 @@ public class PromotionBLService_Stub implements PromotionBLService{
 	}
 
 	@Override
-	public ArrayList<PromotionPO> ifPackage(SalesReceiptPO receipt) {
+	public ArrayList<PromotionVO> ifPackage(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<PromotionPO> ifGift(SalesReceiptPO receipt) {
+	public ArrayList<PromotionVO> ifGift(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<PromotionPO> ifVoucher(SalesReceiptPO receipt) {
+	public ArrayList<PromotionVO> ifVoucher(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		return null;
 	}

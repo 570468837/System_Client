@@ -13,7 +13,7 @@ public interface PromotionBLService {
 	public ResultMessage addVoucher(PromotionVO vo);
 	public ResultMessage delete(PromotionVO vo); 
 	public ArrayList<PromotionVO> show();
-	public ArrayList<PromotionPO> ifPackage(SalesReceiptPO receipt);
-	public ArrayList<PromotionPO> ifGift(SalesReceiptPO receipt);
-	public ArrayList<PromotionPO> ifVoucher(SalesReceiptPO receipt);
+	public ArrayList<PromotionVO> ifPackage(SalesReceiptPO receipt);
+	public ArrayList<PromotionVO> ifGift(SalesReceiptPO receipt);
+	public ArrayList<PromotionVO> ifVoucher(SalesReceiptPO receipt);
 }

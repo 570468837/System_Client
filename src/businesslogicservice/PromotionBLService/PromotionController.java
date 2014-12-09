@@ -105,9 +105,9 @@ public class PromotionController implements PromotionBLService {
 		return promotions;
 	}
 
-	public ArrayList<PromotionPO> ifPackage(SalesReceiptPO receipt){
+	public ArrayList<PromotionVO> ifPackage(SalesReceiptPO receipt){
 		ArrayList<Object> getObjs=new ArrayList<Object>();
-		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -117,17 +117,18 @@ public class PromotionController implements PromotionBLService {
 			e.printStackTrace();
 		}
 		for(Object o:getObjs){
-			promotions.add((PromotionPO) o);
+			PromotionVO v=POtoVO((PromotionPO) o);
+			promotions.add(v);
 		}
 		
 		return promotions;
 	}
 
 	@Override
-	public ArrayList<PromotionPO> ifGift(SalesReceiptPO receipt) {
+	public ArrayList<PromotionVO> ifGift(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		ArrayList<Object> getObjs=new ArrayList<Object>();
-		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -137,16 +138,17 @@ public class PromotionController implements PromotionBLService {
 			e.printStackTrace();
 		}
 		for(Object o:getObjs){
-			promotions.add((PromotionPO) o);
+			PromotionVO v=POtoVO((PromotionPO)o);
+			promotions.add(v);
 		}
 		return promotions;
 	}
 
 	@Override
-	public ArrayList<PromotionPO> ifVoucher(SalesReceiptPO receipt) {
+	public ArrayList<PromotionVO> ifVoucher(SalesReceiptPO receipt) {
 		// TODO Auto-generated method stub
 		ArrayList<Object> getObjs=new ArrayList<Object>();
-		ArrayList<PromotionPO> promotions=new ArrayList<PromotionPO>();
+		ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
 		Communication_Start com=new Communication_Start();
 		com.initial();
 		try {
@@ -156,9 +158,16 @@ public class PromotionController implements PromotionBLService {
 			e.printStackTrace();
 		}
 		for(Object o:getObjs){
-			promotions.add((PromotionPO) o);
+			PromotionVO v=POtoVO((PromotionPO) o);
+			promotions.add(v);
 		}
 		return promotions;
+	}
+	
+	public PromotionVO POtoVO(PromotionPO p){
+		return new PromotionVO(p.getPromotionType(), p.getPromotionId(), p.getPromotionGoods(),
+				p.getLeastPrice(), p.getOffPrice(), p.getPresents(), p.getVoucher(),
+				p.getStartTime(), p.getEndTime(), p.getCustomer());
 	}
 
 }

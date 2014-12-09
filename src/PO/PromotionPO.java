@@ -114,4 +114,5 @@ public class PromotionPO implements Serializable{
 	public void setCustomer(Level customer) {
 		this.customer = customer;
 	}
+
 }
