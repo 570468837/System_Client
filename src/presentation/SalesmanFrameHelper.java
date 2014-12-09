@@ -1050,7 +1050,7 @@ public class SalesmanFrameHelper {
 				}
 
 			});
-
+			//检测可用的销售策略并显示为下拉框的选项
 			detectButton.addActionListener(new ActionListener() {
 
 				@Override
@@ -1067,7 +1067,7 @@ public class SalesmanFrameHelper {
 						
 					}else{
 						SalesReceiptVO receipt=creatSalesReceipt();
-						ArrayList<PromotionVO> pakeges=new PromotionController().ifPackage(receipt);
+						ArrayList<PromotionVO> pakeges=new PromotionController().ifPackage(new SalesController().toPO(receipt));
 						
 						for (Iterator iterator = pakeges.iterator(); iterator
 								.hasNext();) {
@@ -1077,7 +1077,7 @@ public class SalesmanFrameHelper {
 							
 						}
 						
-						ArrayList<PromotionVO> gifts=new PromotionController().ifGift(receipt);
+						ArrayList<PromotionVO> gifts=new PromotionController().ifGift(new SalesController().toPO(receipt));
 						for (Iterator iterator = gifts.iterator(); iterator
 								.hasNext();) {
 							PromotionVO promotionVO = (PromotionVO) iterator
@@ -1085,7 +1085,7 @@ public class SalesmanFrameHelper {
 							promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getPresents().get(0).getName());
 						}
 						
-						ArrayList<PromotionVO> Vouchers=new PromotionController().ifVoucher(receipt);
+						ArrayList<PromotionVO> Vouchers=new PromotionController().ifVoucher(new SalesController().toPO(receipt));
 						for (Iterator iterator = Vouchers.iterator(); iterator
 								.hasNext();) {
 							PromotionVO promotionVO = (PromotionVO) iterator

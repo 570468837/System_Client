@@ -36,30 +36,8 @@ public class PurchaseController implements PurchaseBLService {
 
 	@Override
 	public ResultMessage creatReceipt(PurchaseReceiptVO purchaseReceiptVO) {
-		UserPO userPO = new UserPO(purchaseReceiptVO.getUserVO().getUserName(),
-				purchaseReceiptVO.getUserVO().getPassword(), purchaseReceiptVO
-						.getUserVO().getUserSort(), purchaseReceiptVO
-						.getUserVO().getLevel());
-
-		GoodsPO goodsPO;
-
-		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
-		for (int i = 0; i < purchaseReceiptVO.getPurchaseList().size(); i++) {
-			goodsPO = new GoodsPO(
-					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().serialNumber,
-					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().name,
-					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().model,
-					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().price,
-					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().comment);
-			
-			list.add(new PurchaseListItemPO(goodsPO, purchaseReceiptVO
-					.getPurchaseList().get(i).getQuantity()));
-
-		}
-		PurchaseReceiptPO po = new PurchaseReceiptPO(
-				purchaseReceiptVO.getSerialNumber(), list, userPO,
-				purchaseReceiptVO.getTime(), purchaseReceiptVO.getComments(),
-				purchaseReceiptVO.getTotalPrice());
+		
+		PurchaseReceiptPO po =this.toPO(purchaseReceiptVO);
 		Communication_Start com = new Communication_Start();
 		com.initial();
 
@@ -95,6 +73,40 @@ public class PurchaseController implements PurchaseBLService {
 			return null;
 
 		}
+		
+	}
+	
+	public PurchaseReceiptPO toPO(PurchaseReceiptVO purchaseReceiptVO){
+		UserPO userPO = new UserPO(purchaseReceiptVO.getUserVO().getUserName(),
+				purchaseReceiptVO.getUserVO().getPassword(), purchaseReceiptVO
+						.getUserVO().getUserSort(), purchaseReceiptVO
+						.getUserVO().getLevel());
+
+		GoodsPO goodsPO;
+
+		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
+		for (int i = 0; i < purchaseReceiptVO.getPurchaseList().size(); i++) {
+			goodsPO = new GoodsPO(
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().serialNumber,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().name,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().model,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().price,
+					purchaseReceiptVO.getPurchaseList().get(i).getGoodsVO().comment);
+			
+			list.add(new PurchaseListItemPO(goodsPO, purchaseReceiptVO
+					.getPurchaseList().get(i).getQuantity()));
+
+		}
+		PurchaseReceiptPO po = new PurchaseReceiptPO(
+				purchaseReceiptVO.getSerialNumber(), list, userPO,
+				purchaseReceiptVO.getTime(), purchaseReceiptVO.getComments(),
+				purchaseReceiptVO.getTotalPrice());
+		
+		po.setApprovedByCommodity(purchaseReceiptVO.isApprovedByCommodity());
+		po.setApprovedByManager(purchaseReceiptVO.isApprovedByManager());
+		
+		return po;
+		
 		
 	}
 }
