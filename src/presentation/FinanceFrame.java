@@ -5,6 +5,7 @@ import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -522,10 +523,6 @@ public class FinanceFrame extends JFrame{
 			nameOfCustomeLabel.setBounds(39, 99, 100, 15);
 			this.add(nameOfCustomeLabel);
 			
-			/*JLabel nameOfUserLabel = new JLabel("操作员：");
-			nameOfUserLabel.setBounds(256, 230, 100, 15);
-			this.add(nameOfUserLabel);
-			*/
 			JLabel sumOfMoneyLabel = new JLabel("总额汇总：");
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
 			this.add(sumOfMoneyLabel);
@@ -577,12 +574,7 @@ public class FinanceFrame extends JFrame{
 			JLabel yuanLabel = new JLabel("元");
 			yuanLabel.setBounds(235, 184, 21, 15);
 			this.add(yuanLabel);
-			
-//			JLabel userLabel = new JLabel(user.getUserName());
-	/*		JLabel userLabel = new JLabel("当前用户");
-			userLabel.setBounds(320, 230, 100, 15);
-			this.add(userLabel);
-		*/	
+	
 			JButton sureButton = new JButton("确定 ") ;
 			sureButton.setBounds(80, 270, 100, 23);
 			this.add(sureButton) ;
@@ -1379,7 +1371,8 @@ public class FinanceFrame extends JFrame{
 		private JTextField storageField;
 		private JTable table;
 		private JScrollPane jsc ;
-
+		private JPanel thePanel;
+		int markRow = 100 ;
 		/**
 		 * Create the panel.
 		 */
@@ -1388,6 +1381,7 @@ public class FinanceFrame extends JFrame{
 			setLayout(null);
 			this.setBounds(80,74, 700,400);
 			this.setBackground(Color.LIGHT_GRAY);
+			thePanel = this ;
 			
 			JLabel timesLabel = new JLabel("时间区间");
 			timesLabel.setBounds(44, 59, 69, 15);
@@ -1515,6 +1509,8 @@ public class FinanceFrame extends JFrame{
 					// TODO Auto-generated method stub
 					jcs1.setSelectedIndex(0);
 					jcs2.removeAllItems();
+					thePanel.remove(jsc);
+					freshTable();
 					beginTimeField.setText("<例如2014/10/10>") ;	
 					endTimeField.setText("<例如2014/11/10>") ;
 					nameOfCustomerField.setText("");
@@ -1528,7 +1524,6 @@ public class FinanceFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					String typeOfReceipt  ;
-					boolean isSelected = true ;
 					String beginTime = beginTimeField.getText() ;
 					String endTime = endTimeField.getText() ;
 					String nameOfCustomer = nameOfCustomerField.getText() ;
@@ -1565,7 +1560,7 @@ public class FinanceFrame extends JFrame{
 														typeOfReceipt = "BSD" ;
 													else
 														typeOfReceipt = "ZSD" ;
-					if(isSelected){
+					
 					    if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/11/10>")){
 					    	new warningDialog("请输入时间区间") ;
 					    }else{
@@ -1573,11 +1568,12 @@ public class FinanceFrame extends JFrame{
 					    		new warningDialog("请输入查询信息");
 					    	}else{
 					    		ArrayList<Object> result = infoController.showSalesProcessInfo(new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,"",nameOfCustomer,nameOfUser,storage)) ;
+					    		thePanel.remove(jsc);
 					    		freshTable(result, typeOfReceipt);
 					    	}
 					    }
 					}
-					}
+					
 				}
 			});
 		}
@@ -1597,9 +1593,28 @@ public class FinanceFrame extends JFrame{
 			add(jsc);
 		}
 		private void freshTable(ArrayList<Object> objects ,String type) {
-			/*
-			 * 
-			 */
+			if(type.equals("SKD")){
+				markRow = 3 ;
+				String[] column = {"单据编号","客户","操作员","转账列表","总额汇总"} ;
+				table = new JTable(new MyTableModel(objects, column, type)) ;
+			}
+			table.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					Point mousePoint = e.getPoint() ;
+					if(table.columnAtPoint(mousePoint)== markRow){
+						System.out.println("展开");
+					}
+				}
+			});
+            table.setBackground(Color.white);
+			
+			DefaultTableCellRenderer render = new DefaultTableCellRenderer();   //设置单元格内容居中
+		    render.setHorizontalAlignment(SwingConstants.CENTER);
+		    table.setDefaultRenderer(Object.class, render);
+		
+			jsc = new JScrollPane(table) ;
+			 jsc.setBounds(5, 121, 690, 240);
+			add(jsc);
 		}
 }
     class SaleConditionPanel extends JPanel{
@@ -1813,7 +1828,7 @@ public class FinanceFrame extends JFrame{
 		 
 
 		public MyTableModel(ArrayList<Object> theDatas ,String[] theColumn,String type){
-			if(type.equals("XSD")){
+			if(type.equals("XSD")){//销售单
 				String[] columnOfList = {"编号","名称","型号","数量","单据","金额","备注"} ;
 			for(Object object : theDatas){
 				SalesReceiptVO receipt = (SalesReceiptVO)object ;
@@ -1842,7 +1857,8 @@ public class FinanceFrame extends JFrame{
 				});
 			}
 			}
-			if(type.equals("SPQD")){
+			
+			if(type.equals("SPQD")){//商品青岛那
 				for(Object object : theDatas){
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
 					SalesListItemVO item = (SalesListItemVO)object ;
@@ -1853,6 +1869,19 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(item.getTotalPrice()) ;
 					oneRow.add(item.getGoodsVO().comment) ;
 					datas.add(oneRow) ;
+				}
+			}
+			
+			if(type.equals("SKD")){//收款单
+				for(Object object: theDatas){
+					CollectionOrPaymentVO receipt = (CollectionOrPaymentVO)object;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(receipt.getNumber());
+					oneRow.add(receipt.getCustomer()) ;
+					oneRow.add(receipt.getUser()) ;
+					oneRow.add("展开");
+					oneRow.add(receipt.getTotal()) ;
+					datas.add(oneRow);
 				}
 			}
 			columnOfReceipt = theColumn ;
