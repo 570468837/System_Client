@@ -1,5 +1,7 @@
 package VO;
 
+import java.util.Date;
+
 import PO.ReportCommodityPO;
 
 
@@ -11,13 +13,21 @@ import PO.ReportCommodityPO;
 public class ReportCommodityVO {
 	public long goodsVOId;
 	public int num;
+	public Date date;
 	
-	public ReportCommodityVO() {}
+	public ReportCommodityVO() {
+		this.date = new Date();
+	}
 	public ReportCommodityVO(String goodsVOId, int num) {
 		this.goodsVOId = Long.parseLong(goodsVOId);
 		this.num = num;
+		date = new Date();
 	}
-	
+	public ReportCommodityVO(ReportCommodityVO vo) {
+		this.goodsVOId = vo.goodsVOId;
+		this.num = vo.num;
+		this.date = vo.date;
+	}
 
 	/**
 	 * 将VO转换为PO
@@ -27,6 +37,7 @@ public class ReportCommodityVO {
 		ReportCommodityPO rcp = new ReportCommodityPO();
 		rcp.goodsPOId = this.goodsVOId;
 		rcp.num = this.num;
+		rcp.date = this.date;
 		return rcp;
 		
 	}
@@ -37,6 +48,7 @@ public class ReportCommodityVO {
 	public void toVO(ReportCommodityPO po) {
 		this.goodsVOId = po.goodsPOId;
 		this.num = po.num;
+		this.date = po.date;
 	}
 	
 }

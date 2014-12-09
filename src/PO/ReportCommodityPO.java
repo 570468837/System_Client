@@ -1,4 +1,7 @@
 package PO;
+
+import java.util.Date;
+
 /**
  * 
  * @author hutao
@@ -7,12 +10,9 @@ package PO;
 public class ReportCommodityPO {
 	public long goodsPOId;
 	public int num;
+	public Date date;
 	
 	public ReportCommodityPO() {}
-	public ReportCommodityPO(long goodsPOId, int num) {
-		this.goodsPOId = goodsPOId;
-		this.num = num;
-	}
 	
 	
 	
