@@ -1,4 +1,7 @@
 package PO;
+
+import java.util.ArrayList;
+
 /**
  * 库存盘点的PO
  * @author hutao
@@ -6,6 +9,6 @@ package PO;
  */
 public class InventoryCommodityPO {
 	
-	public String[][] icInfo;
+	public ArrayList<Object> icInfo;
 
 }

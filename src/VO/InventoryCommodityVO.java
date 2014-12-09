@@ -1,5 +1,7 @@
 package VO;
 
+import java.util.Iterator;
+
 import PO.InventoryCommodityPO;
 
 
@@ -9,29 +11,29 @@ import PO.InventoryCommodityPO;
  *
  */
 public class InventoryCommodityVO {
-	public String[][] icInfo = {{"1", "a1", "a2", "a3", "a4", "a5", "a6", "a7"},
-			{"2", "a1", "a2", "a3", "a4", "a5", "a6", "a7"},
-			{"3", "a1", "a2", "a3", "a4", "a5", "a6", "a7"},
-			{"4", "a1", "a2", "a3", "a4", "a5", "a6", "a7"}};
+	public String[][] icInfo;
 	
 	
 	
-
-	/**
-	 * 将VO转换为PO
-	 * @return 返回转换成的PO
-	 */
-	public InventoryCommodityPO toPO() {
-		InventoryCommodityPO icv = new InventoryCommodityPO();
-		icv.icInfo = this.icInfo;
-		return icv;
-	}
 	/**
 	 * 将PO转换为VO
 	 * @param po 待转换的PO
 	 */
 	public void toVO(InventoryCommodityPO po) {
-		this.icInfo = po.icInfo;
+		icInfo = new String[po.icInfo.size()][((String[])po.icInfo.get(0)).length];
+		Iterator<Object> iter = po.icInfo.iterator();
+		String[] s;
+		int i = 0;
+		while(iter.hasNext()) {
+			s = (String[])iter.next(); 
+			for (int j = 0; j < 8; j ++) {
+				icInfo[i][j] = s[j];
+			}
+			
+			i ++;
+		}
+		
+		
 	}
 	
 

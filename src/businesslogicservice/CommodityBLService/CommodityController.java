@@ -3,6 +3,7 @@ package businesslogicservice.CommodityBLService;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import PO.InventoryCommodityPO;
 import PO.SendCommodityPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
@@ -74,8 +75,17 @@ public class CommodityController implements CommodityBLService {
 
 	@Override
 	public InventoryCommodityVO inventoryCommodity() {
+		InventoryCommodityVO vo = new InventoryCommodityVO();
+		InventoryCommodityPO po = new InventoryCommodityPO();
+		try {
+			po.icInfo = Communication_Start.client.showObject("inventoryCommodity");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
+		vo.toVO(po);
+		return vo;
 		
-		return new InventoryCommodityVO();
 	}
 
 	@Override

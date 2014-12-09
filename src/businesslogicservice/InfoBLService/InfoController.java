@@ -4,18 +4,22 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import businesslogicservice.SaleBLService.SalesController;
+import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import PO.ScreeningConditionPO;
+import PO.TransferListItemPO;
 import PO.UserPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
+import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
+import VO.TransferListItemVO;
 import VO.UserVO;
 
 public class InfoController implements InfoBLService{
@@ -85,27 +89,40 @@ public class InfoController implements InfoBLService{
 	@Override
 	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
-		ArrayList<Object> result1 = new ArrayList<Object>();
-//		ScreeningConditionPO theCondition = new ScreeningConditionPO(condition.getTime1(),condition.getTime2(),condition.getTypeOfReceipt(),condition.getNameOfGood(),
-//				condition.getCustomer(),condition.getUser(),condition.getRepository());
+		ArrayList<Object> result = new ArrayList<Object>() ;
+		String beginTime = condition.getTime1().substring(0, 4)+condition.getTime1().substring(5,7)+condition.getTime1().substring(8,10);
+		String endTime = condition.getTime2().substring(0, 4)+condition.getTime2().substring(5,7)+condition.getTime2().substring(8,10);
+		ArrayList<Object> objects = new ArrayList<Object>();
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
-//		try {
-//			result1 = com.client.showReceipt("showSalesProcessInfo", theCondition) ;
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		if(condition.getTypeOfReceipt().equals("SKD")){
 			try {
-				result1 = com.client.showObject("collectionOrPaymentShow") ;
+				objects = com.client.showObject("collectionOrPaymentShow") ;
 				
+				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
+				for(Object theObjecet :objects ){
+					CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObjecet ;
+					ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+					for(TransferListItemPO theItem : theReceipt.getTrList()){
+						TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+						tfItems.add(item) ;
+					}
+					CollectionOrPaymentVO oneReceipt = new CollectionOrPaymentVO(theReceipt.getNumber(), theReceipt.getCustomer(), theReceipt.getTypeOfCustomer(), theReceipt.getUser(), tfItems, theReceipt.getTotal()) ;
+					receipts.add(oneReceipt) ;
+				}
+				for(CollectionOrPaymentVO theReceipt : receipts){
+					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
+					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
+							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.getUser().equals(condition.getUser())){
+						result.add(theReceipt) ;
+					}
+				}
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return null;
+		return result;
 	}
 
 	@Override
