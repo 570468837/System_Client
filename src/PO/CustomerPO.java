@@ -39,11 +39,12 @@ public class CustomerPO implements Serializable{
 			return pay;
 		}
 
-		public void setPay(double pay,UserPO po) {
-			if(po.getLevel()!=3){
-				System.out.println("权限过低");
-				return;
-			}
+		public void setPay(double pay) {
+			//不判断权限
+//			if(po.getLevel()!=3){
+//				System.out.println("权限过低");
+//				return;
+//			}
 			this.pay = pay;
 		}
 

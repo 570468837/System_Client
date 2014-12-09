@@ -30,6 +30,7 @@ import PO.PurchaseReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
+import VO.PromotionVO;
 import VO.PurchaseListItemVO;
 import VO.PurchaseReceiptVO;
 import VO.SalesListItemVO;
@@ -37,6 +38,7 @@ import VO.SalesReceiptVO;
 import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
+import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
 
@@ -1025,14 +1027,7 @@ public class SalesmanFrameHelper {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// 有点复杂
-					SalesReceiptVO receipt = new SalesReceiptVO(serialNumber
-							.getText(), customer.getText(), clerk.getText(),
-							salesListItems, userVO, (String) commodity
-									.getSelectedItem(), new Double(0)
-									.parseDouble(beforePrice.getText()),
-							new Double(0).parseDouble(discount.getText()),
-							new Double(0).parseDouble(finalPrice.getText()),
-							time.getText(), comment.getText());
+					SalesReceiptVO receipt = creatSalesReceipt();
 
 					ResultMessage result = new SalesController()
 							.creatReceipt(receipt);
@@ -1071,26 +1066,51 @@ public class SalesmanFrameHelper {
 						new warningDialog("内容填写不完整!");
 						
 					}else{
-						promotion.addItem(item);
+						SalesReceiptVO receipt=creatSalesReceipt();
+						ArrayList<PromotionVO> pakeges=new PromotionController().ifPackage(receipt);
+						
+						for (Iterator iterator = pakeges.iterator(); iterator
+								.hasNext();) {
+							PromotionVO promotionVO = (PromotionVO) iterator
+									.next();
+							promotion.addItem("买"+promotionVO.getPromotionGoods().get(0).getName()+"和"+promotionVO.getPromotionGoods().get(1).getName()+"减"+promotionVO.getOffPrice()+"元");
+							
+						}
+						
+						ArrayList<PromotionVO> gifts=new PromotionController().ifGift(receipt);
+						for (Iterator iterator = gifts.iterator(); iterator
+								.hasNext();) {
+							PromotionVO promotionVO = (PromotionVO) iterator
+									.next();
+							promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getPresents().get(0).getName());
+						}
+						
+						ArrayList<PromotionVO> Vouchers=new PromotionController().ifVoucher(receipt);
+						for (Iterator iterator = Vouchers.iterator(); iterator
+								.hasNext();) {
+							PromotionVO promotionVO = (PromotionVO) iterator
+									.next();
+							promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getVoucher()+"元代金券");
+						}
+
 					}
 				}
 			});
-			
-			public SalesReceiptVO creat(){
-				SalesReceiptVO receipt = new SalesReceiptVO(serialNumber
-						.getText(), customer.getText(), clerk.getText(),
-						salesListItems, userVO, (String) commodity
-								.getSelectedItem(), new Double(0)
-								.parseDouble(beforePrice.getText()),
-						new Double(0).parseDouble(discount.getText()),
-						new Double(0).parseDouble(finalPrice.getText()),
-						time.getText(), comment.getText());
-				
-				return receipt;
-			}
 
 			this.repaint();
 
+		}
+
+		public SalesReceiptVO creatSalesReceipt() {
+			SalesReceiptVO receipt = new SalesReceiptVO(serialNumber.getText(),
+					customer.getText(), clerk.getText(), salesListItems,
+					userVO, (String) commodity.getSelectedItem(),
+					new Double(0).parseDouble(beforePrice.getText()),
+					new Double(0).parseDouble(discount.getText()),
+					new Double(0).parseDouble(finalPrice.getText()),
+					time.getText(), comment.getText());
+
+			return receipt;
 		}
 
 		/**
