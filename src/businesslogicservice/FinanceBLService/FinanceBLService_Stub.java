@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import businesslogicservice.CustomerBLService.CustomerBLService_Stub;
 import businesslogicservice.GoodsBLService.GoodsBLService_Stub;
+import PO.CashPO;
+import PO.CollectionOrPaymentPO;
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import VO.CashVO;
@@ -108,6 +110,36 @@ public class FinanceBLService_Stub implements FinanceBLService {
 
 	@Override
 	public ArrayList<CashVO> showCashVOs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CollectionOrPaymentPO VOToPO(CollectionOrPaymentVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResultMessage updateCollectionOrPayment(CollectionOrPaymentPO po) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CollectionOrPaymentVO POToVO(CollectionOrPaymentPO po) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CashPO VOToPO(CashVO vo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CashVO POToVO(CashPO po) {
 		// TODO Auto-generated method stub
 		return null;
 	}

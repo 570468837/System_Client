@@ -18,6 +18,20 @@ public class CollectionOrPaymentVO implements Serializable{
 			user = null ;
 			total = 0 ;
 		}
+		public CollectionOrPaymentVO(String number, String customer,
+				String typeOfCustomer, String user,
+				ArrayList<TransferListItemVO> trList, double total,
+				boolean isApprovedByManager, boolean isApprovedByFinancer) {
+			super();
+			this.number = number;
+			this.customer = customer;
+			this.typeOfCustomer = typeOfCustomer;
+			this.user = user;
+			this.trList = trList;
+			this.total = total;
+			this.isApprovedByManager = isApprovedByManager;
+			this.isApprovedByFinancer = isApprovedByFinancer;
+		}
 		public boolean isApprovedByManager() {
 			return isApprovedByManager;
 		}

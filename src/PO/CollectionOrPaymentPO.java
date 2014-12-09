@@ -20,6 +20,20 @@ public class CollectionOrPaymentPO implements Serializable{
 		user = null ;
 		total = 0 ;
 	}
+	public CollectionOrPaymentPO(String number, String customer,
+			String typeOfCustomer, String user,
+			ArrayList<TransferListItemPO> trList, double total,
+			boolean isApprovedByManager, boolean isApprovedByFinancer) {
+		super();
+		this.number = number;
+		this.customer = customer;
+		this.typeOfCustomer = typeOfCustomer;
+		this.user = user;
+		this.trList = trList;
+		this.total = total;
+		this.isApprovedByManager = isApprovedByManager;
+		this.isApprovedByFinancer = isApprovedByFinancer;
+	}
 	public CollectionOrPaymentPO(String theNumber,String theCustomer,String theTypeOfCustomer,String theUser,ArrayList<TransferListItemPO> theTrList , double theSum){
 		number = theNumber ; 
 		customer = theCustomer ; 
