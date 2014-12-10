@@ -219,6 +219,11 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData1=new ArrayList<ArrayList<Object>>();
 
 			ArrayList<PurchaseReceiptPO> shows=new PurchaseController().show();
+			for(int i=0;i<shows.size();i++){
+				if(shows.get(i).isApprovedByManager()==true)
+					shows.remove(i);
+			}
+			
 			ArrayList<ArrayList<PurchaseListItemPO>> itemList=new ArrayList<ArrayList<PurchaseListItemPO>>(); 
 			for(int i=0;i<shows.size();i++){
 				PurchaseReceiptPO p=shows.get(i);
@@ -305,6 +310,11 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SalesReceiptPO> shows=new SalesController().show();
+			for(int i=0;i<shows.size();i++){
+				if(shows.get(i).isApprovedByManager()==true)
+					shows.remove(i);
+			}
+			
 			ArrayList<ArrayList<SalesListItemPO>> salesItems=new ArrayList<ArrayList<SalesListItemPO>>();
 			for(int i=0;i<shows.size();i++){
 				SalesReceiptPO s=shows.get(i);
@@ -392,6 +402,11 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData3=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<CollectionOrPaymentVO> shows=new FinanceController().showCollectionOrPaymentVOs();
+			for(int i=0;i<shows.size();i++){
+				if(shows.get(i).isApprovedByManager()==true)
+					shows.remove(i);
+			}
+			
 			ArrayList<ArrayList<TransferListItemVO>> transfers=new ArrayList<ArrayList<TransferListItemVO>>();
 			for(int i=0;i<shows.size();i++){
 				CollectionOrPaymentVO v=shows.get(i);

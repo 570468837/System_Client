@@ -112,5 +112,9 @@ public class UserController implements UserBLService  {
 		}
 		return uservos;
 	}
+	
+	public UserPO VOtoPO(UserVO v){
+		return new UserPO(v.getUserName(), v.getPassword(), v.getUserSort(), v.getLevel());
+	}
 
 }
