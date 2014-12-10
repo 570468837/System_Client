@@ -204,12 +204,72 @@ public class FinanceController implements FinanceBLService{
 		}
 		return result ;
 	}
-	@Override
-	public ResultMessage init() {
-		// TODO Auto-generated method stub
-		return null;
+@Override
+public CollectionOrPaymentPO VOToPO(CollectionOrPaymentVO vo) {
+	// TODO Auto-generated method stub
+	ArrayList<TransferListItemPO> tfItems = new ArrayList<TransferListItemPO>() ;
+	for(TransferListItemVO theItem : vo.getTrList()){
+		TransferListItemPO item = new TransferListItemPO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+		tfItems.add(item) ;
 	}
+	CollectionOrPaymentPO po = new CollectionOrPaymentPO(vo.getNumber(), vo.getCustomer(), vo.getTypeOfCustomer(), vo.getUser(), tfItems, vo.getTotal(),vo.isApprovedByManager(),vo.isApprovedByFinancer()) ; 
+	return po;
+}
 
+@Override
+public CollectionOrPaymentVO POToVO(CollectionOrPaymentPO po) {
+	// TODO Auto-generated method stub
+	ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+	for(TransferListItemPO theItem : po.getTrList()){
+		TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+		tfItems.add(item) ;
+	}
+	CollectionOrPaymentVO vo = new CollectionOrPaymentVO(po.getNumber(), po.getCustomer(), po.getTypeOfCustomer(), po.getUser(), tfItems, po.getTotal(),po.isApprovedByManager(),po.isApprovedByFinancer()) ;
+	return vo;
+}
+
+@Override
+public ResultMessage updateCollectionOrPayment(CollectionOrPaymentPO po) {
+	// TODO Auto-generated method stub
+	Communication_Start com = new Communication_Start() ;
+	com.initial(); 
+	try {
+		result = com.client.messageCommand("collectionOrParmentUpdate", po) ;
+	} catch (RemoteException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return result;
+}
+
+@Override
+public CashPO VOToPO(CashVO vo) {
+	// TODO Auto-generated method stub
+	ArrayList<CaseListItemPO> items = new ArrayList<CaseListItemPO>() ;
+	for(CaseListItemVO theItem:vo.getCases()){
+		CaseListItemPO item = new CaseListItemPO(theItem.getCasename(), theItem.getCaseMoney(),theItem.getRemark()) ;
+		items.add(item) ;
+	}
+	CashPO po = new CashPO(vo.getNumber(), vo.getUser(), vo.getAccount(), items, vo.getSum()) ;
+	return po;
+}
+
+@Override
+public CashVO POToVO(CashPO po) {
+	// TODO Auto-generated method stub
+	ArrayList<CaseListItemVO> items = new ArrayList<CaseListItemVO>() ;
+	for(CaseListItemPO theItem:po.getCases()){
+		CaseListItemVO item = new CaseListItemVO(theItem.getCasename(), theItem.getCaseMoney(),theItem.getRemark()) ;
+		items.add(item) ;
+	}
+	CashVO vo = new CashVO(po.getNumber(), po.getUser(), po.getAccount(), items, po.getSum()) ;
+	return vo;
+}
+@Override
+public ResultMessage init() {
+	// TODO Auto-generated method stub
+	return null;
+}
 public static void main(String[] args){
 	new FinanceController().addCollectionOrPaymentVO(new CollectionOrPaymentVO());
 }

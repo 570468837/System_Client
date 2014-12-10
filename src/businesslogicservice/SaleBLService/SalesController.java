@@ -39,33 +39,8 @@ public class SalesController implements SalesBLService {
 
 	@Override
 	public ResultMessage creatReceipt(SalesReceiptVO salesReceiptVO) {
-		UserPO userPO = new UserPO(salesReceiptVO.getUserVO().getUserName(),
-				salesReceiptVO.getUserVO().getPassword(), salesReceiptVO
-						.getUserVO().getUserSort(), salesReceiptVO.getUserVO()
-						.getLevel());
-
-		GoodsPO goodsPO;
-
-		ArrayList<SalesListItemPO> list = new ArrayList<SalesListItemPO>();
-		for (int i = 0; i < salesReceiptVO.getSalesList().size(); i++) {
-			goodsPO = new GoodsPO(salesReceiptVO.getSalesList().get(i)
-					.getGoodsVO().serialNumber, salesReceiptVO.getSalesList()
-					.get(i).getGoodsVO().name, salesReceiptVO.getSalesList()
-					.get(i).getGoodsVO().model, salesReceiptVO.getSalesList()
-					.get(i).getGoodsVO().price, salesReceiptVO.getSalesList()
-					.get(i).getGoodsVO().comment);
-
-			list.add(new SalesListItemPO(goodsPO, salesReceiptVO.getSalesList()
-					.get(i).getQuantity()));
-
-		}
-		SalesReceiptPO po = new SalesReceiptPO(
-				salesReceiptVO.getSerialNumber(), salesReceiptVO.getRetailer(),
-				salesReceiptVO.getSalesman(), list, userPO,
-				salesReceiptVO.getCommodityNum(),
-				salesReceiptVO.getPriceBefore(), salesReceiptVO.getDiscout(),
-				salesReceiptVO.getFinalprice(), salesReceiptVO.getTime(),
-				salesReceiptVO.getComment());
+		
+		SalesReceiptPO po = this.toPO(salesReceiptVO);
 
 		Communication_Start com = new Communication_Start();
 		com.initial();
@@ -100,6 +75,43 @@ public class SalesController implements SalesBLService {
 			e.printStackTrace();
 			return null;
 		}
+		
+	}
+	
+	public SalesReceiptPO toPO(SalesReceiptVO salesReceiptVO){
+		UserPO userPO = new UserPO(salesReceiptVO.getUserVO().getUserName(),
+				salesReceiptVO.getUserVO().getPassword(), salesReceiptVO
+						.getUserVO().getUserSort(), salesReceiptVO.getUserVO()
+						.getLevel());
+
+		GoodsPO goodsPO;
+
+		ArrayList<SalesListItemPO> list = new ArrayList<SalesListItemPO>();
+		for (int i = 0; i < salesReceiptVO.getSalesList().size(); i++) {
+			goodsPO = new GoodsPO(salesReceiptVO.getSalesList().get(i)
+					.getGoodsVO().serialNumber, salesReceiptVO.getSalesList()
+					.get(i).getGoodsVO().name, salesReceiptVO.getSalesList()
+					.get(i).getGoodsVO().model, salesReceiptVO.getSalesList()
+					.get(i).getGoodsVO().price, salesReceiptVO.getSalesList()
+					.get(i).getGoodsVO().comment);
+
+			list.add(new SalesListItemPO(goodsPO, salesReceiptVO.getSalesList()
+					.get(i).getQuantity()));
+
+		}
+		SalesReceiptPO po = new SalesReceiptPO(
+				salesReceiptVO.getSerialNumber(), salesReceiptVO.getRetailer(),
+				salesReceiptVO.getSalesman(), list, userPO,
+				salesReceiptVO.getCommodityNum(),
+				salesReceiptVO.getPriceBefore(), salesReceiptVO.getDiscout(),
+				salesReceiptVO.getFinalprice(), salesReceiptVO.getTime(),
+				salesReceiptVO.getComment());
+		
+		po.setApprovedByCommodity(salesReceiptVO.isApprovedByCommodity());
+		po.setApprovedByManager(salesReceiptVO.isApprovedByManager());
+		
+		
+		return po;
 		
 	}
 }
