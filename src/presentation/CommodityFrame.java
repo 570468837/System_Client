@@ -79,7 +79,8 @@ public class CommodityFrame extends JFrame {
 		commodityLabel.setBounds(40, 160, 100, 50);
 		commodityLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				commodityPanel.setVisible(true);
+				commodityPanel.setVisible(false);
+				commodityPanel = new CommodityPanel(theFrame);
 				goodsPanel.setVisible(false);
 			}
 		});
