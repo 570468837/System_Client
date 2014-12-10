@@ -4,6 +4,8 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import businesslogicservice.SaleBLService.SalesController;
+import PO.CaseListItemPO;
+import PO.CashPO;
 import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseReceiptPO;
@@ -14,6 +16,8 @@ import PO.TransferListItemPO;
 import PO.UserPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
+import VO.CaseListItemVO;
+import VO.CashVO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
 import VO.SalesListItemVO;
@@ -98,7 +102,6 @@ public class InfoController implements InfoBLService{
 		if(condition.getTypeOfReceipt().equals("SKD")){
 			try {
 				objects = com.client.showObject("collectionOrPaymentShow") ;
-				
 				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
 				for(Object theObjecet :objects ){
 					CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObjecet ;
@@ -114,6 +117,45 @@ public class InfoController implements InfoBLService{
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
 							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.getUser().equals(condition.getUser())){
+						result.add(theReceipt) ;
+					}
+				}
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("FKD")){
+			try {
+				objects = com.client.showObject("collectionOrPaymentShow");
+				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
+				for(Object theObjecet :objects ){
+					CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObjecet ;
+					receipts.add(this.POToVO(theReceipt)) ;
+				}
+				for(CollectionOrPaymentVO theReceipt : receipts){
+					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
+					if( theReceipt.getNumber().substring(0, 3).equals("FKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
+							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.getUser().equals(condition.getUser())){
+						result.add(theReceipt) ;
+					}
+				}
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("XJFYD")){
+			try {
+				ArrayList<CashVO> receipts = new ArrayList<CashVO>() ; 
+				objects = com.client.showObject("cashShow");
+				for(Object theObject:objects){
+					CashPO theReceipt = (CashPO)theObject ;
+					receipts.add(POToVO(theReceipt)) ;
+				}
+				for(CashVO theReceipt : receipts){
+					int time = Integer.parseInt(theReceipt.getNumber().substring(6,14)) ;
+					if(theReceipt.getUser().equals(condition.getUser()) &&(time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))){
 						result.add(theReceipt) ;
 					}
 				}
@@ -168,5 +210,27 @@ public class InfoController implements InfoBLService{
 			e.printStackTrace();
 		}
 		return result ;
+	}
+	@Override
+	public CollectionOrPaymentVO POToVO(CollectionOrPaymentPO po) {
+		// TODO Auto-generated method stub
+		ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+		for(TransferListItemPO theItem : po.getTrList()){
+			TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+			tfItems.add(item) ;
+		}
+		CollectionOrPaymentVO vo = new CollectionOrPaymentVO(po.getNumber(), po.getCustomer(), po.getTypeOfCustomer(), po.getUser(), tfItems, po.getTotal(),po.isApprovedByManager(),po.isApprovedByFinancer()) ;
+		return vo;
+	}
+	@Override
+	public CashVO POToVO(CashPO po) {
+		// TODO Auto-generated method stub
+		ArrayList<CaseListItemVO> items = new ArrayList<CaseListItemVO>() ;
+		for(CaseListItemPO theItem:po.getCases()){
+			CaseListItemVO item = new CaseListItemVO(theItem.getCasename(), theItem.getCaseMoney(),theItem.getRemark()) ;
+			items.add(item) ;
+		}
+		CashVO vo = new CashVO(po.getNumber(), po.getUser(), po.getAccount(), items, po.getSum()) ;
+		return vo;
 	}
 }
