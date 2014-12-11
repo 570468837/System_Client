@@ -30,6 +30,10 @@ public class SalesReceiptVO {
 	private double finalprice;
 	private String comment;
 	private String time;
+	//代金券
+	private double vocher;
+	
+
 	private PromotionVO promotionVO;
 	
 	public PromotionVO getPromotionVO() {
@@ -189,6 +193,13 @@ public class SalesReceiptVO {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	public double getVocher() {
+		return vocher;
+	}
+
+	public void setVocher(double vocher) {
+		this.vocher = vocher;
 	}
 	
 }

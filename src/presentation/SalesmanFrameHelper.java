@@ -841,10 +841,10 @@ public class SalesmanFrameHelper {
 
 		private JLabel serialNumberLabel, customerLabel, userLabel, clerkLabel,
 				timeLabel, commentLabel, beforePriceLabel, discountLabel,
-				finalPriceLabel, commodityLabel, promotionLabel;
+				finalPriceLabel, commodityLabel, promotionLabel,vocherLabel;
 		private JComboBox commodity, promotion;
 		private JTextField serialNumber, customer, user, time, beforePrice,
-				discount, finalPrice, clerk;
+				discount, finalPrice, clerk,vocher;
 		private JTextArea comment;
 		private JButton cancelButton, confirmButton, addItemButton,
 				detectButton;
@@ -945,6 +945,15 @@ public class SalesmanFrameHelper {
 			discount = new JTextField();
 			discount.setBounds(270, 140, 100, 20);
 			getContentPane().add(discount);
+			
+			vocherLabel = new JLabel("代金券");
+			vocherLabel.setBounds(400, 140, 100, 20);
+			getContentPane().add(vocherLabel);
+
+			vocher = new JTextField();
+			vocher.setText("0");//代金券默认为0
+			vocher.setBounds(440, 140, 100, 20);
+			getContentPane().add(vocher);
 
 			finalPriceLabel = new JLabel("折让后金额");
 			finalPriceLabel.setBounds(20, 180, 100, 20);
@@ -1113,6 +1122,8 @@ public class SalesmanFrameHelper {
 					new Double(0).parseDouble(discount.getText()),
 					new Double(0).parseDouble(finalPrice.getText()),
 					time.getText(), comment.getText());
+			
+			receipt.setVocher(new Double(0).parseDouble(vocher.getText()));
 
 			return receipt;
 		}
