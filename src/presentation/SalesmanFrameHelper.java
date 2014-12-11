@@ -955,11 +955,15 @@ public class SalesmanFrameHelper {
 			getContentPane().add(finalPrice);
 
 			detectButton = new JButton("检测促销策略");
-			detectButton.setBounds(100, 180, 100, 20);
+			detectButton.setBounds(400, 210, 100, 20);
 			getContentPane().add(detectButton);
-
+			
+			promotionLabel=new JLabel("促销策略");
+			promotionLabel.setBounds(20, 210, 100, 20);
+			getContentPane().add(promotionLabel);
+			
 			promotion = new JComboBox(new String[] { "无" });
-			promotion.setBounds(270, 180, 290, 20);
+			promotion.setBounds(100,210, 270, 20);
 			getContentPane().add(promotion);
 
 			commentLabel = new JLabel("备注");
@@ -1175,7 +1179,7 @@ public class SalesmanFrameHelper {
 							newRows.add(goodsQuantity.getText());
 							// TODO 这么多价格是个意思？
 							newRows.add(new Integer(0).parseInt(goodsQuantity
-									.getText()) * good.price);
+									.getText()) * good.salePrice);
 							tableData.add(newRows);
 							table1.updateUI();
 
@@ -1395,7 +1399,7 @@ public class SalesmanFrameHelper {
 	}
 
 	public static void main(String[] args) {
-		SalesmanFrameHelper helper = new SalesmanFrameHelper("addCustomer",
+		SalesmanFrameHelper helper = new SalesmanFrameHelper("addSalesReceipt",
 				null);
 
 	}

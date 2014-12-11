@@ -47,6 +47,18 @@ public class GoodsPO implements Serializable{
 		this.price = price;
 		this.comment = comment;
 	};
+	
+	//sales专用
+	public GoodsPO(String serialNumber, String name, String model, 
+			 double price,double salePrice, String comment){
+		this();
+		this.serialNumber = serialNumber;
+		this.name = name;
+		this.model = model;
+		this.price = price;
+		this.salePrice=salePrice;
+		this.comment = comment;
+	}
 	/**
 	 * 用于创建新的po对象
 	 * @param po
