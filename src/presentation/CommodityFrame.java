@@ -1417,7 +1417,8 @@ public class CommodityFrame extends JFrame {
 											((JTextField)sendComponent[1]).getText(),
 											((JTextField)sendComponent[2]).getText()).serialNumber,
 									((JTextField)sendComponent[0]).getText(),
-									num)) == ResultMessage.add_success)
+									num,
+									SendCommodityVO.PASS)) == ResultMessage.add_success)
 								infoBoard.setText("添加成功");
 							else infoBoard.setText("添加失败");
 						}

@@ -15,9 +15,6 @@ public class ReportCommodityVO {
 	public int num;
 	public Date date;
 	
-	public ReportCommodityVO() {
-		this.date = new Date();
-	}
 	public ReportCommodityVO(String goodsVOId, int num) {
 		this.goodsVOId = Long.parseLong(goodsVOId);
 		this.num = num;

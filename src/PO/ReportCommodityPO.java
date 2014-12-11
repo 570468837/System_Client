@@ -12,7 +12,6 @@ public class ReportCommodityPO {
 	public int num;
 	public Date date;
 	
-	public ReportCommodityPO() {}
 	
 	
 	

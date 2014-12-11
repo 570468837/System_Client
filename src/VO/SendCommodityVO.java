@@ -1,5 +1,7 @@
 package VO;
 
+import java.util.Date;
+
 import PO.SendCommodityPO;
 
 
@@ -12,13 +14,15 @@ public class SendCommodityVO {
 	public long goodsVOId;
 	public String customerVOName;
 	public int num;
-	public boolean checked = false;
+	public Date date;
+	public int checked = UNCHECKED;
 	
-	public SendCommodityVO() {}
-	public SendCommodityVO(String goodsVOId, String customerVOName, int num) {
+	public SendCommodityVO(String goodsVOId, String customerVOName, int num, int isChecked) {
 		this.goodsVOId = Long.parseLong(goodsVOId);
 		this.customerVOName = customerVOName;
 		this.num = num;
+		this.date = new Date();
+		this.checked = isChecked;
 	}
 
 
@@ -32,6 +36,7 @@ public class SendCommodityVO {
 		scp.customerPOName = new String(this.customerVOName);
 		scp.num = this.num;
 		scp.checked = this.checked;
+		scp.date = this.date;
 		return scp;
 	}
 	/**
@@ -43,6 +48,11 @@ public class SendCommodityVO {
 		this.customerVOName = po.customerPOName;
 		this.num = po.num;
 		this.checked = po.checked;
+		this.date = po.date;
 	}
 	
+
+	public static final int UNCHECKED = 0;
+	public static final int PASS = 1;
+	public static final int CANCEL= 2;
 }
