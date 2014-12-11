@@ -14,13 +14,15 @@ public class SendCommodityVO {
 	public long goodsVOId;
 	public String customerVOName;
 	public int num;
+	public double price;
 	public Date date;
 	public int checked = UNCHECKED;
 	
-	public SendCommodityVO(String goodsVOId, String customerVOName, int num, int isChecked) {
+	public SendCommodityVO(String goodsVOId, String customerVOName, int num, double price, int isChecked) {
 		this.goodsVOId = Long.parseLong(goodsVOId);
 		this.customerVOName = customerVOName;
 		this.num = num;
+		this.price = price;
 		this.date = new Date();
 		this.checked = isChecked;
 	}
@@ -31,10 +33,11 @@ public class SendCommodityVO {
 	 * @return 返回转换成的PO
 	 */
 	public SendCommodityPO toPO() {
-		SendCommodityPO scp = new SendCommodityPO();
+		SendCommodityPO scp = new SendCommodityPO(null);
 		scp.goodsPOId = this.goodsVOId;
 		scp.customerPOName = new String(this.customerVOName);
 		scp.num = this.num;
+		scp.price = this.price;
 		scp.checked = this.checked;
 		scp.date = this.date;
 		return scp;
@@ -47,6 +50,7 @@ public class SendCommodityVO {
 		this.goodsVOId = po.goodsPOId;
 		this.customerVOName = po.customerPOName;
 		this.num = po.num;
+		this.price = po.price;
 		this.checked = po.checked;
 		this.date = po.date;
 	}

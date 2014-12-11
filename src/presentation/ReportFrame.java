@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import VO.GoodsVO;
 import VO.ReportCommodityVO;
 import VO.SendCommodityVO;
 import businesslogicservice.CommodityBLService.CommodityController;
@@ -63,10 +64,12 @@ class SendFrame extends JFrame {
 					frame.setTitle("赠送单输入有误");
 				}
 				if (num > 0) {
+					GoodsVO vo;
 					if(cc.addSendCommodity(new SendCommodityVO(
-							gc.getGoodsByInfo(sendName.getText(), sendModel.getText()).serialNumber,
+							(vo = gc.getGoodsByInfo(sendName.getText(), sendModel.getText())).serialNumber,
 							sendCustomer.getText(),
 							num,
+							vo.price,
 							SendCommodityVO.PASS)) == ResultMessage.ResultMessage.add_success) {
 						frame.setTitle("赠送单添加成功");
 					}
@@ -148,8 +151,10 @@ class ReportFrame extends JFrame {
 					if(reportType.getSelectedIndex() == 2)
 						num = -num;
 					
+					GoodsVO vo;
 					if (cc.addReportCommodity(new ReportCommodityVO(
-							gc.getGoodsByInfo(reportName.getText(), reportModel.getText()).serialNumber,
+							(vo = gc.getGoodsByInfo(reportName.getText(), reportModel.getText())).serialNumber,
+							vo.price,
 							num)) == ResultMessage.ResultMessage.add_success) {
 						frame.setTitle("库存报单添加成功");
 					}

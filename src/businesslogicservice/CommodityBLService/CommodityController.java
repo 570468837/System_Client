@@ -35,7 +35,7 @@ public class CommodityController implements CommodityBLService {
 			e.printStackTrace();
 		}
 		ArrayList<SendCommodityVO> sv = new ArrayList<SendCommodityVO>();
-		SendCommodityVO vo = new SendCommodityVO();
+		SendCommodityVO vo = new SendCommodityVO(null, null, 0, 0);
 		for(Object po : send) {
 			vo.toVO((SendCommodityPO)po);
 			sv.add(vo);
