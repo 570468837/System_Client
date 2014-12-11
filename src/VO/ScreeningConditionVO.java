@@ -8,7 +8,7 @@ public class ScreeningConditionVO implements Serializable{
 	String typeOfReceipt ;//单据类型
 	String nameOfGood;//商品名
 	String customer ;//客户名
-	String user ;//业务员
+	String retailer ;//业务员
 	String repository ;//仓库
 	public ScreeningConditionVO(){
 	}
@@ -19,7 +19,7 @@ public class ScreeningConditionVO implements Serializable{
 		this.typeOfReceipt = typeOfReceipt ;
 		this.nameOfGood = nameOfGood;
 		this.customer = customer;
-		this.user = user;
+		this.retailer = user;
 		this.repository = repository;
 	}
 	public String getTypeOfReceipt() {
@@ -52,11 +52,11 @@ public class ScreeningConditionVO implements Serializable{
 	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
-	public String getUser() {
-		return user;
+	public String getRetailer() {
+		return retailer;
 	}
-	public void setUser(String user) {
-		this.user = user;
+	public void setRetailer(String user) {
+		this.retailer = user;
 	}
 	public String getRepository() {
 		return repository;

@@ -37,11 +37,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 import Config.UserSort;
+import PO.GoodsPO;
+import PO.PurchaseListItemPO;
+import PO.PurchaseReceiptPO;
+import PO.SalesListItemPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.AccountVO;
 import VO.CaseListItemVO;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
+import VO.GoodsVO;
+import VO.PurchaseListItemVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
@@ -1191,7 +1198,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField endTimeField;
 		private JTextField nameOfGoodField;
 		private JTextField nameOfCustomerField;
-		private JTextField nameOfUserField;
+		private JTextField nameOfRetailerField;
 		private JTextField storageField;
 		private JTable saleDetailTable;
 		JScrollPane jsc  ;
@@ -1254,14 +1261,14 @@ public class FinanceFrame extends JFrame{
 			add(nameOfCustomerField);
 			nameOfCustomerField.setColumns(10);
 			
-			JLabel nameOfUserLabel = new JLabel("业务员");
-			nameOfUserLabel.setBounds(123, 86, 100, 15);
-			add(nameOfUserLabel);
+			JLabel nameOfRetailerLabel = new JLabel("业务员");
+			nameOfRetailerLabel.setBounds(123, 86, 100, 15);
+			add(nameOfRetailerLabel);
 			
-			nameOfUserField = new JTextField();
-			nameOfUserField.setBounds(187, 83, 122, 21);
-			add(nameOfUserField);
-			nameOfUserField.setColumns(10);
+			nameOfRetailerField = new JTextField();
+			nameOfRetailerField.setBounds(187, 83, 122, 21);
+			add(nameOfRetailerField);
+			nameOfRetailerField.setColumns(10);
 			
 			JLabel storageLabel = new JLabel("仓库");
 			storageLabel.setBounds(351, 86, 100, 15);
@@ -1287,13 +1294,13 @@ public class FinanceFrame extends JFrame{
 					String endTime = endTimeField.getText() ;
 					String nameOfGood = nameOfGoodField.getText() ;
 					String nameOfCustomer = nameOfCustomerField.getText();
-					String nameOfuser = nameOfUserField.getText() ;
+					String nameOfRetailer = nameOfRetailerField.getText() ;
 					String storage = storageField.getText() ;
 					String typeOfReceipt = "XSD";
 					if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/11/10>")){
 						new warningDialog("请输入完整的时间区间");
 					}else{
-						ScreeningConditionVO condition = new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,nameOfGood,nameOfCustomer,nameOfuser,storage) ;
+						ScreeningConditionVO condition = new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,nameOfGood,nameOfCustomer,nameOfRetailer,storage) ;
 						receipts = infoController.showSalesDetailsInfo(condition) ;
 						refreshTable(receipts); 
 					}
@@ -1312,7 +1319,7 @@ public class FinanceFrame extends JFrame{
 					endTimeField.setText("<例如2014/11/10>");
 					nameOfGoodField.setText("");
 					nameOfCustomerField.setText("");
-					nameOfUserField.setText("");
+					nameOfRetailerField.setText("");
 					storageField.setText("");
 					receipts = new ArrayList<SalesReceiptVO>() ;
 					refreshTable( receipts);
@@ -1371,7 +1378,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField beginTimeField;
 		private JTextField endTimeField;
 		private JTextField nameOfCustomerField;
-		private JTextField nameOfUserField;
+		private JTextField nameOfRetailerField;
 		private JTextField storageField;
 		private JTable table;
 		private JScrollPane jsc ;
@@ -1425,14 +1432,14 @@ public class FinanceFrame extends JFrame{
 			add(nameOfCustomerField);
 			nameOfCustomerField.setColumns(10);
 			
-			JLabel nameOfUserLabel = new JLabel("业务员");
-			nameOfUserLabel.setBounds(238, 90, 54, 15);
-			add(nameOfUserLabel);
+			JLabel nameOfRetailerLabel = new JLabel("业务员");
+			nameOfRetailerLabel.setBounds(238, 90, 54, 15);
+			add(nameOfRetailerLabel);
 			
-			nameOfUserField = new JTextField();
-			nameOfUserField.setBounds(293, 87, 77, 21);
-			add(nameOfUserField);
-			nameOfUserField.setColumns(10);
+			nameOfRetailerField = new JTextField();
+			nameOfRetailerField.setBounds(293, 87, 77, 21);
+			add(nameOfRetailerField);
+			nameOfRetailerField.setColumns(10);
 			
 			JLabel storageLabel = new JLabel("仓库");
 			storageLabel.setBounds(415, 90, 54, 15);
@@ -1522,7 +1529,7 @@ public class FinanceFrame extends JFrame{
 					beginTimeField.setText("<例如2014/10/10>") ;	
 					endTimeField.setText("<例如2014/11/10>") ;
 					nameOfCustomerField.setText("");
-					nameOfUserField.setText("");
+					nameOfRetailerField.setText("");
 					storageField.setText("");
 				}
 			});
@@ -1535,13 +1542,13 @@ public class FinanceFrame extends JFrame{
 					String beginTime = beginTimeField.getText() ;
 					String endTime = endTimeField.getText() ;
 					String nameOfCustomer = nameOfCustomerField.getText() ;
-					String nameOfUser = nameOfUserField.getText() ;
+					String nameOfRetailer = nameOfRetailerField.getText() ;
 					String storage = storageField.getText() ;
 					if(jcs2.getSelectedItem() == null){
 						new warningDialog("请选择单据类型") ;
 					}else{
 					if(jcs2.getSelectedItem().equals("销售出货单"))
-						typeOfReceipt = "XSCHD";
+						typeOfReceipt = "XSD";
 					else
 						if(jcs2.getSelectedItem().equals("销售进货单"))
 							typeOfReceipt = "XSTHD" ;
@@ -1572,10 +1579,10 @@ public class FinanceFrame extends JFrame{
 					    if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/11/10>")){
 					    	new warningDialog("请输入时间区间") ;
 					    }else{
-					    	if(nameOfCustomer.equals("")&&nameOfUser.equals("")&&storage.equals("")){
+					    	if(nameOfCustomer.equals("")&&nameOfRetailer.equals("")&&storage.equals("")){
 					    		new warningDialog("请输入查询信息");
 					    	}else{
-					    		result = infoController.showSalesProcessInfo(new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,"",nameOfCustomer,nameOfUser,storage)) ;
+					    		result = infoController.showSalesProcessInfo(new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,"",nameOfCustomer,nameOfRetailer,storage)) ;
 					    		thePanel.remove(jsc);
 					    		freshTable(result, typeOfReceipt);
 					    	}
@@ -1601,7 +1608,7 @@ public class FinanceFrame extends JFrame{
 			add(jsc);
 		}
 		private void freshTable(ArrayList<Object> objects ,String type) {
-			if(type.equals("SKD")||type.equals("FKD")){
+			if(type.equals("SKD")||type.equals("FKD")){//收付款单
 				markColumn = 3 ;
 				String[] column = {"单据编号","客户","操作员","转账列表","总额汇总"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
@@ -1619,7 +1626,7 @@ public class FinanceFrame extends JFrame{
 					}
 				});
 			}
-			if(type.equals("XJFYD")){
+			if(type.equals("XJFYD")){//现金费用单
 				markColumn = 3 ;
 				String[] column = {"单据编号","操作员","银行账户","条目清单","总额"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
@@ -1637,7 +1644,72 @@ public class FinanceFrame extends JFrame{
 					}
 				});
 			}
-			
+			if(type.equals("XSD")){//销售单
+				markColumn = 5 ;
+				String[] column ={"单据编号","客户","业务员","操作员","仓库","商品清单","折让前总额","折让","代金券金额","折让后总额","备注"};
+				table = new JTable(new MyTableModel(objects,column,type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint()  ;
+						if(table.rowAtPoint(mousePoint)== markColumn){
+							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
+							int i = table.rowAtPoint(mousePoint) ;
+							currentRow = i ;
+							SalesReceiptVO theVO= (SalesReceiptVO) objects.get(i) ;
+							ArrayList<Object> list = new ArrayList<>(theVO.getSalesList()) ;
+							new ShowListFrame(list, column2,"出货商品清单");
+						}
+					}
+				});
+			}
+			if(type.equals("XSTHD")){//销售退货单
+				markColumn = 5 ;
+				String[] column ={"单据编号","客户","业务员","操作员","仓库","商品清单","折让前总额","折让","代金券金额","折让后总额","备注"};
+				table = new JTable(new MyTableModel(objects,column,type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint()  ;
+						if(table.rowAtPoint(mousePoint)== markColumn){
+							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
+							int i = table.rowAtPoint(mousePoint) ;
+							currentRow = i ;
+							SalesReceiptPO thePO= (SalesReceiptPO) objects.get(i) ;
+							ArrayList<Object> list = new ArrayList<>() ;
+							for(SalesListItemPO item :thePO.getSalesList()){
+								GoodsPO goodPO = item.getGoodsPO() ;
+							    GoodsVO good = new GoodsVO(goodPO.getSerialNumber(), goodPO.getName(), goodPO.getModel(), goodPO.getPrice(), goodPO.getSalePrice(), goodPO.getLatestPrice(), goodPO.getLatestSalePrice(), goodPO.getGoodsClassNum()) ;
+								SalesListItemVO itemVO = new SalesListItemVO(good, item.getQuantity()) ;
+								list.add(itemVO) ;
+							}
+							new ShowListFrame(list, column2,"出货商品清单");
+						}
+					}
+				});
+			}
+			if(type.equals("JHD")){
+				markColumn = 4 ;
+				String[] column = {"单据编号","供应商","仓库","操作员","入库商品列表","备注","总额合计"} ;
+				table = new JTable(new MyTableModel(objects, column, type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint()  ;
+						if(table.rowAtPoint(mousePoint)== markColumn){
+							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
+							int i = table.rowAtPoint(mousePoint) ;
+							currentRow = i ;
+							PurchaseReceiptPO thePO= (PurchaseReceiptPO) objects.get(i) ;
+							ArrayList<Object> list = new ArrayList<>() ;
+							for(PurchaseListItemPO item :thePO.getPurchaseList()){
+								GoodsPO goodPO = item.getGoodsPO() ;
+							    GoodsVO good = new GoodsVO(goodPO.getSerialNumber(), goodPO.getName(), goodPO.getModel(), goodPO.getPrice(), goodPO.getSalePrice(), goodPO.getLatestPrice(), goodPO.getLatestSalePrice(), goodPO.getGoodsClassNum()) ;
+								PurchaseListItemVO itemVO = new PurchaseListItemVO(good, item.getQuantity()) ;
+								list.add(itemVO) ;
+							}
+							new ShowListFrame(list, column2,"入库商品列表");
+						}
+					}
+				});
+			}
 			
             table.setBackground(Color.white);
 			
@@ -1862,7 +1934,6 @@ public class FinanceFrame extends JFrame{
 
 		public MyTableModel(ArrayList<Object> theDatas ,String[] theColumn,String type){
 			if(type.equals("XSD")){//销售单
-				String[] columnOfList = {"编号","名称","型号","数量","单据","金额","备注"} ;
 			for(Object object : theDatas){
 				SalesReceiptVO receipt = (SalesReceiptVO)object ;
 				ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -1880,8 +1951,26 @@ public class FinanceFrame extends JFrame{
 				datas.add(oneRow) ;
 			}
 			}
+			if(type.equals("XSTHD")){//销售退货单
+				for(Object object : theDatas){
+					SalesReceiptPO receipt = (SalesReceiptPO)object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(receipt.getSerialNumber()) ;
+					oneRow.add(receipt.getCustomerPO().getName()) ;
+					oneRow.add(receipt.getSalesman()) ;
+					oneRow.add(receipt.getUserPO().getUserName()) ;
+					oneRow.add(receipt.getCommodityNum()) ;
+					oneRow.add("展开");
+					oneRow.add(String.valueOf(receipt.getPriceBefore())) ;
+					oneRow.add(String.valueOf(receipt.getDiscout())) ;
+					oneRow.add("代金券总额") ;
+					oneRow.add(String.valueOf(receipt.getFinalprice())) ;
+					oneRow.add(receipt.getComment()) ;
+					datas.add(oneRow) ;
+				}
+			}
 			
-			if(type.equals("SPQD")){//商品清单
+			if(type.equals("商品清单")||type.equals("出货商品清单")){//商品清单
 				for(Object object : theDatas){
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
 					SalesListItemVO item = (SalesListItemVO)object ;
@@ -1936,6 +2025,33 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(theCase.getCasename()) ;
 					oneRow.add(theCase.getCaseMoney()) ;
 					oneRow.add(theCase.getRemark()) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("JHD")){
+				for(Object object : theDatas){
+					PurchaseReceiptPO receipt = (PurchaseReceiptPO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(receipt.getSerialNumber()) ;
+					oneRow.add(receipt.getCustomerPO().getName()) ;
+					oneRow.add("仓库一") ;
+					oneRow.add(receipt.getUserPO().getUserName()) ;
+					oneRow.add("展开") ;
+					oneRow.add(receipt.getComments()) ;
+					oneRow.add(receipt.getTotalPrice()) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("入库商品列表")){
+				for(Object object : theDatas){
+					PurchaseListItemVO theVO  = (PurchaseListItemVO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theVO.getGoodsVO().serialNumber) ;
+					oneRow.add(theVO.getGoodsVO().name) ;
+					oneRow.add(theVO.getGoodsVO().model) ;
+					oneRow.add(theVO.getGoodsVO().price) ;
+					oneRow.add(theVO.getTotalPrice()) ;
+					oneRow.add(theVO.getGoodsVO().comment) ;
 					datas.add(oneRow) ;
 				}
 			}
@@ -2052,6 +2168,7 @@ public class FinanceFrame extends JFrame{
 		}
 	}
 	
+    
     
     public static void main(String[] marg){
 		new FinanceFrame(new UserVO("shengyu", "123", UserSort.Finance, 1)) ;
