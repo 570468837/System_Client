@@ -45,7 +45,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
 				if(ifIn){
 					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
-					//更改最近一次进价 To be continued
+					getGoods.latestPrice=oneVO.price;
 				}
 				else
 					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
@@ -92,7 +92,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
 				if(ifOut){
 					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
-					//更改最近一次售价 To be continued
+					getGoods.latestSalePrice=oneVO.salePrice;
 				}
 				else
 					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
@@ -113,10 +113,10 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 	@Override
 	public void collectionOrPaymentChangeCustomer(ArrayList<CollectionOrPaymentVO> receipts) {
 		// TODO Auto-generated method stub
-		ArrayList<CollectionOrPaymentPO> pos=new ArrayList<CollectionOrPaymentPO>();
 		for(CollectionOrPaymentVO c:receipts){
 			c.setApprovedByManager(true);
-			pos.add(new FinanceController().VOToPO(c));
+			new FinanceController().updateCollectionOrPayment(new FinanceController().VOToPO(c));
+			
 		}
 		
 	}
@@ -137,14 +137,24 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 	}
 
 	public void salesNotPassed(ArrayList<SalesReceiptPO> sales){
-		
+		for(SalesReceiptPO s:sales){
+			s.setApprovedByManager(false);
+			s.setApprovedByCommodity(true);
+		}
 	}
 	
 	public void collectionOrPaymentNotPassed(ArrayList<CollectionOrPaymentVO> receipts){
-		
+		for(CollectionOrPaymentVO c:receipts){
+			c.setApprovedByManager(false);
+			c.setApprovedByFinancer(true);
+			new FinanceController().updateCollectionOrPayment(new FinanceController().VOToPO(c));
+		}
 	}
 
 	public void sendCommodityNotPassed(ArrayList<SendCommodityVO> receipts){
-		
+		for(SendCommodityVO s:receipts){
+			s.checked=SendCommodityVO.CANCEL;
+		}
+		new CommodityController().updUncheckedSend(receipts);
 	}
 }

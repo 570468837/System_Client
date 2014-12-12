@@ -305,14 +305,17 @@ public class ManagerFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					ArrayList<PurchaseReceiptPO> isApproved=new ArrayList<PurchaseReceiptPO>();
+					ArrayList<PurchaseReceiptPO> notApproved=new ArrayList<PurchaseReceiptPO>();
 					for(int i=0;i<tableData1.size();i++){
 						if((Boolean)tableData1.get(i).get(7)==true)
 							isApproved.add(shows.get(i));
+						else
+							notApproved.add(shows.get(i));
 					}
 					new ApprovalBLService_Controller().purchaseChangeGoods(isApproved);
 					new ApprovalBLService_Controller().purchaseChangeCustomer(isApproved);
 					
-					
+					new ApprovalBLService_Controller().purchaseNotPassed(notApproved);
 				}
 			});
 		}
@@ -400,12 +403,18 @@ public class ManagerFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					ArrayList<SalesReceiptPO> isApproved=new ArrayList<SalesReceiptPO>();
+					ArrayList<SalesReceiptPO> notApproved=new ArrayList<SalesReceiptPO>();
+					
 					for(int i=0;i<tableData2.size();i++){
 						if((Boolean)tableData2.get(i).get(11)==true)
 							isApproved.add(shows.get(i));
+						else
+							notApproved.add(shows.get(i));
 					}
 					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
 					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);
+					
+					new ApprovalBLService_Controller().salesNotPassed(notApproved);
 				}
 			});
 		}
@@ -486,11 +495,16 @@ public class ManagerFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					ArrayList<CollectionOrPaymentVO> isApproved=new ArrayList<CollectionOrPaymentVO>();
+					ArrayList<CollectionOrPaymentVO> notApproved=new ArrayList<CollectionOrPaymentVO>();
 					for(int i=0;i<tableData3.size();i++){
 						if((Boolean)tableData3.get(i).get(5)==true)
 							isApproved.add(shows.get(i));
+						else
+							notApproved.add(shows.get(i));
 					}
 					new ApprovalBLService_Controller().collectionOrPaymentChangeCustomer(isApproved);
+					
+					new ApprovalBLService_Controller().collectionOrPaymentNotPassed(notApproved);
 				}
 			});
 		}
