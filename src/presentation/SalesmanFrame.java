@@ -123,27 +123,27 @@ public class SalesmanFrame extends JFrame {
 
 			Vector tableData = new Vector();
 
-//			ArrayList<CustomerPO> customers = new CustomerController().show();
-//			System.out.println(customers);
-//
-//			for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
-//				CustomerPO customerPO = (CustomerPO) iterator.next();
-//				Vector tableRows = new Vector();
-//				tableRows.add(customerPO.getNumber());
-//				tableRows.add(customerPO.getSort());
-//				tableRows.add(customerPO.getLevel());
-//				tableRows.add(customerPO.getName());
-//				tableRows.add(customerPO.getPhone());
-//				tableRows.add(customerPO.getAddress());
-//				tableRows.add(customerPO.getZipCode());
-//				tableRows.add(customerPO.getMail());
-//				tableRows.add(customerPO.getClerk());
-//				tableRows.add(customerPO.getGetting());
-//				tableRows.add(customerPO.getPay());
-//				tableRows.add(customerPO.getDebt_upper_limit());
-//
-//				tableData.add(tableRows);
-//			}
+			ArrayList<CustomerPO> customers = new CustomerController().show();
+			System.out.println(customers);
+
+			for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
+				CustomerPO customerPO = (CustomerPO) iterator.next();
+				Vector tableRows = new Vector();
+				tableRows.add(customerPO.getNumber());
+				tableRows.add(customerPO.getSort());
+				tableRows.add(customerPO.getLevel());
+				tableRows.add(customerPO.getName());
+				tableRows.add(customerPO.getPhone());
+				tableRows.add(customerPO.getAddress());
+				tableRows.add(customerPO.getZipCode());
+				tableRows.add(customerPO.getMail());
+				tableRows.add(customerPO.getClerk());
+				tableRows.add(customerPO.getGetting());
+				tableRows.add(customerPO.getPay());
+				tableRows.add(customerPO.getDebt_upper_limit());
+
+				tableData.add(tableRows);
+			}
 
 			// String[]
 			// columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员","应收","应付","应收额度"};

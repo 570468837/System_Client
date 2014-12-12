@@ -76,6 +76,26 @@ public class PurchaseController implements PurchaseBLService {
 		
 	}
 	
+	public ArrayList<PurchaseReceiptPO> getReceiptsInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		ArrayList<PurchaseReceiptPO> results=new ArrayList<PurchaseReceiptPO>();
+		try {
+			//逐个强制类型转换
+			results= (ArrayList<PurchaseReceiptPO>)com.client.someMethodForFinancer("showAllPurchaseReceiptsInATime", beginTime, endTime);
+			return results;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("发生错误");
+			return null;
+
+		}
+	
+	}
+	
 	public PurchaseReceiptPO toPO(PurchaseReceiptVO purchaseReceiptVO){
 		UserPO userPO = new UserPO(purchaseReceiptVO.getUserVO().getUserName(),
 				purchaseReceiptVO.getUserVO().getPassword(), purchaseReceiptVO
