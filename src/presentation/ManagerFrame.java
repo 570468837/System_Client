@@ -14,6 +14,11 @@ import java.util.ArrayList;
 
 
 
+
+
+
+
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,8 +34,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 
+
+
+
+
+
 import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
+import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
+import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
@@ -42,9 +54,11 @@ import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
+import PO.SendCommodityPO;
 import PO.TransferListItemPO;
 import VO.CollectionOrPaymentVO;
 import VO.PromotionVO;
+import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
 
@@ -484,15 +498,19 @@ public class ManagerFrame extends JFrame{
 		public void table4Refresh(){
 			String[] columnTitle4={"客户","商品编号","商品名称","商品数量","审批通过"};
 			
-			ArrayList<Object> oneData=new ArrayList<Object>();
 			ArrayList<ArrayList<Object>> tableData4=new ArrayList<ArrayList<Object>>();
 			
-			Object[] ex={"东芝","DZ-123","冬至日光灯",1,new Boolean(false)};
-			for(int i=0;i<ex.length;i++){
-				oneData.add(ex[i]);
+			ArrayList<SendCommodityVO> shows=new CommodityController().showUncheckedSend();
+			for(int i=0;i<shows.size();i++){
+				SendCommodityVO s=shows.get(i);
+				ArrayList<Object> oneData=new ArrayList<Object>();
+				oneData.add(s.customerVOName);
+				oneData.add(s.goodsVOId);
+				oneData.add(new GoodsController().getGoodsByID(s.goodsVOId).name);
+				oneData.add(s.num);
+				oneData.add(new Boolean(false));
+				tableData4.add(oneData);
 			}
-			
-			tableData4.add(oneData);
 			
 			JTable table4=new JTable(new MyTableModel(tableData4,columnTitle4));
 			table4.setFillsViewportHeight(true);     //显示表头
@@ -530,7 +548,20 @@ public class ManagerFrame extends JFrame{
 						for(int i=0;i<table4.getRowCount();i++)
 							table4.setValueAt(false, i, 4);
 						}
-			});         
+			});   
+			
+			doneButton4.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					ArrayList<SendCommodityVO> isApproved=new ArrayList<SendCommodityVO>();
+					for(int i=0;i<tableData4.size();i++){
+						if((Boolean)tableData4.get(i).get(4)==true)
+							isApproved.add(shows.get(i));
+					}
+					new ApprovalBLService_Controller().sendCommodityUpdate(shows);
+				}
+			});
 		}
 	}  
 	

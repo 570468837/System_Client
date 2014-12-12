@@ -3,6 +3,7 @@ package businesslogicservice.ApprovalBLService;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.GoodsBLService.GoodsController;
@@ -16,6 +17,7 @@ import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
+import VO.SendCommodityVO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
 	@Override
@@ -116,6 +118,33 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			c.setApprovedByManager(true);
 			pos.add(new FinanceController().VOToPO(c));
 		}
+		
+	}
+
+	public void sendCommodityUpdate(ArrayList<SendCommodityVO> receipts){
+		for(SendCommodityVO s:receipts){
+			s.checked=SendCommodityVO.PASS;
+		}
+		new CommodityController().updUncheckedSend(receipts);
+	}
+	
+	public void purchaseNotPassed(ArrayList<PurchaseReceiptPO> purchases){
+		for(PurchaseReceiptPO p:purchases){
+			p.setApprovedByManager(false);
+			p.setApprovedByCommodity(true);
+			//???update
+		}
+	}
+
+	public void salesNotPassed(ArrayList<SalesReceiptPO> sales){
+		
+	}
+	
+	public void collectionOrPaymentNotPassed(ArrayList<CollectionOrPaymentVO> receipts){
+		
+	}
+
+	public void sendCommodityNotPassed(ArrayList<SendCommodityVO> receipts){
 		
 	}
 }
