@@ -3,6 +3,7 @@ package businesslogicservice.CustomerBLService;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesReceiptPO;
@@ -79,6 +80,21 @@ public class CustomerController implements CustomerBLService {
 	@Override
 	public CustomerPO getCustomerPOById(String id) {
 		return null;
+	}
+	//收付款单修改
+	public ResultMessage collectionOrPaymentChangePayOrGetting(CollectionOrPaymentPO collectionOrPaymentPO){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("collection_payment_change_pay_getting",collectionOrPaymentPO);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResultMessage.update_failure;
+			
+		}		
+		
 	}
 
 	

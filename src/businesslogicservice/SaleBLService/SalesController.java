@@ -78,6 +78,96 @@ public class SalesController implements SalesBLService {
 		
 	}
 	
+	public double getTotalIncomeInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		Object obj;
+		try {
+			//逐个强制类型转换
+			obj= com.client.someMethodForFinancer("showIncomeInATime", beginTime, endTime);
+			double result=(Double)obj;
+			
+			return result;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	
+	public double getTotalCostInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		Object obj;
+		try {
+			//逐个强制类型转换
+			obj= com.client.someMethodForFinancer("showCostInATime", beginTime, endTime);
+			double result=(Double)obj;
+			
+			return result;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public double getTotalDisountInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		Object obj;
+		try {
+			//逐个强制类型转换
+			obj= com.client.someMethodForFinancer("showDiscountInATime", beginTime, endTime);
+			double result=(Double)obj;
+			
+			return result;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public double getDifferenceInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		Object obj;
+		try {
+			//逐个强制类型转换
+			obj= com.client.someMethodForFinancer("showDifferenceInATime", beginTime, endTime);
+			double result=(Double)obj;
+			
+			return result;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public double getDifferenceFromVocherInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		Object obj;
+		try {
+			obj= com.client.someMethodForFinancer("showDifferenceFromVocherInATime", beginTime, endTime);
+			double result=(Double)obj;
+			
+			return result;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
 	public SalesReceiptPO toPO(SalesReceiptVO salesReceiptVO){
 		UserPO userPO = new UserPO(salesReceiptVO.getUserVO().getUserName(),
 				salesReceiptVO.getUserVO().getPassword(), salesReceiptVO
@@ -93,6 +183,7 @@ public class SalesController implements SalesBLService {
 					.get(i).getGoodsVO().name, salesReceiptVO.getSalesList()
 					.get(i).getGoodsVO().model, salesReceiptVO.getSalesList()
 					.get(i).getGoodsVO().price, salesReceiptVO.getSalesList()
+					.get(i).getGoodsVO().salePrice, salesReceiptVO.getSalesList()
 					.get(i).getGoodsVO().comment);
 
 			list.add(new SalesListItemPO(goodsPO, salesReceiptVO.getSalesList()
@@ -109,6 +200,8 @@ public class SalesController implements SalesBLService {
 		
 		po.setApprovedByCommodity(salesReceiptVO.isApprovedByCommodity());
 		po.setApprovedByManager(salesReceiptVO.isApprovedByManager());
+		
+		po.setVocher(salesReceiptVO.getVocher());
 		
 		
 		return po;

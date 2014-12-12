@@ -2,8 +2,10 @@ package businesslogicservice.CommodityBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import PO.InventoryCommodityPO;
+import PO.ReportCommodityPO;
 import PO.SendCommodityPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
@@ -35,7 +37,7 @@ public class CommodityController implements CommodityBLService {
 			e.printStackTrace();
 		}
 		ArrayList<SendCommodityVO> sv = new ArrayList<SendCommodityVO>();
-		SendCommodityVO vo = new SendCommodityVO();
+		SendCommodityVO vo = new SendCommodityVO(null, null, 0, 0, 0);
 		for(Object po : send) {
 			vo.toVO((SendCommodityPO)po);
 			sv.add(vo);
@@ -58,6 +60,97 @@ public class CommodityController implements CommodityBLService {
 			return ResultMessage.update_failure;
 		}
 	}
+	/**
+	 * 给盛宇的
+	 * 显示通过的赠送单
+	 * @return
+	 */
+	public ArrayList<SendCommodityVO> showSendCommodity() {
+		ArrayList<Object> o;
+		try {
+			o = Communication_Start.client.showObject("showSendCommodity");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			o = null;
+		}
+		ArrayList<SendCommodityVO> voList = new ArrayList<SendCommodityVO>();
+		Iterator<Object> iter = o.iterator();
+		
+		while(iter.hasNext()) {
+			SendCommodityVO vo = new SendCommodityVO(null, null, 0, 0, 0);
+			vo.toVO((SendCommodityPO)iter.next());
+			voList.add(vo);
+		}
+		return voList;
+	}
+	/**
+	 * 给盛宇的
+	 * 显示库存报单
+	 * @return
+	 */
+	public ArrayList<ReportCommodityVO> showReportCommodity() {
+		ArrayList<Object> o;
+		try {
+			o = Communication_Start.client.showObject("showReportCommodity");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			o = null;
+		}
+		ArrayList<ReportCommodityVO> voList = new ArrayList<ReportCommodityVO>();
+		Iterator<Object> iter = o.iterator();
+		
+		while(iter.hasNext()) {
+			ReportCommodityVO vo = new ReportCommodityVO(null, 0, 0);
+			vo.toVO((ReportCommodityPO)iter.next());
+			voList.add(vo);
+		}
+		return voList;
+	}
+	/**
+	 * 给盛宇的
+	 * @return 一段时间的报溢收入，默认正值
+	 */
+	public double reportIncome(String s1, String s2) {
+		Double d;
+		try {
+			d = (Double)Communication_Start.client.someMethodForFinancer("reportIncome", s1, s2);
+		} catch (RemoteException e) {
+			d = new Double(0);
+			e.printStackTrace();
+		}
+		return d.doubleValue();
+	}
+	
+	/**
+	 * 给盛宇的
+	 * @return 一段时间的报损支出，默认负值
+	 */
+	public double reportOutcome(String s1, String s2) {
+		Double d;
+		try {
+			d = (Double)Communication_Start.client.someMethodForFinancer("reportOutcome", s1, s2);
+		} catch (RemoteException e) {
+			d = new Double(0);
+			e.printStackTrace();
+		}
+		return d.doubleValue();
+	}
+	/**
+	 * 给盛宇的
+	 * @return 一段时间的赠送支出，默认正值
+	 */
+	public double sendOutcome(String s1, String s2) {
+		Double d;
+		try {
+			d = (Double)Communication_Start.client.someMethodForFinancer("sendOutcome", s1, s2);
+		} catch (RemoteException e) {
+			d = new Double(0);
+			e.printStackTrace();
+		}
+		return d.doubleValue();
+	}
+	
+	
 	
 	
 	
@@ -65,8 +158,6 @@ public class CommodityController implements CommodityBLService {
 	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
 		
-		Communication_Start com = new Communication_Start();
-		com.initial();
 		
 		
 		

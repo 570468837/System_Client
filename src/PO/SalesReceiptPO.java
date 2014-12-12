@@ -27,6 +27,15 @@ public class SalesReceiptPO implements Serializable {
 	private String comment;
 	private String time;
 	private PromotionPO promotionPO;
+	private double vocher;
+	public double getVocher() {
+		return vocher;
+	}
+
+	public void setVocher(double vocher) {
+		this.vocher = vocher;
+	}
+	
 	public PromotionPO getPromotionPO() {
 		return promotionPO;
 	}

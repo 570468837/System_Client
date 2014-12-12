@@ -2,7 +2,11 @@ package businesslogicservice.InfoBLService;
 
 import java.util.ArrayList;
 
+import PO.CashPO;
+import PO.CollectionOrPaymentPO;
 import ResultMessage.ResultMessage;
+import VO.CashVO;
+import VO.CollectionOrPaymentVO;
 import VO.PurchaseReceiptVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
@@ -68,4 +72,16 @@ public class InfoBLService_Stub implements InfoBLService {
 		return null ;
 //		return new ReceiptVO() ;
     }
+
+	@Override
+	public CollectionOrPaymentVO POToVO(CollectionOrPaymentPO po) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CashVO POToVO(CashPO po) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

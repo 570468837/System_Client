@@ -3,7 +3,10 @@ package businesslogicservice.InfoBLService;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
+import PO.CaseListItemPO;
+import PO.CashPO;
 import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseReceiptPO;
@@ -14,6 +17,8 @@ import PO.TransferListItemPO;
 import PO.UserPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
+import VO.CaseListItemVO;
+import VO.CashVO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
 import VO.SalesListItemVO;
@@ -38,19 +43,23 @@ public class InfoController implements InfoBLService{
 		for(SalesReceiptPO theReceipt:resultOfPO){
 		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 		    
+		    if(!theReceipt.getSerialNumber().substring(0,3).equals("XSD")) continue ;
+		    
 			if(time1>=date||date>=time2) continue ;
 			
 			if(!theReceipt.getCustomerPO().getName().contains(condition.getCustomer())) continue ;
 			
-			if(!theReceipt.getRetailer().contains(condition.getUser())) continue ;
+			if(!theReceipt.getRetailer().contains(condition.getRetailer())) continue ;
 			
 			if(!theReceipt.getCommodityNum().contains(condition.getRepository())) continue ;
 			
-			for(SalesListItemPO saleItem:theReceipt.getSalesList()){
+			for(SalesListItemPO saleItem:theReceipt.getSalesList()){//判断该销售单是否含有查看的商品
 				if(saleItem.getGoodsPO().getName().equals(condition.getNameOfGood())){
 					isContain = true ;
+					break ;
 				}
-				if(isContain){
+			}
+				if(isContain){//PO转VO
 					UserVO userVO = new UserVO(theReceipt.getUserPO().getUserName(),
 							theReceipt.getUserPO().getPassword(), theReceipt
 									.getUserPO().getUserSort(), theReceipt.getUserPO()
@@ -81,7 +90,6 @@ public class InfoController implements InfoBLService{
 					isContain = false ;
 					result.add(vo) ;
 				}
-			}
 		}
 		return result ;
 	}
@@ -95,10 +103,10 @@ public class InfoController implements InfoBLService{
 		ArrayList<Object> objects = new ArrayList<Object>();
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
+		
 		if(condition.getTypeOfReceipt().equals("SKD")){
 			try {
 				objects = com.client.showObject("collectionOrPaymentShow") ;
-				
 				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
 				for(Object theObjecet :objects ){
 					CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObjecet ;
@@ -113,13 +121,85 @@ public class InfoController implements InfoBLService{
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.getUser().equals(condition.getUser())){
+							&& theReceipt.getCustomer().equals(condition.getCustomer())){
 						result.add(theReceipt) ;
 					}
 				}
 			} catch (RemoteException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("FKD")){
+			try {
+				objects = com.client.showObject("collectionOrPaymentShow");
+				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
+				for(Object theObjecet :objects ){
+					CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObjecet ;
+					receipts.add(this.POToVO(theReceipt)) ;
+				}
+				for(CollectionOrPaymentVO theReceipt : receipts){
+					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
+					if( theReceipt.getNumber().substring(0, 3).equals("FKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
+							&& theReceipt.getCustomer().equals(condition.getCustomer())){
+						result.add(theReceipt) ;
+					}
+				}
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("XJFYD")){
+			try {
+				ArrayList<CashVO> receipts = new ArrayList<CashVO>() ; 
+				objects = com.client.showObject("cashShow");
+				for(Object theObject:objects){
+					CashPO theReceipt = (CashPO)theObject ;
+					receipts.add(POToVO(theReceipt)) ;
+				}
+				for(CashVO theReceipt : receipts){
+					int time = Integer.parseInt(theReceipt.getNumber().substring(6,14)) ;
+					if((time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))){
+						result.add(theReceipt) ;
+					}
+				}
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("XSD")){//销售单，返回的是VO
+			ArrayList<SalesReceiptVO> receipts = this.showSalesDetailsInfo(condition) ;
+			result = new ArrayList<>(receipts) ;
+		}
+		if(condition.getTypeOfReceipt().equals("XSTHD")){//销售退货单，返回的是PO
+			ArrayList<SalesReceiptPO> receipts = new SalesController().show() ;
+			int time1 = Integer.parseInt(beginTime) ;
+			int time2 = Integer.parseInt(endTime);
+			for(SalesReceiptPO theReceipt:receipts){
+				int date  = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
+			    
+			    if(!theReceipt.getSerialNumber().substring(0,5).equals("XSTHD")) continue ;
+			    
+				if(time1>=date||date>=time2) continue ;
+				
+				if(!theReceipt.getCustomerPO().getName().contains(condition.getCustomer())) continue ;
+				
+				if(!theReceipt.getRetailer().contains(condition.getRetailer())) continue ;
+				
+				if(!theReceipt.getCommodityNum().contains(condition.getRepository())) continue ;
+				
+				result.add(theReceipt) ;
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("JHD")){
+			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
+			for(PurchaseReceiptPO thePO : receipts){
+				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
+				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>Integer.parseInt(beginTime)&&date<Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+					result.add(thePO) ;
+				}
 			}
 		}
 		return result;
@@ -168,5 +248,27 @@ public class InfoController implements InfoBLService{
 			e.printStackTrace();
 		}
 		return result ;
+	}
+	@Override
+	public CollectionOrPaymentVO POToVO(CollectionOrPaymentPO po) {
+		// TODO Auto-generated method stub
+		ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+		for(TransferListItemPO theItem : po.getTrList()){
+			TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
+			tfItems.add(item) ;
+		}
+		CollectionOrPaymentVO vo = new CollectionOrPaymentVO(po.getNumber(), po.getCustomer(), po.getTypeOfCustomer(), po.getUser(), tfItems, po.getTotal(),po.isApprovedByManager(),po.isApprovedByFinancer()) ;
+		return vo;
+	}
+	@Override
+	public CashVO POToVO(CashPO po) {
+		// TODO Auto-generated method stub
+		ArrayList<CaseListItemVO> items = new ArrayList<CaseListItemVO>() ;
+		for(CaseListItemPO theItem:po.getCases()){
+			CaseListItemVO item = new CaseListItemVO(theItem.getCasename(), theItem.getCaseMoney(),theItem.getRemark()) ;
+			items.add(item) ;
+		}
+		CashVO vo = new CashVO(po.getNumber(), po.getUser(), po.getAccount(), items, po.getSum()) ;
+		return vo;
 	}
 }

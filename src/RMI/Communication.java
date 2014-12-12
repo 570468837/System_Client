@@ -17,4 +17,5 @@ public interface Communication extends Remote{
 	public String showSalesConditionInfo(String command,String time1,String time2)throws RemoteException ;
 	public ResultMessage mangeReceipt(String command,String typeOfReceipt,String number)throws RemoteException ;
 	public String getReceiptNumber(String typeOfReceipt) throws RemoteException ;
+	public Object someMethodForFinancer(String command,String time1,String time2)throws RemoteException;
 }

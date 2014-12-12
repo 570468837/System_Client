@@ -841,10 +841,10 @@ public class SalesmanFrameHelper {
 
 		private JLabel serialNumberLabel, customerLabel, userLabel, clerkLabel,
 				timeLabel, commentLabel, beforePriceLabel, discountLabel,
-				finalPriceLabel, commodityLabel, promotionLabel;
+				finalPriceLabel, commodityLabel, promotionLabel,vocherLabel;
 		private JComboBox commodity, promotion;
 		private JTextField serialNumber, customer, user, time, beforePrice,
-				discount, finalPrice, clerk;
+				discount, finalPrice, clerk,vocher;
 		private JTextArea comment;
 		private JButton cancelButton, confirmButton, addItemButton,
 				detectButton;
@@ -945,6 +945,15 @@ public class SalesmanFrameHelper {
 			discount = new JTextField();
 			discount.setBounds(270, 140, 100, 20);
 			getContentPane().add(discount);
+			
+			vocherLabel = new JLabel("代金券");
+			vocherLabel.setBounds(400, 140, 100, 20);
+			getContentPane().add(vocherLabel);
+
+			vocher = new JTextField();
+			vocher.setText("0");//代金券默认为0
+			vocher.setBounds(440, 140, 100, 20);
+			getContentPane().add(vocher);
 
 			finalPriceLabel = new JLabel("折让后金额");
 			finalPriceLabel.setBounds(20, 180, 100, 20);
@@ -955,11 +964,15 @@ public class SalesmanFrameHelper {
 			getContentPane().add(finalPrice);
 
 			detectButton = new JButton("检测促销策略");
-			detectButton.setBounds(100, 180, 100, 20);
+			detectButton.setBounds(400, 210, 100, 20);
 			getContentPane().add(detectButton);
-
+			
+			promotionLabel=new JLabel("促销策略");
+			promotionLabel.setBounds(20, 210, 100, 20);
+			getContentPane().add(promotionLabel);
+			
 			promotion = new JComboBox(new String[] { "无" });
-			promotion.setBounds(270, 180, 290, 20);
+			promotion.setBounds(100,210, 270, 20);
 			getContentPane().add(promotion);
 
 			commentLabel = new JLabel("备注");
@@ -1109,6 +1122,8 @@ public class SalesmanFrameHelper {
 					new Double(0).parseDouble(discount.getText()),
 					new Double(0).parseDouble(finalPrice.getText()),
 					time.getText(), comment.getText());
+			
+			receipt.setVocher(new Double(0).parseDouble(vocher.getText()));
 
 			return receipt;
 		}
@@ -1175,7 +1190,7 @@ public class SalesmanFrameHelper {
 							newRows.add(goodsQuantity.getText());
 							// TODO 这么多价格是个意思？
 							newRows.add(new Integer(0).parseInt(goodsQuantity
-									.getText()) * good.price);
+									.getText()) * good.salePrice);
 							tableData.add(newRows);
 							table1.updateUI();
 
@@ -1395,7 +1410,7 @@ public class SalesmanFrameHelper {
 	}
 
 	public static void main(String[] args) {
-		SalesmanFrameHelper helper = new SalesmanFrameHelper("addCustomer",
+		SalesmanFrameHelper helper = new SalesmanFrameHelper("addSalesReceipt",
 				null);
 
 	}
