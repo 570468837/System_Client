@@ -20,7 +20,12 @@ public class InventoryCommodityVO {
 	 * @param po 待转换的PO
 	 */
 	public void toVO(InventoryCommodityPO po) {
-		icInfo = new String[po.icInfo.size()][((String[])po.icInfo.get(0)).length];
+		try {
+			icInfo = new String[po.icInfo.size()][((String[])po.icInfo.get(0)).length];
+		}catch(Exception e) {
+			icInfo = new String[0][0];
+		}
+		
 		Iterator<Object> iter = po.icInfo.iterator();
 		String[] s;
 		int i = 0;

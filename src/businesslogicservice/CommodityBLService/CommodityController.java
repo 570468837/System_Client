@@ -158,8 +158,6 @@ public class CommodityController implements CommodityBLService {
 	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
 		
-		Communication_Start com = new Communication_Start();
-		com.initial();
 		
 		
 		

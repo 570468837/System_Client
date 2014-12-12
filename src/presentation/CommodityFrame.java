@@ -543,6 +543,7 @@ public class CommodityFrame extends JFrame {
 						
 						del.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent e) {
+								popFrame.dispose();
 								if(gc.delGoodsClass(gc.getGoodsClassByInfo(className).Num) == ResultMessage.delete_success) {
 									infoBoard.setText("删除成功");
 									iniGoodsManager();
@@ -602,7 +603,7 @@ public class CommodityFrame extends JFrame {
 										classToBeAdded = new GoodsClassVO(
 												gc.getGoodsClassByInfo(jtList.get(jtList.size() - 1).getColumnName(0)),
 												input.getText());
-										System.out.println(classToBeAdded.fatherGoodsClassNum);
+										//System.out.println(classToBeAdded.fatherGoodsClassNum);
 										if(gc.addGoodsClass(classToBeAdded) == ResultMessage.add_success) {
 											infoBoard.setText("添加成功");
 											iniGoodsManager();
@@ -741,6 +742,11 @@ public class CommodityFrame extends JFrame {
 						popFrame.add(add);
 						popFrame.add(upd);
 						popFrame.setVisible(true);
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						if(popFrame != null) popFrame.dispose();
 					}
 				});
 			}
