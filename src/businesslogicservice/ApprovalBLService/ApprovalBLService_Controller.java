@@ -9,10 +9,13 @@ import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
+import PO.GoodsPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
+import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import VO.CollectionOrPaymentVO;
+import VO.GoodsVO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
 	@Override
@@ -20,9 +23,32 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		// TODO Auto-generated method stub
 		for(PurchaseReceiptPO p:purchases){
 			p.setApprovedByManager(true);
+			//?????去修改单据的数据
+			boolean ifIn=false;
+			if(p.getSerialNumber().substring(0,3).equals("JHD"))
+				ifIn=true;
+			
 			ArrayList<PurchaseListItemPO> items=p.getPurchaseList();
+			ArrayList<GoodsVO> goodsVOs=new ArrayList<GoodsVO>(); 
 			for(int i=0;i<items.size();i++){
-				//To be continued
+				GoodsPO getGoodsPO=items.get(i).getGoodsPO();
+				GoodsVO vo=new GoodsVO();
+				vo.toVO(getGoodsPO);
+				vo.commodityQuantity=items.get(i).getQuantity();
+				goodsVOs.add(vo);
+			}
+			//遍历商品VO去修改数据
+			for(int i=0;i<goodsVOs.size();i++){
+				GoodsVO oneVO=goodsVOs.get(i);
+				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
+				if(ifIn){
+					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
+					//更改最近一次进价 To be continued
+				}
+				else
+					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
+				
+				new GoodsController().updGoods(getGoods);
 			}
 		}
 		
@@ -44,6 +70,32 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		// TODO Auto-generated method stub
 		for(SalesReceiptPO s:sales){
 			s.setApprovedByManager(true);
+			//?????去修改单据的数据？
+			boolean ifOut=false;
+			if(s.getSerialNumber().substring(0,3).equals("XSD"))
+				ifOut=true;
+			
+			ArrayList<SalesListItemPO> items=s.getSalesList();
+			ArrayList<GoodsVO> goodsVOs=new ArrayList<GoodsVO>(); 
+			for(int i=0;i<items.size();i++){
+				GoodsPO getGoodsPO=items.get(i).getGoodsPO();
+				GoodsVO vo=new GoodsVO();
+				vo.toVO(getGoodsPO);
+				vo.commodityQuantity=items.get(i).getQuantity();
+				goodsVOs.add(vo);
+			}
+			//遍历商品
+			for(int i=0;i<goodsVOs.size();i++){
+				GoodsVO oneVO=goodsVOs.get(i);
+				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
+				if(ifOut){
+					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
+					//更改最近一次售价 To be continued
+				}
+				else
+					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
+				new GoodsController().updGoods(getGoods);
+			}
 		}
 	}
 
