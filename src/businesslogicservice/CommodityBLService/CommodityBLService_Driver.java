@@ -17,7 +17,7 @@ public class CommodityBLService_Driver {
 	    InventoryCommodityVO inventoryCommodityResult = commodityController.inventoryCommodity();
 	   
 	    
-	    ResultMessage resultMessage = commodityController.addSendCommodity(new SendCommodityVO(null, null, 0, 0));
+	    ResultMessage resultMessage = commodityController.addSendCommodity(new SendCommodityVO(null, null, 0, 0, 0));
 	    if(resultMessage == ResultMessage.add_success) {
 	    	System.out.println("add_sendCommodity_success");
 	    }
