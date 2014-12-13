@@ -157,11 +157,12 @@ public class CommodityController implements CommodityBLService {
 	
 	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
-		
-		
-		
-		
-		return new CheckCommodityVO(time1, time2);
+		try {
+			return new CheckCommodityVO(Communication_Start.client.someMethodForFinancer("showAllPurchaseReceiptsInATime", time1, time2));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

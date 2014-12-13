@@ -1221,9 +1221,18 @@ public class CommodityFrame extends JFrame {
 		 * 按下库存查看时调用的方法
 		 */
 		private boolean comCheck() {
-			String[][] cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).info;
+			String[][] cctInfo;
+			try {
+				cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).info;
+			}
+			catch (Exception e) {
+				cctInfo = null;
+			}
+			
+			
+			
 			if(cctInfo == null) {
-				return false;
+				cctInfo = new String[0][0];
 			}
 			
 			citjsp.setVisible(false);

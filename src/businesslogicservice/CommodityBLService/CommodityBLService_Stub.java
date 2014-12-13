@@ -11,7 +11,7 @@ public class CommodityBLService_Stub implements CommodityBLService {
 	@Override
 	public CheckCommodityVO checkCommodity(String time1, String time2) {
 		
-		return new CheckCommodityVO(time1, time2);
+		return null;
 	}
 
 	@Override
