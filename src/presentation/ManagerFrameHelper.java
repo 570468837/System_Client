@@ -216,6 +216,7 @@ public class ManagerFrameHelper extends JFrame{
 			
 			startMonthNum = new JComboBox(months);
 			startMonthNum.setBounds(283, 207, 49, 21);
+			startMonthNum.setSelectedIndex(getMonthNow()-1);
 			getContentPane().add(startMonthNum);
 			
 			label_4 = new JLabel("月");
@@ -224,6 +225,7 @@ public class ManagerFrameHelper extends JFrame{
 			
 			startDayNum = new JComboBox(dates);
 			startDayNum.setBounds(366, 207, 49, 21);
+			startDayNum.setSelectedIndex(getDateNow()-1);
 			getContentPane().add(startDayNum);
 			
 			lblNewLabel_3 = new JLabel("日");
@@ -244,6 +246,7 @@ public class ManagerFrameHelper extends JFrame{
 			
 			endYearNum = new JComboBox(endyears);
 			endYearNum.setBounds(177, 259, 74, 21);
+			endYearNum.setSelectedIndex(1);
 			getContentPane().add(endYearNum);
 			
 			label_5 = new JLabel("年");
@@ -252,6 +255,7 @@ public class ManagerFrameHelper extends JFrame{
 			
 			endMonthNum = new JComboBox(months);
 			endMonthNum.setBounds(283, 259, 49, 21);
+			endMonthNum.setSelectedIndex(getMonthNow()-1);
 			getContentPane().add(endMonthNum);
 			
 			label_6 = new JLabel("月");
@@ -260,6 +264,7 @@ public class ManagerFrameHelper extends JFrame{
 			
 			endDayNum = new JComboBox(dates);
 			endDayNum.setBounds(366, 259, 49, 21);
+			endDayNum.setSelectedIndex(getDateNow()-1);
 			getContentPane().add(endDayNum);
 			endDayNum.repaint();
 			
@@ -441,6 +446,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				startMonthNum = new JComboBox(months);
 				startMonthNum.setBounds(283, 207, 49, 21);
+				startMonthNum.setSelectedIndex(getMonthNow()-1);
 				getContentPane().add(startMonthNum);
 				
 				label_4 = new JLabel("月");
@@ -449,6 +455,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				startDayNum = new JComboBox(dates);
 				startDayNum.setBounds(366, 207, 49, 21);
+				startDayNum.setSelectedIndex(getDateNow()-1);
 				getContentPane().add(startDayNum);
 				
 				lblNewLabel_3 = new JLabel("日");
@@ -469,6 +476,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endYearNum = new JComboBox(endyears);
 				endYearNum.setBounds(177, 259, 74, 21);
+				endYearNum.setSelectedIndex(1);
 				getContentPane().add(endYearNum);
 				
 				label_5 = new JLabel("年");
@@ -477,6 +485,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endMonthNum = new JComboBox(months);
 				endMonthNum.setBounds(283, 259, 49, 21);
+				endMonthNum.setSelectedIndex(getMonthNow()-1);
 				getContentPane().add(endMonthNum);
 				
 				label_6 = new JLabel("月");
@@ -485,6 +494,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endDayNum = new JComboBox(dates);
 				endDayNum.setBounds(366, 259, 49, 21);
+				endDayNum.setSelectedIndex(getDateNow()-1);
 				getContentPane().add(endDayNum);
 				
 				label_9 = new JLabel("日");
@@ -636,6 +646,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				startMonthNum = new JComboBox(months);
 				startMonthNum.setBounds(283, 207, 49, 21);
+				startMonthNum.setSelectedIndex(getMonthNow()-1);
 				getContentPane().add(startMonthNum);
 				
 				label_4 = new JLabel("月");
@@ -644,6 +655,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				startDayNum = new JComboBox(dates);
 				startDayNum.setBounds(366, 207, 49, 21);
+				startDayNum.setSelectedIndex(getDateNow()-1);
 				getContentPane().add(startDayNum);
 				
 				lblNewLabel_3 = new JLabel("日");
@@ -664,6 +676,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endYearNum = new JComboBox(endyears);
 				endYearNum.setBounds(177, 259, 74, 21);
+				endYearNum.setSelectedIndex(1);
 				getContentPane().add(endYearNum);
 				
 				label_5 = new JLabel("年");
@@ -672,6 +685,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endMonthNum = new JComboBox(months);
 				endMonthNum.setBounds(283, 259, 49, 21);
+				endMonthNum.setSelectedIndex(getMonthNow()-1);
 				getContentPane().add(endMonthNum);
 				
 				label_6 = new JLabel("月");
@@ -680,6 +694,7 @@ public class ManagerFrameHelper extends JFrame{
 				
 				endDayNum = new JComboBox(dates);
 				endDayNum.setBounds(366, 259, 49, 21);
+				endDayNum.setSelectedIndex(getDateNow()-1);
 				getContentPane().add(endDayNum);
 				
 				label_9 = new JLabel("日");
@@ -993,6 +1008,6 @@ public class ManagerFrameHelper extends JFrame{
 	}
 
 	public static void main(String[] args){
-		new ManagerFrameHelper("gifts");
+		new ManagerFrameHelper("voucher");
 	}
 }
