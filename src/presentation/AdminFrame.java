@@ -106,16 +106,6 @@ public class AdminFrame extends JFrame{
 				}
 			});
 			
-			JTextField searchField=new JTextField();
-			searchField.setBounds(400, 28, 150, 25);
-			searchField.setColumns(10);
-			this.add(searchField);
-			
-			JLabel searchLabel=new JLabel("搜索",JLabel.CENTER);
-			searchLabel.setBounds(530, 25, 88, 35);
-			this.add(searchLabel);
-			
-			
 			JLabel refreshLabel = new JLabel("刷新列表",JLabel.CENTER);
 			refreshLabel.setBounds(725, 25, 88, 35);
 			this.add(refreshLabel);
