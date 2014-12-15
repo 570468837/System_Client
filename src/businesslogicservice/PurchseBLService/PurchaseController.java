@@ -96,6 +96,23 @@ public class PurchaseController implements PurchaseBLService {
 	
 	}
 	
+	//成本调价
+		public double getDiffCostInATime(String beginTime,String endTime){
+			Communication_Start com = new Communication_Start();
+			com.initial();
+			
+			double result=0;
+			try {
+				result=(double) com.client.someMethodForFinancer("showDiffCostInATime", beginTime, endTime);
+				return result;
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return 0;
+			}
+			
+		}
+	
 	public PurchaseReceiptPO toPO(PurchaseReceiptVO purchaseReceiptVO){
 		UserPO userPO = new UserPO(purchaseReceiptVO.getUserVO().getUserName(),
 				purchaseReceiptVO.getUserVO().getPassword(), purchaseReceiptVO
