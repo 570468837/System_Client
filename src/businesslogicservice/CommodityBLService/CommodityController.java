@@ -193,11 +193,10 @@ public class CommodityController implements CommodityBLService {
 	}
 	@Override
 	public ResultMessage addReportCommodity(ReportCommodityVO reportCommodityVO) {
-		Communication_Start com = new Communication_Start();
-		com.initial();
 		try {
-			return com.client.messageCommand("commodityReport", reportCommodityVO.toPO());
+			return Communication_Start.client.messageCommand("commodityReport", reportCommodityVO.toPO());
 		} catch (RemoteException e) {
+			e.printStackTrace();
 			return ResultMessage.add_failure;
 		}
 	}

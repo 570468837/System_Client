@@ -1281,91 +1281,83 @@ public class CommodityFrame extends JFrame {
             	}
 			}
 			
+			reportComponent = new JComponent[5];
 			
-			if(reportComponent == null) {
-				reportComponent = new JComponent[5];
-				
-				JTextField reportName = new JTextField("<商品名>");
-				reportName.setBounds(50, 150, 100, 25);
-				new AddWordsChange(reportName, "<商品名>");
-				reportComponent[0] = reportName;
-				
-				JTextField reportModel = new JTextField("<商品型号>");
-				reportModel.setBounds(200, 150, 100, 25);
-				new AddWordsChange(reportModel, "<商品型号>");
-				reportComponent[1] = reportModel;
-				
-				JTextField reportNum = new JTextField("<商品数量>");
-				reportNum.setBounds(350, 150, 100, 25);
-				new AddWordsChange(reportNum, "<商品数量>");
-				reportComponent[2] = reportNum;
-				
-				JComboBox<String> reportType = new JComboBox<String>(
-						new String[] {"<单据类型>", "报溢单", "报损单"});
-				reportType.setBounds(500, 150, 100, 25);
-				reportComponent[3] = reportType;
-				
-				
-				JLabel report = new JLabel("添加", JLabel.CENTER);
-				report.setBounds(650, 150, 50, 25);
-				report.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						//添加报单
-						int num = 0;
-						switch((String)((JComboBox<String>) reportComponent[3]).getSelectedItem()) {
-						case "报溢单": 
-							try {
-								num = Integer.parseInt(((JTextField)reportComponent[2]).getText());
-							}catch(Exception exception){
-								num = 0;
-							}
-							if (num < 0) num = 0;
-							break;
-						case "报损单":
-							try {
-								num = - Integer.parseInt(((JTextField)reportComponent[2]).getText());
-							}catch(Exception exception){
-								num = 0;
-							}
-							if (num > 0) num = 0;
-							break;
-						default:
+			JTextField reportName = new JTextField("<商品名>");
+			reportName.setBounds(50, 150, 100, 25);
+			new AddWordsChange(reportName, "<商品名>");
+			reportComponent[0] = reportName;
+			
+			JTextField reportModel = new JTextField("<商品型号>");
+			reportModel.setBounds(200, 150, 100, 25);
+			new AddWordsChange(reportModel, "<商品型号>");
+			reportComponent[1] = reportModel;
+			
+			JTextField reportNum = new JTextField("<商品数量>");
+			reportNum.setBounds(350, 150, 100, 25);
+			new AddWordsChange(reportNum, "<商品数量>");
+			reportComponent[2] = reportNum;
+			
+			JComboBox<String> reportType = new JComboBox<String>(
+					new String[] {"<单据类型>", "报溢单", "报损单"});
+			reportType.setBounds(500, 150, 100, 25);
+			reportComponent[3] = reportType;
+			
+			
+			JLabel report = new JLabel("添加", JLabel.CENTER);
+			report.setBounds(650, 150, 50, 25);
+			report.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					//添加报单
+					int num = 0;
+					switch((String)((JComboBox<String>) reportComponent[3]).getSelectedItem()) {
+					case "报溢单": 
+						try {
+							num = Integer.parseInt(((JTextField)reportComponent[2]).getText());
+						}catch(Exception exception){
 							num = 0;
 						}
-						if(num == 0) {
-							infoBoard.setText("填写有误");
+						if (num < 0) num = 0;
+						break;
+					case "报损单":
+						try {
+							num = - Integer.parseInt(((JTextField)reportComponent[2]).getText());
+						}catch(Exception exception){
+							num = 0;
 						}
-						else {
-							GoodsVO vo;
-							if(cc.addReportCommodity(
-									new ReportCommodityVO(
-											(vo = gc.getGoodsByInfo(
-													((JTextField)reportComponent[0]).getText(), 
-													((JTextField)reportComponent[1]).getText())).serialNumber,
-											vo.price,
-											num))
-									== ResultMessage.add_success)
-								infoBoard.setText("添加成功");
-							else infoBoard.setText("添加失败");
-						}
-						infoBoard.setVisible(true);
+						if (num > 0) num = 0;
+						break;
+					default:
+						num = 0;
 					}
-				});
-				reportComponent[4] = report;
-				
-				this.add(reportComponent[0]);
-				this.add(reportComponent[1]);
-				this.add(reportComponent[2]);
-				this.add(reportComponent[3]);
-				this.add(reportComponent[4]);
-				this.repaint();
-			}
-			else {
-				for(int i = 0; i < reportComponent.length; i ++) {
-            		reportComponent[i].setVisible(true);
-            	}
-			}
+					if(num == 0) {
+						infoBoard.setText("填写有误");
+					}
+					else {
+						GoodsVO vo;
+						if(cc.addReportCommodity(
+								new ReportCommodityVO(
+										(vo = gc.getGoodsByInfo(
+												((JTextField)reportComponent[0]).getText(), 
+												((JTextField)reportComponent[1]).getText())).serialNumber,
+										vo.price,
+										num))
+								== ResultMessage.add_success)
+							infoBoard.setText("添加成功");
+						else infoBoard.setText("添加失败");
+					}
+					infoBoard.setVisible(true);
+				}
+			});
+			reportComponent[4] = report;
+			
+			this.add(reportComponent[0]);
+			this.add(reportComponent[1]);
+			this.add(reportComponent[2]);
+			this.add(reportComponent[3]);
+			this.add(reportComponent[4]);
+			this.repaint();
 			
 		}
 		/**
@@ -1383,84 +1375,76 @@ public class CommodityFrame extends JFrame {
             	}
 			}
 			
-			if(sendComponent == null) {
-				sendComponent = new JComponent[6];
-				
-				JTextField sendCustomer = new JTextField("<客户名>");
-				new AddWordsChange(sendCustomer, "<客户名>");
-				sendCustomer.setBounds(50, 150, 100, 25);
-				sendComponent[0] = sendCustomer;
-				
-				
-				JTextField sendName = new JTextField("<商品名>");
-				new AddWordsChange(sendName, "<商品名>");
-				sendName.setBounds(200, 150, 100, 25);
-				sendComponent[1] = sendName;
-				
-				JTextField sendModel = new JTextField("<商品型号>");
-				new AddWordsChange(sendModel, "<商品型号>");
-				sendModel.setBounds(350, 150, 100, 25);
-				sendComponent[2] = sendModel;
-				
-				JTextField sendNum = new JTextField("<赠送数量>");
-				new AddWordsChange(sendNum, "<赠送数量>");
-				sendNum.setBounds(500, 150, 100, 25);
-				sendComponent[3] = sendNum;
-				
-				JTextField sendPrice = new JTextField("<商品单价>");
-				new AddWordsChange(sendPrice, "<商品单价>");
-				sendPrice.setBounds(650, 150, 100, 25);
-				sendPrice.setEditable(false);
-				sendComponent[4] = sendPrice;
-				
-				
-				JLabel send = new JLabel("赠送", JLabel.CENTER);
-				send.setBounds(750, 150, 50, 25);
-				send.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						int num = 0;
-						try{
-							num = Integer.parseInt(((JTextField) sendComponent[3]).getText());
-						}
-						catch(Exception excption) {
-							infoBoard.setText("填写有误");
-						}
-						if(num <= 0) {
-							infoBoard.setText("填写有误");
-						}
-						else {
-							GoodsVO vo;
-							if(cc.addSendCommodity(new SendCommodityVO(
-									(vo = gc.getGoodsByInfo(
-											((JTextField)sendComponent[1]).getText(),
-											((JTextField)sendComponent[2]).getText())).serialNumber,
-									((JTextField)sendComponent[0]).getText(),
-									num,
-									vo.price,
-									SendCommodityVO.PASS)) == ResultMessage.add_success)
-								infoBoard.setText("添加成功");
-							else infoBoard.setText("添加失败");
-						}
-						infoBoard.setVisible(true);
+			sendComponent = new JComponent[6];
+			
+			JTextField sendCustomer = new JTextField("<客户名>");
+			new AddWordsChange(sendCustomer, "<客户名>");
+			sendCustomer.setBounds(50, 150, 100, 25);
+			sendComponent[0] = sendCustomer;
+			
+			
+			JTextField sendName = new JTextField("<商品名>");
+			new AddWordsChange(sendName, "<商品名>");
+			sendName.setBounds(200, 150, 100, 25);
+			sendComponent[1] = sendName;
+			
+			JTextField sendModel = new JTextField("<商品型号>");
+			new AddWordsChange(sendModel, "<商品型号>");
+			sendModel.setBounds(350, 150, 100, 25);
+			sendComponent[2] = sendModel;
+			
+			JTextField sendNum = new JTextField("<赠送数量>");
+			new AddWordsChange(sendNum, "<赠送数量>");
+			sendNum.setBounds(500, 150, 100, 25);
+			sendComponent[3] = sendNum;
+			
+			JTextField sendPrice = new JTextField("<商品单价>");
+			new AddWordsChange(sendPrice, "<商品单价>");
+			sendPrice.setBounds(650, 150, 100, 25);
+			sendPrice.setEditable(false);
+			sendComponent[4] = sendPrice;
+			
+			
+			JLabel send = new JLabel("赠送", JLabel.CENTER);
+			send.setBounds(750, 150, 50, 25);
+			send.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int num = 0;
+					try{
+						num = Integer.parseInt(((JTextField) sendComponent[3]).getText());
 					}
-				});
-				sendComponent[5] = send;
-				
-				this.add(sendComponent[0]);
-				this.add(sendComponent[1]);
-				this.add(sendComponent[2]);
-				this.add(sendComponent[3]);
-				this.add(sendComponent[4]);
-				this.add(sendComponent[5]);
-				this.repaint();
-				
-			}
-			else {
-				for(int i = 0; i < sendComponent.length; i ++) {
-            		sendComponent[i].setVisible(true);
-            	}
-			}
+					catch(Exception excption) {
+						infoBoard.setText("填写有误");
+					}
+					if(num <= 0) {
+						infoBoard.setText("填写有误");
+					}
+					else {
+						GoodsVO vo;
+						if(cc.addSendCommodity(new SendCommodityVO(
+								(vo = gc.getGoodsByInfo(
+										((JTextField)sendComponent[1]).getText(),
+										((JTextField)sendComponent[2]).getText())).serialNumber,
+								((JTextField)sendComponent[0]).getText(),
+								num,
+								vo.price,
+								SendCommodityVO.PASS)) == ResultMessage.add_success)
+							infoBoard.setText("添加成功");
+						else infoBoard.setText("添加失败");
+					}
+					infoBoard.setVisible(true);
+				}
+			});
+			sendComponent[5] = send;
+			
+			this.add(sendComponent[0]);
+			this.add(sendComponent[1]);
+			this.add(sendComponent[2]);
+			this.add(sendComponent[3]);
+			this.add(sendComponent[4]);
+			this.add(sendComponent[5]);
+			this.repaint();
 			
 		}
 		/**
