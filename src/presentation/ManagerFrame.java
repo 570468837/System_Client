@@ -344,7 +344,7 @@ public class ManagerFrame extends JFrame{
 				oneData.add("点击查看");  salesItems.add(s.getSalesList());
 				oneData.add(s.getPriceBefore());
 				oneData.add(s.getDiscout());
-				oneData.add(s.getVoucher());
+				oneData.add(s.getVocher());
 				oneData.add(s.getFinalprice());
 				oneData.add(s.getComment());
 				oneData.add(new Boolean(false));

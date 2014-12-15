@@ -168,6 +168,26 @@ public class SalesController implements SalesBLService {
 		}
 	}
 	
+	public ArrayList<SalesReceiptPO> getReceiptsInATime(String beginTime,String endTime){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		ArrayList<SalesReceiptPO> results=new ArrayList<SalesReceiptPO>();
+		try {
+			//逐个强制类型转换
+			results= (ArrayList<SalesReceiptPO>)com.client.someMethodForFinancer("showAllSalesReceiptsInATime", beginTime, endTime);
+			return results;
+
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("发生错误");
+			return null;
+
+		}
+	
+	}
+	
 	public SalesReceiptPO toPO(SalesReceiptVO salesReceiptVO){
 		UserPO userPO = new UserPO(salesReceiptVO.getUserVO().getUserName(),
 				salesReceiptVO.getUserVO().getPassword(), salesReceiptVO
