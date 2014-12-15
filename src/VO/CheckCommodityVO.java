@@ -17,17 +17,17 @@ public class CheckCommodityVO {
 	
 	
 	@SuppressWarnings({ "unchecked" })
-	public CheckCommodityVO(Object receipt) {
+	public CheckCommodityVO(Object receipt1, Object receipt2) {
 		
-		ArrayList<Object> r = (ArrayList<Object>)receipt;
+		ArrayList<Object> r = (ArrayList<Object>)receipt1;
 		ArrayList<PurchaseReceiptPO> purchaseReceipts = (ArrayList<PurchaseReceiptPO>)r.get(0);//进货单
 		ArrayList<PurchaseReceiptPO> purchaseOutReceipts = (ArrayList<PurchaseReceiptPO>)r.get(1);//进货退货单
 		ArrayList<PurchaseListItemPO> plPOList;
 		PurchaseListItemPO plPO;
 		
-		//TODO
-		ArrayList<SalesReceiptPO> salesReceipts = (ArrayList<SalesReceiptPO>)r.get(2);
-		ArrayList<SalesReceiptPO> salesOutReceipts = (ArrayList<SalesReceiptPO>)r.get(3);
+		r = (ArrayList<Object>)receipt2;
+		ArrayList<SalesReceiptPO> salesReceipts = (ArrayList<SalesReceiptPO>)r.get(0);
+		ArrayList<SalesReceiptPO> salesOutReceipts = (ArrayList<SalesReceiptPO>)r.get(1);
 		ArrayList<SalesListItemPO> slPOList;
 		SalesListItemPO slPO;
 		
@@ -110,7 +110,7 @@ public class CheckCommodityVO {
 		
 		
 		
-		if (receipt == null) info = null;
+		if (receipt1 == null) info = null;
 	}
 
 }
