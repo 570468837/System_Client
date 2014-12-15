@@ -73,6 +73,7 @@ public class FinanceFrame extends JFrame{
 	private UserVO user ;
 	private ReceiptPanel receiptPanel = new ReceiptPanel(this) ;
 	private InfoPanel infoPanel = new InfoPanel(this) ;
+//	private 
 	
 	public FinanceFrame(UserVO uservo){
 		
@@ -86,7 +87,6 @@ public class FinanceFrame extends JFrame{
 		accountPanel.setVisible(true);
 		
 		user = uservo ;
-//		System.out.print(user.getUserName());
 		
 		exitButton = new JLabel("X",JLabel.CENTER) ;
 		exitButton.setBounds(950, 0, 50, 50);
@@ -130,6 +130,7 @@ public class FinanceFrame extends JFrame{
 				infoPanel.setVisible(true);
 			}
 		});
+		
 		
 		
 		MoveOfFrame m = new MoveOfFrame(this);
@@ -432,9 +433,10 @@ public class FinanceFrame extends JFrame{
 	 * 制定单据的panel
 	 */
 	class ReceiptPanel extends JPanel{
-		JLabel makeCollectionOrPaymentLabel,makeCashLabel; 
+		JLabel makeCollectionOrPaymentLabel,makeCashLabel,messageFromManagerLabel; 
 		MakeCollectionOrPayment makeCollectionPane ;
 		MakeCash makeCashPane ;
+		MessageFromManager messagePane ;
 		public ReceiptPanel (JFrame theFrame){
 			super() ;
 			this.setBounds(140, 25, 835, 550);
@@ -447,6 +449,9 @@ public class FinanceFrame extends JFrame{
 			makeCashPane = new MakeCash(); 
 			this.add(makeCashPane);
 			makeCashPane.setVisible(false);
+			messagePane = new MessageFromManager() ;
+			this.add(messagePane);
+			messagePane.setVisible(false);
 			
 			makeCollectionOrPaymentLabel = new JLabel("制定收/付款单",JLabel.CENTER) ;
 			makeCollectionOrPaymentLabel.setBounds(210, 23, 120, 50);
@@ -455,15 +460,27 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					makeCollectionPane.setVisible(true);
 					makeCashPane.setVisible(false);
+					messagePane.setVisible(false);
 				}
 			});
 			makeCashLabel = new JLabel("制定现金费用单",JLabel.CENTER) ;
-			makeCashLabel.setBounds(380, 23, 150, 50);
+			makeCashLabel.setBounds(345, 23, 150, 50);
 			this.add(makeCashLabel) ;
 			makeCashLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
 					makeCollectionPane.setVisible(false);
 					makeCashPane.setVisible(true);
+					messagePane.setVisible(false);
+				}
+			});
+			messageFromManagerLabel = new JLabel("单据审批情况",JLabel.CENTER) ;
+			messageFromManagerLabel.setBounds(505, 23, 150, 50);
+			this.add(messageFromManagerLabel) ;
+			messageFromManagerLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					makeCollectionPane.setVisible(false);
+					makeCashPane.setVisible(false);
+					messagePane.setVisible(true);
 				}
 			});
 		}
@@ -845,11 +862,7 @@ public class FinanceFrame extends JFrame{
 			JLabel nameOfAccountLabel = new JLabel("银行账户：");
 			nameOfAccountLabel.setBounds(39, 99, 100, 15);
 			this.add(nameOfAccountLabel);
-			/*
-			JLabel nameOfUserLabel = new JLabel("操作员：");
-			nameOfUserLabel.setBounds(256, 230, 100, 15);
-			this.add(nameOfUserLabel);
-			*/
+			
 			JLabel sumOfMoneyLabel = new JLabel("总        额："); 
 			sumOfMoneyLabel.setBounds(39, 184, 100, 15);
 			this.add(sumOfMoneyLabel);
@@ -894,11 +907,7 @@ public class FinanceFrame extends JFrame{
 			JLabel yuanLabel = new JLabel("元");
 			yuanLabel.setBounds(270, 184, 21, 15);
 			this.add(yuanLabel);
-			/*
-			JLabel userLabel = new JLabel("当前操作员");
-			userLabel.setBounds(320, 230, 100, 15);
-			this.add(userLabel);
-			*/
+			
 			JButton sureButton = new JButton("确定 ") ;
 			sureButton.setBounds(80, 270, 100, 23);
 			this.add(sureButton) ;
@@ -1130,6 +1139,41 @@ public class FinanceFrame extends JFrame{
 			}
     }
  
+    class MessageFromManager extends JPanel{
+    	private JTextField textField;
+    	private JTextField textField_1;
+
+    	/**
+    	 * Create the panel.
+    	 */
+    	public MessageFromManager() {
+    		setBounds(120, 100, 500, 380);
+    		this.setBorder(new EmptyBorder(5, 5, 5, 5));
+    		this.setLayout(null);
+    		
+    		JLabel label = new JLabel("\u5BA1\u6279\u901A\u8FC7");
+    		label.setBounds(195, 10, 54, 15);
+    		add(label);
+    		
+    		textField = new JTextField();
+    		textField.setBounds(23, 38, 451, 149);
+    		add(textField);
+    		textField.setColumns(10);
+    		
+    		JLabel label_1 = new JLabel("\u5BA1\u6279\u4E0D\u901A\u8FC7");
+    		label_1.setBounds(195, 197, 69, 15);
+    		add(label_1);
+    		
+    		textField_1 = new JTextField();
+    		textField_1.setBounds(23, 222, 451, 148);
+    		add(textField_1);
+    		textField_1.setColumns(10);
+    		
+    		JLabel label_2 = new JLabel("\u5237\u65B0");
+    		label_2.setBounds(406, 10, 54, 15);
+    		add(label_2);
+    	}
+}
 
 	
 	/*
