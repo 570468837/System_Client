@@ -54,6 +54,7 @@ import VO.ReportCommodityVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
+import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
 import businesslogicservice.FinanceBLService.FinanceController;
@@ -1732,11 +1733,15 @@ public class FinanceFrame extends JFrame{
 				});
 			}
 			if(type.equals("BYD")){//报溢单
-				String[] column = {"商品编号","数量","单价","日期"};
+				String[] column = {"商品编号","商品数量","商品单价","日期"};
 				table = new JTable(new MyTableModel(objects, column, type));
 			}
-			if(type.equals("BSD")){
-				String[] column = {"商品编号","数量","日期"} ;
+			if(type.equals("BSD")){//报损单
+				String[] column = {"商品编号","商品数量","商品单价","日期"} ;
+				table = new JTable(new MyTableModel(objects, column, type)) ;
+			}
+			if(type.equals("ZSD")){
+				String[]  column = {"商品编号","客户名称","商品数量","商品单价","日期"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
 			}
 			
@@ -1800,20 +1805,7 @@ public class FinanceFrame extends JFrame{
     		endTimeField.setText("<例如2014/11/10>");
     		new AddWordsChange(endTimeField, "<例如2014/11/10>") ;
     		
-    		JLabel sureLabel = new JLabel("查询",JLabel.CENTER) ;
-    		sureLabel.setBounds(550, 21, 68, 15);
-    		add(sureLabel) ;
-    		sureLabel.addMouseListener(new MouseAdapter() {
-    			public void mouseClicked(MouseEvent e){
-    				String beginTime = beginTimeField.getText() ;
-    				String endTime = endTimeField.getText() ;
-    				if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/10/10>")){
-    					new warningDialog("请输入时间区间");
-    				}else{
-    					infoController.showSalesConditionInfo(beginTime, endTime) ;
-    				}
-    			}
-			});
+    		
     		
     		JPanel comeInPanel = new JPanel();
     		comeInPanel.setBounds(103, 61, 538, 126);
@@ -1953,6 +1945,21 @@ public class FinanceFrame extends JFrame{
     		JLabel typeOfProfitLabel = new JLabel("利润");
     		typeOfProfitLabel.setBounds(24, 336, 54, 15);
     		add(typeOfProfitLabel);
+    		
+    		JLabel sureLabel = new JLabel("查询",JLabel.CENTER) ;
+    		sureLabel.setBounds(550, 21, 68, 15);
+    		add(sureLabel) ;
+    		sureLabel.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				String beginTime = beginTimeField.getText() ;
+    				String endTime = endTimeField.getText() ;
+    				if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/10/10>")){
+    					new warningDialog("请输入时间区间");
+    				}else{
+    					infoController.showSalesConditionInfo(beginTime, endTime) ;
+    				}
+    			}
+			});
     	}
 }
 
@@ -2116,6 +2123,18 @@ public class FinanceFrame extends JFrame{
 					ReportCommodityVO theVO = (ReportCommodityVO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
 					oneRow.add(theVO.goodsVOId) ;
+					oneRow.add(theVO.num) ;
+					oneRow.add(theVO.price) ;
+					oneRow.add(new String(new SimpleDateFormat("yyyy/MM/dd").format(theVO.date))) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("ZSD")){
+				for(Object object :theDatas){
+					SendCommodityVO theVO = (SendCommodityVO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theVO.goodsVOId) ;
+					oneRow.add(theVO.customerVOName) ;
 					oneRow.add(theVO.num) ;
 					oneRow.add(theVO.price) ;
 					oneRow.add(new String(new SimpleDateFormat("yyyy/MM/dd").format(theVO.date))) ;

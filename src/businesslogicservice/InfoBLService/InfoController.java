@@ -24,6 +24,7 @@ import VO.ReportCommodityVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
+import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
 
@@ -98,8 +99,8 @@ public class InfoController implements InfoBLService{
 	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
 		ArrayList<Object> result = new ArrayList<Object>() ;
-		String beginTime = condition.getTime1().substring(0, 4)+condition.getTime1().substring(5,7)+condition.getTime1().substring(8,10);
-		String endTime = condition.getTime2().substring(0, 4)+condition.getTime2().substring(5,7)+condition.getTime2().substring(8,10);
+		String beginTime = condition.getTime1().replaceAll("/", "") ;
+		String endTime = condition.getTime2().replace("/", "") ;
 		ArrayList<Object> objects = new ArrayList<Object>();
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
@@ -220,7 +221,7 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("BSD")){
+		if(condition.getTypeOfReceipt().equals("BSD")){//报损单
 			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
 			for(ReportCommodityVO theVO : receipts){
 				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
@@ -229,17 +230,31 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
+		if(condition.getTypeOfReceipt().equals("ZSD")){
+			ArrayList<SendCommodityVO> receipts = new CommodityController().showSendCommodity() ;
+			for(SendCommodityVO theVO :receipts){
+				int time = Integer.parseInt(new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date))) ;
+				if((time<=Integer.parseInt(endTime)&&time>=Integer.parseInt(beginTime)) && condition.getCustomer().equals(theVO.customerVOName)){
+					result.add(theVO) ;
+				}
+			}
+		}
 		return result;
 	}
 
 	@Override
-	public String showSalesConditionInfo(String time1, String time2) {
+	public double[] showSalesConditionInfo(String time1, String time2) {
 		// TODO Auto-generated method stub
-		String result = "" ;
+		time1 = time1.replaceAll("/", "-") ;
+		time2 = time2.replaceAll("/", "-") ;
+		double[] result = new double[9] ;
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
-			result = com.client.showSalesConditionInfo("showSalesConditionIndo", time1, time2) ;
+			result[0] = (double) com.client.someMethodForFinancer("showDiscountInATime", time1, time2) ;
+			result[1] = (double) com.client.someMethodForFinancer("showIncomeInATime", time1, time2);
+			result[2] = (double) com.client.someMethodForFinancer("reportIncome", time1, time2) ;
+			result[3] = (double) com.client.someMethodForFinancer("", time1, time2) ;
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

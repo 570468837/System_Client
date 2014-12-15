@@ -40,7 +40,7 @@ public class InfoBLService_Stub implements InfoBLService {
 	}
 
 	@Override
-	public String showSalesConditionInfo(String time1, String time2) {
+	public double[] showSalesConditionInfo(String time1, String time2) {
 		// TODO Auto-generated method stub
 		if(time1.equals("0001")){
 			System.out.println("success") ;
