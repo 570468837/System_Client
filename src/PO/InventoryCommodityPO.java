@@ -1,5 +1,6 @@
 package PO;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,7 +8,7 @@ import java.util.ArrayList;
  * @author hutao
  *
  */
-public class InventoryCommodityPO {
+public class InventoryCommodityPO implements Serializable {
 	
 	public ArrayList<Object> icInfo;
 

@@ -1,5 +1,6 @@
 package PO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author hutao
  *
  */
-public class SendCommodityPO {
+public class SendCommodityPO implements Serializable{
 	public long goodsPOId;
 	public String customerPOName;
 	public int num;
