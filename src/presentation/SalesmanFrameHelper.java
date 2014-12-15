@@ -258,7 +258,7 @@ public class SalesmanFrameHelper {
 					ResultMessage result = new CustomerController()
 							.addCustomer(vo);
 
-					if (result == ResultMessage.add_customer_success) {
+					if (result == ResultMessage.add_success) {
 						dispose();
 					} else {
 						new warningDialog("已经存在该客户！");
@@ -528,7 +528,7 @@ public class SalesmanFrameHelper {
 					ResultMessage result = new CustomerController()
 							.updateCustmer(vo);
 
-					if (result == ResultMessage.add_customer_success) {
+					if (result == ResultMessage.add_success) {
 						listener.stop();
 						dispose();
 					} else {
@@ -721,7 +721,7 @@ public class SalesmanFrameHelper {
 
 					// 刷新外部表格
 
-					if (result == ResultMessage.create_purchasereceipt_success) {
+					if (result == ResultMessage.add_success) {
 						dispose();
 					} else {
 						new warningDialog("保存失败!");

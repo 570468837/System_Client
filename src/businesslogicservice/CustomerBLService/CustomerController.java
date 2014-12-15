@@ -27,7 +27,7 @@ public class CustomerController implements CustomerBLService {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResultMessage.add_customer_failure;
+			return ResultMessage.add_failure;
 			
 		}
 
@@ -46,7 +46,7 @@ public class CustomerController implements CustomerBLService {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResultMessage.delete_customer_failure;
+			return ResultMessage.delete_failure;
 			
 		}
 
@@ -65,7 +65,7 @@ public class CustomerController implements CustomerBLService {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResultMessage.update_customer_failure;
+			return ResultMessage.update_failure;
 			
 		}
 

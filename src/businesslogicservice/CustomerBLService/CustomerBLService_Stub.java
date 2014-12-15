@@ -18,9 +18,9 @@ public class CustomerBLService_Stub implements CustomerBLService {
 				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
 				&& vo.getSort() == Sort.importer
 				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.add_customer_success;
+			return ResultMessage.add_success;
 		} else {
-			return ResultMessage.add_customer_failure;
+			return ResultMessage.add_failure;
 
 		}
 
@@ -34,9 +34,9 @@ public class CustomerBLService_Stub implements CustomerBLService {
 				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
 				&& vo.getSort() == Sort.importer
 				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.delete_customer_success;
+			return ResultMessage.delete_success;
 		} else {
-			return ResultMessage.delete_customer_failure;
+			return ResultMessage.delete_failure;
 
 		}
 
@@ -50,9 +50,9 @@ public class CustomerBLService_Stub implements CustomerBLService {
 				&& vo.getName().equals("kmno") && vo.getPhone().equals("123")
 				&& vo.getSort() == Sort.importer
 				&& vo.getZipCode().equals("123")) {
-			return ResultMessage.update_customer_success;
+			return ResultMessage.update_success;
 		} else {
-			return ResultMessage.update_customer_failure;
+			return ResultMessage.update_failure;
 
 		}
 

@@ -30,9 +30,9 @@ public class SalesBLService_Stub implements SalesBLService {
 	@Override
 	public ResultMessage creatReceipt(SalesReceiptVO purchaseReceiptVO) {
 		if(purchaseReceiptVO.getSerialNumber().equals("JHD-20140101-00001")){
-			return ResultMessage.create_purchasereceipt_success;
+			return ResultMessage.add_success;
 		}else{
-			return ResultMessage.create_purchasereceipt_failure;
+			return ResultMessage.add_failure;
 		}
 	}
 

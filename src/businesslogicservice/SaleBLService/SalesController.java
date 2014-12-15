@@ -51,7 +51,7 @@ public class SalesController implements SalesBLService {
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResultMessage.create_purchasereceipt_failure;
+			return ResultMessage.add_failure;
 
 		}
 	}
