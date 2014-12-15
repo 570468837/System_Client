@@ -2,6 +2,7 @@ package businesslogicservice.CustomerBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
@@ -73,13 +74,41 @@ public class CustomerController implements CustomerBLService {
 	
 	@Override
 	public ArrayList<CustomerPO> findCustomer(String keyWord) {
-		// TODO Auto-generated method stub
-		return null;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		ArrayList<CustomerPO> customers=new ArrayList<CustomerPO>();
+		try {
+			ArrayList<Object> list=com.client.findObject("showCustomer", keyWord);
+			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
+				CustomerPO object = (CustomerPO) iterator.next();
+				customers.add(object);
+			}
+			
+			return customers;
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+
+		}
 	}
 
 	@Override
 	public CustomerPO getCustomerPOById(String id) {
-		return null;
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return (CustomerPO) com.client.findObject("getCustomer", id).get(0);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+		
 	}
 	//收付款单修改
 	public ResultMessage collectionOrPaymentChangePayOrGetting(CollectionOrPaymentPO collectionOrPaymentPO){
