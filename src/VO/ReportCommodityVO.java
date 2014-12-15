@@ -52,5 +52,8 @@ public class ReportCommodityVO {
 		this.price = po.price;
 		this.date = po.date;
 	}
-	
+	public static void main(String[] args){
+		ReportCommodityVO theVO = new ReportCommodityVO("123", 23, 322) ;
+		System.out.print(theVO.date) ;
+	}
 }

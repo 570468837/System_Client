@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -49,6 +50,7 @@ import VO.CashVO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
 import VO.PurchaseListItemVO;
+import VO.ReportCommodityVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
@@ -1578,13 +1580,9 @@ public class FinanceFrame extends JFrame{
 					    if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/11/10>")){
 					    	new warningDialog("请输入时间区间") ;
 					    }else{
-					    	if(nameOfCustomer.equals("")&&nameOfRetailer.equals("")&&storage.equals("")){
-					    		new warningDialog("请输入查询信息");
-					    	}else{
 					    		result = infoController.showSalesProcessInfo(new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,"",nameOfCustomer,nameOfRetailer,storage)) ;
 					    		thePanel.remove(jsc);
 					    		freshTable(result, typeOfReceipt);
-					    	}
 					    }
 					}
 					
@@ -1709,7 +1707,7 @@ public class FinanceFrame extends JFrame{
 					}
 				});
 			}
-			if(type.equals("JHTHD")){//进货单
+			if(type.equals("JHTHD")){//进货退货单
 				markColumn = 4 ;
 				String[] column = {"单据编号","供应商","仓库","操作员","出库商品列表","备注","总额合计"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
@@ -1732,6 +1730,14 @@ public class FinanceFrame extends JFrame{
 						}
 					}
 				});
+			}
+			if(type.equals("BYD")){//报溢单
+				String[] column = {"商品编号","数量","单价","日期"};
+				table = new JTable(new MyTableModel(objects, column, type));
+			}
+			if(type.equals("BSD")){
+				String[] column = {"商品编号","数量","日期"} ;
+				table = new JTable(new MyTableModel(objects, column, type)) ;
 			}
 			
             table.setBackground(Color.white);
@@ -2102,6 +2108,17 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(theVO.getGoodsVO().price) ;
 					oneRow.add(theVO.getTotalPrice()) ;
 					oneRow.add(theVO.getGoodsVO().comment) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("BYD") || type.equals("BSD")){//报溢单和报损单
+				for(Object object:theDatas){
+					ReportCommodityVO theVO = (ReportCommodityVO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theVO.goodsVOId) ;
+					oneRow.add(theVO.num) ;
+					oneRow.add(theVO.price) ;
+					oneRow.add(new String(new SimpleDateFormat("yyyy/MM/dd").format(theVO.date))) ;
 					datas.add(oneRow) ;
 				}
 			}

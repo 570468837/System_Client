@@ -1,6 +1,7 @@
 package businesslogicservice.InfoBLService;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import businesslogicservice.CommodityBLService.CommodityController;
@@ -9,14 +10,10 @@ import businesslogicservice.SaleBLService.SalesController;
 import PO.CaseListItemPO;
 import PO.CashPO;
 import PO.CollectionOrPaymentPO;
-import PO.GoodsPO;
 import PO.PurchaseReceiptPO;
-import PO.ReportCommodityPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
-import PO.ScreeningConditionPO;
 import PO.TransferListItemPO;
-import PO.UserPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.CaseListItemVO;
@@ -200,7 +197,7 @@ public class InfoController implements InfoBLService{
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO : receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>Integer.parseInt(beginTime)&&date<Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
 					result.add(thePO) ;
 				}
 			}
@@ -209,16 +206,27 @@ public class InfoController implements InfoBLService{
 			ArrayList<PurchaseReceiptPO>receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO :receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>Integer.parseInt(beginTime)&&date<Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
 					result.add(thePO) ;
 				}
 			}
 		}
-		if(condition.equals("BYD")){
+		if(condition.getTypeOfReceipt().equals("BYD")){//报溢单
 			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
 			for(ReportCommodityVO theVO : receipts){
-				@SuppressWarnings("deprecation")
-				String time = "" + theVO.date.getYear()+(theVO.date.getMonth()+1)+theVO.date.getDay() ;
+				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
+				if(theVO.num>0 && (Integer.parseInt(time)>=Integer.parseInt(beginTime) && Integer.parseInt(time)<=Integer.parseInt(endTime))){
+					result.add(theVO) ;
+				}
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("BSD")){
+			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
+			for(ReportCommodityVO theVO : receipts){
+				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
+				if(theVO.num<0 && (Integer.parseInt(time)>=Integer.parseInt(beginTime) && Integer.parseInt(time)<=Integer.parseInt(endTime))){
+					result.add(theVO) ;
+				}
 			}
 		}
 		return result;
