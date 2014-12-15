@@ -43,6 +43,8 @@ public class InfoController implements InfoBLService{
 		boolean isContain = false ;
 		for(SalesReceiptPO theReceipt:resultOfPO){
 		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
+		    if(theReceipt.isApprovedByCommodity()&&theReceipt.isApprovedByManager()){}
+		    else continue ;
 		    
 		    if(!theReceipt.getSerialNumber().substring(0,3).equals("XSD")) continue ;
 		    
@@ -122,7 +124,7 @@ public class InfoController implements InfoBLService{
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().equals(condition.getCustomer())){
+							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -142,7 +144,7 @@ public class InfoController implements InfoBLService{
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("FKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().equals(condition.getCustomer())){
+							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -181,6 +183,9 @@ public class InfoController implements InfoBLService{
 			for(SalesReceiptPO theReceipt:receipts){
 				int date  = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 			    
+				if(theReceipt.isApprovedByCommodity()&&theReceipt.isApprovedByManager()){}
+				else continue ;
+				
 			    if(!theReceipt.getSerialNumber().substring(0,5).equals("XSTHD")) continue ;
 			    
 				if(time1>=date||date>=time2) continue ;
@@ -198,7 +203,8 @@ public class InfoController implements InfoBLService{
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO : receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
+						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一") && thePO.isApprovedByCommodity()&&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
@@ -207,7 +213,8 @@ public class InfoController implements InfoBLService{
 			ArrayList<PurchaseReceiptPO>receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO :receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
+						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")&& thePO.isApprovedByCommodity()&&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
@@ -216,6 +223,7 @@ public class InfoController implements InfoBLService{
 			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
 			for(ReportCommodityVO theVO : receipts){
 				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
+				System.out.println("cacacacaca");
 				if(theVO.num>0 && (Integer.parseInt(time)>=Integer.parseInt(beginTime) && Integer.parseInt(time)<=Integer.parseInt(endTime))){
 					result.add(theVO) ;
 				}
@@ -230,11 +238,11 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("ZSD")){
+		if(condition.getTypeOfReceipt().equals("ZSD")){//赠送单
 			ArrayList<SendCommodityVO> receipts = new CommodityController().showSendCommodity() ;
 			for(SendCommodityVO theVO :receipts){
 				int time = Integer.parseInt(new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date))) ;
-				if((time<=Integer.parseInt(endTime)&&time>=Integer.parseInt(beginTime)) && condition.getCustomer().equals(theVO.customerVOName)){
+				if((time<=Integer.parseInt(endTime)&&time>=Integer.parseInt(beginTime)) && condition.getCustomer().equals(theVO.customerVOName)&&(theVO.checked==1)){
 					result.add(theVO) ;
 				}
 			}
@@ -251,10 +259,15 @@ public class InfoController implements InfoBLService{
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
-			result[0] = (double) com.client.someMethodForFinancer("showDiscountInATime", time1, time2) ;
-			result[1] = (double) com.client.someMethodForFinancer("showIncomeInATime", time1, time2);
-			result[2] = (double) com.client.someMethodForFinancer("reportIncome", time1, time2) ;
-			result[3] = (double) com.client.someMethodForFinancer("", time1, time2) ;
+			result[0] = (double) com.client.someMethodForFinancer("showDiscountInATime", time1, time2) ;//折让
+			result[1] = (double) com.client.someMethodForFinancer("showIncomeInATime", time1, time2);//销售收入
+			result[2] = (double) com.client.someMethodForFinancer("reportIncome", time1, time2) ;//报溢收入
+			result[3] = (double) com.client.someMethodForFinancer("showDiffCostInATime", time1, time2) ;//成本调价
+			result[4] = (double) com.client.someMethodForFinancer("showDifferenceInATime", time1, time2) ;//进退货差价
+			result[5] = (double) com.client.someMethodForFinancer("showDifferenceFromVocherInATime", time1, time2) ;//代金券
+			result[6] = (double) com.client.someMethodForFinancer("showCostInATime", time1, time2) ;//销售支出
+			result[7] = (double) com.client.someMethodForFinancer("reportOutcome", time1, time2) ;//报损支出
+			result[8] = (double) com.client.someMethodForFinancer("sendOutcome", time1, time2) ;//赠送支出
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -102,7 +102,6 @@ public class FinanceFrame extends JFrame{
 		mangeAccountLabel.setBounds(40, 100, 100, 50);
 		mangeAccountLabel.addMouseListener(new MouseAdapter(){
 			public void mouseClicked(MouseEvent e){
-//				System.out.println("click") ;
 				accountPanel.setVisible(true);
 				receiptPanel.setVisible(false);
 				infoPanel.setVisible(false);
@@ -1947,7 +1946,7 @@ public class FinanceFrame extends JFrame{
     		add(typeOfProfitLabel);
     		
     		JLabel sureLabel = new JLabel("查询",JLabel.CENTER) ;
-    		sureLabel.setBounds(550, 21, 68, 15);
+    		sureLabel.setBounds(535, 21, 68, 15);
     		add(sureLabel) ;
     		sureLabel.addMouseListener(new MouseAdapter() {
     			public void mouseClicked(MouseEvent e){
@@ -1956,8 +1955,44 @@ public class FinanceFrame extends JFrame{
     				if(beginTime.equals("<例如2014/10/10>")||endTime.equals("<例如2014/10/10>")){
     					new warningDialog("请输入时间区间");
     				}else{
-    					infoController.showSalesConditionInfo(beginTime, endTime) ;
+    					double[] result = infoController.showSalesConditionInfo(beginTime, endTime) ;
+    					double inCome = result[1] +result[2] +result[3] +result[4] +result[5] ;
+    					double getOut = result[6] +result[7] +result[8] ;
+    					double profit = inCome - getOut ;
+    					sumOfComeInField.setText(String.valueOf(inCome)); 
+    					discountField.setText(String.valueOf(result[0]));
+    					saleComeInField.setText(String.valueOf(result[1]));
+    					overFlowField.setText(String.valueOf(result[2]));
+    					changeCostField.setText(String.valueOf(result[3]));
+    					diffOfInAndOutField.setText(String.valueOf(result[4]));
+    					voucherField.setText(String.valueOf(result[5])) ;
+    					sumOfCostField.setText(String.valueOf(getOut));
+    					saleCostField.setText(String.valueOf(result[6]));
+    					breakageCostField.setText(String.valueOf(result[7]));
+    					sendCostField.setText(String.valueOf(result[8]));
+    					profitField.setText(String.valueOf(profit));
     				}
+    			}
+			});
+    		JLabel cancle = new JLabel("撤销");
+    		cancle.setBounds(610, 21, 68, 15);
+    		add(cancle) ;
+    		cancle.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				beginTimeField.setText("<例如2014/10/10>");
+    				endTimeField.setText("<例如2014/11/10>");
+    				sumOfComeInField.setText("");
+    				discountField.setText("");
+    				saleComeInField.setText("");
+    				overFlowField.setText("");
+    				changeCostField.setText("");
+    				diffOfInAndOutField.setText("");
+    				voucherField.setText("");
+    				sumOfCostField.setText("");
+    				saleCostField.setText("");
+    				breakageCostField.setText("");
+    				sendCostField.setText("");
+    				profitField.setText("");
     			}
 			});
     	}
