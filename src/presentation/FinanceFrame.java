@@ -1538,7 +1538,6 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-//					String typeOfReceipt  ;
 					String beginTime = beginTimeField.getText() ;
 					String endTime = endTimeField.getText() ;
 					String nameOfCustomer = nameOfCustomerField.getText() ;
@@ -1686,7 +1685,7 @@ public class FinanceFrame extends JFrame{
 					}
 				});
 			}
-			if(type.equals("JHD")){
+			if(type.equals("JHD")){//进货单
 				markColumn = 4 ;
 				String[] column = {"单据编号","供应商","仓库","操作员","入库商品列表","备注","总额合计"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
@@ -1706,6 +1705,30 @@ public class FinanceFrame extends JFrame{
 								list.add(itemVO) ;
 							}
 							new ShowListFrame(list, column2,"入库商品列表");
+						}
+					}
+				});
+			}
+			if(type.equals("JHTHD")){//进货单
+				markColumn = 4 ;
+				String[] column = {"单据编号","供应商","仓库","操作员","出库商品列表","备注","总额合计"} ;
+				table = new JTable(new MyTableModel(objects, column, type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint()  ;
+						if(table.rowAtPoint(mousePoint)== markColumn){
+							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
+							int i = table.rowAtPoint(mousePoint) ;
+							currentRow = i ;
+							PurchaseReceiptPO thePO= (PurchaseReceiptPO) objects.get(i) ;
+							ArrayList<Object> list = new ArrayList<>() ;
+							for(PurchaseListItemPO item :thePO.getPurchaseList()){
+								GoodsPO goodPO = item.getGoodsPO() ;
+							    GoodsVO good = new GoodsVO(goodPO.getSerialNumber(), goodPO.getName(), goodPO.getModel(), goodPO.getPrice(), goodPO.getSalePrice(), goodPO.getLatestPrice(), goodPO.getLatestSalePrice(), goodPO.getGoodsClassNum()) ;
+								PurchaseListItemVO itemVO = new PurchaseListItemVO(good, item.getQuantity()) ;
+								list.add(itemVO) ;
+							}
+							new ShowListFrame(list, column2,"出库商品列表");
 						}
 					}
 				});
@@ -1984,7 +2007,7 @@ public class FinanceFrame extends JFrame{
 				}
 			}
 			
-			if(type.equals("SKD")||type.equals("FKD")){//收款单
+			if(type.equals("SKD")||type.equals("FKD")){//收付款单
 				for(Object object: theDatas){
 					CollectionOrPaymentVO receipt = (CollectionOrPaymentVO)object;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -1996,7 +2019,7 @@ public class FinanceFrame extends JFrame{
 					datas.add(oneRow);
 				}
 			}
-			if(type.equals("转账列表")){//首付款单中的转账列表
+			if(type.equals("转账列表")){//收付款单中的转账列表
 				for(Object object : theDatas){
 					TransferListItemVO theItem = (TransferListItemVO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -2018,7 +2041,7 @@ public class FinanceFrame extends JFrame{
 					datas.add(oneRow) ;
  				}
 			}
-			if(type.equals("条目清单")){
+			if(type.equals("条目清单")){//销售单中的条目清单
 				for(Object object : theDatas){
 					CaseListItemVO theCase = (CaseListItemVO)object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -2028,7 +2051,7 @@ public class FinanceFrame extends JFrame{
 					datas.add(oneRow) ;
 				}
 			}
-			if(type.equals("JHD")){
+			if(type.equals("JHD")){//进货单
 				for(Object object : theDatas){
 					PurchaseReceiptPO receipt = (PurchaseReceiptPO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -2042,7 +2065,34 @@ public class FinanceFrame extends JFrame{
 					datas.add(oneRow) ;
 				}
 			}
-			if(type.equals("入库商品列表")){
+			if(type.equals("入库商品列表")){//进货单中的入库商品列表
+				for(Object object : theDatas){
+					PurchaseListItemVO theVO  = (PurchaseListItemVO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(theVO.getGoodsVO().serialNumber) ;
+					oneRow.add(theVO.getGoodsVO().name) ;
+					oneRow.add(theVO.getGoodsVO().model) ;
+					oneRow.add(theVO.getGoodsVO().price) ;
+					oneRow.add(theVO.getTotalPrice()) ;
+					oneRow.add(theVO.getGoodsVO().comment) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("JHTHD")){//进货退货单
+				for(Object object : theDatas){
+					PurchaseReceiptPO receipt = (PurchaseReceiptPO) object ;
+					ArrayList<Object> oneRow = new ArrayList<Object>() ;
+					oneRow.add(receipt.getSerialNumber()) ;
+					oneRow.add(receipt.getCustomerPO().getName()) ;
+					oneRow.add("仓库一") ;
+					oneRow.add(receipt.getUserPO().getUserName()) ;
+					oneRow.add("展开") ;
+					oneRow.add(receipt.getComments()) ;
+					oneRow.add(receipt.getTotalPrice()) ;
+					datas.add(oneRow) ;
+				}
+			}
+			if(type.equals("出库商品列表")){//进货退货单中的出库商品列表
 				for(Object object : theDatas){
 					PurchaseListItemVO theVO  = (PurchaseListItemVO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;

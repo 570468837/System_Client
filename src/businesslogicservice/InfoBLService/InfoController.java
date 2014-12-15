@@ -3,6 +3,7 @@ package businesslogicservice.InfoBLService;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
 import PO.CaseListItemPO;
@@ -10,6 +11,7 @@ import PO.CashPO;
 import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseReceiptPO;
+import PO.ReportCommodityPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import PO.ScreeningConditionPO;
@@ -21,6 +23,7 @@ import VO.CaseListItemVO;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
+import VO.ReportCommodityVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
@@ -104,7 +107,7 @@ public class InfoController implements InfoBLService{
 		Communication_Start com = new Communication_Start() ;
 		com.initial();
 		
-		if(condition.getTypeOfReceipt().equals("SKD")){
+		if(condition.getTypeOfReceipt().equals("SKD")){//收款单
 			try {
 				objects = com.client.showObject("collectionOrPaymentShow") ;
 				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
@@ -130,7 +133,7 @@ public class InfoController implements InfoBLService{
 				e.printStackTrace();
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("FKD")){
+		if(condition.getTypeOfReceipt().equals("FKD")){//付款单
 			try {
 				objects = com.client.showObject("collectionOrPaymentShow");
 				ArrayList<CollectionOrPaymentVO> receipts = new ArrayList<CollectionOrPaymentVO>() ;
@@ -150,7 +153,7 @@ public class InfoController implements InfoBLService{
 				e.printStackTrace();
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("XJFYD")){
+		if(condition.getTypeOfReceipt().equals("XJFYD")){//现金费用单
 			try {
 				ArrayList<CashVO> receipts = new ArrayList<CashVO>() ; 
 				objects = com.client.showObject("cashShow");
@@ -193,13 +196,29 @@ public class InfoController implements InfoBLService{
 				result.add(theReceipt) ;
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("JHD")){
+		if(condition.getTypeOfReceipt().equals("JHD")){//进货单
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO : receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
 				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>Integer.parseInt(beginTime)&&date<Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
 					result.add(thePO) ;
 				}
+			}
+		}
+		if(condition.getTypeOfReceipt().equals("JHTHD")){//进货退货单
+			ArrayList<PurchaseReceiptPO>receipts = new PurchaseController().show() ;
+			for(PurchaseReceiptPO thePO :receipts){
+				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
+				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>Integer.parseInt(beginTime)&&date<Integer.parseInt(endTime)) && thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")){
+					result.add(thePO) ;
+				}
+			}
+		}
+		if(condition.equals("BYD")){
+			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
+			for(ReportCommodityVO theVO : receipts){
+				@SuppressWarnings("deprecation")
+				String time = "" + theVO.date.getYear()+(theVO.date.getMonth()+1)+theVO.date.getDay() ;
 			}
 		}
 		return result;
