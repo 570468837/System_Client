@@ -34,7 +34,7 @@ public class ReportCommodityVO {
 	 * @return 返回转换成的PO
 	 */
 	public ReportCommodityPO toPO() {
-		ReportCommodityPO rcp = new ReportCommodityPO(null);
+		ReportCommodityPO rcp = new ReportCommodityPO();
 		rcp.goodsPOId = this.goodsVOId;
 		rcp.num = this.num;
 		rcp.price = this.price;
