@@ -17,7 +17,13 @@ public class ReportCommodityVO {
 	public Date date;
 	
 	public ReportCommodityVO(String goodsVOId, double price, int num) {
-		this.goodsVOId = Long.parseLong(goodsVOId);
+		try {
+			this.goodsVOId = Long.parseLong(goodsVOId);
+		}
+		catch(Exception e) {
+			this.goodsVOId = 0;
+		}
+		
 		this.num = num;
 		this.price = price;
 		date = new Date();
