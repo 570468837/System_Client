@@ -63,6 +63,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			p.setApprovedByManager(true);
 			new CustomerController().purchaseChangePay(p);
 			
+			
 		}
 		
 	}
@@ -73,6 +74,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		for(SalesReceiptPO s:sales){
 			s.setApprovedByManager(true);
 			//?????去修改单据的数据？
+			
 			boolean ifOut=false;
 			if(s.getSerialNumber().substring(0,3).equals("XSD"))
 				ifOut=true;
