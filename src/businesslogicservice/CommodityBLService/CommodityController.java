@@ -4,6 +4,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import businesslogicservice.GoodsBLService.GoodsController;
+import PO.CustomerPO;
+import PO.GoodsPO;
 import PO.InventoryCommodityPO;
 import PO.ReportCommodityPO;
 import PO.SendCommodityPO;
@@ -183,6 +186,23 @@ public class CommodityController implements CommodityBLService {
 
 	@Override
 	public ResultMessage addSendCommodity(SendCommodityVO sendCommodityVO) {
+		ArrayList<Object> customerList;
+		try {
+			customerList = Communication_Start.client.showObject("showCustomer");
+		} catch (RemoteException e1) {
+			e1.printStackTrace();
+			return ResultMessage.add_failure;
+		}
+		CustomerPO cp;
+		boolean finded = false;
+		for(Object o : customerList) {
+			cp = (CustomerPO)o;
+			if(cp.getName().equals(sendCommodityVO.customerVOName)) {
+				finded = true;
+				break;
+			}
+		}
+		if(!finded) return ResultMessage.add_failure;
 		
 		try {
 			return Communication_Start.client.messageCommand("commoditySend", sendCommodityVO.toPO());

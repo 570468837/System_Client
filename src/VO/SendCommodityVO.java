@@ -19,7 +19,13 @@ public class SendCommodityVO {
 	public int checked = UNCHECKED;
 	
 	public SendCommodityVO(String goodsVOId, String customerVOName, int num, double price, int isChecked) {
-		this.goodsVOId = Long.parseLong(goodsVOId);
+		try {
+			this.goodsVOId = Long.parseLong(goodsVOId);
+		}
+		catch(Exception e) {
+			this.goodsVOId = 0;
+		}
+		
 		this.customerVOName = customerVOName;
 		this.num = num;
 		this.price = price;
