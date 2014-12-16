@@ -92,7 +92,11 @@ public class SalesReceiptVO {
 		}
 		
 	public double getPriceBefore() {
-		return priceBefore;
+		//遍历所有商品获得总价
+				for(int i=0;i<this.salesList.size();i++){
+						this.priceBefore+=this.salesList.get(i).getTotalPrice();				
+				}
+				return priceBefore;
 	}
 
 
@@ -115,12 +119,6 @@ public class SalesReceiptVO {
 		this.discout = discout;
 	}
 
-
-	public void setFinalprice(double finalprice) {
-		this.finalprice = finalprice;
-	}
-	
-	
 	public void addSalesListItem(SalesListItemVO saleListItem){
 		this.salesList.add(saleListItem);		
 	}
@@ -163,16 +161,7 @@ public class SalesReceiptVO {
 		this.commodityNum = commodityNum;
 	}
 
-	public double getPriveBefore() {
-		//遍历所有商品获得总价
-		for(int i=0;i<this.salesList.size();i++){
-				this.priceBefore+=this.salesList.get(i).getTotalPrice();				
-		}
-		return priceBefore;
-	}
-	public void setPriveBefore(long priveBefore) {
-		this.priceBefore = priveBefore;
-	}
+	
 	public double getDiscout() {
 		return discout;
 	}
@@ -184,7 +173,7 @@ public class SalesReceiptVO {
 		this.finalprice=this.priceBefore-this.discout;
 		return finalprice;
 	}
-	public void setFinalprice(long finalprice) {
+	public void setFinalprice(double finalprice) {
 	
 		this.finalprice = finalprice;
 	}

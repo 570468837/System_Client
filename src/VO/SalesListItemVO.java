@@ -25,7 +25,7 @@ public class SalesListItemVO  {
 		this.totalPrice=this.quantity*this.goodsVO.salePrice;
 		return totalPrice;
 	}
-	public void setTotalPrice(long totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 	public GoodsVO getGoodsVO() {

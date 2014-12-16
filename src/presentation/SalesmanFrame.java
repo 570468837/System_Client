@@ -25,14 +25,14 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import presentation.SalesmanFrameHelper.AddCustomerFrame;
-import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame;
-import presentation.SalesmanFrameHelper.AddSalesReceiptFrame;
-import presentation.SalesmanFrameHelper.DeleteCustomerFrame;
-import presentation.SalesmanFrameHelper.UpdateCustomerFrame;
-import presentation.SalesmanFrameHelper.warningDialog;
-import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame.AddItemFrame;
+//
+//import presentation.SalesmanFrameHelper.AddCustomerFrame;
+//import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame;
+//import presentation.SalesmanFrameHelper.AddSalesReceiptFrame;
+//import presentation.SalesmanFrameHelper.DeleteCustomerFrame;
+//import presentation.SalesmanFrameHelper.UpdateCustomerFrame;
+//import presentation.SalesmanFrameHelper.warningDialog;
+//import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame.AddItemFrame;
 import Config.Level;
 import Config.Sort;
 import Config.UserSort;
@@ -57,13 +57,16 @@ public class SalesmanFrame extends JFrame {
 
 	public UserVO userVO;
 	private JLabel exitButton, customerLabel, salesLabel, purchaseLabel;
-	private CustomerPanel customerPanel = new CustomerPanel(this);
-	private SalesPanel salesPanel = new SalesPanel(this);
-	private PurchasePanel purchasePanel = new PurchasePanel(this);
 	
 	Vector customerTableData = new Vector();
 	Vector salesLogTableData=new Vector();
 	Vector purchaseLogTableData=new Vector();
+	
+	private CustomerPanel customerPanel = new CustomerPanel(this);
+	private SalesPanel salesPanel = new SalesPanel(this);
+	private PurchasePanel purchasePanel = new PurchasePanel(this);
+	
+
 
 	// 参数可以用于获取当前操作员信息
 	public SalesmanFrame(UserVO uservo) { // 总Frame
@@ -704,6 +707,7 @@ public class SalesmanFrame extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						CustomerPO customerPO = new CustomerController()
 								.getCustomerPOById(serialNumber.getText());
+						System.out.println(customerPO);
 						if (customerPO != null) {
 							new CustomerController()
 									.deleteCustomer(new CustomerController()

@@ -52,6 +52,19 @@ public class PurchaseController implements PurchaseBLService {
 		}
 	}
 	
+	public ResultMessage updateReceipt(PurchaseReceiptPO po) {
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("updatePurchaseReceipt", po);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResultMessage.update_failure;
+		}
+	}
+	
 	public ArrayList<PurchaseReceiptPO> show(){
 		Communication_Start com = new Communication_Start();
 		com.initial();
