@@ -55,7 +55,7 @@ public class SalesmanFrame extends JFrame {
 	Vector salesLogTableData=new Vector();
 	Vector purchaseLogTableData=new Vector();
 	
-	JTable customerTabel=new JTable();
+	JTable customerTable=new JTable();
 	JTable purchaseLogTable=new JTable();
 	JTable salesLogTable=new JTable();
 	
@@ -175,15 +175,15 @@ public class SalesmanFrame extends JFrame {
 				
 			}
 
-			customerTabel.setModel(model);
+			customerTable.setModel(model);
 			model.setDataVector(customerTableData, tableColName);
-			customerTabel.setFillsViewportHeight(true); // 显示表头
+			customerTable.setFillsViewportHeight(true); // 显示表头
 
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
 			render.setHorizontalAlignment(SwingConstants.CENTER);
-			customerTabel.setDefaultRenderer(Object.class, render);
+			customerTable.setDefaultRenderer(Object.class, render);
 
-			JScrollPane tablePane1 = new JScrollPane(customerTabel);
+			JScrollPane tablePane1 = new JScrollPane(customerTable);
 			tablePane1.setSize(630, 400);
 			tablePane1.setLocation(80, 74);
 			this.add(tablePane1);
@@ -699,6 +699,8 @@ public class SalesmanFrame extends JFrame {
 							new CustomerController()
 									.deleteCustomer(new CustomerController()
 											.toVO(customerPO));
+							updateCustomerPanelTable();
+							
 							dispose();
 						} else {
 							new warningDialog("查无此人！！");
@@ -1161,13 +1163,13 @@ public class SalesmanFrame extends JFrame {
 					cancelButton.setBounds(130, 100, 80, 20);
 					getContentPane().add(cancelButton);
 
-					confirmButton.addActionListener(new ActionListener() {
+					this.confirmButton.addActionListener(new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							// 既然胡韬不改ID为string，这里只好强制转换
-							GoodsVO good = new GoodsController().getGoodsByID(new Long(
-									0).parseLong(goodsSerialNumber.getText()));
+
+							GoodsVO good = new GoodsController().getGoodsByID(Long.parseLong(goodsSerialNumber.getText()));
+							System.out.println(good);
 							// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
 							// 100, 100, "a");//测试
 							// 在这里应当向frame添加商品列表中的商品
@@ -1792,10 +1794,12 @@ public class SalesmanFrame extends JFrame {
 		
 	}
 	
-	public void updateCustomerPanelTabel(){
+	public void updateCustomerPanelTable(){
 		ArrayList<CustomerPO> customers = new CustomerController().show();
 		System.out.println(customers);
 
+		customerTableData.removeAllElements();
+		
 		for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
 			CustomerPO customerPO = (CustomerPO) iterator.next();
 			Vector tableRows = new Vector();
@@ -1815,6 +1819,8 @@ public class SalesmanFrame extends JFrame {
 			customerTableData.add(tableRows);
 			
 		}
+		
+		customerTable.updateUI();
 		
 	}
 

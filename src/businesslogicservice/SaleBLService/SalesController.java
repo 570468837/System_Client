@@ -2,11 +2,8 @@ package businesslogicservice.SaleBLService;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import PO.CustomerPO;
 import PO.GoodsPO;
-import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
 import PO.UserPO;
@@ -14,7 +11,9 @@ import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
+import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
+import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
 
@@ -225,6 +224,46 @@ public class SalesController implements SalesBLService {
 		
 		
 		return po;
+		
+	}
+	
+	public SalesReceiptVO toVO(SalesReceiptPO salesReceiptPO){
+		UserVO userVO = new UserVO(salesReceiptPO.getUserPO().getUserName(),
+				salesReceiptPO.getUserPO().getPassword(), salesReceiptPO
+						.getUserPO().getUserSort(), salesReceiptPO.getUserPO()
+						.getLevel());
+
+		GoodsVO goodsVO;
+
+		ArrayList<SalesListItemVO> list = new ArrayList<SalesListItemVO>();
+		for (int i = 0; i < salesReceiptPO.getSalesList().size(); i++) {
+			goodsVO = new GoodsVO(salesReceiptPO.getSalesList().get(i)
+					.getGoodsPO().getSerialNumber(), salesReceiptPO.getSalesList()
+					.get(i).getGoodsPO().getName(), salesReceiptPO.getSalesList()
+					.get(i).getGoodsPO().getModel(), salesReceiptPO.getSalesList()
+					.get(i).getGoodsPO().getPrice(), salesReceiptPO.getSalesList()
+					.get(i).getGoodsPO().getSalePrice(), salesReceiptPO.getSalesList()
+					.get(i).getGoodsPO().getComment());
+
+			list.add(new SalesListItemVO(goodsVO, salesReceiptPO.getSalesList()
+					.get(i).getQuantity()));
+
+		}
+		SalesReceiptVO vo = new SalesReceiptVO(
+				salesReceiptPO.getSerialNumber(), salesReceiptPO.getRetailer(),
+				salesReceiptPO.getSalesman(), list, userVO,
+				salesReceiptPO.getCommodityNum(),
+				salesReceiptPO.getPriceBefore(), salesReceiptPO.getDiscout(),
+				salesReceiptPO.getFinalprice(), salesReceiptPO.getTime(),
+				salesReceiptPO.getComment());
+		
+		vo.setApprovedByCommodity(salesReceiptPO.isApprovedByCommodity());
+		vo.setApprovedByManager(salesReceiptPO.isApprovedByManager());
+		
+		vo.setVocher(salesReceiptPO.getVocher());
+		
+		
+		return vo;
 		
 	}
 }
