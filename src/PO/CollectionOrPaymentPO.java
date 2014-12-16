@@ -12,13 +12,16 @@ public class CollectionOrPaymentPO implements Serializable{
 	String user ;
 	ArrayList<TransferListItemPO> trList = new ArrayList<TransferListItemPO>();//转账列表
 	double total ;
-	boolean isApprovedByManager = false ;
-	boolean isApprovedByFinancer = false ;
+	boolean isApprovedByManager  ;
+	boolean isApprovedByFinancer  ;
 	public CollectionOrPaymentPO(){
 		number = null ;
 		customer = null ;
 		user = null ;
+		trList  = null ;
 		total = 0 ;
+		isApprovedByManager = false ;
+		isApprovedByFinancer = false ;
 	}
 	public CollectionOrPaymentPO(String number, String customer,
 			String typeOfCustomer, String user,
@@ -33,14 +36,6 @@ public class CollectionOrPaymentPO implements Serializable{
 		this.total = total;
 		this.isApprovedByManager = isApprovedByManager;
 		this.isApprovedByFinancer = isApprovedByFinancer;
-	}
-	public CollectionOrPaymentPO(String theNumber,String theCustomer,String theTypeOfCustomer,String theUser,ArrayList<TransferListItemPO> theTrList , double theSum){
-		number = theNumber ; 
-		customer = theCustomer ; 
-		typeOfCustomer = theTypeOfCustomer ;
-		user = theUser ; 
-		trList = theTrList ;
-		total = theSum ;
 	}
 	public String getTypeOfCustomer() {
 		return typeOfCustomer;
@@ -62,7 +57,9 @@ public class CollectionOrPaymentPO implements Serializable{
 	}
 	public double getTotal(){
 		double total = 0 ;
+		if(trList != null )
 		for(TransferListItemPO theItem:trList){
+			if(theItem != null)
 			total += theItem.getTransferMoney() ;
 		}
 		return total ;

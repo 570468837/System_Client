@@ -110,7 +110,7 @@ public class FinanceController implements FinanceBLService{
 		for(TransferListItemVO theItem:vo.getTrList()){
 			trList.add(new TransferListItemPO(theItem.getAccount(),theItem.getTransferMoney(),theItem.getRemark())) ;
 		}
-		CollectionOrPaymentPO collection = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getTypeOfCustomer(),vo.getUser(),trList,vo.getTotal());
+		CollectionOrPaymentPO collection = new CollectionOrPaymentPO(vo.getNumber(),vo.getCustomer(),vo.getTypeOfCustomer(),vo.getUser(),trList,vo.getTotal(),vo.isApprovedByManager(),vo.isApprovedByFinancer());
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
@@ -171,11 +171,12 @@ public class FinanceController implements FinanceBLService{
 		for(Object theObject :objects){
 			CollectionOrPaymentPO theReceipt = (CollectionOrPaymentPO)theObject ;
 			ArrayList<TransferListItemVO> tfItems = new ArrayList<TransferListItemVO>() ;
+			if(theReceipt.getTrList()!=null)
 			for(TransferListItemPO theItem : theReceipt.getTrList()){
 				TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
 				tfItems.add(item) ;
 				}
-			result.add(new CollectionOrPaymentVO(theReceipt.getNumber(),theReceipt.getCustomer(),theReceipt.getTypeOfCustomer(),theReceipt.getUser(),tfItems,theReceipt.getTotal())) ;
+			result.add(new CollectionOrPaymentVO(theReceipt.getNumber(),theReceipt.getCustomer(),theReceipt.getTypeOfCustomer(),theReceipt.getUser(),tfItems,theReceipt.getTotal(),theReceipt.isApprovedByManager(),theReceipt.isApprovedByFinancer())) ;
 			
 		}
 		return result;
@@ -254,7 +255,7 @@ public ResultMessage updateCollectionOrPayment(CollectionOrPaymentPO po) {
 	Communication_Start com = new Communication_Start() ;
 	com.initial(); 
 	try {
-		result = com.client.messageCommand("collectionOrParmentUpdate", po) ;
+		result = com.client.messageCommand("collectionOrPaymentUpdate", po) ;
 	} catch (RemoteException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -292,6 +293,14 @@ public ResultMessage init() {
 }
 public static void main(String[] args){
 	new FinanceController().addCollectionOrPaymentVO(new CollectionOrPaymentVO());
+}
+
+public void updateCollectionOrPayment(
+		CollectionOrPaymentVO collectionOrPaymentVO) {
+	// TODO Auto-generated method stub
+	CollectionOrPaymentPO thePO = this.VOToPO(collectionOrPaymentVO) ;
+	this.updateCollectionOrPayment(thePO) ;
+	
 }
 
 }
