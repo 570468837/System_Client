@@ -8,6 +8,7 @@ import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PurchseBLService.PurchaseController;
+import businesslogicservice.SaleBLService.SalesController;
 import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
 import PO.GoodsPO;
@@ -63,7 +64,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			p.setApprovedByManager(true);
 			new CustomerController().purchaseChangePay(p);
 			
-			
+			new PurchaseController().updateReceipt(p);
 		}
 		
 	}
@@ -109,6 +110,8 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		for(SalesReceiptPO s:sales){
 			s.setApprovedByManager(true);
 			new CustomerController().salesChangeGetting(s);
+			
+			new SalesController().updateReceipt(s);
 			}
 		}
 
@@ -134,7 +137,8 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		for(PurchaseReceiptPO p:purchases){
 			p.setApprovedByManager(false);
 			p.setApprovedByCommodity(true);
-			//???update
+
+			new PurchaseController().updateReceipt(p);
 		}
 	}
 
@@ -142,6 +146,8 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		for(SalesReceiptPO s:sales){
 			s.setApprovedByManager(false);
 			s.setApprovedByCommodity(true);
+			
+			new SalesController().updateReceipt(s);
 		}
 	}
 	
