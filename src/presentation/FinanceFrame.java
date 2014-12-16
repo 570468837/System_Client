@@ -59,6 +59,7 @@ import VO.ScreeningConditionVO;
 import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
+import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.InfoBLService.InfoController;
 
@@ -1886,6 +1887,8 @@ public class FinanceFrame extends JFrame{
 					theItem.setTransferMoney(-theItem.getTransferMoney());
 				}
 				theReceipt.setNumber(fController.getReceiptNumber(type));
+				theReceipt.setApprovedByFinancer(true);
+				theReceipt.setApprovedByManager(true);
 				fController.addCollectionOrPaymentVO(theReceipt) ;
 			}
 			if(type.equals("XSD")){
@@ -1898,8 +1901,9 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
 				theReceipt.setFinalprice(-theReceipt.getFinalprice());
 				theReceipt.setVocher(-theReceipt.getVocher());
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
 			}
-			
 			if(type.equals("XSTHD")){
 				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
@@ -1910,10 +1914,32 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
 				theReceipt.setFinalprice(-theReceipt.getFinalprice());
 				theReceipt.setVocher(-theReceipt.getVocher());
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){
-				PurchaseListItemPO theReceipt = (PurchaseListItemPO)result.get(currentRow) ;
-//				for()
+				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
+				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
+					theItem.setQuantity(-theItem.getQuantity());
+					theItem.setTotalPrice(-theItem.getTotalPrice());
+				}
+				theReceipt.setTotalPrice(theReceipt.getTotalPrice()) ;
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
+			}
+			if(type.equals("BYD")||type.equals("BSD")){
+				ReportCommodityVO theReceipt = (ReportCommodityVO) result.get(currentRow) ;
+				theReceipt.num = -theReceipt.num ;
+				theReceipt.date = new Date();
+				CommodityController c = new CommodityController() ;
+				c.addReportCommodity(theReceipt) ;
+			}
+			if(type.equals("ZSD")){
+				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
+				theReceipt.num = -theReceipt.num ;
+				theReceipt.checked = 1 ;
+				CommodityController c = new CommodityController() ;
+				c.addSendCommodity(theReceipt) ;
 			}
 		}
 }
