@@ -5,6 +5,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import PO.GoodsPO;
+import VO.GoodsClassVO;
 import VO.GoodsVO;
 import VO.ReportCommodityVO;
 import VO.SendCommodityVO;
@@ -26,9 +28,10 @@ class SendFrame extends JFrame {
 	    sendModel,
 	    sendNum;
 	JLabel send;
-	public SendFrame() {
+	public SendFrame(SendCommodityVO theVO) {
 		super("赠送单制定");
-		this.setBounds(0, 0, 300, 110);
+		this.setSize(250, 100);
+		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame = this;
@@ -36,21 +39,22 @@ class SendFrame extends JFrame {
 		cc = new CommodityController();
 		gc = new GoodsController();
 		
-		sendCustomer = new JTextField("<客户名>");
+		sendCustomer = new JTextField(theVO.customerVOName);
 		sendCustomer.setBounds(10, 10, 100, 25);
-		new AddWordsChange(sendCustomer, "<客户名>");
+//		new AddWordsChange(sendCustomer, "<客户名>");
 		
-		sendName = new JTextField("<商品名>");
+		GoodsVO theGood = gc.getGoodsByID(theVO.goodsVOId) ;
+		sendName = new JTextField(theGood.name);
 		sendName.setBounds(10, 35, 100, 25);
-		new AddWordsChange(sendName, "<商品名>");
+//		new AddWordsChange(sendName, "<商品名>");
 		
-		sendModel = new JTextField("<商品型号>");
+		sendModel = new JTextField(theGood.model);
 		sendModel.setBounds(110, 10, 100, 25);
-		new AddWordsChange(sendModel, "<商品型号>");
+//		new AddWordsChange(sendModel, "<商品型号>");
 		
-		sendNum = new JTextField("<赠送数量>");
+		sendNum = new JTextField(theVO.num);
 		sendNum.setBounds(110, 35, 100, 25);
-		new AddWordsChange(sendNum, "<赠送数量>");
+//		new AddWordsChange(sendNum, "<赠送数量>");
 		
 		send = new JLabel("赠送", JLabel.CENTER);
 		send.setBounds(210, 10, 60, 25);
@@ -109,9 +113,10 @@ class ReportFrame extends JFrame {
 	JLabel 
 	    report;
 	
-	public ReportFrame() {
+	public ReportFrame(ReportCommodityVO theVO) {
 		super("库存报单制定");
-		this.setBounds(0, 0, 300, 110);
+		this.setSize(250, 100);
+		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame = this;
@@ -119,17 +124,18 @@ class ReportFrame extends JFrame {
 		cc = new CommodityController();
 		gc = new GoodsController();
 		
-		reportName = new JTextField("<商品名>");
+		GoodsVO theGood = gc.getGoodsByID(theVO.goodsVOId) ;
+		reportName = new JTextField(theGood.name);
 		reportName.setBounds(10, 10, 100, 25);
-		new AddWordsChange(reportName, "<商品名>");
+//		new AddWordsChange(reportName, "<商品名>");
 		
-		reportModel = new JTextField("<商品型号>");
+		reportModel = new JTextField(theGood.model);
 		reportModel.setBounds(10, 35, 100, 25);
-		new AddWordsChange(reportModel, "<商品型号>");
+//		new AddWordsChange(reportModel, "<商品型号>");
 		
-		reportNum = new JTextField("<商品数量>");
+		reportNum = new JTextField(theVO.num);
 		reportNum.setBounds(110, 10, 100, 25);
-		new AddWordsChange(reportNum, "<商品数量>");
+//		new AddWordsChange(reportNum, "<商品数量>");
 		
 		reportType = new JComboBox<String>(
 				new String[] {"<单据类型>", "报溢单", "报损单"});
@@ -183,8 +189,8 @@ class ReportFrame extends JFrame {
 	
 
 	public static void main(String[] args) {
-		new ReportFrame();
-		//new SendFrame();
+//		new ReportFrame();
+//		new SendFrame();
 	}
 }
 

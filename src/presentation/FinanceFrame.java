@@ -1858,7 +1858,7 @@ public class FinanceFrame extends JFrame{
 				String[] column = {"商品编号","商品数量","商品单价","日期"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
 			}
-			if(type.equals("ZSD")){
+			if(type.equals("ZSD")){//赠送单
 				String[]  column = {"商品编号","客户名称","商品数量","商品单价","日期"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
 				table.addMouseListener(new MouseAdapter() {
@@ -1940,6 +1940,18 @@ public class FinanceFrame extends JFrame{
 				theReceipt.checked = 1 ;
 				CommodityController c = new CommodityController() ;
 				c.addSendCommodity(theReceipt) ;
+			}
+		}
+  
+		private void hcAndfz(String type){
+			hc(type) ;
+			if(type.equals("BYD")||type.equals("BSD")){
+				ReportCommodityVO theVO = (ReportCommodityVO) result.get(currentRow) ;
+				new ReportFrame(theVO) ;
+			}
+			if(type.equals("ZSD")){
+				SendCommodityVO theVO = (SendCommodityVO) result.get(currentRow) ;
+				new SendFrame(theVO) ;
 			}
 		}
 }

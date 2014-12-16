@@ -255,20 +255,21 @@ public class InfoController implements InfoBLService{
 	@Override
 	public double[] showSalesConditionInfo(String time1, String time2) {
 		// TODO Auto-generated method stub
-		time1 = time1.replaceAll("/", "-") ;
-		time2 = time2.replaceAll("/", "-") ;
+		String time3 = time1.replaceAll("/", "-") ;
+		String time4 = time2.replaceAll("/", "-") ;
 		double[] result = new double[9] ;
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
-			result[0] = (double) com.client.someMethodForFinancer("showDiscountInATime", time1, time2) ;//折让
-			result[1] = (double) com.client.someMethodForFinancer("showIncomeInATime", time1, time2);//销售收入
+			result[0] = (double) com.client.someMethodForFinancer("showDiscountInATime", time3, time4) ;//折让
+			result[1] = (double) com.client.someMethodForFinancer("showIncomeInATime", time3, time4);//销售收入
 			result[2] = (double) com.client.someMethodForFinancer("reportIncome", time1, time2) ;//报溢收入
-			result[3] = (double) com.client.someMethodForFinancer("showDiffCostInATime", time1, time2) ;//成本调价
-			result[4] = (double) com.client.someMethodForFinancer("showDifferenceInATime", time1, time2) ;//进退货差价
-			result[5] = (double) com.client.someMethodForFinancer("showDifferenceFromVocherInATime", time1, time2) ;//代金券
-			result[6] = (double) com.client.someMethodForFinancer("showCostInATime", time1, time2) ;//销售支出
+			result[3] = (double) com.client.someMethodForFinancer("showDiffCostInATime", time3, time4) ;//成本调价
+			result[4] = (double) com.client.someMethodForFinancer("showDifferenceInATime", time3, time4) ;//进退货差价
+			result[5] = (double) com.client.someMethodForFinancer("showDifferenceFromVocherInATime", time3, time4) ;//代金券
+			result[6] = (double) com.client.someMethodForFinancer("showCostInATime",time3, time4) ;//销售支出
 			result[7] = (double) com.client.someMethodForFinancer("reportOutcome", time1, time2) ;//报损支出
+			result[7] = -result[7] ;
 			result[8] = (double) com.client.someMethodForFinancer("sendOutcome", time1, time2) ;//赠送支出
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
