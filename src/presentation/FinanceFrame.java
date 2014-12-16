@@ -1140,8 +1140,10 @@ public class FinanceFrame extends JFrame{
     }
  
     class MessageFromManager extends JPanel{
-    	private JTextField textField;
-    	private JTextField textField_1;
+    	private JTable passTable ;
+    	private JScrollPane passJsc ;
+    	private JTable failTable ;
+    	private JScrollPane failJsc ;
 
     	/**
     	 * Create the panel.
@@ -1151,28 +1153,36 @@ public class FinanceFrame extends JFrame{
     		this.setBorder(new EmptyBorder(5, 5, 5, 5));
     		this.setLayout(null);
     		
-    		JLabel label = new JLabel("\u5BA1\u6279\u901A\u8FC7");
-    		label.setBounds(195, 10, 54, 15);
-    		add(label);
+    		JLabel passLabel = new JLabel("审批通过");
+    		passLabel.setBounds(195, 10, 54, 15);
+    		add(passLabel);
     		
-    		textField = new JTextField();
-    		textField.setBounds(23, 38, 451, 149);
-    		add(textField);
-    		textField.setColumns(10);
     		
-    		JLabel label_1 = new JLabel("\u5BA1\u6279\u4E0D\u901A\u8FC7");
-    		label_1.setBounds(195, 197, 69, 15);
-    		add(label_1);
+    		JLabel failLabel = new JLabel("审批未通过");
+    		failLabel.setBounds(195, 197, 69, 15);
+    		add(failLabel);
     		
-    		textField_1 = new JTextField();
-    		textField_1.setBounds(23, 222, 451, 148);
-    		add(textField_1);
-    		textField_1.setColumns(10);
     		
-    		JLabel label_2 = new JLabel("\u5237\u65B0");
-    		label_2.setBounds(406, 10, 54, 15);
-    		add(label_2);
+    		JLabel freshLabel = new JLabel("刷新");
+    		freshLabel.setBounds(406, 10, 54, 15);
+    		add(freshLabel);
+    		refreshTable();
+    		
     	}
+    	public void refreshTable(){
+    		String[] column = {"单据编号","客户","操作员","转账列表","总额汇总"};
+			ArrayList<CollectionOrPaymentVO> passReceipts = new FinanceController().showPassReceipt() ;
+			ArrayList<CollectionOrPaymentVO> failReceipts = new FinanceController().showFailReceipt() ;
+			passTable = new JTable(new MyTableModel(passReceipts, column)) ;
+			passJsc = new JScrollPane(passTable) ;
+			passJsc.setBounds(23, 38, 451, 149);
+			this.add(passJsc) ;
+    		
+    		failTable = new JTable(new MyTableModel(failReceipts, column)) ;
+    		failJsc = new JScrollPane(failTable) ;
+    		failJsc.setBounds(23, 222, 451, 148);
+    		this.add(failJsc) ;
+		}
 }
 
 	
@@ -2223,6 +2233,19 @@ public class FinanceFrame extends JFrame{
 			columnOfReceipt = theColumn ;
 		}
 
+	    public MyTableModel(ArrayList<CollectionOrPaymentVO> receipts ,String[] column) {
+			// TODO Auto-generated constructor stub
+	    	for(CollectionOrPaymentVO receipt : receipts){
+				ArrayList<Object> oneRow = new ArrayList<Object>() ;
+				oneRow.add(receipt.getNumber());
+				oneRow.add(receipt.getCustomer()) ;
+				oneRow.add(receipt.getUser()) ;
+				oneRow.add("展开");
+				oneRow.add(receipt.getTotal()) ;
+				datas.add(oneRow);
+			}
+	    	columnOfReceipt = column ;
+		}
 		@Override
 		public String getColumnName(int col)
 	     {

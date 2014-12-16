@@ -180,6 +180,26 @@ public class FinanceController implements FinanceBLService{
 		}
 		return result;
 	}
+	public ArrayList<CollectionOrPaymentVO> showPassReceipt(){
+		ArrayList<CollectionOrPaymentVO> receipts = this.showCollectionOrPaymentVOs() ;
+		ArrayList<CollectionOrPaymentVO> passReceipts = new ArrayList<CollectionOrPaymentVO>() ;
+		for(CollectionOrPaymentVO theReceipt:receipts){
+			if(theReceipt.isApprovedByManager() && (!theReceipt.isApprovedByFinancer())){
+				passReceipts.add(theReceipt) ;
+			}
+		}
+		return passReceipts ;
+	}
+	public ArrayList<CollectionOrPaymentVO> showFailReceipt(){
+		ArrayList<CollectionOrPaymentVO> receipts = this.showCollectionOrPaymentVOs() ;
+		ArrayList<CollectionOrPaymentVO> failReceipts = new ArrayList<CollectionOrPaymentVO>() ;
+		for(CollectionOrPaymentVO theReceipt : receipts){
+			if(theReceipt.isApprovedByFinancer() && (!theReceipt.isApprovedByManager())){
+				failReceipts.add(theReceipt) ;
+			}
+		}
+		return failReceipts ;
+	}
 	@Override
 	public ArrayList<CashVO> showCashVOs() {
 		// TODO Auto-generated method stub
@@ -204,8 +224,8 @@ public class FinanceController implements FinanceBLService{
 		}
 		return result ;
 	}
-@Override
-public CollectionOrPaymentPO VOToPO(CollectionOrPaymentVO vo) {
+   @Override
+    public CollectionOrPaymentPO VOToPO(CollectionOrPaymentVO vo) {
 	// TODO Auto-generated method stub
 	ArrayList<TransferListItemPO> tfItems = new ArrayList<TransferListItemPO>() ;
 	for(TransferListItemVO theItem : vo.getTrList()){
