@@ -24,6 +24,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -38,6 +39,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 import Config.UserSort;
+import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
@@ -57,6 +59,7 @@ import VO.ScreeningConditionVO;
 import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
+import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.InfoBLService.InfoController;
 
@@ -626,7 +629,7 @@ public class FinanceFrame extends JFrame{
 							ArrayList<String> account = tfAccounts.get(i) ;
 							tfList.add(new TransferListItemVO(account.get(0), Double.parseDouble(account.get(1)),account.get(2))) ;
 						}
-						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoneys)) ;
+						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoneys),false,false) ;
 						ResultMessage result = fController.addCollectionOrPaymentVO(collectionOrPayment) ;
 						new warningDialog("添加成功");
 						nameOfCustomerField.setText("");
@@ -1166,21 +1169,65 @@ public class FinanceFrame extends JFrame{
     		JLabel freshLabel = new JLabel("刷新");
     		freshLabel.setBounds(406, 10, 54, 15);
     		add(freshLabel);
+    		freshLabel.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				refreshTable();
+    			}
+			});
+    		
+    		
     		refreshTable();
     		
     	}
     	public void refreshTable(){
-    		String[] column = {"单据编号","客户","操作员","转账列表","总额汇总"};
+    		String[] passColumn = {"单据编号","客户","操作员","转账列表","总额汇总","是否完成转账"};
 			ArrayList<CollectionOrPaymentVO> passReceipts = new FinanceController().showPassReceipt() ;
 			ArrayList<CollectionOrPaymentVO> failReceipts = new FinanceController().showFailReceipt() ;
-			passTable = new JTable(new MyTableModel(passReceipts, column)) ;
+			passTable = new JTable(new MyTableModel(passReceipts, passColumn,true)) ;
+			passTable.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					Point mousePoint = e.getPoint() ;
+					if(passTable.columnAtPoint(mousePoint) == 3){
+						int i = passTable.rowAtPoint(mousePoint) ;
+						CollectionOrPaymentVO theVO = passReceipts.get(i) ;
+						ArrayList<Object> list = new ArrayList<>(theVO.getTrList()) ;
+						String[] column2= {"银行账户","转账金额","备注"} ;
+						new ShowListFrame(list, column2, "转账列表");
+					}
+					if(passTable.columnAtPoint(mousePoint) == 5){
+						int i = passTable.rowAtPoint(mousePoint) ;
+						CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
+						theReceipt.setApprovedByFinancer(true);
+						fController.updateCollectionOrPayment(theReceipt) ;
+//						refreshTable();
+					}
+				}
+			});
+			passTable.setBackground(Color.WHITE);
 			passJsc = new JScrollPane(passTable) ;
 			passJsc.setBounds(23, 38, 451, 149);
+			passJsc.setBackground(Color.white);
 			this.add(passJsc) ;
+			
     		
-    		failTable = new JTable(new MyTableModel(failReceipts, column)) ;
+			String[] failColumn = {"单据编号","客户","操作员","转账列表","总额汇总"} ;
+    		failTable = new JTable(new MyTableModel(failReceipts, failColumn,false)) ;
+    		failTable.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				Point mousePoint = e.getPoint() ;
+    				if(failTable.columnAtPoint(mousePoint) == 3){
+						int i = passTable.rowAtPoint(mousePoint) ;
+						CollectionOrPaymentVO theVO = passReceipts.get(i) ;
+						ArrayList<Object> list = new ArrayList<>(theVO.getTrList()) ;
+						String[] column2= {"银行账户","转账金额","备注"} ;
+						new ShowListFrame(list, column2, "转账列表");
+					}
+    			}
+			});
+    		failTable.setBackground(Color.WHITE);
     		failJsc = new JScrollPane(failTable) ;
     		failJsc.setBounds(23, 222, 451, 148);
+    		failJsc.setBackground(Color.white);
     		this.add(failJsc) ;
 		}
 }
@@ -1441,8 +1488,8 @@ public class FinanceFrame extends JFrame{
 		private JPanel thePanel;
 		ArrayList<Object> result ;
 		String typeOfReceipt  ;
-		int markColumn = 100 ;
-		int currentRow = 100 ;
+		int markColumn = 10000 ;
+		int currentRow = 10000 ;
 		/**
 		 * Create the panel.
 		 */
@@ -1566,6 +1613,13 @@ public class FinanceFrame extends JFrame{
 			JLabel hcLablel = new JLabel("红冲");
 			hcLablel.setBounds(400, 365, 100, 20);
 			add(hcLablel) ;
+			hcLablel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					int i = JOptionPane.showConfirmDialog(null, "确定进行红冲操作？");
+					if((i == 0) && (currentRow != 10000))
+					hc(typeOfReceipt) ;
+				}
+			});
 			 
 			
 			JLabel hcAndfzLabel = new JLabel("红冲并复制");
@@ -1578,6 +1632,9 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					currentRow = 10000;
+					markColumn = 10000;
+					typeOfReceipt = "" ;
 					jcs1.setSelectedIndex(0);
 					jcs2.removeAllItems();
 					thePanel.remove(jsc);
@@ -1594,6 +1651,8 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					currentRow = 10000;
+					markColumn = 10000;
 					String beginTime = beginTimeField.getText() ;
 					String endTime = endTimeField.getText() ;
 					String nameOfCustomer = nameOfCustomerField.getText() ;
@@ -1788,6 +1847,12 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("BYD")){//报溢单
 				String[] column = {"商品编号","商品数量","商品单价","日期"};
 				table = new JTable(new MyTableModel(objects, column, type));
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint() ;
+						currentRow = table.rowAtPoint(mousePoint) ;
+					}
+				});
 			}
 			if(type.equals("BSD")){//报损单
 				String[] column = {"商品编号","商品数量","商品单价","日期"} ;
@@ -1796,6 +1861,12 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("ZSD")){
 				String[]  column = {"商品编号","客户名称","商品数量","商品单价","日期"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint() ;
+						currentRow = table.rowAtPoint(mousePoint) ;
+					}
+				});
 			}
 			
             table.setBackground(Color.white);
@@ -1807,6 +1878,69 @@ public class FinanceFrame extends JFrame{
 			jsc = new JScrollPane(table) ;
 			 jsc.setBounds(5, 121, 690, 240);
 			add(jsc);
+		}
+		
+		private void hc(String type){
+			if(type.equals("SKD")||type.equals("FKD")){			
+				CollectionOrPaymentVO theReceipt = (CollectionOrPaymentVO) result.get(currentRow) ;
+				for(TransferListItemVO theItem : theReceipt.getTrList()){
+					theItem.setTransferMoney(-theItem.getTransferMoney());
+				}
+				theReceipt.setNumber(fController.getReceiptNumber(type));
+				theReceipt.setApprovedByFinancer(true);
+				theReceipt.setApprovedByManager(true);
+				fController.addCollectionOrPaymentVO(theReceipt) ;
+			}
+			if(type.equals("XSD")){
+				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
+				for(SalesListItemVO theItem:theReceipt.getSalesList()){
+					theItem.setQuantity(-theItem.getQuantity());
+					theItem.setTotalPrice(-theItem.getTotalPrice());
+				}
+				theReceipt.setDiscout(-theReceipt.getDiscout());
+				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
+				theReceipt.setFinalprice(-theReceipt.getFinalprice());
+				theReceipt.setVocher(-theReceipt.getVocher());
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
+			}
+			if(type.equals("XSTHD")){
+				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
+				for(SalesListItemPO theItem:theReceipt.getSalesList()){
+					theItem.setQuantity(-theItem.getQuantity());
+					theItem.setTotalPrice(-theItem.getTotalPrice());
+				}
+				theReceipt.setDiscout(-theReceipt.getDiscout());
+				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
+				theReceipt.setFinalprice(-theReceipt.getFinalprice());
+				theReceipt.setVocher(-theReceipt.getVocher());
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
+			}
+			if(type.equals("JHD")||type.equals("JHTHD")){
+				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
+				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
+					theItem.setQuantity(-theItem.getQuantity());
+					theItem.setTotalPrice(-theItem.getTotalPrice());
+				}
+				theReceipt.setTotalPrice(theReceipt.getTotalPrice()) ;
+				theReceipt.setApprovedByCommodity(true);
+				theReceipt.setApprovedByManager(true);
+			}
+			if(type.equals("BYD")||type.equals("BSD")){
+				ReportCommodityVO theReceipt = (ReportCommodityVO) result.get(currentRow) ;
+				theReceipt.num = -theReceipt.num ;
+				theReceipt.date = new Date();
+				CommodityController c = new CommodityController() ;
+				c.addReportCommodity(theReceipt) ;
+			}
+			if(type.equals("ZSD")){
+				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
+				theReceipt.num = -theReceipt.num ;
+				theReceipt.checked = 1 ;
+				CommodityController c = new CommodityController() ;
+				c.addSendCommodity(theReceipt) ;
+			}
 		}
 }
     class SaleConditionPanel extends JPanel{
@@ -2233,7 +2367,7 @@ public class FinanceFrame extends JFrame{
 			columnOfReceipt = theColumn ;
 		}
 
-	    public MyTableModel(ArrayList<CollectionOrPaymentVO> receipts ,String[] column) {
+	    public MyTableModel(ArrayList<CollectionOrPaymentVO> receipts ,String[] column,boolean isPass) {
 			// TODO Auto-generated constructor stub
 	    	for(CollectionOrPaymentVO receipt : receipts){
 				ArrayList<Object> oneRow = new ArrayList<Object>() ;
@@ -2242,6 +2376,8 @@ public class FinanceFrame extends JFrame{
 				oneRow.add(receipt.getUser()) ;
 				oneRow.add("展开");
 				oneRow.add(receipt.getTotal()) ;
+				if(isPass)
+					oneRow.add("完成转账") ;
 				datas.add(oneRow);
 			}
 	    	columnOfReceipt = column ;

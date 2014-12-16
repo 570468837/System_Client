@@ -38,8 +38,8 @@ public class InfoController implements InfoBLService{
 		int date ;
 		String begin = condition.getTime1() ;
 		String end = condition.getTime2() ;
-		int time1 = Integer.parseInt(begin.substring(0,4)+begin.substring(5,7)+begin.substring(8)) ;
-		int time2 = Integer.parseInt(end.substring(0,4)+begin.substring(5,7)+begin.substring(8));
+		int time1 = Integer.parseInt(begin.replaceAll("/", "")) ;
+		int time2 = Integer.parseInt(end.replaceAll("/", ""));
 		boolean isContain = false ;
 		for(SalesReceiptPO theReceipt:resultOfPO){
 		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
@@ -118,13 +118,15 @@ public class InfoController implements InfoBLService{
 						TransferListItemVO item = new TransferListItemVO(theItem.getAccount(), theItem.getTransferMoney(), theItem.getRemark()) ;
 						tfItems.add(item) ;
 					}
-					CollectionOrPaymentVO oneReceipt = new CollectionOrPaymentVO(theReceipt.getNumber(), theReceipt.getCustomer(), theReceipt.getTypeOfCustomer(), theReceipt.getUser(), tfItems, theReceipt.getTotal()) ;
+					CollectionOrPaymentVO oneReceipt = new CollectionOrPaymentVO(theReceipt.getNumber(), theReceipt.getCustomer(), theReceipt.getTypeOfCustomer(), theReceipt.getUser(), tfItems, theReceipt.getTotal(),theReceipt.isApprovedByManager(),theReceipt.isApprovedByFinancer()) ;
 					receipts.add(oneReceipt) ;
 				}
+				System.out.println(receipts.size()) ;
 				for(CollectionOrPaymentVO theReceipt : receipts){
+					
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
+							&& theReceipt.getCustomer().contains(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -144,7 +146,7 @@ public class InfoController implements InfoBLService{
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("FKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().equals(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
+							&& theReceipt.getCustomer().contains(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -199,7 +201,7 @@ public class InfoController implements InfoBLService{
 				result.add(theReceipt) ;
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("JHD")){//进货单
+		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO : receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
@@ -209,7 +211,7 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("JHTHD")){//进货退货单
+		if(condition.getTypeOfReceipt().equals("JHTHD")){//进货退货单，返回PO
 			ArrayList<PurchaseReceiptPO>receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO :receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
@@ -219,7 +221,7 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("BYD")){//报溢单
+		if(condition.getTypeOfReceipt().equals("BYD")){//报溢单，返回VO
 			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
 			for(ReportCommodityVO theVO : receipts){
 				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
@@ -229,7 +231,7 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("BSD")){//报损单
+		if(condition.getTypeOfReceipt().equals("BSD")){//报损单，返回VO
 			ArrayList<ReportCommodityVO> receipts = new CommodityController().showReportCommodity() ;
 			for(ReportCommodityVO theVO : receipts){
 				String time = new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date)) ;
@@ -238,7 +240,7 @@ public class InfoController implements InfoBLService{
 				}
 			}
 		}
-		if(condition.getTypeOfReceipt().equals("ZSD")){//赠送单
+		if(condition.getTypeOfReceipt().equals("ZSD")){//赠送单，返回VO
 			ArrayList<SendCommodityVO> receipts = new CommodityController().showSendCommodity() ;
 			for(SendCommodityVO theVO :receipts){
 				int time = Integer.parseInt(new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date))) ;

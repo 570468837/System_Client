@@ -178,7 +178,7 @@ public class SalesReceiptPO implements Serializable {
 		return priceBefore;
 	}
 
-	public void setPriceBefore(long priceBefore) {
+	public void setPriceBefore(double priceBefore) {
 		this.priceBefore = priceBefore;
 	}
 
@@ -186,9 +186,7 @@ public class SalesReceiptPO implements Serializable {
 		return discout;
 	}
 
-	public void setDiscout(long discout) {
-		this.discout = discout;
-	}
+	
 
 	public double getFinalprice() {
 		// 减去折扣
@@ -196,9 +194,7 @@ public class SalesReceiptPO implements Serializable {
 		return finalprice;
 	}
 
-	public void setFinalprice(long finalprice) {
-		this.finalprice = finalprice;
-	}
+	
 
 	public String getComment() {
 		return comment;

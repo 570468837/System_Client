@@ -25,14 +25,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-//
-//import presentation.SalesmanFrameHelper.AddCustomerFrame;
-//import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame;
-//import presentation.SalesmanFrameHelper.AddSalesReceiptFrame;
-//import presentation.SalesmanFrameHelper.DeleteCustomerFrame;
-//import presentation.SalesmanFrameHelper.UpdateCustomerFrame;
-//import presentation.SalesmanFrameHelper.warningDialog;
-//import presentation.SalesmanFrameHelper.AddPurchaseReceiptFrame.AddItemFrame;
 import Config.Level;
 import Config.Sort;
 import Config.UserSort;
@@ -58,9 +50,14 @@ public class SalesmanFrame extends JFrame {
 	public UserVO userVO;
 	private JLabel exitButton, customerLabel, salesLabel, purchaseLabel;
 	
+	//表格所需要的数据
 	Vector customerTableData = new Vector();
 	Vector salesLogTableData=new Vector();
 	Vector purchaseLogTableData=new Vector();
+	
+	JTable customerTabel=new JTable();
+	JTable purchaseLogTable=new JTable();
+	JTable salesLogTable=new JTable();
 	
 	private CustomerPanel customerPanel = new CustomerPanel(this);
 	private SalesPanel salesPanel = new SalesPanel(this);
@@ -138,7 +135,7 @@ public class SalesmanFrame extends JFrame {
 			this.setBackground(new Color(147, 224, 255, 255));
 
 			// 初始化表格
-			JTable table1 = new JTable();// 商品列表
+//			JTable customerTabel = new JTable();// 客户列表
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
 			tableColName.add("编号");
@@ -178,25 +175,15 @@ public class SalesmanFrame extends JFrame {
 				
 			}
 
-			// String[]
-			// columnTitle1={"编号","分类","级别","姓名","电话","地址","邮编","电子邮箱","业务员","应收","应付","应收额度"};
-			// Object[][] tableData1={
-			// new
-			// Object[]{"0001","供货商","VIP","胡韬","22222222","南大","210046","@","鹅","0","0","100"},
-			// new
-			// Object[]{"0002","进货商","VIP","小宇","33333333","南大","210046","@","鹅","0","0","100"},
-			// };
-			// JTable table1=new JTable(new
-			// MyTableModel(tableData1,columnTitle1));
-			table1.setModel(model);
+			customerTabel.setModel(model);
 			model.setDataVector(customerTableData, tableColName);
-			table1.setFillsViewportHeight(true); // 显示表头
+			customerTabel.setFillsViewportHeight(true); // 显示表头
 
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
 			render.setHorizontalAlignment(SwingConstants.CENTER);
-			table1.setDefaultRenderer(Object.class, render);
+			customerTabel.setDefaultRenderer(Object.class, render);
 
-			JScrollPane tablePane1 = new JScrollPane(table1);
+			JScrollPane tablePane1 = new JScrollPane(customerTabel);
 			tablePane1.setSize(630, 400);
 			tablePane1.setLocation(80, 74);
 			this.add(tablePane1);
@@ -273,21 +260,21 @@ public class SalesmanFrame extends JFrame {
 //					new Object[] { "创建销售退货单", "鹅", "12.11" }, };
 //			JTable table1 = new JTable(new MyTableModel(tableData1,
 //					columnTitle1));
-			JTable table1 = new JTable();// 商品列表
+//			JTable salesLogTable = new JTable();// 商品列表
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
 			tableColName.add("操作");
 			tableColName.add("操作人员");
 			tableColName.add("日期");
-						table1.setFillsViewportHeight(true); // 显示表头
+						salesLogTable.setFillsViewportHeight(true); // 显示表头
 
-			table1.setModel(model);
+			salesLogTable.setModel(model);
 			model.setDataVector(salesLogTableData, tableColName);
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
 			render.setHorizontalAlignment(SwingConstants.LEFT);
-			table1.setDefaultRenderer(Object.class, render);
+			salesLogTable.setDefaultRenderer(Object.class, render);
 
-			JScrollPane tablePane1 = new JScrollPane(table1);
+			JScrollPane tablePane1 = new JScrollPane(salesLogTable);
 			tablePane1.setSize(630, 400);
 			tablePane1.setLocation(80, 74);
 			this.add(tablePane1);
@@ -333,21 +320,21 @@ public class SalesmanFrame extends JFrame {
 //					new Object[] { "创建进货退货单", "鹅", "12.11" }, };
 //			JTable table1 = new JTable(new MyTableModel(tableData1,
 //					columnTitle1));
-			JTable table1 = new JTable();// 商品列表
+//			JTable purchaseLogTable = new JTable();// 商品列表
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
 			tableColName.add("操作");
 			tableColName.add("操作人员");
 			tableColName.add("日期");
-						table1.setFillsViewportHeight(true); // 显示表头
+						purchaseLogTable.setFillsViewportHeight(true); // 显示表头
 
-			table1.setModel(model);
+			purchaseLogTable.setModel(model);
 			model.setDataVector(purchaseLogTableData, tableColName);
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
 			render.setHorizontalAlignment(SwingConstants.LEFT);
-			table1.setDefaultRenderer(Object.class, render);
+			purchaseLogTable.setDefaultRenderer(Object.class, render);
 
-			JScrollPane tablePane1 = new JScrollPane(table1);
+			JScrollPane tablePane1 = new JScrollPane(purchaseLogTable);
 			tablePane1.setSize(630, 400);
 			tablePane1.setLocation(80, 74);
 			this.add(tablePane1);
@@ -1802,6 +1789,32 @@ public class SalesmanFrame extends JFrame {
 
 		}
 
+		
+	}
+	
+	public void updateCustomerPanelTabel(){
+		ArrayList<CustomerPO> customers = new CustomerController().show();
+		System.out.println(customers);
+
+		for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
+			CustomerPO customerPO = (CustomerPO) iterator.next();
+			Vector tableRows = new Vector();
+			tableRows.add(customerPO.getNumber());
+			tableRows.add(customerPO.getSort());
+			tableRows.add(customerPO.getLevel());
+			tableRows.add(customerPO.getName());
+			tableRows.add(customerPO.getPhone());
+			tableRows.add(customerPO.getAddress());
+			tableRows.add(customerPO.getZipCode());
+			tableRows.add(customerPO.getMail());
+			tableRows.add(customerPO.getClerk());
+			tableRows.add(customerPO.getGetting());
+			tableRows.add(customerPO.getPay());
+			tableRows.add(customerPO.getDebt_upper_limit());
+
+			customerTableData.add(tableRows);
+			
+		}
 		
 	}
 

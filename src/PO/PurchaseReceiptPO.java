@@ -97,7 +97,7 @@ public class PurchaseReceiptPO implements Serializable {
 		return this.totalPrice;
 	}
 
-	public void setTotalPrice(long totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
