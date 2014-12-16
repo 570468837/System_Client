@@ -50,6 +50,7 @@ public class SalesmanFrame extends JFrame {
 	public UserVO userVO;
 	private JLabel exitButton, customerLabel, salesLabel, purchaseLabel;
 	
+	GoodsController goodsController=new GoodsController();
 	//表格所需要的数据
 	Vector customerTableData = new Vector();
 	Vector salesLogTableData=new Vector();
@@ -1168,7 +1169,7 @@ public class SalesmanFrame extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 
-							GoodsVO good = new GoodsController().getGoodsByID(Long.parseLong(goodsSerialNumber.getText()));
+							GoodsVO good = goodsController.getGoodsByID(Long.parseLong(goodsSerialNumber.getText()));
 							System.out.println(good);
 							// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
 							// 100, 100, "a");//测试

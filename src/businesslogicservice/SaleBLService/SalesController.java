@@ -35,6 +35,11 @@ public class SalesController implements SalesBLService {
 		System.out.println("success");
 		return 0;
 	}
+	
+	public ResultMessage updateReceipt(SalesReceiptPO po){
+		//TODO
+		return null;
+	}
 
 	@Override
 	public ResultMessage creatReceipt(SalesReceiptVO salesReceiptVO) {
