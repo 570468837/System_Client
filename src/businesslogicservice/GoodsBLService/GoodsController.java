@@ -19,7 +19,9 @@ import VO.GoodsVO;
 
 public class GoodsController implements GoodsBLService {
 	private ArrayList<GoodsVO> goodsVOList = new ArrayList<GoodsVO>();
+	private ArrayList<GoodsVO> goodsVOListBuffer = new ArrayList<GoodsVO>();
 	private ArrayList<GoodsClassVO> goodsClassVOList = new ArrayList<GoodsClassVO>();
+	private ArrayList<GoodsClassVO> goodsClassVOListBuffer = new ArrayList<GoodsClassVO>();
 	private Iterator<GoodsVO> gIter;
 	private Iterator<GoodsClassVO> gcIter;
 	
@@ -167,8 +169,8 @@ public class GoodsController implements GoodsBLService {
 		@Override
 		public void run() {
 			while(true) {
-				goodsVOList.clear();
-				goodsClassVOList.clear();
+				goodsVOListBuffer = new ArrayList<GoodsVO>();
+				goodsClassVOListBuffer = new ArrayList<GoodsClassVO>();
 				try {
 					//TODO
 					goodsPOList = Communication_Start.client.showObject("goodsListGet");
@@ -180,14 +182,15 @@ public class GoodsController implements GoodsBLService {
 				for(int i = 0; i < goodsPOList.size(); i ++) {
 					g = new GoodsVO();
 					g.toVO((GoodsPO)goodsPOList.get(i));
-					goodsVOList.add(g);
+					goodsVOListBuffer.add(g);
 				}
 				for(int i = 0; i < goodsClassPOList.size(); i ++) {
 					gc = new GoodsClassVO();
 					gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
-					goodsClassVOList.add(gc);
+					goodsClassVOListBuffer.add(gc);
 				}
-				
+				goodsVOList = goodsVOListBuffer;
+				goodsClassVOList = goodsClassVOListBuffer;
 				
 				try {
 					Thread.sleep(reloadTime);
