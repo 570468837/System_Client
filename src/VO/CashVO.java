@@ -17,8 +17,16 @@ public class CashVO  {
 		this.cases = cases;
 		this.sum = sum;
 	}
-	public CashVO() {
+	public CashVO(CashVO theVO) {
 		// TODO Auto-generated constructor stub
+		this.number = theVO.getNumber() ;
+		this.user = theVO.getUser() ;
+		this.account = theVO.getAccount() ;
+		for(CaseListItemVO theItem : theVO.getCases()){
+			CaseListItemVO item = new CaseListItemVO(theItem.getCasename(), theItem.getCaseMoney(), theItem.getRemark()) ;
+			this.cases.add(item) ;
+		}
+		this.sum = theVO.getSum() ;
 	}
 	public void addCase(CaseListItemVO theCase){
 		this.addCase(theCase);

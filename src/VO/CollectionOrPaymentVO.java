@@ -14,14 +14,18 @@ public class CollectionOrPaymentVO implements Serializable{
 	double total ;
 	boolean isApprovedByManager  ;
 	boolean isApprovedByFinancer  ;
-	public CollectionOrPaymentVO(){
-		number = null ;
-		customer = null ;
-		user = null ;
-		trList  = null ;
-		total = 0 ;
-		isApprovedByManager = false ;
-		isApprovedByFinancer = false ;
+	public CollectionOrPaymentVO(CollectionOrPaymentVO theVO){
+		this.number = theVO.getNumber() ;
+		this.customer = theVO.getCustomer() ;
+		this.typeOfCustomer = theVO.getTypeOfCustomer() ;
+		this.user = theVO.getUser() ;
+		for(TransferListItemVO theItem :theVO.getTrList()){
+			TransferListItemVO item = new TransferListItemVO(theItem.getAccount(),theItem.getTransferMoney() , theItem.getRemark()) ;
+			this.trList.add(item) ;
+		}
+		this.total = theVO.getTotal() ;
+		this.isApprovedByFinancer = theVO.isApprovedByFinancer ;
+		this.isApprovedByManager = theVO.isApprovedByManager ;
 	}
 	public CollectionOrPaymentVO(String number, String customer,
 			String typeOfCustomer, String user,

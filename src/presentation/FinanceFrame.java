@@ -495,7 +495,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField nameOfCustomerField;
 		private JTextField numberOfReceiptField;
 		private JTextField sumOfMoneyField;
-		ArrayList<ArrayList<String>> tfAccounts = new ArrayList<ArrayList<String>>() ;//储存转账账户
+		ArrayList<TransferListItemVO> tfAccounts = new ArrayList<TransferListItemVO>() ;//储存转账账户
 		double sumOfMoney = 0 ;
 		/**
 		 * Create the frame.
@@ -624,12 +624,7 @@ public class FinanceFrame extends JFrame{
 					if(receiptNumber.equals("")||nameOfCustomer.equals("")||sumOfMoneys.equals("")||typeOfCustomer.equals("")){
 						new warningDialog("信息不完整");
 					}else{
-						ArrayList<TransferListItemVO> tfList = new ArrayList<TransferListItemVO>() ;
-						for(int i = 0;i<tfAccounts.size() ;i++){
-							ArrayList<String> account = tfAccounts.get(i) ;
-							tfList.add(new TransferListItemVO(account.get(0), Double.parseDouble(account.get(1)),account.get(2))) ;
-						}
-						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfList,Double.parseDouble(sumOfMoneys),false,false) ;
+						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfAccounts,Double.parseDouble(sumOfMoneys),false,false) ;
 						ResultMessage result = fController.addCollectionOrPaymentVO(collectionOrPayment) ;
 						new warningDialog("添加成功");
 						nameOfCustomerField.setText("");
@@ -639,7 +634,7 @@ public class FinanceFrame extends JFrame{
 						retailerRadioButton.setSelected(false);
 						f.setSelected(false);
 						c.setSelected(false);
-						tfAccounts = new ArrayList<ArrayList<String>>() ;
+						tfAccounts = new ArrayList<TransferListItemVO>() ;
 						sumOfMoney = 0 ;
 					}
 				}
@@ -656,7 +651,7 @@ public class FinanceFrame extends JFrame{
 					nameOfCustomerField.setText("");
 					numberOfReceiptField.setText("");
 					sumOfMoneyField.setText("");
-					tfAccounts = new ArrayList<ArrayList<String>>() ;
+					tfAccounts = new ArrayList<TransferListItemVO>() ;
 					supplierRadioButton.setSelected(false);
 					retailerRadioButton.setSelected(false);
 					f.setSelected(false);
@@ -666,14 +661,15 @@ public class FinanceFrame extends JFrame{
 		}
 		class MyTableModel extends AbstractTableModel{
 			private ArrayList<ArrayList<Object>> datas = new ArrayList<ArrayList<Object>>();
-			private String[] column ={"银行账户","转账金额","备注"} ;
+			private String[] column ={"银行账户","转账金额","备注","是否删除"} ;
 
 			public MyTableModel(){
-				for(ArrayList<String> theAccount : tfAccounts){
+				for(TransferListItemVO theAccount : tfAccounts){
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
-					oneRow.add(theAccount.get(0)) ;
-					oneRow.add(theAccount.get(1)) ;
-					oneRow.add(theAccount.get(2)) ;
+					oneRow.add(theAccount.getAccount()) ;
+					oneRow.add(theAccount.getTransferMoney()) ;
+					oneRow.add(theAccount.getRemark()) ;
+					oneRow.add("删除");
 					datas.add(oneRow) ;
 				}
 			}
@@ -730,6 +726,21 @@ public class FinanceFrame extends JFrame{
 	 
 	    		table = new JTable(new MyTableModel());
 	    		table.setBackground(Color.white);
+	    		table.addMouseListener(new MouseAdapter() {
+	    			public void mouseClicked(MouseEvent e){
+	    				Point mousePoint = e.getPoint() ;
+	    				if(table.columnAtPoint(mousePoint) == 3){
+	    					int i = JOptionPane.showConfirmDialog(null, "是否删除？");
+	    					if(i==0){
+	    						int k = table.rowAtPoint(mousePoint) ;
+	    						tfAccounts.remove(k) ;
+	    						setNum();
+	    						dispose();
+	    						new ShowTfListFrame() ;
+	    					}
+	    				}
+	    			}
+				});
 	    		
 	    		JScrollPane jsc = new JScrollPane(table);
 	    		jsc.setBounds(0,0,350,170);
@@ -740,14 +751,22 @@ public class FinanceFrame extends JFrame{
 	    		sureButton.setBounds(110, 200, 100, 30);
 	    		contentPane.add(sureButton) ;
 	    		sureButton.addMouseListener(new MouseAdapter() {
-	    			public void mouseClicked(MouseEvent e){
-	    				dispose() ;
-	    			}
 				});
 	    		
 	    	}
+	    	
 	}
-	
+	    public void mouseClicked(MouseEvent e){
+			dispose() ;
+		}
+
+		public void setNum(){
+    		sumOfMoney = 0 ;
+    		for(TransferListItemVO theItem :tfAccounts){
+    			sumOfMoney += theItem.getTransferMoney() ;
+    		}
+    		sumOfMoneyField.setText(String.valueOf(sumOfMoney));
+    	}
 
 		class AddTfListFrame extends JFrame{
 
@@ -808,20 +827,17 @@ public class FinanceFrame extends JFrame{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// TODO Auto-generated method stub
-						ArrayList<String> tfAccount = new ArrayList<String>(); 
+						
 						String nameOfAccount = nameOfAccountField.getText() ;
 						String numOfTf = numOfTfField.getText() ;
 						String marked = markedField.getText() ;
 						if(nameOfAccount.equals("")||numOfTf.equals("")||marked.equals("")){
 							new warningDialog("信息不完整");
 						}else{
-			    			tfAccount.add(nameOfAccountField.getText()) ;
-					    	tfAccount.add(numOfTfField.getText()) ;
-					    	tfAccount.add(markedField.getText()) ;
+							TransferListItemVO tfAccount = new TransferListItemVO(nameOfAccount, Double.parseDouble(numOfTf), marked);
 					    	tfAccounts.add(tfAccount) ;
 					    	dispose() ;
-					    	sumOfMoney += Double.parseDouble(numOfTf) ;
-							sumOfMoneyField.setText(String.valueOf(sumOfMoney));
+					    	setNum();
 						}
 					}
 				});
@@ -848,7 +864,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField nameOfAccountField;
 		private JTextField numberField;
 		private JTextField sumOfMoneyField;
-		ArrayList<ArrayList<String>> items = new ArrayList<ArrayList<String>>() ;//报销条目
+		ArrayList<CaseListItemVO> items = new ArrayList<CaseListItemVO>() ;//报销条目
 		double sumOfMoney = 0 ;
 		/**
 		 * Create the frame.
@@ -924,13 +940,8 @@ public class FinanceFrame extends JFrame{
 					if(account.equals("")||number.equals("")||sum.equals("")){
 						new warningDialog("信息不完整");
 					}else{
-						ArrayList<CaseListItemVO> cases = new ArrayList<CaseListItemVO>() ;
-						for(int i = 0;i<items.size();i++){
-							ArrayList<String> thecase = items.get(i) ;
-							CaseListItemVO theCase = new CaseListItemVO(thecase.get(0), Double.parseDouble(thecase.get(1)), thecase.get(2)) ;
-							cases.add(theCase) ;
-						}
-						CashVO cash = new CashVO(number,user.getUserName(),account,cases,Double.parseDouble(sum)) ;
+						
+						CashVO cash = new CashVO(number,user.getUserName(),account,items,Double.parseDouble(sum)) ;
 						ResultMessage result = fController.addCash(cash) ;
 
 					    new warningDialog("添加成功");
@@ -938,7 +949,7 @@ public class FinanceFrame extends JFrame{
 						nameOfAccountField.setText("");
 						numberField.setText("");
 						sumOfMoneyField.setText("");
-						items = new ArrayList<ArrayList<String>>() ;
+						items = new ArrayList<CaseListItemVO>() ;
 						sumOfMoney = 0 ;
 						numberField.setText(fController.getReceiptNumber("XJFYD"));
 					}
@@ -954,7 +965,7 @@ public class FinanceFrame extends JFrame{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					items = new ArrayList<ArrayList<String>>() ;
+					items = new ArrayList<CaseListItemVO>() ;
 					sumOfMoney = 0 ;
 					nameOfAccountField.setText("");                                                          
 					sumOfMoneyField.setText("");
@@ -1030,13 +1041,11 @@ public class FinanceFrame extends JFrame{
 							if(nameOfCase.equals("")||money.equals("")||marked.equals("")){
 								new warningDialog("信息不完整");
 							}else{
-								sumOfMoney += Double.parseDouble(money) ;
-								sumOfMoneyField.setText(String.valueOf(sumOfMoney));
-								ArrayList<String> item = new ArrayList<String>() ;
-								item.add(nameOfCase) ;
-								item.add(money) ;
-								item.add(marked) ;
+								
+								CaseListItemVO item = new CaseListItemVO(nameOfCase, Double.parseDouble(money), marked) ;
+								
 								items.add(item) ;
+								setNum();
 								dispose() ;
 							}
 						}
@@ -1079,6 +1088,21 @@ public class FinanceFrame extends JFrame{
 		    		
 		    		table = new JTable(new MyTableModel());
 		    		table.setBackground(Color.white);
+		    		table.addMouseListener(new MouseAdapter() {
+		    			public void mouseClicked(MouseEvent e){
+		    				Point mousePoint = e.getPoint() ;
+		    				if(table.columnAtPoint(mousePoint) == 3){
+		    					int i = JOptionPane.showConfirmDialog(null, "确定删除？");
+		    					if(i == 0){
+		    						int k = table.rowAtPoint(mousePoint) ;
+		    						items.remove(k) ;
+		    						setNum();
+		    						dispose();
+		    						new ShowCaseItem() ;
+		    					}
+		    				}
+		    			}
+					});
 		    		
 		    		JScrollPane jsc = new JScrollPane(table);
 		    		jsc.setBounds(0,0,350,170);
@@ -1095,18 +1119,26 @@ public class FinanceFrame extends JFrame{
 					});
 		    		
 		    	}
+		    	
 		}
-			
+			void setNum(){
+	    		sumOfMoney = 0;
+	    		for(CaseListItemVO theItem : items){
+	    			sumOfMoney += theItem.getCaseMoney() ;
+	    		}
+	    		sumOfMoneyField.setText(String.valueOf(sumOfMoney));
+	    	}
 			class MyTableModel extends AbstractTableModel{
 				private ArrayList<ArrayList<Object>> datas = new ArrayList<ArrayList<Object>>();
-				private String[] column ={"条目名","金额","备注"} ;
+				private String[] column ={"条目名","金额","备注","是否删除"} ;
 
 				public MyTableModel(){
-					for(ArrayList<String> item : items){
+					for(CaseListItemVO item : items){
 						ArrayList<Object> oneRow = new ArrayList<Object>() ;
-						oneRow.add(item.get(0)) ;
-						oneRow.add(item.get(1)) ;
-						oneRow.add(item.get(2)) ;
+						oneRow.add(item.getCasename()) ;
+						oneRow.add(item.getCaseMoney()) ;
+						oneRow.add(item.getRemark()) ;
+						oneRow.add("删除");
 						datas.add(oneRow) ;
 					}
 				}
@@ -1487,6 +1519,7 @@ public class FinanceFrame extends JFrame{
 		private JScrollPane jsc ;
 		private JPanel thePanel;
 		ArrayList<Object> result ;
+		Object theSaveReceipt ; 
 		String typeOfReceipt  ;
 		int markColumn = 10000 ;
 		int currentRow = 10000 ;
@@ -1625,6 +1658,13 @@ public class FinanceFrame extends JFrame{
 			JLabel hcAndfzLabel = new JLabel("红冲并复制");
 			hcAndfzLabel.setBounds(510, 365, 150, 20);
 			add(hcAndfzLabel) ;
+			hcAndfzLabel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					int i = JOptionPane.showConfirmDialog(null, "确定进行红冲并复制操作？");
+					if(( i==0 ) && (currentRow != 10000 ))
+						hcAndfz(typeOfReceipt) ;
+				}
+			});
 			
 			
             cancelButton.addActionListener(new ActionListener() {
@@ -1881,18 +1921,31 @@ public class FinanceFrame extends JFrame{
 		}
 		
 		private void hc(String type){
+			if(currentRow == 10000){
+				new warningDialog("请选择单据");
+			}else{
 			if(type.equals("SKD")||type.equals("FKD")){			
-				CollectionOrPaymentVO theReceipt = (CollectionOrPaymentVO) result.get(currentRow) ;
+				CollectionOrPaymentVO theReceipt = new CollectionOrPaymentVO((CollectionOrPaymentVO) result.get(currentRow)) ;
 				for(TransferListItemVO theItem : theReceipt.getTrList()){
 					theItem.setTransferMoney(-theItem.getTransferMoney());
 				}
+				theReceipt.setTotal(-theReceipt.getTotal());
 				theReceipt.setNumber(fController.getReceiptNumber(type));
 				theReceipt.setApprovedByFinancer(true);
 				theReceipt.setApprovedByManager(true);
 				fController.addCollectionOrPaymentVO(theReceipt) ;
 			}
+			if(type.equals("XJFYD")){
+				CashVO theReceipt = new CashVO((CashVO)result.get(currentRow)) ;
+				for(CaseListItemVO theItem:theReceipt.getCases()){
+					theItem.setCaseMoney(-theItem.getCaseMoney());
+				}
+				theReceipt.setNumber(fController.getReceiptNumber(type));
+				theReceipt.setSum(-theReceipt.getSum());
+				fController.addCash(theReceipt) ;
+			}
 			if(type.equals("XSD")){
-				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
+//				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
 				for(SalesListItemVO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1905,7 +1958,7 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("XSTHD")){
-				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
+//				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1918,7 +1971,7 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){
-				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
+//				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
 				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1928,22 +1981,26 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("BYD")||type.equals("BSD")){
-				ReportCommodityVO theReceipt = (ReportCommodityVO) result.get(currentRow) ;
+				ReportCommodityVO theReceipt = new ReportCommodityVO((ReportCommodityVO) result.get(currentRow));
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.date = new Date();
 				CommodityController c = new CommodityController() ;
 				c.addReportCommodity(theReceipt) ;
 			}
 			if(type.equals("ZSD")){
-				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
+//				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.checked = 1 ;
 				CommodityController c = new CommodityController() ;
 				c.addSendCommodity(theReceipt) ;
 			}
 		}
+		}
   
 		private void hcAndfz(String type){
+			if(currentRow == 10000){
+				new warningDialog("请选择单据") ;
+			}else{
 			hc(type) ;
 			if(type.equals("BYD")||type.equals("BSD")){
 				ReportCommodityVO theVO = (ReportCommodityVO) result.get(currentRow) ;
@@ -1953,6 +2010,15 @@ public class FinanceFrame extends JFrame{
 				SendCommodityVO theVO = (SendCommodityVO) result.get(currentRow) ;
 				new SendFrame(theVO) ;
 			}
+			if(type.equals("SKD")||type.equals("FKD")){
+				CollectionOrPaymentVO theVO = (CollectionOrPaymentVO) result.get(currentRow) ;
+				new CollectionOrPaymentFrame(theVO) ;
+			}
+			if(type.equals("XJFYD")){
+				CashVO theVO = (CashVO) result.get(currentRow) ;
+				new CashForFinancer(theVO) ;
+			}
+		}
 		}
 }
     class SaleConditionPanel extends JPanel{
