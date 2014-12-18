@@ -1248,8 +1248,8 @@ public class FinanceFrame extends JFrame{
     			public void mouseClicked(MouseEvent e){
     				Point mousePoint = e.getPoint() ;
     				if(failTable.columnAtPoint(mousePoint) == 3){
-						int i = passTable.rowAtPoint(mousePoint) ;
-						CollectionOrPaymentVO theVO = passReceipts.get(i) ;
+						int i = failTable.rowAtPoint(mousePoint) ;
+						CollectionOrPaymentVO theVO = failReceipts.get(i) ;
 						ArrayList<Object> list = new ArrayList<>(theVO.getTrList()) ;
 						String[] column2= {"银行账户","转账金额","备注"} ;
 						new ShowListFrame(list, column2, "转账列表");
