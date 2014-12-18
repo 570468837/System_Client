@@ -319,7 +319,7 @@ public class ManagerFrame extends JFrame{
 					
 					new ApprovalBLService_Controller().purchaseNotPassed(notApproved);
 					
-					table1Refresh();
+					
 				}
 			});
 		}
@@ -513,6 +513,8 @@ public class ManagerFrame extends JFrame{
 					new ApprovalBLService_Controller().collectionOrPaymentChangeCustomer(isApproved);
 					
 					new ApprovalBLService_Controller().collectionOrPaymentNotPassed(notApproved);
+					
+					table3Refresh();
 				}
 			});
 		}
