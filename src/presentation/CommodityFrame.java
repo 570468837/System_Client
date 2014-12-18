@@ -182,12 +182,11 @@ public class CommodityFrame extends JFrame {
 					searchTable.setRowHeight(25);
 					searchTable.setPreferredSize(new Dimension(825, body.length * 25));
 					searchTable.setEnabled(false);
-					searchTable.setFont(new Font("default", 0, 16));
+					searchTable.setFont(new Font("default", 0, 12));
 					searchTable.getTableHeader().setReorderingAllowed(false);
 					searchTable.getTableHeader().setEnabled(false);
-					searchTable.getTableHeader().setFont(new Font("default", 1, 17));
+					searchTable.getTableHeader().setFont(new Font("default", 1, 16));
 					searchTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
-					searchTable.getColumnModel().getColumn(0).setPreferredWidth(30);
 					JScrollPane jsp = new JScrollPane(searchTable);
 					jsp.setHorizontalScrollBar(null);
 					jsp.setBounds(5, 100, 825, 400);

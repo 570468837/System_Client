@@ -19,9 +19,7 @@ import VO.GoodsVO;
 
 public class GoodsController implements GoodsBLService {
 	private ArrayList<GoodsVO> goodsVOList = new ArrayList<GoodsVO>();
-	private ArrayList<GoodsVO> goodsVOListBuffer = new ArrayList<GoodsVO>();
 	private ArrayList<GoodsClassVO> goodsClassVOList = new ArrayList<GoodsClassVO>();
-	private ArrayList<GoodsClassVO> goodsClassVOListBuffer = new ArrayList<GoodsClassVO>();
 	private Iterator<GoodsVO> gIter;
 	private Iterator<GoodsClassVO> gcIter;
 	
@@ -102,8 +100,23 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ArrayList<GoodsVO> searchGoods(String info) {
-		//TODO
-		return new ArrayList<GoodsVO>();
+		ArrayList<Object> gp;
+		try {
+			gp = Communication_Start.client.findObject("findGoods", info);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			gp = new ArrayList<Object>();
+		}
+		ArrayList<GoodsVO> gv = new ArrayList<GoodsVO>();
+		Iterator<Object> it = gp.iterator();
+		GoodsVO g;
+		while(it.hasNext()) {
+			g = new GoodsVO();
+			g.toVO((GoodsPO)it.next());
+			gv.add(g);
+		}
+		
+		return gv;
 	}
 
 	@Override
@@ -169,10 +182,9 @@ public class GoodsController implements GoodsBLService {
 		@Override
 		public void run() {
 			while(true) {
-				goodsVOListBuffer = new ArrayList<GoodsVO>();
-				goodsClassVOListBuffer = new ArrayList<GoodsClassVO>();
+				goodsVOList.clear();
+				goodsClassVOList.clear();
 				try {
-					//TODO
 					goodsPOList = Communication_Start.client.showObject("goodsListGet");
 					goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
 					
@@ -182,15 +194,13 @@ public class GoodsController implements GoodsBLService {
 				for(int i = 0; i < goodsPOList.size(); i ++) {
 					g = new GoodsVO();
 					g.toVO((GoodsPO)goodsPOList.get(i));
-					goodsVOListBuffer.add(g);
+					goodsVOList.add(g);
 				}
 				for(int i = 0; i < goodsClassPOList.size(); i ++) {
 					gc = new GoodsClassVO();
 					gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
-					goodsClassVOListBuffer.add(gc);
+					goodsClassVOList.add(gc);
 				}
-				goodsVOList = goodsVOListBuffer;
-				goodsClassVOList = goodsClassVOListBuffer;
 				
 				try {
 					Thread.sleep(reloadTime);
