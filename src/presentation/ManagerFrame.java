@@ -319,6 +319,7 @@ public class ManagerFrame extends JFrame{
 					
 					new ApprovalBLService_Controller().purchaseNotPassed(notApproved);
 					
+					table1Refresh();
 					
 				}
 			});
@@ -418,9 +419,12 @@ public class ManagerFrame extends JFrame{
 							notApproved.add(shows.get(i));
 					}
 					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
-					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);
+					new ApprovalBLService_Controller().addSendCommodityReceipt(isApproved);
+					
+					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);  //同时update操作
 					
 					new ApprovalBLService_Controller().salesNotPassed(notApproved);
+					table2Refresh();
 				}
 			});
 		}
@@ -591,6 +595,8 @@ public class ManagerFrame extends JFrame{
 							isApproved.add(shows.get(i));
 					}
 					new ApprovalBLService_Controller().sendCommodityUpdate(shows);
+					
+					table4Refresh();
 				}
 			});
 		}

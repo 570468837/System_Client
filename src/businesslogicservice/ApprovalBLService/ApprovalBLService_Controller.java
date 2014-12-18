@@ -9,9 +9,11 @@ import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.GoodsBLService.GoodsController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
+import Config.PromotionSort;
 import PO.CollectionOrPaymentPO;
 import PO.CustomerPO;
 import PO.GoodsPO;
+import PO.PromotionPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
@@ -164,5 +166,17 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			s.checked=SendCommodityVO.CANCEL;
 		}
 		new CommodityController().updUncheckedSend(receipts);
+	}
+
+	public void addSendCommodityReceipt(ArrayList<SalesReceiptPO> sales){    //自动创建赠送单
+		for(int i=0;i<sales.size();i++){
+			SalesReceiptPO s=sales.get(i);
+			if(s.getPromotionPO().getPromotionType()==PromotionSort.Gifts){
+				PromotionPO p=s.getPromotionPO();
+				new CommodityController().addSendCommodity(new SendCommodityVO(
+						p.getPresents().get(0).getName(),s.getCustomerPO().getName(), 
+						1, p.getPresents().get(0).getSalePrice(), SendCommodityVO.UNCHECKED));
+			}
+		}
 	}
 }
