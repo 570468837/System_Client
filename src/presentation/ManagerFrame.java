@@ -318,6 +318,8 @@ public class ManagerFrame extends JFrame{
 					new ApprovalBLService_Controller().purchaseChangeCustomer(isApproved);
 					
 					new ApprovalBLService_Controller().purchaseNotPassed(notApproved);
+					
+					table1Refresh();
 				}
 			});
 		}
