@@ -41,6 +41,9 @@ public class CollectionOrPaymentVO implements Serializable{
 		this.isApprovedByManager = isApprovedByManager;
 		this.isApprovedByFinancer = isApprovedByFinancer;
 	}
+	public CollectionOrPaymentVO() {
+		// TODO Auto-generated constructor stub
+	}
 	public String getTypeOfCustomer() {
 		return typeOfCustomer;
 	}

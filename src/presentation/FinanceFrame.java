@@ -1924,7 +1924,7 @@ public class FinanceFrame extends JFrame{
 			if(currentRow == 10000){
 				new warningDialog("请选择单据");
 			}else{
-			if(type.equals("SKD")||type.equals("FKD")){			
+			if(type.equals("SKD")||type.equals("FKD")){//收付款单	
 				CollectionOrPaymentVO theReceipt = new CollectionOrPaymentVO((CollectionOrPaymentVO) result.get(currentRow)) ;
 				for(TransferListItemVO theItem : theReceipt.getTrList()){
 					theItem.setTransferMoney(-theItem.getTransferMoney());
@@ -1935,7 +1935,7 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 				fController.addCollectionOrPaymentVO(theReceipt) ;
 			}
-			if(type.equals("XJFYD")){
+			if(type.equals("XJFYD")){//现金费用单
 				CashVO theReceipt = new CashVO((CashVO)result.get(currentRow)) ;
 				for(CaseListItemVO theItem:theReceipt.getCases()){
 					theItem.setCaseMoney(-theItem.getCaseMoney());
@@ -1944,8 +1944,8 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setSum(-theReceipt.getSum());
 				fController.addCash(theReceipt) ;
 			}
-			if(type.equals("XSD")){
-//				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
+			if(type.equals("XSD")){//销售单
+				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
 				for(SalesListItemVO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1957,8 +1957,8 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
 			}
-			if(type.equals("XSTHD")){
-//				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
+			if(type.equals("XSTHD")){//销售退货单
+				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1970,8 +1970,8 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
 			}
-			if(type.equals("JHD")||type.equals("JHTHD")){
-//				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
+			if(type.equals("JHD")||type.equals("JHTHD")){//进货单和进货退货单
+				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
 				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1980,15 +1980,15 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
 			}
-			if(type.equals("BYD")||type.equals("BSD")){
+			if(type.equals("BYD")||type.equals("BSD")){//报溢报损单
 				ReportCommodityVO theReceipt = new ReportCommodityVO((ReportCommodityVO) result.get(currentRow));
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.date = new Date();
 				CommodityController c = new CommodityController() ;
 				c.addReportCommodity(theReceipt) ;
 			}
-			if(type.equals("ZSD")){
-//				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
+			if(type.equals("ZSD")){//赠送单
+				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.checked = 1 ;
 				CommodityController c = new CommodityController() ;

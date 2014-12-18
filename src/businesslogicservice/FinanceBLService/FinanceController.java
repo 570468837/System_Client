@@ -292,7 +292,6 @@ public ResultMessage init() {
 	return null;
 }
 public static void main(String[] args){
-	new FinanceController().addCollectionOrPaymentVO(new CollectionOrPaymentVO());
 }
 
 public void updateCollectionOrPayment(
