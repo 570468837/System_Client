@@ -28,6 +28,7 @@ import Config.Sort;
 import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesReceiptPO;
+import PO.UserPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
@@ -84,16 +85,16 @@ public class SalesmanFrameHelper {
 			new UpdateCustomerFrame();
 			break;
 		case "addPurchaseReceipt":
-			new AddPurchaseReceiptFrame(1,null);
+			new AddPurchaseReceiptFrame(1,null,null);
 			break;
 		case "addPurchaseBackReceipt":
-			new AddPurchaseReceiptFrame(-1,null);
+			new AddPurchaseReceiptFrame(-1,null,null);
 			break;
 		case "addSalesReceipt":
-			new AddSalesReceiptFrame(2,null);
+			new AddSalesReceiptFrame(2,null,null);
 			break;
 		case "addSalesBackReceipt":
-			new AddSalesReceiptFrame(-2,null);
+			new AddSalesReceiptFrame(-2,null,null);
 			break;
 		}
 
@@ -571,7 +572,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po) {
+		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po,UserPO userPO) {
 
 			if (type == 1) {
 				this.setTitle("创建进货单");
@@ -618,7 +619,7 @@ public class SalesmanFrameHelper {
 			// 自动填充
 			user = new JTextField();
 			user.setBounds(270, 60, 100, 20);
-			user.setText(userVO.getUserName());
+			user.setText(userPO.getUserName());
 			getContentPane().add(user);
 
 			timeLabel = new JLabel("创建时间");
@@ -673,20 +674,13 @@ public class SalesmanFrameHelper {
 				}
 			});
 
-			// String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
-			// Object[][] tableData1={
-			// new Object[]{"TEST","TEST","100","0"},
-			// new Object[]{"TEST2","TEST2","100","0"},
-			// };
+			
 			tableColName.add("商品编号");
 			tableColName.add("商品名称");
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
 
-//			tableRows.add("Test");
-//			tableRows.add("Test");
-//			tableRows.add("100");
-//			tableRows.add("100");
+
 			if(po!=null)
 				for(int i=0;i<po.getPurchaseList().size();i++){
 					Vector rows=new Vector();
@@ -883,7 +877,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddSalesReceiptFrame(int type,SalesReceiptPO po) {
+		public AddSalesReceiptFrame(int type,SalesReceiptPO po,UserPO userPO) {
 			if (type == 2) {
 				this.setTitle("创建销售单");
 			} else {
@@ -959,7 +953,7 @@ public class SalesmanFrameHelper {
 			getContentPane().add(userLabel);
 			// TODO 自动填充
 			user = new JTextField();
-			user.setText(userVO.getUserName());
+			user.setText(userPO.getUserName());
 			user.setBounds(440, 100, 100, 20);
 			if(po!=null)
 				user.setText(po.getUserPO().getUserName());
