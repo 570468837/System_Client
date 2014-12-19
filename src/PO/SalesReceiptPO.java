@@ -87,6 +87,26 @@ public class SalesReceiptPO implements Serializable {
 		this.salesList=salesList;
 
 	}
+	
+	public SalesReceiptPO(SalesReceiptPO po){
+		this.setComment(po.getComment());
+		this.setApprovedByCommodity(po.isApprovedByCommodity);
+		this.setApprovedByManager(po.isApprovedByManager);
+		this.setCommodityNum(po.commodityNum);
+		this.setCustomerPO(po.getCustomerPO());
+		this.setDiscout(po.getDiscout());
+		this.setFinalprice(po.getFinalprice());
+		this.setPriceBefore(po.getPriceBefore());
+		this.setPromotionPO(po.getPromotionPO());
+		this.setRetailer(po.getRetailer());
+		this.setSalesList(po.getSalesList());
+		this.setVocher(po.getVocher());
+		this.setUserPO(po.getUserPO());
+		this.setTime(po.getTime());
+		this.setSerialNumber(po.getSerialNumber());
+	}
+	
+
 
 	
 

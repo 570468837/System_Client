@@ -79,7 +79,7 @@ public class CustomerController implements CustomerBLService {
 		
 		ArrayList<CustomerPO> customers=new ArrayList<CustomerPO>();
 		try {
-			ArrayList<Object> list=com.client.findObject("showCustomer", keyWord);
+			ArrayList<Object> list=com.client.findObject("findCustomer", keyWord);
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				CustomerPO object = (CustomerPO) iterator.next();
 				customers.add(object);

@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+
 import Config.Level;
 import Config.Sort;
 import Config.UserSort;
@@ -74,6 +75,7 @@ public class SalesmanFrame extends JFrame {
 		getContentPane().setLayout(null);
 		this.setUndecorated(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		getContentPane().add(new UserPanel(uservo));
 
 		this.userVO = uservo;
 
@@ -91,6 +93,7 @@ public class SalesmanFrame extends JFrame {
 		customerLabel.setBounds(40, 100, 100, 50);
 		customerLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				updateCustomerPanelTable();
 				customerPanel.setVisible(true);
 				salesPanel.setVisible(false);
 				purchasePanel.setVisible(false);
@@ -315,13 +318,7 @@ public class SalesmanFrame extends JFrame {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(173, 137, 115, 255));
-//			// 操作日志
-//			String[] columnTitle1 = { "操作", "操作人员", "日期" };
-//			Object[][] tableData1 = { new Object[] { "创建进货单", "鹅", "12.11" },
-//					new Object[] { "创建进货退货单", "鹅", "12.11" }, };
-//			JTable table1 = new JTable(new MyTableModel(tableData1,
-//					columnTitle1));
-//			JTable purchaseLogTable = new JTable();// 商品列表
+
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
 			tableColName.add("操作");
@@ -1104,9 +1101,9 @@ public class SalesmanFrame extends JFrame {
 						ResultMessage result = new PurchaseController()
 								.creatReceipt(receipt);
 
-						// 刷新外部表格
+						// 刷新外部表格 TODO 显示操作日志
 
-						if (result == ResultMessage.add_success) {
+						if (result.equals(ResultMessage.add_success)) {
 							dispose();
 						} else {
 							new warningDialog("保存失败!");
@@ -1172,11 +1169,7 @@ public class SalesmanFrame extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 
 							GoodsVO good = goodsController.getGoodsByID(Long.parseLong(goodsSerialNumber.getText()));
-							System.out.println(good);
-							// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
-							// 100, 100, "a");//测试
-							// 在这里应当向frame添加商品列表中的商品
-							// 如果返回null说明没有此商品
+							
 							if (good != null) {
 								// 添加商品列表
 								listItems.add(new PurchaseListItemVO(good,
@@ -1321,6 +1314,7 @@ public class SalesmanFrame extends JFrame {
 
 				beforePrice = new JTextField();
 				beforePrice.setBounds(100, 140, 100, 20);
+				beforePrice.setText("0");
 				getContentPane().add(beforePrice);
 
 				discountLabel = new JLabel("折让");
@@ -1329,6 +1323,7 @@ public class SalesmanFrame extends JFrame {
 
 				discount = new JTextField();
 				discount.setBounds(270, 140, 100, 20);
+				discount.setText("0");
 				getContentPane().add(discount);
 				
 				vocherLabel = new JLabel("代金券");
@@ -1428,7 +1423,7 @@ public class SalesmanFrame extends JFrame {
 
 						// 刷新外部表格
 						// TODO
-						if (result == ResultMessage.add_success) {
+						if (result.equals(ResultMessage.add_success)) {
 							dispose();
 						} else {
 							new warningDialog("保存失败!");
@@ -1552,11 +1547,9 @@ public class SalesmanFrame extends JFrame {
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							// 既然胡韬不改ID为string，这里只好强制转换
 							GoodsVO good = goodsController.getGoodsByID(new Long(
 									0).parseLong(goodsSerialNumber.getText()));
-							// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
-							// 100, 100, "a");//测试
+						
 							// 在这里应当向frame添加商品列表中的商品
 							// 如果返回null说明没有此商品
 							if (good != null) {
@@ -1573,6 +1566,14 @@ public class SalesmanFrame extends JFrame {
 								newRows.add(new Integer(0).parseInt(goodsQuantity
 										.getText()) * good.salePrice);
 								tableData.add(newRows);
+								
+								// 刷新总价
+								beforePrice.setText((new Double(0)
+										.parseDouble(beforePrice.getText()) + new Integer(
+										0).parseInt(goodsQuantity.getText())
+										* good.price)
+										+ "");
+								
 								table1.updateUI();
 
 								dispose();
@@ -1825,7 +1826,6 @@ public class SalesmanFrame extends JFrame {
 	
 	public void findCustomer(String keyWord){
 		ArrayList<CustomerPO> customers = new CustomerController().findCustomer(keyWord);
-		System.out.println(customers);
 
 		customerTableData.removeAllElements();
 		

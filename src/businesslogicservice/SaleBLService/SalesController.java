@@ -55,11 +55,10 @@ public class SalesController implements SalesBLService {
 	public ResultMessage creatReceipt(SalesReceiptVO salesReceiptVO) {
 		
 		SalesReceiptPO po = this.toPO(salesReceiptVO);
-
 		Communication_Start com = new Communication_Start();
 		com.initial();
-
 		try {
+//			System.out.println(com.client.messageCommand("create_sales_receipt", po));
 			return com.client.messageCommand("create_sales_receipt", po);
 
 		} catch (RemoteException e) {

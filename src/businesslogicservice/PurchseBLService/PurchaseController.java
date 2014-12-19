@@ -36,7 +36,6 @@ public class PurchaseController implements PurchaseBLService {
 
 	@Override
 	public ResultMessage creatReceipt(PurchaseReceiptVO purchaseReceiptVO) {
-		
 		PurchaseReceiptPO po =this.toPO(purchaseReceiptVO);
 		Communication_Start com = new Communication_Start();
 		com.initial();
