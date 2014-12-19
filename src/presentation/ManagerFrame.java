@@ -19,6 +19,9 @@ import java.util.ArrayList;
 
 
 
+
+
+import javax.crypto.spec.GCMParameterSpec;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,6 +42,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 
 
+
+
 import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
 import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
@@ -48,6 +53,7 @@ import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
 import Config.Level;
 import Config.PromotionSort;
+import Config.UserSort;
 import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
@@ -64,10 +70,12 @@ import VO.UserVO;
 
 
 public class ManagerFrame extends JFrame{
+	GoodsController gController=new GoodsController();
 	private JLabel backgroundLabel,exitButton,crLabel,infoLabel,promotionLabel;
 	private CheckReceiptPanel crPanel=new CheckReceiptPanel(this);
 	private InfoPanel infoPanel=new InfoPanel(this);
 	private PromotionPanel proPanel=new PromotionPanel(this);
+	private UserPanel userPanel;
 	
 	public ManagerFrame(UserVO uservo){   //总Frame
 		this.setSize(1000, 600);
@@ -116,11 +124,15 @@ public class ManagerFrame extends JFrame{
 			}
 		});
 		
+		userPanel=new UserPanel(uservo);
 		
 		this.add(exitButton);
 		this.add(crLabel);
 		this.add(infoLabel);
 		this.add(promotionLabel);
+		this.add(userPanel);
+		
+		
 		
 		MoveOfFrame m = new MoveOfFrame(this);
 		this.setVisible(true);
@@ -541,7 +553,7 @@ public class ManagerFrame extends JFrame{
 				ArrayList<Object> oneData=new ArrayList<Object>();
 				oneData.add(s.customerVOName);
 				oneData.add(s.goodsVOId);
-				oneData.add(new GoodsController().getGoodsByID(s.goodsVOId).name);
+				oneData.add(gController.getGoodsByID(s.goodsVOId).name);
 				oneData.add(s.num);
 				oneData.add(new Boolean(false));
 				tableData4.add(oneData);
@@ -714,10 +726,18 @@ public class ManagerFrame extends JFrame{
 				ArrayList<Object> datas=new ArrayList<Object>();
 				datas.add((PromotionSort)promotions.get(i).getPromotionType());
 				datas.add((String)promotions.get(i).getPromotionId());
-				datas.add((ArrayList<GoodsPO>)promotions.get(i).getPromotionGoods());
+				ArrayList<GoodsPO> pGoods=(ArrayList<GoodsPO>)promotions.get(i).getPromotionGoods();
+				if(pGoods!=null)
+					datas.add(pGoods.get(0).getName()+"、"+pGoods.get(1).getName());
+				else
+					datas.add("无");
 				datas.add((double)promotions.get(i).getLeastPrice());
 				datas.add((double)promotions.get(i).getOffPrice());
-				datas.add((ArrayList<GoodsPO>)promotions.get(i).getPresents());
+				ArrayList<GoodsPO> presents=(ArrayList<GoodsPO>)promotions.get(i).getPresents();
+				if(presents!=null)
+					datas.add(presents.get(0).getName());
+				else
+					datas.add("无");
 				datas.add((int)promotions.get(i).getVoucher());
 				datas.add((String)promotions.get(i).getStartTime());
 				datas.add((String)promotions.get(i).getEndTime());
@@ -913,7 +933,7 @@ public class ManagerFrame extends JFrame{
 		}
 
 	public static void main(String[] args){
-		new ManagerFrame(new UserVO("", "", null,0));
+		new ManagerFrame(new UserVO("yaomengzhou", "123", UserSort.Manager,3));
 	}
 }
 

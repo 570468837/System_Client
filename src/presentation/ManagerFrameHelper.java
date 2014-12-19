@@ -37,10 +37,12 @@ import VO.GoodsVO;
 import VO.PromotionVO;
 
 public class ManagerFrameHelper extends JFrame{
-	 ArrayList<PurchaseListItemPO> purchaseListItems;
-	 ArrayList<SalesListItemPO> salesListItems;
-	 ArrayList<TransferListItemPO> transfers;
+	GoodsController gController=new GoodsController();
+	ArrayList<PurchaseListItemPO> purchaseListItems;
+	ArrayList<SalesListItemPO> salesListItems;
+	ArrayList<TransferListItemPO> transfers;
 	 public ManagerFrameHelper(String command){
+		 this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		switch (command){
 			case "package":new AddPackageFrame(); break;
 			case "gifts": new AddGiftsFrame(); break;
@@ -129,7 +131,7 @@ public class ManagerFrameHelper extends JFrame{
 						checkGoods1Label.setText("未选择商品");
 						return;
 					}
-					goods1=new GoodsController().getGoodsByID(Long.parseLong(goods1Field.getText()));
+					goods1=gController.getGoodsByID(Long.parseLong(goods1Field.getText()));
 					if(goods1!=null)
 						checkGoods1Label.setText(goods1.name);
 					else
@@ -158,7 +160,7 @@ public class ManagerFrameHelper extends JFrame{
 						checkGoods2Label.setText("未选择商品");
 						return;
 					}
-					goods2=new GoodsController().getGoodsByID(Long.parseLong(goods2Field.getText()));
+					goods2=gController.getGoodsByID(Long.parseLong(goods2Field.getText()));
 					if(goods2!=null)
 						checkGoods2Label.setText(goods2.name);
 					else
@@ -292,8 +294,8 @@ public class ManagerFrameHelper extends JFrame{
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 					
 					ArrayList<GoodsPO> goods=new ArrayList<GoodsPO>();
-					goods1=new GoodsController().getGoodsByID(Long.parseLong(goods1Field.getText()));
-					goods2=new GoodsController().getGoodsByID(Long.parseLong(goods2Field.getText()));
+					goods1=gController.getGoodsByID(Long.parseLong(goods1Field.getText()));
+					goods2=gController.getGoodsByID(Long.parseLong(goods2Field.getText()));
 					goods.add(goods1.toPO());
 					goods.add(goods2.toPO());
 					
@@ -409,7 +411,7 @@ public class ManagerFrameHelper extends JFrame{
 							goodsChosenLabel.setText("未选择商品");
 							return;
 						}
-						presentVO=new GoodsController().getGoodsByID(Long.parseLong(presentsField.getText()));
+						presentVO=gController.getGoodsByID(Long.parseLong(presentsField.getText()));
 						if(presentVO!=null)
 							goodsChosenLabel.setText(presentVO.name);
 						else
@@ -522,7 +524,7 @@ public class ManagerFrameHelper extends JFrame{
 						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHMMSS");
 						
 						ArrayList<GoodsPO> presents=new ArrayList<GoodsPO>();
-						presentVO=new GoodsController().getGoodsByID(Long.parseLong(presentsField.getText()));
+						presentVO=gController.getGoodsByID(Long.parseLong(presentsField.getText()));
 						presents.add(presentVO.toPO());
 						
 						Level customer=getCustomerLevel(customerLevel.getSelectedItem());
