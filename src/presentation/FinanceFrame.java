@@ -1677,7 +1677,7 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					int i = JOptionPane.showConfirmDialog(null, "确定进行红冲并复制操作？");
 					if(( i==0 ) && (currentRow != 10000 ))
-						hcAndfz(typeOfReceipt) ;
+					hcAndfz(typeOfReceipt) ;
 				}
 			});
 			
@@ -2007,9 +2007,7 @@ public class FinanceFrame extends JFrame{
 		}
   
 		private void hcAndfz(String type){
-			if(currentRow == 10000){
-				new warningDialog("请选择单据") ;
-			}else{
+			System.out.println("进入红冲复制");
 			hc(type) ;
 			if(type.equals("BYD")||type.equals("BSD")){
 				ReportCommodityVO theVO = (ReportCommodityVO) result.get(currentRow) ;
@@ -2029,22 +2027,24 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("XSD")){
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
-				new SalesmanFrameHelper.AddSalesReceiptFrame(2, thePO, user) ;
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				 SalesmanFrameHelper.AddSalesReceiptFrame frame = saleHelper.new AddSalesReceiptFrame(2, thePO, user) ;
 			}
 			if(type.equals("XSTHD")){
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
-				new SalesmanFrameHelper.AddSalesReceiptFrame(-2, thePO, user) ;
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				saleHelper.new AddSalesReceiptFrame(-2, thePO, user) ;
 			}
 			if(type.equals("JHD")){
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
-				new SalesmanFrameHelper.AddPurchaseReceiptFrame(1, thePO, user) ;
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				saleHelper.new AddPurchaseReceiptFrame(1, thePO, user) ;
 			}
 			if(type.equals("JHTHD")){
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
-				new SalesmanFrameHelper.AddPurchaseReceiptFrame(-1, thePO, user) ;
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				saleHelper.new AddPurchaseReceiptFrame(-1, thePO, user) ;
 			}
-
-		}
 		}
 }
     class SaleConditionPanel extends JPanel{
@@ -2383,7 +2383,7 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("条目清单")){//销售单中的条目清单
 				for(Object object : theDatas){
-					CaseListItemPO theCase = (CaseListItemPO)object ;
+					CaseListItemVO theCase = (CaseListItemVO)object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
 					oneRow.add(theCase.getCasename()) ;
 					oneRow.add(theCase.getCaseMoney()) ;
