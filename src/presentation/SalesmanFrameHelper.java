@@ -572,7 +572,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po,UserPO userPO) {
+		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po,UserVO uservo) {
 
 			if (type == 1) {
 				this.setTitle("创建进货单");
@@ -619,7 +619,7 @@ public class SalesmanFrameHelper {
 			// 自动填充
 			user = new JTextField();
 			user.setBounds(270, 60, 100, 20);
-			user.setText(userPO.getUserName());
+			user.setText(uservo.getUserName());
 			getContentPane().add(user);
 
 			timeLabel = new JLabel("创建时间");
@@ -877,7 +877,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddSalesReceiptFrame(int type,SalesReceiptPO po,UserPO userPO) {
+		public AddSalesReceiptFrame(int type,SalesReceiptPO po,UserVO uservo) {
 			if (type == 2) {
 				this.setTitle("创建销售单");
 			} else {
@@ -953,7 +953,7 @@ public class SalesmanFrameHelper {
 			getContentPane().add(userLabel);
 			// TODO 自动填充
 			user = new JTextField();
-			user.setText(userPO.getUserName());
+			user.setText(uservo.getUserName());
 			user.setBounds(440, 100, 100, 20);
 			if(po!=null)
 				user.setText(po.getUserPO().getUserName());
