@@ -602,11 +602,16 @@ public class ManagerFrame extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					ArrayList<SendCommodityVO> isApproved=new ArrayList<SendCommodityVO>();
+					ArrayList<SendCommodityVO> NotApproved=new ArrayList<SendCommodityVO>();
 					for(int i=0;i<tableData4.size();i++){
 						if((Boolean)tableData4.get(i).get(4)==true)
 							isApproved.add(shows.get(i));
+						else
+							NotApproved.add(shows.get(i));
 					}
-					new ApprovalBLService_Controller().sendCommodityUpdate(shows);
+					new ApprovalBLService_Controller().sendCommodityUpdate(isApproved);
+					
+					new ApprovalBLService_Controller().sendCommodityNotPassed(NotApproved);
 					
 					table4Refresh();
 				}
