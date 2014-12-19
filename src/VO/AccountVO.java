@@ -15,8 +15,9 @@ public class AccountVO {
 		// TODO Auto-generated constructor stub
 	}
 
-
-
+	public void changeBalance(double sum){
+		balance = balance + sum ;
+	}
 
 	public String getName() {
 		return name;

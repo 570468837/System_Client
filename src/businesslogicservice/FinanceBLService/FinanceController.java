@@ -77,11 +77,15 @@ public class FinanceController implements FinanceBLService{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(objects != null){
 		for(Object theAccount:objects){
 			AccountPO acc = (AccountPO) theAccount ;
 			accounts.add(new AccountVO(acc.getName(),acc.getBalance())) ;
 		}
 		return accounts;
+		}else{
+			return null ;
+		}
 	}
 	@Override
 	public ArrayList<AccountVO> show() {

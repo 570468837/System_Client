@@ -39,6 +39,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableModel;
 
 import Config.UserSort;
+import PO.CaseListItemPO;
 import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
@@ -205,8 +206,12 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					String name = findField.getText() ;
 					if(!name.equals("")){
+						if(fController.findAccount(name) != null){
 						refreshTable(fController.findAccount(name));
 						findField.setText("");
+						}else{
+							new warningDialog("该账户不存在！");
+						}
 					}
 				}
 			});
@@ -626,6 +631,9 @@ public class FinanceFrame extends JFrame{
 					}else{
 						CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,user.getUserName(),tfAccounts,Double.parseDouble(sumOfMoneys),false,false) ;
 						ResultMessage result = fController.addCollectionOrPaymentVO(collectionOrPayment) ;
+						if(result.equals(ResultMessage.add_failure)){
+						new warningDialog("输入账户不存在！");
+						}else{
 						new warningDialog("添加成功");
 						nameOfCustomerField.setText("");
 						numberOfReceiptField.setText("");;
@@ -636,6 +644,7 @@ public class FinanceFrame extends JFrame{
 						c.setSelected(false);
 						tfAccounts = new ArrayList<TransferListItemVO>() ;
 						sumOfMoney = 0 ;
+						}
 					}
 				}
 			});
@@ -856,6 +865,7 @@ public class FinanceFrame extends JFrame{
 			}
 
 		}
+		
 	}
 
     class MakeCash extends JPanel{
@@ -943,7 +953,9 @@ public class FinanceFrame extends JFrame{
 						
 						CashVO cash = new CashVO(number,user.getUserName(),account,items,Double.parseDouble(sum)) ;
 						ResultMessage result = fController.addCash(cash) ;
-
+						if(result.equals(ResultMessage.add_failure)){
+							new warningDialog("输入账户不存在！");
+						}else{
 					    new warningDialog("添加成功");
 						
 						nameOfAccountField.setText("");
@@ -952,6 +964,7 @@ public class FinanceFrame extends JFrame{
 						items = new ArrayList<CaseListItemVO>() ;
 						sumOfMoney = 0 ;
 						numberField.setText(fController.getReceiptNumber("XJFYD"));
+						}
 					}
 					
 				}
@@ -1337,7 +1350,7 @@ public class FinanceFrame extends JFrame{
 		private JTextField storageField;
 		private JTable saleDetailTable;
 		JScrollPane jsc  ;
-		ArrayList<SalesReceiptVO> receipts = new ArrayList<SalesReceiptVO>() ;
+		ArrayList<SalesReceiptPO> receipts = new ArrayList<SalesReceiptPO>() ;
 
 		/**
 		 * Create the panel.
@@ -1456,7 +1469,7 @@ public class FinanceFrame extends JFrame{
 					nameOfCustomerField.setText("");
 					nameOfRetailerField.setText("");
 					storageField.setText("");
-					receipts = new ArrayList<SalesReceiptVO>() ;
+					receipts = new ArrayList<SalesReceiptPO>() ;
 					refreshTable( receipts);
 				}
 			});
@@ -1476,10 +1489,10 @@ public class FinanceFrame extends JFrame{
             saleDetailTable.setFillsViewportHeight(true);
             this.add(jsc) ;
 		}
-		public void refreshTable(ArrayList<SalesReceiptVO> receipts){
+		public void refreshTable(ArrayList<SalesReceiptPO> receipts){
 			String[] columNames ={"单据编号","客户","业务员","操作员","仓库","商品清单","折让前总额","折让","代金券金额","折让后总额","备注"};
 			ArrayList<Object> objects = new ArrayList<Object>() ;
-			for(SalesReceiptVO item:receipts ){
+			for(SalesReceiptPO item:receipts ){
 				objects.add(item) ;
 			}
 			saleDetailTable = new JTable(new MyTableModel(objects,columNames,"XSD")) ;
@@ -1487,9 +1500,9 @@ public class FinanceFrame extends JFrame{
 				public void mouseClicked(MouseEvent e){
 					Point mousePoint = e.getPoint()  ;
 					if(saleDetailTable.rowAtPoint(mousePoint)== 5){
-						SalesReceiptVO theVO = receipts.get(saleDetailTable.columnAtPoint(mousePoint)) ;
+						SalesReceiptPO thePO = receipts.get(saleDetailTable.columnAtPoint(mousePoint)) ;
 						String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
-						ArrayList<Object> list = new ArrayList<>(theVO.getSalesList()) ;
+						ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 						new ShowListFrame(list, column2,"商品清单");
 					}
 				}
@@ -1805,8 +1818,8 @@ public class FinanceFrame extends JFrame{
 							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
 							int i = table.rowAtPoint(mousePoint) ;
 							currentRow = i ;
-							SalesReceiptVO theVO= (SalesReceiptVO) objects.get(i) ;
-							ArrayList<Object> list = new ArrayList<>(theVO.getSalesList()) ;
+							SalesReceiptPO thePO= (SalesReceiptPO) objects.get(i) ;
+							ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 							new ShowListFrame(list, column2,"出货商品清单");
 						}
 					}
@@ -1824,13 +1837,7 @@ public class FinanceFrame extends JFrame{
 							int i = table.rowAtPoint(mousePoint) ;
 							currentRow = i ;
 							SalesReceiptPO thePO= (SalesReceiptPO) objects.get(i) ;
-							ArrayList<Object> list = new ArrayList<>() ;
-							for(SalesListItemPO item :thePO.getSalesList()){
-								GoodsPO goodPO = item.getGoodsPO() ;
-							    GoodsVO good = new GoodsVO(goodPO.getSerialNumber(), goodPO.getName(), goodPO.getModel(), goodPO.getPrice(), goodPO.getSalePrice(), goodPO.getLatestPrice(), goodPO.getLatestSalePrice(), goodPO.getGoodsClassNum()) ;
-								SalesListItemVO itemVO = new SalesListItemVO(good, item.getQuantity()) ;
-								list.add(itemVO) ;
-							}
+							ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 							new ShowListFrame(list, column2,"出货商品清单");
 						}
 					}
@@ -1945,8 +1952,8 @@ public class FinanceFrame extends JFrame{
 				fController.addCash(theReceipt) ;
 			}
 			if(type.equals("XSD")){//销售单
-				SalesReceiptVO theReceipt = (SalesReceiptVO) result.get(currentRow);
-				for(SalesListItemVO theItem:theReceipt.getSalesList()){
+				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
+				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
 				}
@@ -1958,7 +1965,7 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("XSTHD")){//销售退货单
-				SalesReceiptPO theReceipt = (SalesReceiptPO) result.get(currentRow);
+				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -1971,7 +1978,7 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){//进货单和进货退货单
-				PurchaseReceiptPO theReceipt = (PurchaseReceiptPO)result.get(currentRow) ;
+				PurchaseReceiptPO theReceipt = new PurchaseReceiptPO((PurchaseReceiptPO)result.get(currentRow)) ;
 				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -2017,6 +2024,10 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("XJFYD")){
 				CashVO theVO = (CashVO) result.get(currentRow) ;
 				new CashForFinancer(theVO) ;
+			}
+			if(type.equals("XSD")){
+				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
+//				new SalesmanFrameHelper.AddSalesReceiptFrame
 			}
 		}
 		}
@@ -2272,12 +2283,12 @@ public class FinanceFrame extends JFrame{
 		public MyTableModel(ArrayList<Object> theDatas ,String[] theColumn,String type){
 			if(type.equals("XSD")){//销售单
 			for(Object object : theDatas){
-				SalesReceiptVO receipt = (SalesReceiptVO)object ;
+				SalesReceiptPO receipt = (SalesReceiptPO)object ;
 				ArrayList<Object> oneRow = new ArrayList<Object>() ;
 				oneRow.add(receipt.getSerialNumber()) ;
-				oneRow.add(receipt.getCustomerVO().getName()) ;
+				oneRow.add(receipt.getCustomerPO().getName()) ;
 				oneRow.add(receipt.getSalesman()) ;
-				oneRow.add(receipt.getUserVO().getUserName()) ;
+				oneRow.add(receipt.getUserPO().getUserName()) ;
 				oneRow.add(receipt.getCommodityNum()) ;
 				oneRow.add("展开");
 				oneRow.add(String.valueOf(receipt.getPriceBefore())) ;
@@ -2310,13 +2321,13 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("商品清单")||type.equals("出货商品清单")){//商品清单
 				for(Object object : theDatas){
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
-					SalesListItemVO item = (SalesListItemVO)object ;
-					oneRow.add(item.getGoodsVO().serialNumber) ;
-					oneRow.add(item.getGoodsVO().name) ;
-					oneRow.add(item.getGoodsVO().model) ;
-					oneRow.add(item.getGoodsVO().price) ;
+					SalesListItemPO item = (SalesListItemPO)object ;
+					oneRow.add(item.getGoodsPO().getSerialNumber()) ;
+					oneRow.add(item.getGoodsPO().getName()) ;
+					oneRow.add(item.getGoodsPO().getModel()) ;
+					oneRow.add(item.getGoodsPO().getPrice()) ;
 					oneRow.add(item.getTotalPrice()) ;
-					oneRow.add(item.getGoodsVO().comment) ;
+					oneRow.add(item.getGoodsPO().getComment()) ;
 					datas.add(oneRow) ;
 				}
 			}
@@ -2357,7 +2368,7 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("条目清单")){//销售单中的条目清单
 				for(Object object : theDatas){
-					CaseListItemVO theCase = (CaseListItemVO)object ;
+					CaseListItemPO theCase = (CaseListItemPO)object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
 					oneRow.add(theCase.getCasename()) ;
 					oneRow.add(theCase.getCaseMoney()) ;
@@ -2381,14 +2392,14 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("入库商品列表")){//进货单中的入库商品列表
 				for(Object object : theDatas){
-					PurchaseListItemVO theVO  = (PurchaseListItemVO) object ;
+					PurchaseListItemPO thePO  = (PurchaseListItemPO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
-					oneRow.add(theVO.getGoodsVO().serialNumber) ;
-					oneRow.add(theVO.getGoodsVO().name) ;
-					oneRow.add(theVO.getGoodsVO().model) ;
-					oneRow.add(theVO.getGoodsVO().price) ;
-					oneRow.add(theVO.getTotalPrice()) ;
-					oneRow.add(theVO.getGoodsVO().comment) ;
+					oneRow.add(thePO.getGoodsPO().getSerialNumber()) ;
+					oneRow.add(thePO.getGoodsPO().getName()) ;
+					oneRow.add(thePO.getGoodsPO().getModel()) ;
+					oneRow.add(thePO.getGoodsPO().getPrice()) ;
+					oneRow.add(thePO.getTotalPrice()) ;
+					oneRow.add(thePO.getGoodsPO().getComment()) ;
 					datas.add(oneRow) ;
 				}
 			}
@@ -2408,14 +2419,14 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("出库商品列表")){//进货退货单中的出库商品列表
 				for(Object object : theDatas){
-					PurchaseListItemVO theVO  = (PurchaseListItemVO) object ;
+					PurchaseListItemPO thePO  = (PurchaseListItemPO) object ;
 					ArrayList<Object> oneRow = new ArrayList<Object>() ;
-					oneRow.add(theVO.getGoodsVO().serialNumber) ;
-					oneRow.add(theVO.getGoodsVO().name) ;
-					oneRow.add(theVO.getGoodsVO().model) ;
-					oneRow.add(theVO.getGoodsVO().price) ;
-					oneRow.add(theVO.getTotalPrice()) ;
-					oneRow.add(theVO.getGoodsVO().comment) ;
+					oneRow.add(thePO.getGoodsPO().getSerialNumber()) ;
+					oneRow.add(thePO.getGoodsPO().getName()) ;
+					oneRow.add(thePO.getGoodsPO().getModel()) ;
+					oneRow.add(thePO.getGoodsPO().getPrice()) ;
+					oneRow.add(thePO.getTotalPrice()) ;
+					oneRow.add(thePO.getGoodsPO().getComment()) ;
 					datas.add(oneRow) ;
 				}
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import PO.CashPO;
 import PO.CollectionOrPaymentPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
@@ -15,11 +16,11 @@ import VO.ScreeningConditionVO;
 public class InfoBLService_Stub implements InfoBLService {
 
 	@Override
-	public ArrayList<SalesReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition) {
+	public ArrayList<SalesReceiptPO> showSalesDetailsInfo(ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
 		if(condition.getTime1().equals("0001")){
 			System.out.println("success");
-			return new ArrayList<SalesReceiptVO>() ;
+			return new ArrayList<SalesReceiptPO>() ;
 		}else{
 			System.out.println("fail") ;
 			return null ;

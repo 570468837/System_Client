@@ -30,10 +30,11 @@ import VO.UserVO;
 
 public class InfoController implements InfoBLService{
 	@Override
-	public ArrayList<SalesReceiptVO> showSalesDetailsInfo(
+	public ArrayList<SalesReceiptPO> showSalesDetailsInfo(
 			ScreeningConditionVO condition) {
 		// TODO Auto-generated method stub
-		ArrayList<SalesReceiptVO> result = new ArrayList<SalesReceiptVO>() ;
+//		ArrayList<SalesReceiptVO> result = new ArrayList<SalesReceiptVO>() ;
+		ArrayList<SalesReceiptPO> result = new ArrayList<SalesReceiptPO>() ;
 		ArrayList<SalesReceiptPO> resultOfPO = new SalesController().show() ;
 		int date ;
 		String begin = condition.getTime1() ;
@@ -62,37 +63,40 @@ public class InfoController implements InfoBLService{
 					break ;
 				}
 			}
-				if(isContain){//PO转VO
-					UserVO userVO = new UserVO(theReceipt.getUserPO().getUserName(),
-							theReceipt.getUserPO().getPassword(), theReceipt
-									.getUserPO().getUserSort(), theReceipt.getUserPO()
-									.getLevel());
-
-					GoodsVO goodsVO;
-
-					ArrayList<SalesListItemVO> list = new ArrayList<SalesListItemVO>();
-					for (int i = 0; i < theReceipt.getSalesList().size(); i++) {
-						goodsVO = new GoodsVO(theReceipt.getSalesList().get(i).getGoodsPO().getSerialNumber(),
-								theReceipt.getSalesList().get(i).getGoodsPO().getName(), 
-								theReceipt.getSalesList().get(i).getGoodsPO().getModel(),
-								theReceipt.getSalesList().get(i).getGoodsPO().getPrice(), 
-								theReceipt.getSalesList().get(i).getGoodsPO().getTotalPrice(), 
-								theReceipt.getSalesList().get(i).getGoodsPO().getComment());
-
-						list.add(new SalesListItemVO(goodsVO, theReceipt.getSalesList()
-								.get(i).getQuantity()));
-
-					}
-					SalesReceiptVO vo = new SalesReceiptVO(
-							theReceipt.getSerialNumber(), theReceipt.getRetailer(),
-							theReceipt.getSalesman(), list, userVO,
-							theReceipt.getCommodityNum(),
-							theReceipt.getPriceBefore(), theReceipt.getDiscout(),
-							theReceipt.getFinalprice(), theReceipt.getTime(),
-							theReceipt.getComment());
-					isContain = false ;
-					result.add(vo) ;
-				}
+			if(isContain){
+				result.add(theReceipt) ;
+			}
+//				if(isContain){//PO转VO
+//					UserVO userVO = new UserVO(theReceipt.getUserPO().getUserName(),
+//							theReceipt.getUserPO().getPassword(), theReceipt
+//									.getUserPO().getUserSort(), theReceipt.getUserPO()
+//									.getLevel());
+//
+//					GoodsVO goodsVO;
+//
+//					ArrayList<SalesListItemVO> list = new ArrayList<SalesListItemVO>();
+//					for (int i = 0; i < theReceipt.getSalesList().size(); i++) {
+//						goodsVO = new GoodsVO(theReceipt.getSalesList().get(i).getGoodsPO().getSerialNumber(),
+//								theReceipt.getSalesList().get(i).getGoodsPO().getName(), 
+//								theReceipt.getSalesList().get(i).getGoodsPO().getModel(),
+//								theReceipt.getSalesList().get(i).getGoodsPO().getPrice(), 
+//								theReceipt.getSalesList().get(i).getGoodsPO().getTotalPrice(), 
+//								theReceipt.getSalesList().get(i).getGoodsPO().getComment());
+//
+//						list.add(new SalesListItemVO(goodsVO, theReceipt.getSalesList()
+//								.get(i).getQuantity()));
+//
+//					}
+//					SalesReceiptVO vo = new SalesReceiptVO(
+//							theReceipt.getSerialNumber(), theReceipt.getRetailer(),
+//							theReceipt.getSalesman(), list, userVO,
+//							theReceipt.getCommodityNum(),
+//							theReceipt.getPriceBefore(), theReceipt.getDiscout(),
+//							theReceipt.getFinalprice(), theReceipt.getTime(),
+//							theReceipt.getComment());
+//					isContain = false ;
+//					result.add(vo) ;
+//				}
 		}
 		return result ;
 	}
@@ -175,7 +179,7 @@ public class InfoController implements InfoBLService{
 			}
 		}
 		if(condition.getTypeOfReceipt().equals("XSD")){//销售单，返回的是VO
-			ArrayList<SalesReceiptVO> receipts = this.showSalesDetailsInfo(condition) ;
+			ArrayList<SalesReceiptPO> receipts = this.showSalesDetailsInfo(condition) ;
 			result = new ArrayList<>(receipts) ;
 		}
 		if(condition.getTypeOfReceipt().equals("XSTHD")){//销售退货单，返回的是PO

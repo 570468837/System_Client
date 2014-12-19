@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import PO.CashPO;
 import PO.CollectionOrPaymentPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
@@ -12,7 +13,7 @@ import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
 
 public interface InfoBLService {
-	public ArrayList<SalesReceiptVO> showSalesDetailsInfo(ScreeningConditionVO condition);
+	public ArrayList<SalesReceiptPO> showSalesDetailsInfo(ScreeningConditionVO condition);
 	public ArrayList<Object> showSalesProcessInfo(ScreeningConditionVO condition) ;
 	public double[] showSalesConditionInfo(String time1 ,String time2) ;
 	public ResultMessage deletReceipt(String typeOfReceipt,String number) ;//红冲

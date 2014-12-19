@@ -14,8 +14,9 @@ public class AccountPO implements Serializable{
 		balance =  0 ;
 	}
 	
-	
-	
+	public void changeBalance(double sum){
+		balance = balance + sum ;
+	}
 	public String getName() {
 		return name;
 	}
