@@ -11,7 +11,9 @@ import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
+import VO.PurchaseListItemVO;
 import VO.PurchaseReceiptVO;
+import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
 
@@ -158,4 +160,33 @@ public class PurchaseController implements PurchaseBLService {
 		
 		
 	}
+	
+//	public PurchaseReceiptVO toVO(PurchaseReceiptPO po){
+//		UserVO userVO = new UserVO(po.getUserPO().getUserName(),
+//				po.getUserPO().getPassword(), po
+//						.getUserPO().getUserSort(), po
+//						.getUserPO().getLevel());
+//
+//		GoodsVO goodsVO;
+//
+//		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
+//		for (int i = 0; i < po.getPurchaseList().size(); i++) {
+//			goodsVO = new GoodsVO(po.getSerialNumber(), po.get, model, price, totalPrice, comment)
+//			
+//			list.add(new PurchaseListItemVO(goodsVO, po
+//					.getPurchaseList().get(i).getQuantity()));
+//
+//		}
+//		PurchaseReceiptVO vo = new PurchaseReceiptVO(
+//				po.getSerialNumber(), list, userVO,
+//				po.getTime(), po.getComments(),
+//				po.getTotalPrice());
+//		
+//		vo.setApprovedByCommodity(po.isApprovedByCommodity());
+//		vo.setApprovedByManager(po.isApprovedByManager());
+//		
+//		return vo;
+//		
+//		
+//	}
 }

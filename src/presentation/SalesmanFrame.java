@@ -157,7 +157,7 @@ public class SalesmanFrame extends JFrame {
 
 
 			ArrayList<CustomerPO> customers = new CustomerController().show();
-			System.out.println(customers);
+//			System.out.println(customers);
 
 			for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
 				CustomerPO customerPO = (CustomerPO) iterator.next();
@@ -976,7 +976,8 @@ public class SalesmanFrame extends JFrame {
 					serialNumber = new JTextField(setSerialNumber(-1),
 							JTextField.CENTER);
 				}
-				serialNumber.setEditable(false);
+				//TODO
+//				serialNumber.setEditable(false);
 				serialNumber.setBounds(100, 20, 170, 20);
 				getContentPane().add(serialNumber);
 
@@ -1262,7 +1263,8 @@ public class SalesmanFrame extends JFrame {
 					serialNumber = new JTextField(setSerialNumber(-2),
 							JTextField.CENTER);
 				}
-				serialNumber.setEditable(false);
+				//TODO
+//				serialNumber.setEditable(false);
 				serialNumber.setBounds(100, 20, 170, 20);
 				getContentPane().add(serialNumber);
 
