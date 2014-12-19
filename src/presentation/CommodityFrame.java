@@ -1522,9 +1522,10 @@ public class CommodityFrame extends JFrame {
 					x = infoTable.rowAtPoint(e.getPoint());
 					y = infoTable.columnAtPoint(e.getPoint());
 					if(infoTable.getValueAt(x, y).equals("已完成")) {
-						
-						//TODO
-						
+						SendCommodityVO sv = passedVO.get(Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1);
+						sv.checked = SendCommodityVO.FINISH;
+						ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
+						cc.updUncheckedSend(svList);
 						
 						alarmFrame.setVisible(false);
 						alarmFrame = new AlarmFrame(theFrame, alarmFrame.getX(), alarmFrame.getY());
