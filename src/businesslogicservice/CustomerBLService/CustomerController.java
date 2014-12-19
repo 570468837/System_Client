@@ -95,6 +95,7 @@ public class CustomerController implements CustomerBLService {
 		}
 	}
 
+	//Byname也可以
 	@Override
 	public CustomerPO getCustomerPOById(String id) {
 		Communication_Start com = new Communication_Start();

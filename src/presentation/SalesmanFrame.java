@@ -1382,12 +1382,12 @@ public class SalesmanFrame extends JFrame {
 				tableColName.add("商品数量");
 				tableColName.add("商品总价");
 
-				tableRows.add("Test");
-				tableRows.add("Test");
-				tableRows.add("100");
-				tableRows.add("100");
-
-				tableData.add(tableRows);
+//				tableRows.add("Test");
+//				tableRows.add("Test");
+//				tableRows.add("100");
+//				tableRows.add("100");
+//
+//				tableData.add(tableRows);
 
 				table1.setModel(model);
 
@@ -1501,6 +1501,7 @@ public class SalesmanFrame extends JFrame {
 						new Double(0).parseDouble(finalPrice.getText()),
 						time.getText(), comment.getText());
 				
+				receipt.setCustomerVO(new CustomerController().toVO(new CustomerController().getCustomerPOById(customer.getText())));
 				receipt.setVocher(new Double(0).parseDouble(vocher.getText()));
 
 				return receipt;
