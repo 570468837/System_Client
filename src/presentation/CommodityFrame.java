@@ -1473,7 +1473,7 @@ public class CommodityFrame extends JFrame {
 		private JScrollPane jsp;
 		private ArrayList<SendCommodityVO> passedVO;
 		
-		private AlarmFrame(JFrame theFrame, int x, int y) {
+		private AlarmFrame(int x, int y) {
 			this(theFrame);
 			this.setLocation(x, y);
 		}
@@ -1525,10 +1525,13 @@ public class CommodityFrame extends JFrame {
 						SendCommodityVO sv = passedVO.get(Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1);
 						sv.checked = SendCommodityVO.FINISH;
 						ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
+						svList.add(sv);
 						cc.updUncheckedSend(svList);
 						
-						alarmFrame.setVisible(false);
-						alarmFrame = new AlarmFrame(theFrame, alarmFrame.getX(), alarmFrame.getY());
+						alarmFrame.dispose();
+						theFrame.setVisible(true);
+						@SuppressWarnings("unused")
+						AlarmFrame alarmFrame2 = new AlarmFrame(alarmFrame.getX(), alarmFrame.getY());
 						
 					}
 					
