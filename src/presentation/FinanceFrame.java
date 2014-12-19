@@ -90,8 +90,10 @@ public class FinanceFrame extends JFrame{
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		accountPanel.setVisible(true);
 		
-		user = uservo ;
 		
+		user = uservo ;
+		this.add(new UserPanel(user)) ;
+
 		exitButton = new JLabel("X",JLabel.CENTER) ;
 		exitButton.setBounds(950, 0, 50, 50);
 		exitButton.setFont(new Font("default", 1, 20));
@@ -2027,8 +2029,21 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("XSD")){
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
-//				new SalesmanFrameHelper.AddSalesReceiptFrame
+				new SalesmanFrameHelper.AddSalesReceiptFrame(2, thePO, user) ;
 			}
+			if(type.equals("XSTHD")){
+				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
+				new SalesmanFrameHelper.AddSalesReceiptFrame(-2, thePO, user) ;
+			}
+			if(type.equals("JHD")){
+				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
+				new SalesmanFrameHelper.AddPurchaseReceiptFrame(1, thePO, user) ;
+			}
+			if(type.equals("JHTHD")){
+				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
+				new SalesmanFrameHelper.AddPurchaseReceiptFrame(-1, thePO, user) ;
+			}
+
 		}
 		}
 }
