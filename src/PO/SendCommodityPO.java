@@ -29,5 +29,6 @@ public class SendCommodityPO implements Serializable{
 	public static final int UNCHECKED = 0;
 	public static final int PASS = 1;
 	public static final int CANCEL= 2;
+	public static final int FINISH = 3;
 
 }

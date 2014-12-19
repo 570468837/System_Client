@@ -1471,7 +1471,7 @@ public class CommodityFrame extends JFrame {
 		private JFrame alarmFrame, comFrame;
 		private JTable infoTable;
 		private JScrollPane jsp;
-		private ArrayList<SendCommodityVO> canceledVO;
+		private ArrayList<SendCommodityVO> passedVO;
 		
 		private AlarmFrame(JFrame theFrame, int x, int y) {
 			this(theFrame);
@@ -1488,21 +1488,21 @@ public class CommodityFrame extends JFrame {
 			this.setUndecorated(true);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
-			canceledVO = cc.showCanceledSend();
+			passedVO = cc.showPassedSend();
 			String[] head = {"", "", ""};
-			String[][] body = new String[canceledVO.size()][3];
-			if(canceledVO.size() == 0) body = new String[][] {{"", "暂无信息", ""}};
+			String[][] body = new String[passedVO.size()][3];
+			if(passedVO.size() == 0) body = new String[][] {{"", "暂无信息", ""}};
 			
-			for (int i = 0; i < canceledVO.size(); i ++) {
-				SendCommodityVO v = canceledVO.get(i);
+			for (int i = 0; i < passedVO.size(); i ++) {
+				SendCommodityVO v = passedVO.get(i);
 				GoodsVO g = gc.getGoodsByID(v.goodsVOId);
 				body[i][0] = (i + 1) + "";
 				body[i][1] = 
 						(v.date.getYear() + 1900) + "/" + (v.date.getMonth() + 1) + "/" + v.date.getDay() + "  " +
 				        "客户: " + v.customerVOName + "" +
 						"商品: " + g.name + "/" + g.model + "(" + v.price + "/" + v.num + ")" + "" +
-				        "的赠送单审批未通过";
-				body[i][2] = "删除";
+				        "的赠送单审批通过";
+				body[i][2] = "已完成";
 			}
 			infoTable = new JTable(body, head);
 			
@@ -1521,10 +1521,11 @@ public class CommodityFrame extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					x = infoTable.rowAtPoint(e.getPoint());
 					y = infoTable.columnAtPoint(e.getPoint());
-					if(infoTable.getValueAt(x, y).equals("删除")) {
-						cc.delCanceledSend(canceledVO.get(
-								Integer.parseInt(
-										(String)infoTable.getValueAt(x, 0)) - 1));
+					if(infoTable.getValueAt(x, y).equals("已完成")) {
+						
+						//TODO
+						
+						
 						alarmFrame.setVisible(false);
 						alarmFrame = new AlarmFrame(theFrame, alarmFrame.getX(), alarmFrame.getY());
 						

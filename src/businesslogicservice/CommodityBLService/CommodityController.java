@@ -152,10 +152,10 @@ public class CommodityController implements CommodityBLService {
 	}
 	
 	
-	public ArrayList<SendCommodityVO> showCanceledSend() {
+	public ArrayList<SendCommodityVO> showPassedSend() {
 		ArrayList<Object> POList = new ArrayList<Object>();
 		try {
-			POList = Communication_Start.client.showObject("showCanceledSend");
+			POList = Communication_Start.client.showObject("showPassedSend");
 		} catch (RemoteException e) {}
 		ArrayList<SendCommodityVO> VOList = new ArrayList<SendCommodityVO>();
 		SendCommodityVO vo;
@@ -172,13 +172,6 @@ public class CommodityController implements CommodityBLService {
 		
 	}
 	
-	public ResultMessage delCanceledSend(SendCommodityVO sendCommodityVO) {
-		try {
-			return Communication_Start.client.messageCommand("delCanceledSend", sendCommodityVO.toPO());
-		} catch (RemoteException e) {
-			return ResultMessage.delete_failure;
-		}
-	}
 	
 	
 	
