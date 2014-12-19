@@ -4,9 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import businesslogicservice.GoodsBLService.GoodsController;
 import PO.CustomerPO;
-import PO.GoodsPO;
 import PO.InventoryCommodityPO;
 import PO.ReportCommodityPO;
 import PO.SendCommodityPO;
@@ -154,7 +152,33 @@ public class CommodityController implements CommodityBLService {
 	}
 	
 	
+	public ArrayList<SendCommodityVO> showCanceledSend() {
+		ArrayList<Object> POList = new ArrayList<Object>();
+		try {
+			POList = Communication_Start.client.showObject("showCanceledSend");
+		} catch (RemoteException e) {}
+		ArrayList<SendCommodityVO> VOList = new ArrayList<SendCommodityVO>();
+		SendCommodityVO vo;
+		SendCommodityPO po;
+		Iterator<Object> iter = POList.iterator();
+		while(iter.hasNext()) {
+			po = (SendCommodityPO)iter.next();
+			vo = new SendCommodityVO(null, null, 0, 0, 0);
+			vo.toVO(po);
+			VOList.add(vo);
+		}
+		return VOList;
+		
+		
+	}
 	
+	public ResultMessage delCanceledSend(SendCommodityVO sendCommodityVO) {
+		try {
+			return Communication_Start.client.messageCommand("delCanceledSend", sendCommodityVO.toPO());
+		} catch (RemoteException e) {
+			return ResultMessage.delete_failure;
+		}
+	}
 	
 	
 	

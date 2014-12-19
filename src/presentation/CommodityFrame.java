@@ -87,7 +87,7 @@ public class CommodityFrame extends JFrame {
 		});
 		
 		
-		alarmLabel = new JLabel("alarming", JLabel.LEFT);
+		alarmLabel = new JLabel("alarm/message", JLabel.LEFT);
 		alarmLabel.setBounds(40, 340, 100, 50);
 		alarmLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -1108,7 +1108,7 @@ public class CommodityFrame extends JFrame {
 			comInvenTable.getTableHeader().setEnabled(false);
 			comInvenTable.getTableHeader().setFont(new Font("default", 1, 17));
 			comInvenTable.getTableHeader().setPreferredSize(new Dimension(0, 35));
-			comInvenTable.getColumnModel().getColumn(0).setPreferredWidth(30);
+			comInvenTable.getColumnModel().getColumn(0).setMaxWidth(40);
 			
 			comInvenTable.addMouseListener(new MouseAdapter() {
 				JFrame popFrame;
@@ -1403,7 +1403,6 @@ public class CommodityFrame extends JFrame {
 			sendComponent[3] = sendNum;
 			
 			JTextField sendPrice = new JTextField("<商品单价>");
-			new AddWordsChange(sendPrice, "<商品单价>");
 			sendPrice.setBounds(650, 150, 100, 25);
 			sendPrice.setEditable(false);
 			sendComponent[4] = sendPrice;
@@ -1436,7 +1435,9 @@ public class CommodityFrame extends JFrame {
 								SendCommodityVO.PASS)) == ResultMessage.add_success)
 							infoBoard.setText("添加成功");
 						else infoBoard.setText("添加失败");
+						System.out.println(vo.name);
 					}
+					
 					infoBoard.setVisible(true);
 				}
 			});
@@ -1466,20 +1467,84 @@ public class CommodityFrame extends JFrame {
 	 * 报警单区域，包括报警单和总经理的回执
 	 */
 	class AlarmFrame extends JFrame {
-		JLabel exitLabel;
-		JFrame alarmFrame, comFrame;
+		private JLabel exitLabel;
+		private JFrame alarmFrame, comFrame;
+		private JTable infoTable;
+		private JScrollPane jsp;
+		private ArrayList<SendCommodityVO> canceledVO;
+		
+		private AlarmFrame(JFrame theFrame, int x, int y) {
+			this(theFrame);
+			this.setLocation(x, y);
+		}
+		
+		@SuppressWarnings("deprecation")
 		public AlarmFrame(JFrame theFrame) {
 			alarmFrame = this;
 			comFrame = theFrame;
-			this.setSize(400, 300);
+			this.setSize(600, 400);
 			this.setLocationRelativeTo(theFrame);
 			this.setLayout(null);
 			this.setUndecorated(true);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
+			canceledVO = cc.showCanceledSend();
+			String[] head = {"", "", ""};
+			String[][] body = new String[canceledVO.size()][3];
+			if(canceledVO.size() == 0) body = new String[][] {{"", "暂无信息", ""}};
 			
+			for (int i = 0; i < canceledVO.size(); i ++) {
+				SendCommodityVO v = canceledVO.get(i);
+				GoodsVO g = gc.getGoodsByID(v.goodsVOId);
+				body[i][0] = (i + 1) + "";
+				body[i][1] = 
+						(v.date.getYear() + 1900) + "/" + (v.date.getMonth() + 1) + "/" + v.date.getDay() + "  " +
+				        "客户: " + v.customerVOName + "" +
+						"商品: " + g.name + "/" + g.model + "(" + v.price + "/" + v.num + ")" + "" +
+				        "的赠送单审批未通过";
+				body[i][2] = "删除";
+			}
+			infoTable = new JTable(body, head);
+			
+			infoTable.setPreferredSize(new Dimension(540, body.length * 25));
+			infoTable.setAutoResizeMode(0);
+			infoTable.setRowHeight(25);
+			infoTable.setEnabled(false);
+			infoTable.setFont(new Font("default", 0, 12));
+			infoTable.getColumnModel().getColumn(0).setMaxWidth(50);
+			infoTable.getColumnModel().getColumn(2).setMaxWidth(70);
+			infoTable.getTableHeader().setPreferredSize(new Dimension(0, 0));
+			infoTable.addMouseListener(new MouseAdapter() {
+				int x;
+				int y;
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					x = infoTable.rowAtPoint(e.getPoint());
+					y = infoTable.columnAtPoint(e.getPoint());
+					if(infoTable.getValueAt(x, y).equals("删除")) {
+						cc.delCanceledSend(canceledVO.get(
+								Integer.parseInt(
+										(String)infoTable.getValueAt(x, 0)) - 1));
+						alarmFrame.setVisible(false);
+						alarmFrame = new AlarmFrame(theFrame, alarmFrame.getX(), alarmFrame.getY());
+						
+					}
+					
+				}
+			});
+			
+			
+			
+			jsp = new JScrollPane(infoTable);
+			jsp.setBounds(30, 30, 540, 340);
+			jsp.setPreferredSize(new Dimension(440, 240));
+	    	jsp.setHorizontalScrollBar(null);
+			
+	    	
+	    	
+	    	
 			exitLabel = new JLabel("X", JLabel.CENTER);
-			exitLabel.setBounds(350, 0, 50, 50);
+			exitLabel.setBounds(570, 0, 30, 30);
 			exitLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					comFrame.setVisible(true);
@@ -1491,6 +1556,7 @@ public class CommodityFrame extends JFrame {
 			
 			
 			this.add(exitLabel);
+			this.add(jsp);
 			
 			@SuppressWarnings("unused")
 			MoveOfFrame m = new MoveOfFrame(this);
@@ -1504,6 +1570,7 @@ public class CommodityFrame extends JFrame {
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		CommodityFrame c = new CommodityFrame(new UserVO("hutao","123", UserSort.Commodity, 1));
+		
 	}
 	
 
