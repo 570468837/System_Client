@@ -241,7 +241,7 @@ public class SalesmanFrame extends JFrame {
 					if (serchField.getText().equals("")) {
 
 					} else {
-						// TODO
+						findCustomer(serchField.getText());
 					}
 
 				}
@@ -910,6 +910,7 @@ public class SalesmanFrame extends JFrame {
 
 						ResultMessage result = new CustomerController()
 								.updateCustmer(vo);
+						updateCustomerPanelTable();
 
 						if (result == ResultMessage.add_success) {
 							listener.stop();
@@ -1090,6 +1091,7 @@ public class SalesmanFrame extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// 有点复杂
+						
 						PurchaseReceiptVO receipt = new PurchaseReceiptVO(
 								new CustomerController()
 										.toVO(new CustomerController()
@@ -1377,11 +1379,7 @@ public class SalesmanFrame extends JFrame {
 					}
 				});
 
-				// String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
-				// Object[][] tableData1={
-				// new Object[]{"TEST","TEST","100","0"},
-				// new Object[]{"TEST2","TEST2","100","0"},
-				// };
+				
 				tableColName.add("商品编号");
 				tableColName.add("商品名称");
 				tableColName.add("商品数量");
@@ -1555,7 +1553,7 @@ public class SalesmanFrame extends JFrame {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// 既然胡韬不改ID为string，这里只好强制转换
-							GoodsVO good = new GoodsController().getGoodsByID(new Long(
+							GoodsVO good = goodsController.getGoodsByID(new Long(
 									0).parseLong(goodsSerialNumber.getText()));
 							// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
 							// 100, 100, "a");//测试
@@ -1823,6 +1821,35 @@ public class SalesmanFrame extends JFrame {
 		
 		customerTable.updateUI();
 		
+	}
+	
+	public void findCustomer(String keyWord){
+		ArrayList<CustomerPO> customers = new CustomerController().findCustomer(keyWord);
+		System.out.println(customers);
+
+		customerTableData.removeAllElements();
+		
+		for (Iterator iterator = customers.iterator(); iterator.hasNext();) {
+			CustomerPO customerPO = (CustomerPO) iterator.next();
+			Vector tableRows = new Vector();
+			tableRows.add(customerPO.getNumber());
+			tableRows.add(customerPO.getSort());
+			tableRows.add(customerPO.getLevel());
+			tableRows.add(customerPO.getName());
+			tableRows.add(customerPO.getPhone());
+			tableRows.add(customerPO.getAddress());
+			tableRows.add(customerPO.getZipCode());
+			tableRows.add(customerPO.getMail());
+			tableRows.add(customerPO.getClerk());
+			tableRows.add(customerPO.getGetting());
+			tableRows.add(customerPO.getPay());
+			tableRows.add(customerPO.getDebt_upper_limit());
+
+			customerTableData.add(tableRows);
+			
+		}
+		
+		customerTable.updateUI();
 	}
 
 	public static void main(String[] args) {

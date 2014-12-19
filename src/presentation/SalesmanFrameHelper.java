@@ -27,6 +27,7 @@ import Config.Level;
 import Config.Sort;
 import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
@@ -83,16 +84,16 @@ public class SalesmanFrameHelper {
 			new UpdateCustomerFrame();
 			break;
 		case "addPurchaseReceipt":
-			new AddPurchaseReceiptFrame(1);
+			new AddPurchaseReceiptFrame(1,null);
 			break;
 		case "addPurchaseBackReceipt":
-			new AddPurchaseReceiptFrame(-1);
+			new AddPurchaseReceiptFrame(-1,null);
 			break;
 		case "addSalesReceipt":
-			new AddSalesReceiptFrame(2);
+			new AddSalesReceiptFrame(2,null);
 			break;
 		case "addSalesBackReceipt":
-			new AddSalesReceiptFrame(-2);
+			new AddSalesReceiptFrame(-2,null);
 			break;
 		}
 
@@ -570,7 +571,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddPurchaseReceiptFrame(int type) {
+		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po) {
 
 			if (type == 1) {
 				this.setTitle("创建进货单");
@@ -585,7 +586,7 @@ public class SalesmanFrameHelper {
 			goodsList = new ArrayList<GoodsVO>();
 
 			serialNumberLabel = new JLabel("单据编号");
-			serialNumberLabel.setBounds(20, 20, 80, 20);
+			serialNumberLabel.setBounds(20, 20, 80, 20);				
 			getContentPane().add(serialNumberLabel);
 
 			if (type == 1) {
@@ -597,6 +598,8 @@ public class SalesmanFrameHelper {
 			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
+			if(po!=null)
+				serialNumber.setText(po.getSerialNumber());
 			getContentPane().add(serialNumber);
 
 			customerLabel = new JLabel("供货商");
@@ -605,6 +608,8 @@ public class SalesmanFrameHelper {
 
 			customer = new JTextField();
 			customer.setBounds(100, 60, 100, 20);
+			if(po!=null)
+				customer.setText(po.getCustomerPO().getName());
 			getContentPane().add(customer);
 
 			userLabel = new JLabel("操作员");
@@ -623,6 +628,8 @@ public class SalesmanFrameHelper {
 			time = new JTextField(yearNow + "-" + monthNow + "-" + dayNow);
 			time.setEditable(false);
 			time.setBounds(100, 100, 100, 20);
+			if(po!=null)
+				time.setText(po.getTime());
 			getContentPane().add(time);
 
 			commodityLabel = new JLabel("仓库");
@@ -635,11 +642,14 @@ public class SalesmanFrameHelper {
 
 			totalPriceLabel = new JLabel("总价");
 			totalPriceLabel.setBounds(400, 100, 100, 20);
+			
 			getContentPane().add(totalPriceLabel);
 			// TODO 自动填充
 			totalPrice = new JTextField();
 			totalPrice.setText("0");
 			totalPrice.setBounds(440, 100, 100, 20);
+			if(po!=null)
+				totalPrice.setText(po.getTotalPrice()+"");
 			getContentPane().add(totalPrice);
 
 			commentLabel = new JLabel("备注");
@@ -648,6 +658,8 @@ public class SalesmanFrameHelper {
 
 			comment = new JTextArea(50, 50);
 			comment.setBounds(100, 140, 440, 40);
+			if(po!=null)
+				comment.setText(po.getComments());
 			getContentPane().add(comment);
 
 			addItemButton = new JButton("添加商品");
@@ -671,12 +683,24 @@ public class SalesmanFrameHelper {
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
 
-			tableRows.add("Test");
-			tableRows.add("Test");
-			tableRows.add("100");
-			tableRows.add("100");
+//			tableRows.add("Test");
+//			tableRows.add("Test");
+//			tableRows.add("100");
+//			tableRows.add("100");
+			if(po!=null)
+				for(int i=0;i<po.getPurchaseList().size();i++){
+					Vector rows=new Vector();
+					rows.add(po.getPurchaseList().get(i).getGoodsPO().getSerialNumber());
+					rows.add(po.getPurchaseList().get(i).getGoodsPO().getName());
+					rows.add(po.getPurchaseList().get(i).getQuantity());
+					rows.add(po.getPurchaseList().get(i).getTotalPrice());
+					
+					tableData.add(rows);
+				}
 
-			tableData.add(tableRows);
+//			tableData.add(tableRows);
+			
+			
 
 			table1.setModel(model);
 
@@ -859,7 +883,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddSalesReceiptFrame(int type) {
+		public AddSalesReceiptFrame(int type,SalesReceiptPO po) {
 			if (type == 2) {
 				this.setTitle("创建销售单");
 			} else {
@@ -886,6 +910,9 @@ public class SalesmanFrameHelper {
 			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
+			if(po!=null)
+				serialNumber.setText(po.getSerialNumber());
+			
 			getContentPane().add(serialNumber);
 
 			customerLabel = new JLabel("销售商");
@@ -894,6 +921,8 @@ public class SalesmanFrameHelper {
 
 			customer = new JTextField();
 			customer.setBounds(100, 60, 100, 20);
+			if(po!=null)
+				customer.setText(po.getCustomerPO().getName());
 			getContentPane().add(customer);
 
 			clerkLabel = new JLabel("业务员");
@@ -902,6 +931,8 @@ public class SalesmanFrameHelper {
 			// 自动填充
 			clerk = new JTextField();
 			clerk.setBounds(270, 60, 100, 20);
+			if(po!=null)
+				clerk.setText(po.getSalesman());
 			getContentPane().add(clerk);
 
 			timeLabel = new JLabel("创建时间");
@@ -911,6 +942,8 @@ public class SalesmanFrameHelper {
 			time = new JTextField(yearNow + "-" + monthNow + "-" + dayNow);
 			time.setEditable(false);
 			time.setBounds(100, 100, 100, 20);
+			if(po!=null)
+				time.setText(po.getTime());
 			getContentPane().add(time);
 
 			commodityLabel = new JLabel("仓库");
@@ -928,6 +961,8 @@ public class SalesmanFrameHelper {
 			user = new JTextField();
 			user.setText(userVO.getUserName());
 			user.setBounds(440, 100, 100, 20);
+			if(po!=null)
+				user.setText(po.getUserPO().getUserName());
 			getContentPane().add(user);
 
 			beforePriceLabel = new JLabel("折让前价格");
@@ -936,6 +971,9 @@ public class SalesmanFrameHelper {
 
 			beforePrice = new JTextField();
 			beforePrice.setBounds(100, 140, 100, 20);
+			if(po!=null)
+				beforePrice.setText(po.getPriceBefore()+"");
+				
 			getContentPane().add(beforePrice);
 
 			discountLabel = new JLabel("折让");
@@ -944,15 +982,21 @@ public class SalesmanFrameHelper {
 
 			discount = new JTextField();
 			discount.setBounds(270, 140, 100, 20);
+			if(po!=null)
+				discount.setText(po.getDiscout()+"");
 			getContentPane().add(discount);
 			
 			vocherLabel = new JLabel("代金券");
 			vocherLabel.setBounds(400, 140, 100, 20);
+			
 			getContentPane().add(vocherLabel);
 
 			vocher = new JTextField();
 			vocher.setText("0");//代金券默认为0
+			if(po!=null)
+				vocher.setText(po.getVocher()+"");
 			vocher.setBounds(440, 140, 100, 20);
+			
 			getContentPane().add(vocher);
 
 			finalPriceLabel = new JLabel("折让后金额");
@@ -960,7 +1004,10 @@ public class SalesmanFrameHelper {
 			getContentPane().add(finalPriceLabel);
 			// TODO 自动填充
 			finalPrice = new JTextField();
+			if(po!=null)
+				finalPrice.setText(po.getFinalprice()+"");
 			finalPrice.setBounds(100, 180, 100, 20);
+			
 			getContentPane().add(finalPrice);
 
 			detectButton = new JButton("检测促销策略");
@@ -981,6 +1028,8 @@ public class SalesmanFrameHelper {
 
 			comment = new JTextArea(50, 50);
 			comment.setBounds(100, 240, 440, 40);
+			if(po!=null)
+				comment.setText(po.getComment());
 			getContentPane().add(comment);
 
 			addItemButton = new JButton("添加商品");
@@ -1004,12 +1053,22 @@ public class SalesmanFrameHelper {
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
 
-			tableRows.add("Test");
-			tableRows.add("Test");
-			tableRows.add("100");
-			tableRows.add("100");
-
-			tableData.add(tableRows);
+//			tableRows.add("Test");
+//			tableRows.add("Test");
+//			tableRows.add("100");
+//			tableRows.add("100");
+//
+//			tableData.add(tableRows);
+			if(po!=null)
+				for(int i=0;i<po.getSalesList().size();i++){
+					Vector rows=new Vector();
+					rows.add(po.getSalesList().get(i).getGoodsPO().getSerialNumber());
+					rows.add(po.getSalesList().get(i).getGoodsPO().getName());
+					rows.add(po.getSalesList().get(i).getQuantity());
+					rows.add(po.getSalesList().get(i).getTotalPrice());
+					
+					tableData.add(rows);
+				}
 
 			table1.setModel(model);
 

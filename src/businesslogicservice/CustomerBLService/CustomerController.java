@@ -110,6 +110,19 @@ public class CustomerController implements CustomerBLService {
 		
 		
 	}
+	//TODO 
+//	public CustomerPO getCustomerByName(String name){
+//		Communication_Start com = new Communication_Start();
+//		com.initial();
+//		
+//		try {
+//			return (CustomerPO) com.client.findObject("getCustomer", name).get(0);
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	//收付款单修改
 	public ResultMessage collectionOrPaymentChangePayOrGetting(CollectionOrPaymentPO collectionOrPaymentPO){
 		Communication_Start com = new Communication_Start();

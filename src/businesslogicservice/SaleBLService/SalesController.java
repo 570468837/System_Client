@@ -37,8 +37,18 @@ public class SalesController implements SalesBLService {
 	}
 	
 	public ResultMessage updateReceipt(SalesReceiptPO po){
+		Communication_Start com = new Communication_Start();
+		com.initial();
+		
+		try {
+			return com.client.messageCommand("updateSalesReceipt", po);
+			
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return ResultMessage.update_failure;
+		}
 		//TODO
-		return null;
 	}
 
 	@Override
