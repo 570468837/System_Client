@@ -174,7 +174,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			if(s.getPromotionPO().getPromotionType()==PromotionSort.Gifts){
 				PromotionPO p=s.getPromotionPO();
 				new CommodityController().addSendCommodity(new SendCommodityVO(
-						p.getPresents().get(0).getName(),s.getCustomerPO().getName(), 
+						p.getPresents().get(0).getSerialNumber(),s.getCustomerPO().getName(), 
 						1, p.getPresents().get(0).getSalePrice(), SendCommodityVO.UNCHECKED));
 			}
 		}
