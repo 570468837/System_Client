@@ -26,6 +26,7 @@ public class CommodityFrame extends JFrame {
 	    commodityLabel,
 	    goodsLabel,
 	    alarmLabel;
+	private UserPanel userPanel;
 	private GoodsPanel goodsPanel;
 	
 	private CommodityPanel commodityPanel;
@@ -63,7 +64,7 @@ public class CommodityFrame extends JFrame {
 		
 		
 
-		goodsLabel = new JLabel("Goods", JLabel.CENTER);
+		goodsLabel = new JLabel("Goods", JLabel.LEFT);
 		goodsLabel.setBounds(40, 100, 100, 50);
 		goodsLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -74,7 +75,7 @@ public class CommodityFrame extends JFrame {
 		
 		
 		
-		commodityLabel = new JLabel("Commodity", JLabel.CENTER);
+		commodityLabel = new JLabel("Commodity", JLabel.LEFT);
 		
 		commodityLabel.setBounds(40, 160, 100, 50);
 		commodityLabel.addMouseListener(new MouseAdapter() {
@@ -86,8 +87,8 @@ public class CommodityFrame extends JFrame {
 		});
 		
 		
-		alarmLabel = new JLabel("alarming", JLabel.CENTER);
-		alarmLabel.setBounds(40, 470, 100, 50);
+		alarmLabel = new JLabel("alarming", JLabel.LEFT);
+		alarmLabel.setBounds(40, 340, 100, 50);
 		alarmLabel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				@SuppressWarnings("unused")
@@ -96,10 +97,13 @@ public class CommodityFrame extends JFrame {
 			}
 		});
 		
+
+		userPanel = new UserPanel(uservo);
 		
 		
 		this.add(goodsLabel);
 		this.add(commodityLabel);
+		this.add(userPanel);
 		this.add(alarmLabel);
 		this.add(exitButton);
 		this.repaint();
@@ -1306,6 +1310,7 @@ public class CommodityFrame extends JFrame {
 			JLabel report = new JLabel("添加", JLabel.CENTER);
 			report.setBounds(650, 150, 50, 25);
 			report.addMouseListener(new MouseAdapter() {
+				@SuppressWarnings("unchecked")
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					//添加报单
@@ -1451,6 +1456,7 @@ public class CommodityFrame extends JFrame {
 		 * @param comInvenTable
 		 */
 		private void export(JTable comInvenTable) {
+			@SuppressWarnings("unused")
 			String url = "C:/Users/Administrator/Desktop";
 			
 		}
