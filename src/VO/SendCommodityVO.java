@@ -39,7 +39,7 @@ public class SendCommodityVO {
 	 * @return 返回转换成的PO
 	 */
 	public SendCommodityPO toPO() {
-		SendCommodityPO scp = new SendCommodityPO(null);
+		SendCommodityPO scp = new SendCommodityPO();
 		scp.goodsPOId = this.goodsVOId;
 		scp.customerPOName = new String(this.customerVOName);
 		scp.num = this.num;

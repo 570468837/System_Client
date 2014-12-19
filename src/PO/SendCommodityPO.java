@@ -16,6 +16,7 @@ public class SendCommodityPO implements Serializable{
 	public int checked;
 	public Date date;
 	
+	public SendCommodityPO() {}
 	public SendCommodityPO(SendCommodityPO po) {
 		this.goodsPOId = po.goodsPOId;
 		this.customerPOName = po.customerPOName;
