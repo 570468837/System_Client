@@ -30,7 +30,9 @@ import Config.Level;
 import Config.Sort;
 import Config.UserSort;
 import PO.CustomerPO;
+import PO.PurchaseLogPO;
 import PO.PurchaseReceiptPO;
+import PO.SalesLogPO;
 import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
@@ -43,6 +45,8 @@ import VO.SalesReceiptVO;
 import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
+import businesslogicservice.LogBLService.PurchaseLogController;
+import businesslogicservice.LogBLService.SalesLogController;
 import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
@@ -260,12 +264,7 @@ public class SalesmanFrame extends JFrame {
 			this.setBounds(140, 25, 835, 550);
 			this.setBackground(new Color(185, 227, 217, 255));
 			// 操作日志
-//			String[] columnTitle1 = { "操作", "操作人员", "日期" };
-//			Object[][] tableData1 = { new Object[] { "创建销售单", "鹅", "12.11" },
-//					new Object[] { "创建销售退货单", "鹅", "12.11" }, };
-//			JTable table1 = new JTable(new MyTableModel(tableData1,
-//					columnTitle1));
-//			JTable salesLogTable = new JTable();// 商品列表
+
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
 			tableColName.add("操作");
@@ -273,6 +272,7 @@ public class SalesmanFrame extends JFrame {
 			tableColName.add("日期");
 						salesLogTable.setFillsViewportHeight(true); // 显示表头
 
+			updateSalesLogTable();
 			salesLogTable.setModel(model);
 			model.setDataVector(salesLogTableData, tableColName);
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
@@ -328,6 +328,10 @@ public class SalesmanFrame extends JFrame {
 						purchaseLogTable.setFillsViewportHeight(true); // 显示表头
 
 			purchaseLogTable.setModel(model);
+			//更新日志内容
+			updatePurchaseLogTable();
+			
+			
 			model.setDataVector(purchaseLogTableData, tableColName);
 			DefaultTableCellRenderer render = new DefaultTableCellRenderer(); // 设置单元格内容居中
 			render.setHorizontalAlignment(SwingConstants.LEFT);
@@ -1047,22 +1051,12 @@ public class SalesmanFrame extends JFrame {
 					}
 				});
 
-				// String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
-				// Object[][] tableData1={
-				// new Object[]{"TEST","TEST","100","0"},
-				// new Object[]{"TEST2","TEST2","100","0"},
-				// };
+
 				tableColName.add("商品编号");
 				tableColName.add("商品名称");
 				tableColName.add("商品数量");
 				tableColName.add("商品总价");
 
-//				tableRows.add("Test");
-//				tableRows.add("Test");
-//				tableRows.add("100");
-//				tableRows.add("100");
-//
-//				tableData.add(tableRows);
 
 				table1.setModel(model);
 
@@ -1107,7 +1101,22 @@ public class SalesmanFrame extends JFrame {
 								.creatReceipt(receipt);
 
 						// 刷新外部表格 TODO 显示操作日志
-
+						Vector logRow=new Vector();
+						
+						if(serialNumber.getText().substring(0, 3).equals("JHD")){
+							logRow.add(new String("创建进货单"));
+						}else{
+							logRow.add(new String("创建进货退货单"));
+						}
+						logRow.add(user.getText());
+						logRow.add(time.getText());
+						purchaseLogTableData.add(logRow);
+						
+						new PurchaseLogController().add(new PurchaseLogPO((String)logRow.get(0),(String)logRow.get(1),(String)logRow.get(2)));
+						
+						purchaseLogTable.updateUI();
+						
+						
 						if (result.equals(ResultMessage.add_success)) {
 							dispose();
 						} else {
@@ -1401,13 +1410,6 @@ public class SalesmanFrame extends JFrame {
 				tableColName.add("商品数量");
 				tableColName.add("商品总价");
 
-//				tableRows.add("Test");
-//				tableRows.add("Test");
-//				tableRows.add("100");
-//				tableRows.add("100");
-//
-//				tableData.add(tableRows);
-
 				table1.setModel(model);
 
 				model.setDataVector(tableData, tableColName);
@@ -1442,8 +1444,21 @@ public class SalesmanFrame extends JFrame {
 						ResultMessage result = new SalesController()
 								.creatReceipt(receipt);
 
-						// 刷新外部表格
-						// TODO
+						// 刷新外部表格 TODO 显示操作日志
+						Vector logRow=new Vector();
+						
+						if(serialNumber.getText().substring(0, 3).equals("XSD")){
+							logRow.add(new String("创建销售单"));
+						}else{
+							logRow.add(new String("创建销售退货单"));
+						}
+						logRow.add(user.getText());
+						logRow.add(time.getText());
+						
+						new SalesLogController().add(new SalesLogPO((String)logRow.get(0),(String)logRow.get(1),(String)logRow.get(2)));
+						salesLogTableData.add(logRow);
+						salesLogTable.updateUI();
+						
 						if (result.equals(ResultMessage.add_success)) {
 							dispose();
 						} else {
@@ -1894,6 +1909,42 @@ public class SalesmanFrame extends JFrame {
 		customerTable.updateUI();
 		
 	}
+	//更新操作日志
+	public void updatePurchaseLogTable(){
+		ArrayList<PurchaseLogPO> purchaseLogList=new PurchaseLogController().show();
+		
+		purchaseLogTableData.removeAllElements();
+		
+		for (Iterator iterator = purchaseLogList.iterator(); iterator
+				.hasNext();) {
+			PurchaseLogPO purchaseLog = (PurchaseLogPO) iterator.next();
+			Vector logRow=new Vector();
+			logRow.add(purchaseLog.getOperation());
+			logRow.add(purchaseLog.getOperator());
+			logRow.add(purchaseLog.getTime());
+			
+			purchaseLogTableData.add(logRow);
+			
+		}
+	}
+
+	public void updateSalesLogTable(){
+		ArrayList<SalesLogPO> salesLogList=new SalesLogController().show();
+		
+		salesLogTableData.removeAllElements();
+		for (Iterator iterator = salesLogList.iterator(); iterator
+				.hasNext();) {
+			SalesLogPO purchaseLog = (SalesLogPO) iterator.next();
+			Vector logRow=new Vector();
+			logRow.add(purchaseLog.getOperation());
+			logRow.add(purchaseLog.getOperator());
+			logRow.add(purchaseLog.getTime());
+			
+			salesLogTableData.add(logRow);
+			
+		}
+		salesLogTable.updateUI();
+	}
 	
 	public void findCustomer(String keyWord){
 		ArrayList<CustomerPO> customers = new CustomerController().findCustomer(keyWord);
@@ -1922,6 +1973,8 @@ public class SalesmanFrame extends JFrame {
 		
 		customerTable.updateUI();
 	}
+	
+	
 
 	public static void main(String[] args) {
 		new SalesmanFrame(new UserVO("gaoyang", "123",
