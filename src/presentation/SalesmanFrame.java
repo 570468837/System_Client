@@ -31,6 +31,7 @@ import Config.Sort;
 import Config.UserSort;
 import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
+import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.CustomerVO;
 import VO.GoodsVO;
@@ -636,6 +637,7 @@ public class SalesmanFrame extends JFrame {
 								.addCustomer(vo);
 
 						if (result == ResultMessage.add_success) {
+							updateCustomerPanelTable();
 							dispose();
 						} else {
 							new warningDialog("已经存在该客户！");
@@ -910,10 +912,12 @@ public class SalesmanFrame extends JFrame {
 						updateCustomerPanelTable();
 
 						if (result == ResultMessage.add_success) {
+							updateCustomerPanelTable();
 							listener.stop();
 							dispose();
 						} else {
-							new warningDialog("已经存在该客户！");
+							new warningDialog("更新信息失败");
+							dispose();
 						}
 					}
 				});
@@ -1226,7 +1230,7 @@ public class SalesmanFrame extends JFrame {
 					discount, finalPrice, clerk,vocher;
 			private JTextArea comment;
 			private JButton cancelButton, confirmButton, addItemButton,
-					detectButton;
+					detectButton,calPriceButton;
 			private ArrayList<GoodsVO> goodsList;
 			// 用来保存商品列表
 			ArrayList<PurchaseListItemVO> listItems = new ArrayList<PurchaseListItemVO>();
@@ -1343,7 +1347,12 @@ public class SalesmanFrame extends JFrame {
 				// TODO 自动填充
 				finalPrice = new JTextField();
 				finalPrice.setBounds(100, 180, 100, 20);
+				finalPrice.setText("0");
 				getContentPane().add(finalPrice);
+				
+				calPriceButton=new JButton("计算");
+				calPriceButton.setBounds(210, 180, 100, 20);
+				getContentPane().add(calPriceButton);
 
 				detectButton = new JButton("检测促销策略");
 				detectButton.setBounds(400, 210, 100, 20);
@@ -1368,6 +1377,16 @@ public class SalesmanFrame extends JFrame {
 				addItemButton = new JButton("添加商品");
 				addItemButton.setBounds(10, 300, 80, 20);
 				getContentPane().add(addItemButton);
+				
+				
+				calPriceButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						finalPrice.setText((Double.parseDouble(beforePrice.getText())-Double.parseDouble(discount.getText())+""));
+						
+					}
+				});
 
 				addItemButton.addActionListener(new ActionListener() {
 					@Override
@@ -1553,8 +1572,17 @@ public class SalesmanFrame extends JFrame {
 							GoodsVO good = goodsController.getGoodsByID(new Long(
 									0).parseLong(goodsSerialNumber.getText()));
 						
+							boolean isEnough=true;
+							//首先判断商品库存是否足够
+							if(serialNumber.getText().substring(0, 3).equals("XSD")){
+								if(Integer.parseInt(goodsQuantity.getText())>=good.commodityQuantity){
+									new warningDialog("商品 "+good.name+" 库存不足！");
+									isEnough=false;
+								}
+							}
 							// 在这里应当向frame添加商品列表中的商品
 							// 如果返回null说明没有此商品
+						if(isEnough){
 							if (good != null) {
 								// 添加商品列表
 								salesListItems.add(new SalesListItemVO(good,
@@ -1571,10 +1599,9 @@ public class SalesmanFrame extends JFrame {
 								tableData.add(newRows);
 								
 								// 刷新总价
-								beforePrice.setText((new Double(0)
-										.parseDouble(beforePrice.getText()) + new Integer(
-										0).parseInt(goodsQuantity.getText())
-										* good.price)
+								beforePrice.setText((Double
+										.parseDouble(beforePrice.getText()) + Integer.parseInt(goodsQuantity.getText())
+										* good.salePrice)
 										+ "");
 								
 								table1.updateUI();
@@ -1584,6 +1611,7 @@ public class SalesmanFrame extends JFrame {
 							} else {
 								new warningDialog("不存在此商品，添加失败!");
 							}
+						}
 						}
 					});
 
@@ -1746,23 +1774,64 @@ public class SalesmanFrame extends JFrame {
 			if (month.length() < 2) {
 				month = "0" + month;
 			}
-
-			String date = year.substring(2, 4) + month + day;
-
+			//更正日期格式
+			String date = year + month + day;
+			int count = 1;// 计算今天单据的个数
 			// 单据次序
 			String order = "";
 
-			ArrayList<PurchaseReceiptPO> list = new PurchaseController().show();
-			int count = 0;// 计算今天单据的个数
-			if (list != null) {
-				for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-					PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
-							.next();
-
-					if (purchaseReceiptPO.getSerialNumber().contains(date)) {
-						count++;
+			ArrayList<PurchaseReceiptPO> purchaseList = new PurchaseController().show();
+			ArrayList<SalesReceiptPO> salesList=new SalesController().show();
+			//进货单
+			if(type==TYPE_PURCHASE){
+				if (purchaseList != null) {
+					for (Iterator iterator = purchaseList.iterator(); iterator.hasNext();) {
+						PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
+								.next();
+						if (purchaseReceiptPO.getSerialNumber().contains(date)&&purchaseReceiptPO.getSerialNumber().substring(0, 3).equals("JHD")) {
+							count++;
+						}
 					}
-
+				}			
+			}
+			//进货退货单
+			if(type==TYPE_PURCHASE_BACK){
+				if (purchaseList != null) {
+					for (Iterator iterator = purchaseList.iterator(); iterator.hasNext();) {
+						PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
+								.next();
+						if (purchaseReceiptPO.getSerialNumber().contains(date)&&purchaseReceiptPO.getSerialNumber().substring(0, 3).equals("JHT")) {
+							count++;
+						}
+					}
+				}
+			}
+			//销售单
+			if(type==TYPE_SALES){
+				if(salesList!=null){
+					for (Iterator iterator = salesList.iterator(); iterator
+							.hasNext();) {
+						SalesReceiptPO salesReceiptPO = (SalesReceiptPO) iterator
+								.next();
+						if(salesReceiptPO.getSerialNumber().contains(date)&&salesReceiptPO.getSerialNumber().substring(0, 3).equals("XSD")){
+							count++;
+						}
+						
+					}
+				}
+			}
+			//销售退货单
+			if(type==TYPE_SALES_BACK){
+				if(salesList!=null){
+					for (Iterator iterator = salesList.iterator(); iterator
+							.hasNext();) {
+						SalesReceiptPO salesReceiptPO = (SalesReceiptPO) iterator
+								.next();
+						if(salesReceiptPO.getSerialNumber().contains(date)&&salesReceiptPO.getSerialNumber().substring(0, 3).equals("XST")){
+							count++;
+						}
+						
+					}
 				}
 			}
 
@@ -1799,7 +1868,6 @@ public class SalesmanFrame extends JFrame {
 	
 	public void updateCustomerPanelTable(){
 		ArrayList<CustomerPO> customers = new CustomerController().show();
-		System.out.println(customers);
 
 		customerTableData.removeAllElements();
 		
