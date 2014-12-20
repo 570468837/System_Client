@@ -55,6 +55,7 @@ public class SalesController implements SalesBLService {
 	public ResultMessage creatReceipt(SalesReceiptVO salesReceiptVO) {
 		
 		SalesReceiptPO po = this.toPO(salesReceiptVO);
+		System.out.println(po.getCustomerPO());
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
@@ -235,7 +236,7 @@ public class SalesController implements SalesBLService {
 		po.setApprovedByManager(salesReceiptVO.isApprovedByManager());
 		
 		po.setVocher(salesReceiptVO.getVocher());
-		
+		po.setCustomerPO(new CustomerController().toPO(salesReceiptVO.getCustomerVO()));
 		
 		return po;
 		

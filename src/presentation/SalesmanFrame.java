@@ -1053,12 +1053,12 @@ public class SalesmanFrame extends JFrame {
 				tableColName.add("商品数量");
 				tableColName.add("商品总价");
 
-				tableRows.add("Test");
-				tableRows.add("Test");
-				tableRows.add("100");
-				tableRows.add("100");
-
-				tableData.add(tableRows);
+//				tableRows.add("Test");
+//				tableRows.add("Test");
+//				tableRows.add("100");
+//				tableRows.add("100");
+//
+//				tableData.add(tableRows);
 
 				table1.setModel(model);
 
