@@ -62,7 +62,7 @@ public class CustomerController implements CustomerBLService {
 		com.initial();
 		
 		try {
-			return com.client.messageCommand("customerUpdate",customerPO);
+			return com.client.messageCommand("updateCustomer",customerPO);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

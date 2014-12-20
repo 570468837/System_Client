@@ -915,7 +915,7 @@ public class SalesmanFrame extends JFrame {
 								.updateCustmer(vo);
 						updateCustomerPanelTable();
 
-						if (result == ResultMessage.add_success) {
+						if (result == ResultMessage.update_success) {
 							updateCustomerPanelTable();
 							listener.stop();
 							dispose();
