@@ -25,14 +25,14 @@ public class GoodsController implements GoodsBLService {
 	
 	private Communication_Start com;
 	private ListReload listReload;
-	private final static int reloadTime = 500; //0.5秒刷新一次
+	private final static int reloadTime = 5000; //8秒刷新一次
 	
 	public GoodsController() {
 		com = new Communication_Start();
 		com.initial();
 		listReload = new ListReload();
 		listReload.act();
-		listReload.start();
+		//listReload.start();
 	}
 
 	@Override

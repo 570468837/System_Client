@@ -23,7 +23,11 @@ import VO.GoodsVO;
 import VO.SendCommodityVO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
-	GoodsController gController=new GoodsController();
+	GoodsController gController;
+	public ApprovalBLService_Controller() {
+		gController=new GoodsController();
+	}
+	
 	@Override
 	public void purchaseChangeGoods(ArrayList<PurchaseReceiptPO> purchases) {
 		// TODO Auto-generated method stub

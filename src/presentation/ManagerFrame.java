@@ -189,7 +189,6 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
-					table1Refresh();
 				}
 			});
 			
@@ -217,7 +216,6 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(true);
-					table4Refresh();
 				}
 			});
 			// 表一
@@ -432,12 +430,16 @@ public class ManagerFrame extends JFrame{
 						else
 							notApproved.add(shows.get(i));
 					}
-					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
-					new ApprovalBLService_Controller().addSendCommodityReceipt(isApproved);
+					//TODO
+					// 这里之前因为过多的创建goodscontroller对象，导致不同的线程中的迭代器对同一list进行修改产生错误
+					//
+					ApprovalBLService_Controller ac = new ApprovalBLService_Controller();
+					ac.salesChangeGoods(isApproved);
+					ac.addSendCommodityReceipt(isApproved);
 					
-					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);  //同时update操作
+					ac.salesChangeCustomer(isApproved);  //同时update操作
 					
-					new ApprovalBLService_Controller().salesNotPassed(notApproved);
+					ac.salesNotPassed(notApproved);
 					table2Refresh();
 				}
 			});
@@ -544,8 +546,12 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData4=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SendCommodityVO> shows=new CommodityController().showUncheckedSend();
-			System.out.println(shows.size());
-			
+			for(int i=0;i<shows.size();i++){
+				if(shows.get(i).checked!=SendCommodityVO.UNCHECKED){
+					shows.remove(i);
+					i--;
+				}
+			}
 			
 			for(int i=0;i<shows.size();i++){
 				SendCommodityVO s=shows.get(i);
