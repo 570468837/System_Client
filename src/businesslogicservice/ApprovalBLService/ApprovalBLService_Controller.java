@@ -23,6 +23,7 @@ import VO.GoodsVO;
 import VO.SendCommodityVO;
 
 public class ApprovalBLService_Controller implements ApprovalBLService{
+	GoodsController gController=new GoodsController();
 	@Override
 	public void purchaseChangeGoods(ArrayList<PurchaseReceiptPO> purchases) {
 		// TODO Auto-generated method stub
@@ -45,7 +46,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			//遍历商品VO去修改数据
 			for(int i=0;i<goodsVOs.size();i++){
 				GoodsVO oneVO=goodsVOs.get(i);
-				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
+				GoodsVO getGoods=gController.getGoodsByID(Long.parseLong(oneVO.serialNumber));
 				if(ifIn){
 					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
 					getGoods.latestPrice=oneVO.price;
@@ -94,7 +95,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			//遍历商品
 			for(int i=0;i<goodsVOs.size();i++){
 				GoodsVO oneVO=goodsVOs.get(i);
-				GoodsVO getGoods=new GoodsController().getGoodsByID(Long.parseLong(oneVO.serialNumber));
+				GoodsVO getGoods=gController.getGoodsByID(Long.parseLong(oneVO.serialNumber));
 				if(ifOut){
 					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
 					getGoods.latestSalePrice=oneVO.salePrice;

@@ -855,6 +855,7 @@ public class ManagerFrame extends JFrame{
 			String[] tableTitle={"商品编号","商品名称","商品型号","数量","单价","金额","备注"};
 			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
 			if(salesItems==null){
+				System.out.println(purchaseItems.size()+"a");
 			for(int i=0;i<purchaseItems.size();i++){
 				GoodsPO goods=purchaseItems.get(i).getGoodsPO();
 				ArrayList<Object> oneData=new ArrayList<Object>();
