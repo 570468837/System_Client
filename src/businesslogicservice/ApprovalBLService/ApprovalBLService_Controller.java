@@ -46,10 +46,11 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			//遍历商品VO去修改数据
 			for(int i=0;i<goodsVOs.size();i++){
 				GoodsVO oneVO=goodsVOs.get(i);
-				System.out.println(Long.parseLong(oneVO.serialNumber));
 				GoodsVO getGoods=gController.getGoodsByID(Long.parseLong(oneVO.serialNumber));
 				
 				if(ifIn){
+					if(getGoods.commodityQuantity==-1)
+						getGoods.commodityQuantity++;
 					getGoods.commodityQuantity=getGoods.commodityQuantity+oneVO.commodityQuantity;
 					getGoods.latestPrice=oneVO.price;
 				}
