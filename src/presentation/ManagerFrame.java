@@ -280,7 +280,9 @@ public class ManagerFrame extends JFrame{
 		    		int column=table1.columnAtPoint(e.getPoint());
 		    		if(column==4){
 		    			int row=table1.rowAtPoint(e.getPoint());
+		    			if(row>=0){
 		    			new GoodsInfoFrame(itemList.get(row),null);
+		    			}
 		    		}
 		    	}
 			});
@@ -383,6 +385,7 @@ public class ManagerFrame extends JFrame{
 		    		int column=table2.columnAtPoint(e.getPoint());
 		    		if(column==5){
 		    			int row=table2.rowAtPoint(e.getPoint());
+		    			if(row>=0)
 		    			new GoodsInfoFrame(null, salesItems.get(row));
 		    		}
 		    	}
@@ -479,6 +482,7 @@ public class ManagerFrame extends JFrame{
 		    		int column=table3.columnAtPoint(e.getPoint());
 		    		if(column==3){
 		    			int row=table3.rowAtPoint(e.getPoint());
+		    			if(row>=0)
 		    			new TransferFrame(transfers.get(row));
 		    		}
 		    	}
@@ -855,7 +859,6 @@ public class ManagerFrame extends JFrame{
 			String[] tableTitle={"商品编号","商品名称","商品型号","数量","单价","金额","备注"};
 			ArrayList<ArrayList<Object>> tableData=new ArrayList<ArrayList<Object>>();
 			if(salesItems==null){
-				System.out.println(purchaseItems.size()+"a");
 			for(int i=0;i<purchaseItems.size();i++){
 				GoodsPO goods=purchaseItems.get(i).getGoodsPO();
 				ArrayList<Object> oneData=new ArrayList<Object>();
