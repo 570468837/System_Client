@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 
-import javax.crypto.spec.GCMParameterSpec;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -54,14 +54,11 @@ import businesslogicservice.SaleBLService.SalesController;
 import Config.Level;
 import Config.PromotionSort;
 import Config.UserSort;
-import PO.CollectionOrPaymentPO;
 import PO.GoodsPO;
 import PO.PurchaseListItemPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesListItemPO;
 import PO.SalesReceiptPO;
-import PO.SendCommodityPO;
-import PO.TransferListItemPO;
 import VO.CollectionOrPaymentVO;
 import VO.PromotionVO;
 import VO.SendCommodityVO;
