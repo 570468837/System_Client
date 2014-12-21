@@ -238,13 +238,13 @@ public class FinanceFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    accountTable.setDefaultRenderer(Object.class, render);
 			
-		    accountTable.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
-		    	public void tableChanged(TableModelEvent e) {     //进行的操作
-		    		int row = e.getFirstRow();
-		    		AccountVO updAccount = new AccountVO((String)accountTable.getValueAt(row, 0),Double.parseDouble((String)accountTable.getValueAt(row, 1))) ;
-		    		fController.updateAccount(updAccount) ;
-		    	}
-		    }) ;
+//		    accountTable.getModel().addTableModelListener(new TableModelListener(){     //检测是否有内容更改
+//		    	public void tableChanged(TableModelEvent e) {     //进行的操作
+//		    		int row = e.getFirstRow();
+//		    		AccountVO updAccount = new AccountVO((String)accountTable.getValueAt(row, 0),Double.parseDouble((String)accountTable.getValueAt(row, 1))) ;
+//		    		fController.updateAccount(updAccount) ;
+//		    	}
+//		    }) ;
 		    if(scrollPane != null)
 		    	scrollPane.setVisible(false);
 		    scrollPane = new JScrollPane(accountTable) ;	

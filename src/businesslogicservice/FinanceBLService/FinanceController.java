@@ -49,20 +49,7 @@ public class FinanceController implements FinanceBLService{
 		return result;
 	}
 
-	@Override
-	public ResultMessage updateAccount(AccountVO vo) {
-		// TODO Auto-generated method stub
-		AccountPO account = new AccountPO(vo.getName(),vo.getBalance());
-		Communication_Start com = new Communication_Start() ;
-		com.initial();
-		try {
-			result = com.client.messageCommand("accountDelete", account);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
+	
 
 	@Override
 	public ArrayList<AccountVO> findAccount(String keyword) {
@@ -133,7 +120,7 @@ public class FinanceController implements FinanceBLService{
 		for(CaseListItemVO theCase:vo.getCases()){
 			caseList.add(new CaseListItemPO(theCase.getCasename(),theCase.getCaseMoney(),theCase.getRemark()));
 		}
-		CashPO cash = new CashPO(vo.getNumber(),vo.getAccount(),vo.getUser(),caseList,vo.getTotal()) ;
+		CashPO cash = new CashPO(vo.getNumber(),vo.getUser(),vo.getAccount(),caseList,vo.getTotal()) ;
 		Communication_Start com = new Communication_Start() ;
 		com.initial(); 
 		try {

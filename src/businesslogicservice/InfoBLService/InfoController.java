@@ -43,12 +43,13 @@ public class InfoController implements InfoBLService{
 		int time2 = Integer.parseInt(end.replaceAll("/", ""));
 		boolean isContain = false ;
 		for(SalesReceiptPO theReceipt:resultOfPO){
-		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
+		    
 		    if(theReceipt.isApprovedByCommodity()&&theReceipt.isApprovedByManager()){}
 		    else continue ;
 		    
 		    if(!theReceipt.getSerialNumber().substring(0,3).equals("XSD")) continue ;
 		    
+		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 			if(time1>=date||date>=time2) continue ;
 			
 			if(!theReceipt.getCustomerPO().getName().contains(condition.getCustomer())) continue ;
@@ -66,37 +67,6 @@ public class InfoController implements InfoBLService{
 			if(isContain){
 				result.add(theReceipt) ;
 			}
-//				if(isContain){//PO转VO
-//					UserVO userVO = new UserVO(theReceipt.getUserPO().getUserName(),
-//							theReceipt.getUserPO().getPassword(), theReceipt
-//									.getUserPO().getUserSort(), theReceipt.getUserPO()
-//									.getLevel());
-//
-//					GoodsVO goodsVO;
-//
-//					ArrayList<SalesListItemVO> list = new ArrayList<SalesListItemVO>();
-//					for (int i = 0; i < theReceipt.getSalesList().size(); i++) {
-//						goodsVO = new GoodsVO(theReceipt.getSalesList().get(i).getGoodsPO().getSerialNumber(),
-//								theReceipt.getSalesList().get(i).getGoodsPO().getName(), 
-//								theReceipt.getSalesList().get(i).getGoodsPO().getModel(),
-//								theReceipt.getSalesList().get(i).getGoodsPO().getPrice(), 
-//								theReceipt.getSalesList().get(i).getGoodsPO().getTotalPrice(), 
-//								theReceipt.getSalesList().get(i).getGoodsPO().getComment());
-//
-//						list.add(new SalesListItemVO(goodsVO, theReceipt.getSalesList()
-//								.get(i).getQuantity()));
-//
-//					}
-//					SalesReceiptVO vo = new SalesReceiptVO(
-//							theReceipt.getSerialNumber(), theReceipt.getRetailer(),
-//							theReceipt.getSalesman(), list, userVO,
-//							theReceipt.getCommodityNum(),
-//							theReceipt.getPriceBefore(), theReceipt.getDiscout(),
-//							theReceipt.getFinalprice(), theReceipt.getTime(),
-//							theReceipt.getComment());
-//					isContain = false ;
-//					result.add(vo) ;
-//				}
 		}
 		return result ;
 	}
@@ -125,7 +95,6 @@ public class InfoController implements InfoBLService{
 					CollectionOrPaymentVO oneReceipt = new CollectionOrPaymentVO(theReceipt.getNumber(), theReceipt.getCustomer(), theReceipt.getTypeOfCustomer(), theReceipt.getUser(), tfItems, theReceipt.getTotal(),theReceipt.isApprovedByManager(),theReceipt.isApprovedByFinancer()) ;
 					receipts.add(oneReceipt) ;
 				}
-				System.out.println(receipts.size()) ;
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
@@ -207,6 +176,7 @@ public class InfoController implements InfoBLService{
 		}
 		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
+			System.out.println(receipts.size()) ;
 			for(PurchaseReceiptPO thePO : receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
 				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
