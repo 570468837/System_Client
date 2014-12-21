@@ -1591,7 +1591,7 @@ public class SalesmanFrame extends JFrame {
 							boolean isEnough=true;
 							//首先判断商品库存是否足够
 							if(serialNumber.getText().substring(0, 3).equals("XSD")){
-								if(Integer.parseInt(goodsQuantity.getText())>=good.commodityQuantity){
+								if(Integer.parseInt(goodsQuantity.getText())>good.commodityQuantity){
 									new warningDialog("商品 "+good.name+" 库存不足！");
 									isEnough=false;
 								}
