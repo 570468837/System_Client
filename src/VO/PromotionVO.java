@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Config.Level;
 import Config.PromotionSort;
 import PO.GoodsPO;
+import PO.PromotionPO;
 
 public class PromotionVO {
 	PromotionSort promotionType;
@@ -114,8 +115,13 @@ public class PromotionVO {
 	public void setCustomer(Level customer) {
 		this.customer = customer;
 	}
-  	 
-  
+	
+	public PromotionPO toPO(){
+		return new PromotionPO(this.promotionType, this.promotionId, this.promotionGoods, 
+				this.leastPrice, this.offPrice, this.presents, this.Voucher, this.startTime, 
+				this.endTime, this.customer);
+		
+	}
 
 	
 	
