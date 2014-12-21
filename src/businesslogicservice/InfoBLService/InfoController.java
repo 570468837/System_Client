@@ -58,6 +58,8 @@ public class InfoController implements InfoBLService{
 			
 			if(!theReceipt.getCommodityNum().contains(condition.getRepository())) continue ;
 			
+			if(!theReceipt.isApprovedByManager()) continue ;
+			
 			for(SalesListItemPO saleItem:theReceipt.getSalesList()){//判断该销售单是否含有查看的商品
 				if(saleItem.getGoodsPO().getName().equals(condition.getNameOfGood())){
 					isContain = true ;
@@ -99,7 +101,7 @@ public class InfoController implements InfoBLService{
 					
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("SKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().contains(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
+							&& theReceipt.getCustomer().contains(condition.getCustomer()) &&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -119,7 +121,7 @@ public class InfoController implements InfoBLService{
 				for(CollectionOrPaymentVO theReceipt : receipts){
 					int time = Integer.parseInt(theReceipt.getNumber().substring(4,12)) ;
 					if( theReceipt.getNumber().substring(0, 3).equals("FKD") && (time>=Integer.parseInt(beginTime)&&time<=Integer.parseInt(endTime))
-							&& theReceipt.getCustomer().contains(condition.getCustomer()) && theReceipt.isApprovedByFinancer()&&theReceipt.isApprovedByManager()){
+							&& theReceipt.getCustomer().contains(condition.getCustomer()) &&theReceipt.isApprovedByManager()){
 						result.add(theReceipt) ;
 					}
 				}
@@ -158,7 +160,7 @@ public class InfoController implements InfoBLService{
 			for(SalesReceiptPO theReceipt:receipts){
 				int date  = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 			    
-				if(theReceipt.isApprovedByCommodity()&&theReceipt.isApprovedByManager()){}
+				if(theReceipt.isApprovedByManager()){}
 				else continue ;
 				
 			    if(!theReceipt.getSerialNumber().substring(0,5).equals("XSTHD")) continue ;
@@ -176,11 +178,11 @@ public class InfoController implements InfoBLService{
 		}
 		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
-			System.out.println(receipts.size()) ;
 			for(PurchaseReceiptPO thePO : receipts){
+				System.out.println(thePO.isApprovedByManager()) ;
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
 				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
-						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一") && thePO.isApprovedByCommodity()&&thePO.isApprovedByManager()){
+						&& thePO.getCustomerPO().getName().contains(condition.getCustomer()) && condition.getRepository().equals("仓库一") &&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
@@ -190,7 +192,7 @@ public class InfoController implements InfoBLService{
 			for(PurchaseReceiptPO thePO :receipts){
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
 				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
-						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一")&& thePO.isApprovedByCommodity()&&thePO.isApprovedByManager()){
+						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一") &&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
