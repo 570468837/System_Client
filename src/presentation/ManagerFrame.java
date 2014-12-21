@@ -189,6 +189,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
+					table1Refresh();
 				}
 			});
 			
@@ -216,6 +217,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(true);
+					table4Refresh();
 				}
 			});
 			// 表一
@@ -542,12 +544,8 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData4=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SendCommodityVO> shows=new CommodityController().showUncheckedSend();
-			for(int i=0;i<shows.size();i++){
-				if(shows.get(i).checked!=SendCommodityVO.UNCHECKED){
-					shows.remove(i);
-					i--;
-				}
-			}
+			System.out.println(shows.size());
+			
 			
 			for(int i=0;i<shows.size();i++){
 				SendCommodityVO s=shows.get(i);
