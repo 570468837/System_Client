@@ -99,6 +99,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			for(int i=0;i<goodsVOs.size();i++){
 				GoodsVO oneVO=goodsVOs.get(i);
 				GoodsVO getGoods=gController.getGoodsByID(Long.parseLong(oneVO.serialNumber));
+				System.out.println(getGoods.name);
 				if(ifOut){
 					getGoods.commodityQuantity=getGoods.commodityQuantity-oneVO.commodityQuantity;
 					getGoods.latestSalePrice=oneVO.salePrice;
