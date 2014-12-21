@@ -236,6 +236,7 @@ public class SalesController implements SalesBLService {
 		
 		po.setVocher(salesReceiptVO.getVocher());
 		po.setCustomerPO(new CustomerController().toPO(salesReceiptVO.getCustomerVO()));
+		po.setPromotionPO(salesReceiptVO.getPromotionVO().toPO());
 		
 		return po;
 		

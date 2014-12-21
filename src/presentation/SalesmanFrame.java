@@ -1251,7 +1251,10 @@ public class SalesmanFrame extends JFrame {
 			private Vector tableColName = new Vector();
 			private Vector tableData = new Vector();
 			private Vector tableRows = new Vector();
-
+			
+			int promotionType=0;
+			ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
+			
 			public AddSalesReceiptFrame(int type) {
 				if (type == 2) {
 					this.setTitle("创建销售单");
@@ -1441,6 +1444,9 @@ public class SalesmanFrame extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						// 有点复杂
 						SalesReceiptVO receipt = creatSalesReceipt();
+						if(promotion.getSelectedIndex()!=0){
+							receipt.setPromotionVO(promotions.get(promotion.getSelectedIndex()-1));
+						}
 
 						ResultMessage result = new SalesController()
 								.creatReceipt(receipt);
@@ -1495,12 +1501,16 @@ public class SalesmanFrame extends JFrame {
 							SalesReceiptVO receipt=creatSalesReceipt();
 							ArrayList<PromotionVO> pakeges=new PromotionController().ifPackage(new SalesController().toPO(receipt));
 							
+							
+							
 							for (Iterator iterator = pakeges.iterator(); iterator
 									.hasNext();) {
 								PromotionVO promotionVO = (PromotionVO) iterator
 										.next();
 								promotion.addItem("买"+promotionVO.getPromotionGoods().get(0).getName()+"和"+promotionVO.getPromotionGoods().get(1).getName()+"减"+promotionVO.getOffPrice()+"元");
 								
+								promotions.add(promotionVO);
+								promotionType++;
 							}
 							
 							ArrayList<PromotionVO> gifts=new PromotionController().ifGift(new SalesController().toPO(receipt));
@@ -1509,6 +1519,9 @@ public class SalesmanFrame extends JFrame {
 								PromotionVO promotionVO = (PromotionVO) iterator
 										.next();
 								promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getPresents().get(0).getName());
+								
+								promotions.add(promotionVO);
+								promotionType++;
 							}
 							
 							ArrayList<PromotionVO> Vouchers=new PromotionController().ifVoucher(new SalesController().toPO(receipt));
@@ -1517,6 +1530,9 @@ public class SalesmanFrame extends JFrame {
 								PromotionVO promotionVO = (PromotionVO) iterator
 										.next();
 								promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getVoucher()+"元代金券");
+								
+								promotions.add(promotionVO);
+								promotionType++;
 							}
 
 						}
