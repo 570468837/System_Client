@@ -31,6 +31,7 @@ public class GoodsController implements GoodsBLService {
 		com = new Communication_Start();
 		com.initial();
 		listReload = new ListReload();
+		listReload.act();
 		listReload.start();
 	}
 
@@ -182,26 +183,7 @@ public class GoodsController implements GoodsBLService {
 		@Override
 		public void run() {
 			while(true) {
-				goodsVOList.clear();
-				goodsClassVOList.clear();
-				try {
-					goodsPOList = Communication_Start.client.showObject("goodsListGet");
-					goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
-					
-				} catch (RemoteException e) {
-					System.out.println("list get error");
-				}
-				for(int i = 0; i < goodsPOList.size(); i ++) {
-					g = new GoodsVO();
-					g.toVO((GoodsPO)goodsPOList.get(i));
-					goodsVOList.add(g);
-				}
-				for(int i = 0; i < goodsClassPOList.size(); i ++) {
-					gc = new GoodsClassVO();
-					gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
-					goodsClassVOList.add(gc);
-				}
-				
+				act();
 				try {
 					Thread.sleep(reloadTime);
 				} catch (InterruptedException e) {
@@ -210,7 +192,34 @@ public class GoodsController implements GoodsBLService {
 			}
 		}
 		
+		public void act() {
+			goodsVOList.clear();
+			goodsClassVOList.clear();
+			try {
+				goodsPOList = Communication_Start.client.showObject("goodsListGet");
+				goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
+				
+			} catch (RemoteException e) {
+				System.out.println("list get error");
+			}
+			for(int i = 0; i < goodsPOList.size(); i ++) {
+				g = new GoodsVO();
+				g.toVO((GoodsPO)goodsPOList.get(i));
+				goodsVOList.add(g);
+			}
+			for(int i = 0; i < goodsClassPOList.size(); i ++) {
+				gc = new GoodsClassVO();
+				gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
+				goodsClassVOList.add(gc);
+			}
+		}
+		
+		
 	}
 	
+	public static void main(String[] args) {
+		GoodsController gc = new GoodsController();
+		System.out.println(gc.getGoodsByID(1000000001).name);
+	}
 
 }
