@@ -36,15 +36,14 @@ public class FinanceBLService_Stub implements FinanceBLService {
 	}
 
 	@Override
-	public ResultMessage updateAccount(AccountVO vo) {
-		// TODO Auto-generated method stub
-		if(vo.getName().equals("0002"))
-			return ResultMessage.Exist ;
-		else
-			return ResultMessage.Not_Exist ;
-	}
+//	public ResultMessage updateAccount(AccountVO vo) {
+//		// TODO Auto-generated method stub
+//		if(vo.getName().equals("0002"))
+//			return ResultMessage.Exist ;
+//		else
+//			return ResultMessage.Not_Exist ;
+//	}
 
-	@Override
 	public ArrayList<AccountVO> findAccount(String keyword) {
 		// TODO Auto-generated method stub
 		if(keyword.equals("0001")){

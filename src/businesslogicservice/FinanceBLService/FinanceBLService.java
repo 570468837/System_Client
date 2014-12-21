@@ -13,7 +13,7 @@ import VO.CollectionOrPaymentVO;
 public interface FinanceBLService {
 	public ResultMessage addAccount(AccountVO vo);
 	public ResultMessage deletAccount(AccountVO vo);
-	public ResultMessage updateAccount(AccountVO vo);
+//	public ResultMessage updateAccount(AccountVO vo);
 	public ArrayList<AccountVO> findAccount(String keyword);
 	public ResultMessage addCash(CashVO vo);
 	public ResultMessage init();

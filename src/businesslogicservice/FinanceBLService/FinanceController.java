@@ -49,20 +49,7 @@ public class FinanceController implements FinanceBLService{
 		return result;
 	}
 
-	@Override
-	public ResultMessage updateAccount(AccountVO vo) {
-		// TODO Auto-generated method stub
-		AccountPO account = new AccountPO(vo.getName(),vo.getBalance());
-		Communication_Start com = new Communication_Start() ;
-		com.initial();
-		try {
-			result = com.client.messageCommand("accountDelete", account);
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
-	}
+	
 
 	@Override
 	public ArrayList<AccountVO> findAccount(String keyword) {
