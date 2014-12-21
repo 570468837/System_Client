@@ -1096,7 +1096,8 @@ public class SalesmanFrame extends JFrame {
 										.getText(), userVO, time.getText(), comment
 										.getText(), new Double(0)
 										.parseDouble(totalPrice.getText()));
-
+						
+						receipt.setPurchaseList(listItems);
 						ResultMessage result = new PurchaseController()
 								.creatReceipt(receipt);
 
