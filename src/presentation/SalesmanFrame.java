@@ -1604,6 +1604,7 @@ public class SalesmanFrame extends JFrame {
 							GoodsVO good = goodsController.getGoodsByID(new Long(
 									0).parseLong(goodsSerialNumber.getText()));
 						
+							
 							boolean isEnough=true;
 							//首先判断商品库存是否足够
 							if(serialNumber.getText().substring(0, 3).equals("XSD")){
@@ -1612,6 +1613,9 @@ public class SalesmanFrame extends JFrame {
 									isEnough=false;
 								}
 							}
+							
+							
+							
 							// 在这里应当向frame添加商品列表中的商品
 							// 如果返回null说明没有此商品
 						if(isEnough){
