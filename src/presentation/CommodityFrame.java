@@ -1622,13 +1622,34 @@ public class CommodityFrame extends JFrame {
 					y = infoTable.columnAtPoint(e.getPoint());
 					if(infoTable.getValueAt(x, y).equals("已完成")) {
 						int num = Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1;
+						if(num < num_send) {
+							SendCommodityVO sv = passedVO.get(num);
+							sv.checked = SendCommodityVO.FINISH;
+							ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
+							svList.add(sv);
+							cc.updUncheckedSend(svList);
+						}
+						else if(num < num_purchaseIn) {
+							PurchaseReceiptVO v = purchaseIn.get(num - num_send);
+							v.setApprovedByCommodity(true);
+							cc.updPurchase(v);
+						}
+						else if(num < num_purchaseOut) {
+							PurchaseReceiptVO v = purchaseOut.get(num - num_purchaseIn);
+							v.setApprovedByCommodity(true);
+							cc.updPurchase(v);
+						}
+						else if(num < num_saleIn) {
+							SalesReceiptVO v = saleIn.get(num - num_purchaseOut);
+							v.setApprovedByCommodity(true);
+							cc.updSales(v);
+						}
+						else if(num < num_saleOut) {
+							SalesReceiptVO v = saleOut.get(num - num_saleIn);
+							v.setApprovedByCommodity(true);
+							cc.updSales(v);
+						}
 						
-						
-						SendCommodityVO sv = passedVO.get();
-						sv.checked = SendCommodityVO.FINISH;
-						ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
-						svList.add(sv);
-						cc.updUncheckedSend(svList);
 						
 						alarmFrame.dispose();
 						theFrame.setVisible(true);

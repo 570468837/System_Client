@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
 import PO.CustomerPO;
 import PO.InventoryCommodityPO;
@@ -238,6 +239,22 @@ public class CommodityController implements CommodityBLService {
 				result.add(new SalesController().toVO(po));
 		}
 		return result;
+	}
+	public ResultMessage updPurchase(PurchaseReceiptVO v) {
+		try {
+			Communication_Start.client.messageCommand("updatePurchaseReceipt", new PurchaseController().toPO(v));
+		} catch (RemoteException e) {
+			return ResultMessage.update_failure;
+		}
+		return ResultMessage.update_success;
+	}
+	public ResultMessage updSales(SalesReceiptVO v) {
+		try {
+			Communication_Start.client.messageCommand("updateSalesReceipt", new SalesController().toPO(v));
+		} catch (RemoteException e) {
+			return ResultMessage.update_failure;
+		}
+		return ResultMessage.update_success;
 	}
 	
 	
