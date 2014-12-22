@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import PO.CustomerPO;
 import PO.InventoryCommodityPO;
+import PO.PurchaseReceiptPO;
 import PO.ReportCommodityPO;
 import PO.SendCommodityPO;
 import RMI.Communication_Start;
@@ -169,10 +170,28 @@ public class CommodityController implements CommodityBLService {
 			VOList.add(vo);
 		}
 		return VOList;
-		
-		
 	}
 	
+	public ArrayList<PurchaseReceiptPO> showInPurchase() {
+		ArrayList<Object> prl;
+		try {
+			prl = Communication_Start.client.showObject("showPurchaseReceipts");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+		
+	}
+	public ArrayList<PurchaseReceiptPO> showOutPurchase() {
+		return null;
+	}
+	public ArrayList<PurchaseReceiptPO> showInSale() {
+		return null;
+	}
+	public ArrayList<PurchaseReceiptPO> showOutSale() {
+		return null;
+	}
 	
 	
 	
