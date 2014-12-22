@@ -1472,6 +1472,14 @@ public class CommodityFrame extends JFrame {
 		private JTable infoTable;
 		private JScrollPane jsp;
 		private ArrayList<SendCommodityVO> passedVO;
+		private ArrayList<PurchaseReceiptVO> purchaseIn, purchaseOut;
+		private ArrayList<SalesReceiptVO> saleIn, saleOut;
+		private int
+		    num_send,
+		    num_purchaseIn,
+		    num_purchaseOut,
+		    num_saleIn,
+		    num_saleOut;
 		
 		private AlarmFrame(int x, int y) {
 			this(theFrame);
@@ -1489,21 +1497,112 @@ public class CommodityFrame extends JFrame {
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
 			passedVO = cc.showPassedSend();
-			String[] head = {"", "", ""};
-			String[][] body = new String[passedVO.size()][3];
-			if(passedVO.size() == 0) body = new String[][] {{"", "暂无信息", ""}};
+			purchaseIn = cc.showInPurchase();
+			purchaseOut = cc.showOutPurchase();
+			saleIn = cc.showInSale();
+			saleOut = cc.showOutSale();
+			num_send = passedVO.size();
+			num_purchaseIn = num_send + purchaseIn.size();
+			num_purchaseOut = num_purchaseIn + purchaseOut.size();
+			num_saleIn = num_purchaseOut + saleIn.size();
+			num_saleOut = num_saleIn + saleOut.size();
 			
-			for (int i = 0; i < passedVO.size(); i ++) {
+			
+			String[] head = {"", "", ""};
+			ArrayList<String[]> bodyArray = new ArrayList<String[]>();
+			String[] str;
+			
+			
+			for (int i = 0; i < num_send; i ++) {
 				SendCommodityVO v = passedVO.get(i);
 				GoodsVO g = gc.getGoodsByID(v.goodsVOId);
-				body[i][0] = (i + 1) + "";
-				body[i][1] = 
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = 
 						(v.date.getYear() + 1900) + "/" + (v.date.getMonth() + 1) + "/" + v.date.getDay() + "  " +
 				        "客户: " + v.customerVOName + "" +
 						"商品: " + g.name + "/" + g.model + "(" + v.price + "/" + v.num + ")" + "" +
 				        "的赠送单审批通过";
-				body[i][2] = "已完成";
+				str[2] = "已完成";
+				bodyArray.add(str);
 			}
+			for (int i = num_send; i < num_purchaseIn; i ++) {
+				PurchaseReceiptVO v = purchaseIn.get(i - num_send);
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = 
+						v.getTime() + "  " +
+						"客户: " + v.getCustomerVO().getName() + "" +
+						"商品: " + "的进货单审批通过";
+				str[2] = "已完成";
+				bodyArray.add(str);
+				for (int k = 0; k < v.getPurchaseList().size(); k ++) {
+					PurchaseListItemVO l = v.getPurchaseList().get(k);
+					GoodsVO g =  l.getGoodsVO();
+					str = new String[] {"", g.name + "/" + g.model + "(" + g.price + "/" + l.getQuantity() + ")", ""};
+				    bodyArray.add(str);
+				}
+			}
+			for (int i = num_purchaseIn; i < num_purchaseOut; i ++) {
+				PurchaseReceiptVO v = purchaseOut.get(i - num_purchaseIn);
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = 
+						v.getTime() + "  " +
+						"客户: " + v.getCustomerVO().getName() + "" +
+						"商品: " + "的进货退货单审批通过";
+				str[2] = "已完成";
+				bodyArray.add(str);
+				for (int k = 0; k < v.getPurchaseList().size(); k ++) {
+					PurchaseListItemVO l = v.getPurchaseList().get(k);
+					GoodsVO g =  l.getGoodsVO();
+					str = new String[] {"", g.name + "/" + g.model + "(" + g.price + "/" + l.getQuantity() + ")", ""};
+				    bodyArray.add(str);
+				}
+			}
+			for (int i = num_purchaseOut; i < num_saleIn; i ++) {
+				SalesReceiptVO v = saleIn.get(i - num_purchaseOut);
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = 
+						v.getTime() + "  " +
+						"客户: " + v.getCustomerVO().getName() + "" +
+						"商品: " + "的销售单审批通过";
+				str[2] = "已完成";
+				bodyArray.add(str);
+				for (int k = 0; k < v.getSalesList().size(); k ++) {
+					SalesListItemVO l = v.getSalesList().get(k);
+					GoodsVO g =  l.getGoodsVO();
+					str = new String[] {"", g.name + "/" + g.model + "(" + g.price + "/" + l.getQuantity() + ")", ""};
+				    bodyArray.add(str);
+				}
+			}
+			for (int i = num_saleIn; i < num_saleOut; i ++) {
+				SalesReceiptVO v = saleOut.get(i - num_saleIn);
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = 
+						v.getTime() + "  " +
+						"客户: " + v.getCustomerVO().getName() + "" +
+						"商品: " + "的销售退货单审批通过";
+				str[2] = "已完成";
+				bodyArray.add(str);
+				for (int k = 0; k < v.getSalesList().size(); k ++) {
+					SalesListItemVO l = v.getSalesList().get(k);
+					GoodsVO g =  l.getGoodsVO();
+					str = new String[] {"", g.name + "/" + g.model + "(" + g.price + "/" + l.getQuantity() + ")", ""};
+				    bodyArray.add(str);
+				}
+			}
+			String[][] body = new String[bodyArray.size()][3];
+			for(int j = 0; j < body.length; j ++) {
+				body[j][0] = bodyArray.get(j)[0];
+				body[j][1] = bodyArray.get(j)[1];
+				body[j][2] = bodyArray.get(j)[2];
+			}
+			
+			if(num_saleOut == 0) body = new String[][] {{"", "暂无信息", ""}};
+			
 			infoTable = new JTable(body, head);
 			
 			infoTable.setPreferredSize(new Dimension(540, body.length * 25));
@@ -1522,7 +1621,10 @@ public class CommodityFrame extends JFrame {
 					x = infoTable.rowAtPoint(e.getPoint());
 					y = infoTable.columnAtPoint(e.getPoint());
 					if(infoTable.getValueAt(x, y).equals("已完成")) {
-						SendCommodityVO sv = passedVO.get(Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1);
+						int num = Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1;
+						
+						
+						SendCommodityVO sv = passedVO.get();
 						sv.checked = SendCommodityVO.FINISH;
 						ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
 						svList.add(sv);

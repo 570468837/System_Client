@@ -194,10 +194,9 @@ public class InfoController implements InfoBLService{
 				}else{
 					continue ;
 				}
-				System.out.println(thePO.getSerialNumber());
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
 				if( (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
-						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && storage.contains(condition.getRepository())  &&thePO.isApprovedByManager()){
+						&& thePO.getCustomerPO().getName().contains(condition.getCustomer()) && storage.contains(condition.getRepository())  &&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
@@ -225,7 +224,7 @@ public class InfoController implements InfoBLService{
 			ArrayList<SendCommodityVO> receipts = new CommodityController().showSendCommodity() ;
 			for(SendCommodityVO theVO :receipts){
 				int time = Integer.parseInt(new String(new SimpleDateFormat("yyyyMMdd").format(theVO.date))) ;
-				if((time<=Integer.parseInt(endTime)&&time>=Integer.parseInt(beginTime)) && condition.getCustomer().equals(theVO.customerVOName)&&(theVO.checked==1)){
+				if((time<=Integer.parseInt(endTime)&&time>=Integer.parseInt(beginTime)) && theVO.customerVOName.contains(condition.getCustomer())&&(theVO.checked==1)){
 					result.add(theVO) ;
 				}
 			}

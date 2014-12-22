@@ -30,7 +30,7 @@ class SendFrame extends JFrame {
 	JLabel send;
 	public SendFrame(SendCommodityVO theVO) {
 		super("赠送单制定");
-		this.setSize(250, 100);
+		this.setSize(300, 100);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		frame = this;
@@ -51,7 +51,9 @@ class SendFrame extends JFrame {
 		sendModel.setBounds(110, 10, 100, 25);
 //		new AddWordsChange(sendModel, "<商品型号>");
 		
-		sendNum = new JTextField(theVO.num);
+		sendNum = new JTextField();
+		sendNum.setColumns(3);
+		sendNum.setText(String.valueOf(theVO.num));
 		sendNum.setBounds(110, 35, 100, 25);
 //		new AddWordsChange(sendNum, "<赠送数量>");
 		
@@ -111,7 +113,7 @@ class ReportFrame extends JFrame {
 	
 	public ReportFrame(ReportCommodityVO theVO) {
 		super("库存报单制定");
-		this.setSize(250, 100);
+		this.setSize(300, 100);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
 		frame = this;
@@ -128,7 +130,9 @@ class ReportFrame extends JFrame {
 		reportModel.setBounds(10, 35, 100, 25);
 //		new AddWordsChange(reportModel, "<商品型号>");
 		
-		reportNum = new JTextField(theVO.num);
+		reportNum = new JTextField();
+		reportNum.setColumns(3);
+		reportNum.setText(String.valueOf(theVO.num));
 		reportNum.setBounds(110, 10, 100, 25);
 //		new AddWordsChange(reportNum, "<商品数量>");
 		
