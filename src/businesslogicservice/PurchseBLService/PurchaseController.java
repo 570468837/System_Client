@@ -163,32 +163,36 @@ public class PurchaseController implements PurchaseBLService {
 		
 	}
 	
-//	public PurchaseReceiptVO toVO(PurchaseReceiptPO po){
-//		UserVO userVO = new UserVO(po.getUserPO().getUserName(),
-//				po.getUserPO().getPassword(), po
-//						.getUserPO().getUserSort(), po
-//						.getUserPO().getLevel());
-//
-//		GoodsVO goodsVO;
-//
-//		ArrayList<PurchaseListItemPO> list = new ArrayList<PurchaseListItemPO>();
-//		for (int i = 0; i < po.getPurchaseList().size(); i++) {
-//			goodsVO = new GoodsVO(po.getSerialNumber(), po.get, model, price, totalPrice, comment)
-//			
-//			list.add(new PurchaseListItemVO(goodsVO, po
-//					.getPurchaseList().get(i).getQuantity()));
-//
-//		}
-//		PurchaseReceiptVO vo = new PurchaseReceiptVO(
-//				po.getSerialNumber(), list, userVO,
-//				po.getTime(), po.getComments(),
-//				po.getTotalPrice());
-//		
-//		vo.setApprovedByCommodity(po.isApprovedByCommodity());
-//		vo.setApprovedByManager(po.isApprovedByManager());
-//		
-//		return vo;
-//		
-//		
-//	}
+	public PurchaseReceiptVO toVO(PurchaseReceiptPO po){
+		UserVO userVO = new UserVO(po.getUserPO().getUserName(),
+				po.getUserPO().getPassword(), po
+						.getUserPO().getUserSort(), po
+						.getUserPO().getLevel());
+
+		GoodsVO goodsVO;
+
+		ArrayList<PurchaseListItemVO> list = new ArrayList<PurchaseListItemVO>();
+		for (int i = 0; i < po.getPurchaseList().size(); i++) {
+			goodsVO = new GoodsVO(po.getPurchaseList().get(i).getGoodsPO().getSerialNumber(),
+					po.getPurchaseList().get(i).getGoodsPO().getName(), 
+					po.getPurchaseList().get(i).getGoodsPO().getModel(),
+					po.getPurchaseList().get(i).getGoodsPO().getPrice(), 
+					po.getPurchaseList().get(i).getGoodsPO().getTotalPrice(),
+					po.getPurchaseList().get(i).getGoodsPO().getComment());
+			
+			list.add(new PurchaseListItemVO(goodsVO, po
+					.getPurchaseList().get(i).getQuantity()));
+
+		}
+		PurchaseReceiptVO vo = new PurchaseReceiptVO(new CustomerController().toVO(po.getCustomerPO()),
+				po.getSerialNumber(),
+				userVO, po.getTime(),po.getComments(), po.getTotalPrice());
+		
+		vo.setApprovedByCommodity(po.isApprovedByCommodity());
+		vo.setApprovedByManager(po.isApprovedByManager());
+		
+		return vo;
+		
+		
+	}
 }
