@@ -882,7 +882,7 @@ public class ManagerFrame extends JFrame{
 				oneData.add(goods.getName());
 				oneData.add(goods.getModel());
 				oneData.add(purchaseItems.get(i).getQuantity());
-				oneData.add(goods.getPrice());
+				oneData.add(goods.getSalePrice());
 				oneData.add(purchaseItems.get(i).getTotalPrice());
 				oneData.add(goods.getComment());
 				tableData.add(oneData);
