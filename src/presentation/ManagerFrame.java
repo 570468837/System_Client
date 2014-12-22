@@ -189,6 +189,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
+					table1Refresh();
 				}
 			});
 			
@@ -198,6 +199,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(true);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
+					table2Refresh();
 				}
 			});
 			
@@ -207,6 +209,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(true);
 					panel4.setVisible(false);
+					table3Refresh();
 				}
 			});
 			
@@ -216,6 +219,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(true);
+					table4Refresh();
 				}
 			});
 			// 表一
