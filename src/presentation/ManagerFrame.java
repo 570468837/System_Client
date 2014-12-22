@@ -343,6 +343,7 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SalesReceiptPO> shows=new SalesController().show();
+			System.out.println(shows);
 			for(int i=0;i<shows.size();i++){
 				if(!(shows.get(i).isApprovedByManager()==false&&shows.get(i).isApprovedByCommodity()==false)){
 					shows.remove(i);
