@@ -187,6 +187,7 @@ public class PurchaseController implements PurchaseBLService {
 		PurchaseReceiptVO vo = new PurchaseReceiptVO(new CustomerController().toVO(po.getCustomerPO()),
 				po.getSerialNumber(),
 				userVO, po.getTime(),po.getComments(), po.getTotalPrice());
+		vo.setPurchaseList(list);
 		
 		vo.setApprovedByCommodity(po.isApprovedByCommodity());
 		vo.setApprovedByManager(po.isApprovedByManager());
