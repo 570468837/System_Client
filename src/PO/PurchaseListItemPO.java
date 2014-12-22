@@ -16,8 +16,8 @@ public class PurchaseListItemPO implements Serializable{
 	}
 	
 	public double getTotalPrice() {
-		this.totalPrice=this.quantity*goodsPO.getPrice();
-		return totalPrice;
+		double result=this.quantity*goodsPO.getPrice();
+		return result;
 	}
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;

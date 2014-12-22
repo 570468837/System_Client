@@ -191,11 +191,12 @@ public class SalesReceiptPO implements Serializable {
 	}
 
 	public double getPriceBefore() {
+		double result=0;
 		// 遍历所有商品以获得总价
 		for (int i = 0; i < salesList.size(); i++) {
-			this.priceBefore += salesList.get(i).getTotalPrice();
+			result += salesList.get(i).getTotalPrice();
 		}
-		return priceBefore;
+		return result;
 	}
 
 	public void setPriceBefore(double priceBefore) {

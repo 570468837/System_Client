@@ -92,11 +92,12 @@ public class SalesReceiptVO {
 		}
 		
 	public double getPriceBefore() {
+		double result=0;
 		//遍历所有商品获得总价
 				for(int i=0;i<this.salesList.size();i++){
-						this.priceBefore+=this.salesList.get(i).getTotalPrice();				
+						result+=this.salesList.get(i).getTotalPrice();				
 				}
-				return priceBefore;
+				return result;
 	}
 
 

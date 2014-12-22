@@ -19,8 +19,8 @@ public class PurchaseListItemVO {
 		this.quantity = quantity;
 	}
 	public double getTotalPrice() {
-		this.totalPrice=this.quantity*this.goodsVO.price;
-		return totalPrice;
+		double result=this.quantity*this.goodsVO.price;
+		return result;
 	}
 	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;

@@ -103,11 +103,12 @@ public class PurchaseReceiptPO implements Serializable {
 	}
 
 	public double getTotalPrice() {
+		double result=0;
 		// 遍历所有商品以计算总价
 		for (int i = 0; i < this.purchaseList.size(); i++) {
-			this.totalPrice += this.purchaseList.get(i).getTotalPrice();
+			result += this.purchaseList.get(i).getTotalPrice();
 		}
-		return this.totalPrice;
+		return result;
 	}
 
 	public void setTotalPrice(double totalPrice) {

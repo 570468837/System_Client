@@ -102,11 +102,12 @@ public class PurchaseReceiptVO {
 	}
 
 	public double getTotalPrice() {
+		double result=0;
 		// 遍历所有商品以获得总价
 		for (int i = 0; i < this.purchaseList.size(); i++) {
-			this.totalPrice += this.purchaseList.get(i).getTotalPrice();
+			result += this.purchaseList.get(i).getTotalPrice();
 		}
-		return totalPrice;
+		return result;
 	}
 
 	public void setTotalPrice(double totalPrice) {
