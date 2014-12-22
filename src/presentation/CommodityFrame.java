@@ -1532,7 +1532,7 @@ public class CommodityFrame extends JFrame {
 				str[0] = (i + 1) + "";
 				str[1] = 
 						v.getTime() + "  " +
-						"客户: " + v.getCustomerVO().getName() + "" +
+						"客户: " + v.getCustomerVO().getName() + " " +
 						"商品: " + "的进货单审批通过";
 				str[2] = "已完成";
 				bodyArray.add(str);
@@ -1549,7 +1549,7 @@ public class CommodityFrame extends JFrame {
 				str[0] = (i + 1) + "";
 				str[1] = 
 						v.getTime() + "  " +
-						"客户: " + v.getCustomerVO().getName() + "" +
+						"客户: " + v.getCustomerVO().getName() + " " +
 						"商品: " + "的进货退货单审批通过";
 				str[2] = "已完成";
 				bodyArray.add(str);
@@ -1566,7 +1566,7 @@ public class CommodityFrame extends JFrame {
 				str[0] = (i + 1) + "";
 				str[1] = 
 						v.getTime() + "  " +
-						"客户: " + v.getCustomerVO().getName() + "" +
+						"客户: " + v.getCustomerVO().getName() + " " +
 						"商品: " + "的销售单审批通过";
 				str[2] = "已完成";
 				bodyArray.add(str);
@@ -1583,7 +1583,7 @@ public class CommodityFrame extends JFrame {
 				str[0] = (i + 1) + "";
 				str[1] = 
 						v.getTime() + "  " +
-						"客户: " + v.getCustomerVO().getName() + "" +
+						"客户: " + v.getCustomerVO().getName() + " " +
 						"商品: " + "的销售退货单审批通过";
 				str[2] = "已完成";
 				bodyArray.add(str);
