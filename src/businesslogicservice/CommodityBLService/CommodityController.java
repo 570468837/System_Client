@@ -4,10 +4,12 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import businesslogicservice.SaleBLService.SalesController;
 import PO.CustomerPO;
 import PO.InventoryCommodityPO;
 import PO.PurchaseReceiptPO;
 import PO.ReportCommodityPO;
+import PO.SalesReceiptPO;
 import PO.SendCommodityPO;
 import RMI.Communication_Start;
 import ResultMessage.ResultMessage;
@@ -172,25 +174,70 @@ public class CommodityController implements CommodityBLService {
 		return VOList;
 	}
 	
-	public ArrayList<PurchaseReceiptPO> showInPurchase() {
+	public ArrayList<PurchaseReceiptVO> showInPurchase() {
 		ArrayList<Object> prl;
 		try {
 			prl = Communication_Start.client.showObject("showPurchaseReceipts");
 		} catch (RemoteException e) {
 			e.printStackTrace();
+			prl = null;
 		}
+		ArrayList<PurchaseReceiptVO> result = new ArrayList<PurchaseReceiptVO>();
+		for(Object o : prl) {
+			PurchaseReceiptPO po = (PurchaseReceiptPO)o;
+			if(!po.isApprovedByCommodity() && po.getSerialNumber().substring(0, 3).equals("JHD"))
+				result.add(new PurchaseController().toVO(po));
+		}
+		return result;
 		
-		return null;
-		
 	}
-	public ArrayList<PurchaseReceiptPO> showOutPurchase() {
-		return null;
+	public ArrayList<PurchaseReceiptVO> showOutPurchase() {
+		ArrayList<Object> prl;
+		try {
+			prl = Communication_Start.client.showObject("showPurchaseReceipts");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			prl = null;
+		}
+		ArrayList<PurchaseReceiptVO> result = new ArrayList<PurchaseReceiptVO>();
+		for(Object o : prl) {
+			PurchaseReceiptPO po = (PurchaseReceiptPO)o;
+			if(!po.isApprovedByCommodity() && po.getSerialNumber().substring(0, 3).equals("JHT"))
+				result.add(new PurchaseController().toVO(po));
+		}
+		return result;
 	}
-	public ArrayList<PurchaseReceiptPO> showInSale() {
-		return null;
+	public ArrayList<SalesReceiptVO> showInSale() {
+		ArrayList<Object> srl;
+		try {
+			srl = Communication_Start.client.showObject("showSalesReceipts");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			srl = null;
+		}
+		ArrayList<SalesReceiptVO> result = new ArrayList<SalesReceiptVO>();
+		for(Object o : srl) {
+			SalesReceiptPO po = (SalesReceiptPO)o;
+			if(!po.isApprovedByCommodity() && po.getSerialNumber().substring(0, 3).equals("XSD"))
+				result.add(new SalesController().toVO(po));
+		}
+		return result;
 	}
-	public ArrayList<PurchaseReceiptPO> showOutSale() {
-		return null;
+	public ArrayList<SalesReceiptVO> showOutSale() {
+		ArrayList<Object> srl;
+		try {
+			srl = Communication_Start.client.showObject("showSalesReceipts");
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			srl = null;
+		}
+		ArrayList<SalesReceiptVO> result = new ArrayList<SalesReceiptVO>();
+		for(Object o : srl) {
+			SalesReceiptPO po = (SalesReceiptPO)o;
+			if(!po.isApprovedByCommodity() && po.getSerialNumber().substring(0, 3).equals("XST"))
+				result.add(new SalesController().toVO(po));
+		}
+		return result;
 	}
 	
 	
