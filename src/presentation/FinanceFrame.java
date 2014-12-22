@@ -1752,6 +1752,7 @@ public class FinanceFrame extends JFrame{
 					    }else{
 					    		result = infoController.showSalesProcessInfo(new ScreeningConditionVO(beginTime,endTime,typeOfReceipt,"",nameOfCustomer,nameOfRetailer,storage)) ;
 					    		thePanel.remove(jsc);
+					    		System.out.println(result.size());
 					    		freshTable(result, typeOfReceipt);
 					    }
 					}
