@@ -122,8 +122,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 			s.setApprovedByManager(true);
 			new CustomerController().salesChangeGetting(s);
 			
-			
-			System.out.println(new SalesController().updateReceipt(s));
+			new SalesController().updateReceipt(s);
 			}
 		}
 
