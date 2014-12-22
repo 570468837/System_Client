@@ -184,7 +184,7 @@ public class ManagerFrame extends JFrame{
 			panel4.setBounds(37, 63, 767, 438);
 			panel4.setBackground(new Color(150, 100,110));
 			this.add(panel4);
-			
+
 			Receipt1.addMouseListener(new MouseAdapter(){
 				public void mouseClicked(MouseEvent e) {
 					panel1.setVisible(true);
