@@ -178,6 +178,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 	}
 
 	public void addSendCommodityReceipt(ArrayList<SalesReceiptPO> sales){    //自动创建赠送单
+		System.out.println(sales.size());
 		for(int i=0;i<sales.size();i++){
 			SalesReceiptPO s=sales.get(i);
 			if(s.getPromotionPO().getPromotionType()==PromotionSort.Gifts){

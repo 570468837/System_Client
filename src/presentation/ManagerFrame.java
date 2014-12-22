@@ -350,7 +350,6 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<Object>> tableData2=new ArrayList<ArrayList<Object>>();
 			
 			ArrayList<SalesReceiptPO> shows=new SalesController().show();
-			System.out.println(shows);
 			for(int i=0;i<shows.size();i++){
 				if(!(shows.get(i).isApprovedByManager()==false&&shows.get(i).isApprovedByCommodity()==false)){
 					shows.remove(i);
@@ -415,6 +414,7 @@ public class ManagerFrame extends JFrame{
 			
 			allButton2.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
+					
 					for(int i=0;i<table2.getRowCount();i++)
 							table2.setValueAt(true, i, 11);
 					}
@@ -443,13 +443,14 @@ public class ManagerFrame extends JFrame{
 					//TODO
 					// 这里之前因为过多的创建goodscontroller对象，导致不同的线程中的迭代器对同一list进行修改产生错误
 					//
-					ApprovalBLService_Controller ac = new ApprovalBLService_Controller();
-					ac.salesChangeGoods(isApproved);
-					ac.addSendCommodityReceipt(isApproved);
 					
-					ac.salesChangeCustomer(isApproved);  //同时update操作
+					System.out.println(isApproved.size()+"pass"+notApproved.size()+"hou");
+					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
+					new ApprovalBLService_Controller().addSendCommodityReceipt(isApproved);
 					
-					ac.salesNotPassed(notApproved);
+					new ApprovalBLService_Controller().salesChangeCustomer(isApproved);  //同时update操作
+					
+					new ApprovalBLService_Controller().salesNotPassed(notApproved);
 					table2Refresh();
 				}
 			});
