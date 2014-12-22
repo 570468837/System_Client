@@ -133,13 +133,7 @@ public class CashForFinancer extends JFrame {
 						ResultMessage result = fController.addCash(cash) ;
 
 					    new warningDialog("添加成功");
-						
-						nameOfAccountField.setText("");
-						numberField.setText("");
-						sumOfMoneyField.setText("");
-						items = new ArrayList<CaseListItemVO>() ;
-						sumOfMoney = 0 ;
-						numberField.setText(fController.getReceiptNumber("XJFYD"));
+					    dispose();
 					}
 					
 				}
@@ -153,10 +147,7 @@ public class CashForFinancer extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					items = new ArrayList<CaseListItemVO>() ;
-					sumOfMoney = 0 ;
-					nameOfAccountField.setText("");                                                          
-					sumOfMoneyField.setText("");
+					dispose();
 				}
 			});
 		}

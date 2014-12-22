@@ -1664,8 +1664,9 @@ public class FinanceFrame extends JFrame{
 			hcLablel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
 					int i = JOptionPane.showConfirmDialog(null, "确定进行红冲操作？");
-					if((i == 0) && (currentRow != 10000))
+					if(i == 0)
 					hc(typeOfReceipt) ;
+					currentRow = 10000 ;
 				}
 			});
 			 
@@ -1676,8 +1677,9 @@ public class FinanceFrame extends JFrame{
 			hcAndfzLabel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
 					int i = JOptionPane.showConfirmDialog(null, "确定进行红冲并复制操作？");
-					if(( i==0 ) && (currentRow != 10000 ))
+					if( i==0 )
 					hcAndfz(typeOfReceipt) ;
+					currentRow = 10000 ;
 				}
 			});
 			
@@ -1719,13 +1721,13 @@ public class FinanceFrame extends JFrame{
 					if(jcs2.getSelectedItem().equals("销售出货单"))
 						typeOfReceipt = "XSD";
 					else
-						if(jcs2.getSelectedItem().equals("销售进货单"))
+						if(jcs2.getSelectedItem().equals("销售退货单"))
 							typeOfReceipt = "XSTHD" ;
 						else
 							if((jcs2.getSelectedItem().equals("进货单")))
 								typeOfReceipt = "JHD" ;
 							else
-								if(jcs2.getSelectedItem().equals("进货退化单"))
+								if(jcs2.getSelectedItem().equals("进货退货单"))
 									typeOfReceipt = "JHTHD" ;
 								else
 									if(jcs2.getSelectedItem().equals("收款单"))
@@ -1780,10 +1782,10 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint() ;
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i ;
 						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2= {"银行账户","转账金额","备注"} ;
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i ;
 							CollectionOrPaymentVO theVO = (CollectionOrPaymentVO)objects.get(i) ;
 							ArrayList<Object> list = new ArrayList<>(theVO.getTrList()) ;
 							new ShowListFrame(list,column2 , "转账列表") ;
@@ -1798,10 +1800,10 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint() ;
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i;
 						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2 = {"条目名","金额","备注"} ;
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i;
 							CashVO  theVO = (CashVO)objects.get(i) ;
 							ArrayList<Object> list = new ArrayList<>(theVO.getCases()) ;
 							new ShowListFrame(list, column2, "条目清单") ;
@@ -1816,10 +1818,11 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint()  ;
-						if(table.rowAtPoint(mousePoint)== markColumn){
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i ;
+						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i ;
+						
 							SalesReceiptPO thePO= (SalesReceiptPO) objects.get(i) ;
 							ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 							new ShowListFrame(list, column2,"出货商品清单");
@@ -1834,10 +1837,11 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint()  ;
-						if(table.rowAtPoint(mousePoint)== markColumn){
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i ;
+						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i ;
+							
 							SalesReceiptPO thePO= (SalesReceiptPO) objects.get(i) ;
 							ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 							new ShowListFrame(list, column2,"出货商品清单");
@@ -1852,18 +1856,13 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint()  ;
-						if(table.rowAtPoint(mousePoint)== markColumn){
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i ;
+						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i ;
 							PurchaseReceiptPO thePO= (PurchaseReceiptPO) objects.get(i) ;
-							ArrayList<Object> list = new ArrayList<>() ;
-							for(PurchaseListItemPO item :thePO.getPurchaseList()){
-								GoodsPO goodPO = item.getGoodsPO() ;
-							    GoodsVO good = new GoodsVO(goodPO.getSerialNumber(), goodPO.getName(), goodPO.getModel(), goodPO.getPrice(), goodPO.getSalePrice(), goodPO.getLatestPrice(), goodPO.getLatestSalePrice(), goodPO.getGoodsClassNum()) ;
-								PurchaseListItemVO itemVO = new PurchaseListItemVO(good, item.getQuantity()) ;
-								list.add(itemVO) ;
-							}
+							ArrayList<Object> list = new ArrayList<>(thePO.getPurchaseList()) ;
+							System.out.println(list.size());
 							new ShowListFrame(list, column2,"入库商品列表");
 						}
 					}
@@ -1876,10 +1875,11 @@ public class FinanceFrame extends JFrame{
 				table.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e){
 						Point mousePoint = e.getPoint()  ;
-						if(table.rowAtPoint(mousePoint)== markColumn){
+						int i = table.rowAtPoint(mousePoint) ;
+						currentRow = i ;
+						if(table.columnAtPoint(mousePoint)== markColumn){
 							String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
-							int i = table.rowAtPoint(mousePoint) ;
-							currentRow = i ;
+							
 							PurchaseReceiptPO thePO= (PurchaseReceiptPO) objects.get(i) ;
 							ArrayList<Object> list = new ArrayList<>() ;
 							for(PurchaseListItemPO item :thePO.getPurchaseList()){
@@ -1906,6 +1906,12 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("BSD")){//报损单
 				String[] column = {"商品编号","商品数量","商品单价","日期"} ;
 				table = new JTable(new MyTableModel(objects, column, type)) ;
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e){
+						Point mousePoint = e.getPoint() ;
+						currentRow = table.rowAtPoint(mousePoint) ;
+					}
+				});
 			}
 			if(type.equals("ZSD")){//赠送单
 				String[]  column = {"商品编号","客户名称","商品数量","商品单价","日期"} ;
@@ -1990,11 +1996,13 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setApprovedByManager(true);
 			}
 			if(type.equals("BYD")||type.equals("BSD")){//报溢报损单
+				System.out.println("进入红冲");
 				ReportCommodityVO theReceipt = new ReportCommodityVO((ReportCommodityVO) result.get(currentRow));
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.date = new Date();
 				CommodityController c = new CommodityController() ;
-				c.addReportCommodity(theReceipt) ;
+				System.out.println(c.addReportCommodity(theReceipt)); 
+				System.out.println("完成红冲");
 			}
 			if(type.equals("ZSD")){//赠送单
 				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
@@ -2007,7 +2015,6 @@ public class FinanceFrame extends JFrame{
 		}
   
 		private void hcAndfz(String type){
-			System.out.println("进入红冲复制");
 			hc(type) ;
 			if(type.equals("BYD")||type.equals("BSD")){
 				ReportCommodityVO theVO = (ReportCommodityVO) result.get(currentRow) ;
@@ -2412,6 +2419,7 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(thePO.getGoodsPO().getSerialNumber()) ;
 					oneRow.add(thePO.getGoodsPO().getName()) ;
 					oneRow.add(thePO.getGoodsPO().getModel()) ;
+					oneRow.add(thePO.getQuantity()) ;
 					oneRow.add(thePO.getGoodsPO().getPrice()) ;
 					oneRow.add(thePO.getTotalPrice()) ;
 					oneRow.add(thePO.getGoodsPO().getComment()) ;

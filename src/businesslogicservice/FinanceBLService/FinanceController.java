@@ -116,6 +116,7 @@ public class FinanceController implements FinanceBLService{
 	@Override
 	public ResultMessage addCash(CashVO vo) {
 		// TODO Auto-generated method stub
+		System.out.println("增加单据");
 		ArrayList<CaseListItemPO> caseList = new ArrayList<CaseListItemPO>();
 		for(CaseListItemVO theCase:vo.getCases()){
 			caseList.add(new CaseListItemPO(theCase.getCasename(),theCase.getCaseMoney(),theCase.getRemark()));

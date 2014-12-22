@@ -34,8 +34,11 @@ import VO.TransferListItemVO;
 
 public class CollectionOrPaymentFrame extends JFrame{
 	ThePane pane;
+	JFrame frame ;
 	public CollectionOrPaymentFrame(CollectionOrPaymentVO theVO){
+		
 		super("收付款单");
+		frame = this ;
 		pane = new ThePane(theVO) ;
 		setSize(500, 380);
 		this.setLocationRelativeTo(null);
@@ -200,7 +203,7 @@ public class CollectionOrPaymentFrame extends JFrame{
 				}else{
 					CollectionOrPaymentVO collectionOrPayment = new CollectionOrPaymentVO(receiptNumber,nameOfCustomer,typeOfCustomer,theVO.getUser(),tfAccounts,Double.parseDouble(sumOfMoneys),false,false) ;
 					ResultMessage result = fController.addCollectionOrPaymentVO(collectionOrPayment) ;
-					dispose();
+					frame.dispose();
 				}
 			}
 		});
@@ -213,7 +216,7 @@ public class CollectionOrPaymentFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				dispose();
+				frame.dispose();
 			}
 		});
 	}

@@ -33,7 +33,6 @@ class SendFrame extends JFrame {
 		this.setSize(250, 100);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame = this;
 		
 		cc = new CommodityController();
@@ -76,15 +75,12 @@ class SendFrame extends JFrame {
 							vo.price,
 							SendCommodityVO.PASS)) == ResultMessage.ResultMessage.add_success) {
 						frame.setTitle("赠送单添加成功");
+						dispose();
 					}
 					else {
 						frame.setTitle("赠送单添加失败");
 					}
 				}
-				sendCustomer.setText("");
-				sendName.setText("");
-				sendModel.setText("");
-				sendNum.setText("");
 			}
 		});
 		
@@ -118,7 +114,6 @@ class ReportFrame extends JFrame {
 		this.setSize(250, 100);
 		this.setLocationRelativeTo(null);
 		this.setLayout(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame = this;
 		
 		cc = new CommodityController();
@@ -163,16 +158,13 @@ class ReportFrame extends JFrame {
 							vo.price,
 							num)) == ResultMessage.ResultMessage.add_success) {
 						frame.setTitle("库存报单添加成功");
+						dispose();
 					}
 					else {
 						frame.setTitle("库存报单添加失败");
 					}
 					
 				}
-				reportName.setText("");
-				reportModel.setText("");
-				reportNum.setText("");
-				reportType.setSelectedIndex(0);
 			}
 			
 		});

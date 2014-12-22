@@ -19,14 +19,10 @@ import ResultMessage.ResultMessage;
 import VO.CaseListItemVO;
 import VO.CashVO;
 import VO.CollectionOrPaymentVO;
-import VO.GoodsVO;
 import VO.ReportCommodityVO;
-import VO.SalesListItemVO;
-import VO.SalesReceiptVO;
 import VO.ScreeningConditionVO;
 import VO.SendCommodityVO;
 import VO.TransferListItemVO;
-import VO.UserVO;
 
 public class InfoController implements InfoBLService{
 	@Override
@@ -158,12 +154,12 @@ public class InfoController implements InfoBLService{
 			int time1 = Integer.parseInt(beginTime) ;
 			int time2 = Integer.parseInt(endTime);
 			for(SalesReceiptPO theReceipt:receipts){
-				int date  = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 			    
 				if(theReceipt.isApprovedByManager()){}
 				else continue ;
 				
 			    if(!theReceipt.getSerialNumber().substring(0,5).equals("XSTHD")) continue ;
+			    int date  = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
 			    
 				if(time1>=date||date>=time2) continue ;
 				
@@ -177,22 +173,31 @@ public class InfoController implements InfoBLService{
 			}
 		}
 		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO
+			String storage = "仓库一";
 			ArrayList<PurchaseReceiptPO> receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO : receipts){
-				System.out.println(thePO.isApprovedByManager()) ;
+				if(!thePO.getSerialNumber().substring(0,3).equals("JHD") )
+					continue ;
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(4, 12)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
-						&& thePO.getCustomerPO().getName().contains(condition.getCustomer()) && condition.getRepository().equals("仓库一") &&thePO.isApprovedByManager()){
+				if( (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
+						&& thePO.getCustomerPO().getName().contains(condition.getCustomer()) && storage.contains(condition.getRepository()) &&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
 		}
 		if(condition.getTypeOfReceipt().equals("JHTHD")){//进货退货单，返回PO
+			String storage = "仓库一";
 			ArrayList<PurchaseReceiptPO>receipts = new PurchaseController().show() ;
 			for(PurchaseReceiptPO thePO :receipts){
+				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD")){
+					;
+				}else{
+					continue ;
+				}
+				System.out.println(thePO.getSerialNumber());
 				int date = Integer.parseInt(thePO.getSerialNumber().substring(6,14)) ;
-				if(thePO.getSerialNumber().substring(0,3).equals("JHTHD") && (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
-						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && condition.getRepository().equals("仓库一") &&thePO.isApprovedByManager()){
+				if( (date>=Integer.parseInt(beginTime)&&date<=Integer.parseInt(endTime)) 
+						&& thePO.getCustomerPO().getName().equals(condition.getCustomer()) && storage.contains(condition.getRepository())  &&thePO.isApprovedByManager()){
 					result.add(thePO) ;
 				}
 			}
