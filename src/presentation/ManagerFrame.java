@@ -138,6 +138,7 @@ public class ManagerFrame extends JFrame{
 	class CheckReceiptPanel extends JPanel {      //审批报表panel
 		//private JTable goodsTable;
 		JPanel panel1,panel2,panel3,panel4;
+		JScrollPane tablePane1,tablePane2,tablePane3,tablePane4;
 		public CheckReceiptPanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
@@ -288,7 +289,9 @@ public class ManagerFrame extends JFrame{
 		    	}
 			});
 		    
-			JScrollPane tablePane1=new JScrollPane(table1);
+		    if(tablePane1!=null)
+		    	tablePane1.setVisible(false);    //重要！防止表格出现错位
+			tablePane1=new JScrollPane(table1);
 			tablePane1.setSize(630,400);
 			tablePane1.setLocation(50, 10);
 			panel1.add(tablePane1);
@@ -393,7 +396,9 @@ public class ManagerFrame extends JFrame{
 		    	}
 			});
 		    
-			JScrollPane tablePane2=new JScrollPane(table2);
+		    if(tablePane2!=null)
+		    	tablePane2.setVisible(false);
+			tablePane2=new JScrollPane(table2);
 			tablePane2.setSize(630,400);
 			tablePane2.setLocation(50, 10);
 			panel2.add(tablePane2);
@@ -494,7 +499,9 @@ public class ManagerFrame extends JFrame{
 		    	}
 			});
 		    
-			JScrollPane tablePane3=new JScrollPane(table3);
+		    if(tablePane3!=null)
+		    	tablePane3.setVisible(false);
+			tablePane3=new JScrollPane(table3);
 			tablePane3.setSize(630,400);
 			tablePane3.setLocation(50, 10);
 			panel3.add(tablePane3);
@@ -576,8 +583,9 @@ public class ManagerFrame extends JFrame{
 		    render.setHorizontalAlignment(SwingConstants.CENTER);
 		    table4.setDefaultRenderer(Object.class, render);
 		    
-		    
-			JScrollPane tablePane4=new JScrollPane(table4);
+		    if(tablePane4!=null)
+		    	tablePane4.setVisible(false);
+			tablePane4=new JScrollPane(table4);
 			tablePane4.setSize(630,400);
 			tablePane4.setLocation(50, 10);
 			panel4.add(tablePane4);
