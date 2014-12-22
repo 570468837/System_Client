@@ -274,6 +274,7 @@ public class SalesController implements SalesBLService {
 				salesReceiptPO.getFinalprice(), salesReceiptPO.getTime(),
 				salesReceiptPO.getComment());
 		
+		vo.setCustomerVO(new CustomerController().toVO(salesReceiptPO.getCustomerPO()));
 		vo.setApprovedByCommodity(salesReceiptPO.isApprovedByCommodity());
 		vo.setApprovedByManager(salesReceiptPO.isApprovedByManager());
 		
