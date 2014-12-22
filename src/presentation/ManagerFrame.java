@@ -445,7 +445,6 @@ public class ManagerFrame extends JFrame{
 					// 这里之前因为过多的创建goodscontroller对象，导致不同的线程中的迭代器对同一list进行修改产生错误
 					//
 					
-					System.out.println(isApproved.size()+"pass"+notApproved.size()+"hou");
 					new ApprovalBLService_Controller().salesChangeGoods(isApproved);
 					new ApprovalBLService_Controller().addSendCommodityReceipt(isApproved);
 					
