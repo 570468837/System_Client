@@ -139,6 +139,7 @@ public class ManagerFrame extends JFrame{
 		//private JTable goodsTable;
 		JPanel panel1,panel2,panel3,panel4;
 		JScrollPane tablePane1,tablePane2,tablePane3,tablePane4;
+		
 		public CheckReceiptPanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
@@ -190,7 +191,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
-					table1Refresh();
+					
 				}
 			});
 			
@@ -200,7 +201,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(true);
 					panel3.setVisible(false);
 					panel4.setVisible(false);
-					table2Refresh();
+					
 				}
 			});
 			
@@ -210,7 +211,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(true);
 					panel4.setVisible(false);
-					table3Refresh();
+					
 				}
 			});
 			
@@ -220,7 +221,7 @@ public class ManagerFrame extends JFrame{
 					panel2.setVisible(false);
 					panel3.setVisible(false);
 					panel4.setVisible(true);
-					table4Refresh();
+					
 				}
 			});
 			// 表一
