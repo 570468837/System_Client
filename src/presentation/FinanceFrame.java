@@ -1243,9 +1243,11 @@ public class FinanceFrame extends JFrame{
 					}
 					if(passTable.columnAtPoint(mousePoint) == 5){
 						int i = passTable.rowAtPoint(mousePoint) ;
+						if(i!=-1){
 						CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
 						theReceipt.setApprovedByFinancer(true);
 						fController.updateCollectionOrPayment(theReceipt) ;
+						}
 //						refreshTable();
 					}
 				}
