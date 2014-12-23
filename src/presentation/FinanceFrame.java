@@ -1265,6 +1265,9 @@ public class FinanceFrame extends JFrame{
     			}
 			});
 			passTable.setBackground(Color.WHITE);
+			
+			if(passJsc!=null)
+				passJsc.setVisible(false);
 			passJsc = new JScrollPane(passTable) ;
 			passJsc.setBounds(23, 38, 451, 149);
 			passJsc.setBackground(Color.white);
@@ -1286,6 +1289,7 @@ public class FinanceFrame extends JFrame{
     			}
 			});
     		failTable.setBackground(Color.WHITE);
+    		
     		failJsc = new JScrollPane(failTable) ;
     		failJsc.setBounds(23, 222, 451, 148);
     		failJsc.setBackground(Color.white);
