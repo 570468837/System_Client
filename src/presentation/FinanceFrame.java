@@ -762,14 +762,15 @@ public class FinanceFrame extends JFrame{
 	    		sureButton.setBounds(110, 200, 100, 30);
 	    		contentPane.add(sureButton) ;
 	    		sureButton.addMouseListener(new MouseAdapter() {
+	    		    public void mouseClicked(MouseEvent e){
+	    				dispose() ;
+	    			}
 				});
 	    		
 	    	}
 	    	
 	}
-	    public void mouseClicked(MouseEvent e){
-			dispose() ;
-		}
+
 
 		public void setNum(){
     		sumOfMoney = 0 ;
