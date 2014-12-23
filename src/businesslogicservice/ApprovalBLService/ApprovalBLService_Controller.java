@@ -181,7 +181,7 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		System.out.println(sales.size());
 		for(int i=0;i<sales.size();i++){
 			SalesReceiptPO s=sales.get(i);
-			if(s.getPromotionPO().getPromotionType()==PromotionSort.Gifts){
+			if(s.getPromotionPO()!=null&&s.getPromotionPO().getPromotionType()==PromotionSort.Gifts){
 				PromotionPO p=s.getPromotionPO();
 				new CommodityController().addSendCommodity(new SendCommodityVO(
 						p.getPresents().get(0).getSerialNumber(),s.getCustomerPO().getName(), 
