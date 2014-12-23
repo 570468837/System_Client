@@ -1236,10 +1236,12 @@ public class FinanceFrame extends JFrame{
 					Point mousePoint = e.getPoint() ;
 					if(passTable.columnAtPoint(mousePoint) == 3){
 						int i = passTable.rowAtPoint(mousePoint) ;
+						if(i!=-1){
 						CollectionOrPaymentVO theVO = passReceipts.get(i) ;
 						ArrayList<Object> list = new ArrayList<>(theVO.getTrList()) ;
 						String[] column2= {"银行账户","转账金额","备注"} ;
 						new ShowListFrame(list, column2, "转账列表");
+						}
 					}
 					if(passTable.columnAtPoint(mousePoint) == 5){
 						int i = passTable.rowAtPoint(mousePoint) ;
@@ -1247,8 +1249,9 @@ public class FinanceFrame extends JFrame{
 						CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
 						theReceipt.setApprovedByFinancer(true);
 						fController.updateCollectionOrPayment(theReceipt) ;
+						refreshTable();
 						}
-//						refreshTable();
+						
 					}
 				}
 			});
@@ -2585,10 +2588,13 @@ public class FinanceFrame extends JFrame{
     		JButton sureButton = new JButton("确定");
     		sureButton.setBounds(110, 200, 100, 30);
     		contentPane.add(sureButton) ;
-    		sureButton.addMouseListener(new MouseAdapter() {
-    			public void mouseClicked(MouseEvent e){
-    				dispose() ;
-    			}
+    		sureButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					dispose();
+				}
 			});
     		
     	}
