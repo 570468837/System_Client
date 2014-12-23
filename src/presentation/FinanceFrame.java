@@ -1195,7 +1195,7 @@ public class FinanceFrame extends JFrame{
     	private JScrollPane passJsc ;
     	private JTable failTable ;
     	private JScrollPane failJsc ;
-
+    	private JLabel freshLabel ;
     	/**
     	 * Create the panel.
     	 */
@@ -1214,21 +1214,18 @@ public class FinanceFrame extends JFrame{
     		add(failLabel);
     		
     		
-    		JLabel freshLabel = new JLabel("刷新");
+    		freshLabel = new JLabel("一键转账");
     		freshLabel.setBounds(406, 10, 54, 15);
     		add(freshLabel);
-    		freshLabel.addMouseListener(new MouseAdapter() {
-    			public void mouseClicked(MouseEvent e){
-    				refreshTable();
-    			}
-			});
+    		
+    		
     		
     		
     		refreshTable();
     		
     	}
     	public void refreshTable(){
-    		String[] passColumn = {"单据编号","客户","操作员","转账列表","总额汇总","是否完成转账"};
+    		String[] passColumn = {"单据编号","客户","操作员","转账列表","总额汇总"};
 			ArrayList<CollectionOrPaymentVO> passReceipts = new FinanceController().showPassReceipt() ;
 			ArrayList<CollectionOrPaymentVO> failReceipts = new FinanceController().showFailReceipt() ;
 			passTable = new JTable(new MyTableModel(passReceipts, passColumn,true)) ;
@@ -1244,17 +1241,28 @@ public class FinanceFrame extends JFrame{
 						new ShowListFrame(list, column2, "转账列表");
 						}
 					}
-					if(passTable.columnAtPoint(mousePoint) == 5){
-						int i = passTable.rowAtPoint(mousePoint) ;
-						if(i!=-1){
-						CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
-						theReceipt.setApprovedByFinancer(true);
-						fController.updateCollectionOrPayment(theReceipt) ;
-						refreshTable();
-						}
-						
-					}
+//					if(passTable.columnAtPoint(mousePoint) == 5){
+//						int i = passTable.rowAtPoint(mousePoint) ;
+//						if(i!=-1){
+//						CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
+//						theReceipt.setApprovedByFinancer(true);
+//						fController.updateCollectionOrPayment(theReceipt) ;
+//						refreshTable();
+//						}
+//						
+//					}
 				}
+			});
+			
+			freshLabel.addMouseListener(new MouseAdapter() {
+    			public void mouseClicked(MouseEvent e){
+    				for(int i=0;i<passReceipts.size();i++){
+    					CollectionOrPaymentVO theReceipt = passReceipts.get(i) ;
+    					theReceipt.setApprovedByFinancer(true);
+    					fController.updateCollectionOrPayment(theReceipt) ;
+    					refreshTable();
+    				}
+    			}
 			});
 			passTable.setBackground(Color.WHITE);
 			passJsc = new JScrollPane(passTable) ;
@@ -2495,8 +2503,6 @@ public class FinanceFrame extends JFrame{
 				oneRow.add(receipt.getUser()) ;
 				oneRow.add("展开");
 				oneRow.add(receipt.getTotal()) ;
-				if(isPass)
-					oneRow.add("完成转账") ;
 				datas.add(oneRow);
 			}
 	    	columnOfReceipt = column ;
