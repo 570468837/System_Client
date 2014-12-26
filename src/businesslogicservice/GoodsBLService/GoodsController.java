@@ -24,19 +24,17 @@ public class GoodsController implements GoodsBLService {
 	private Iterator<GoodsClassVO> gcIter;
 	
 	private Communication_Start com;
-	private ListReload listReload;
-	private final static int reloadTime = 5000; //8秒刷新一次
 	
 	public GoodsController() {
 		com = new Communication_Start();
 		com.initial();
-		listReload = new ListReload();
-		listReload.act();
-		//listReload.start();
+		readGoodsList();
+		readGoodsClassList();
 	}
 
 	@Override
 	public GoodsVO getGoodsByID(long id) {
+		readGoodsList();
 		gIter = goodsVOList.iterator();
 		GoodsVO g;
 		while(gIter.hasNext()) {
@@ -49,11 +47,13 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ArrayList<GoodsVO> getGoodsVOList() {
+		readGoodsList();
 		return goodsVOList;
 	}
 
 	@Override
 	public GoodsClassVO getGoodsClassByID(long id) {
+		readGoodsClassList();
 		gcIter = goodsClassVOList.iterator();
 		GoodsClassVO gc;
 		while(gcIter.hasNext()) {
@@ -67,6 +67,7 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public ArrayList<GoodsClassVO> getGoodsClassVOList() {
+		readGoodsClassList();
 		return goodsClassVOList;
 	}
 
@@ -151,6 +152,7 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public GoodsVO getGoodsByInfo(String name, String model) {
+		readGoodsList();
 		gIter = goodsVOList.iterator();
 		GoodsVO g;
 		while(gIter.hasNext()) {
@@ -164,6 +166,7 @@ public class GoodsController implements GoodsBLService {
 
 	@Override
 	public GoodsClassVO getGoodsClassByInfo(String name) {
+		readGoodsClassList();
 		gcIter = goodsClassVOList.iterator();
 		GoodsClassVO gc;
 		while(gcIter.hasNext()) {
@@ -175,47 +178,44 @@ public class GoodsController implements GoodsBLService {
 		return null;
 	}
 	
-	class ListReload extends Thread {
+	
+	private void readGoodsList() {
 		ArrayList<Object> goodsPOList;
-		ArrayList<Object> goodsClassPOList;
 		GoodsVO g;
-		GoodsClassVO gc;
-		@Override
-		public void run() {
-			while(true) {
-				act();
-				try {
-					Thread.sleep(reloadTime);
-				} catch (InterruptedException e) {
-					System.out.println("reload error");
-				}
-			}
+		goodsVOList.clear();
+		try {
+			goodsPOList = Communication_Start.client.showObject("goodsListGet");
+			
+		} catch (RemoteException e) {
+			System.out.println("list get error");
+			goodsPOList = null;
 		}
-		
-		public void act() {
-			goodsVOList.clear();
-			goodsClassVOList.clear();
-			try {
-				goodsPOList = Communication_Start.client.showObject("goodsListGet");
-				goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
-				
-			} catch (RemoteException e) {
-				System.out.println("list get error");
-			}
-			for(int i = 0; i < goodsPOList.size(); i ++) {
-				g = new GoodsVO();
-				g.toVO((GoodsPO)goodsPOList.get(i));
-				goodsVOList.add(g);
-			}
-			for(int i = 0; i < goodsClassPOList.size(); i ++) {
-				gc = new GoodsClassVO();
-				gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
-				goodsClassVOList.add(gc);
-			}
+		for(int i = 0; i < goodsPOList.size(); i ++) {
+			g = new GoodsVO();
+			g.toVO((GoodsPO)goodsPOList.get(i));
+			goodsVOList.add(g);
 		}
-		
-		
 	}
+	
+	private void readGoodsClassList() {
+		ArrayList<Object> goodsClassPOList;
+		GoodsClassVO gc;
+		goodsClassVOList.clear();
+		try {
+			goodsClassPOList = Communication_Start.client.showObject("goodsClassListGet");
+			
+		} catch (RemoteException e) {
+			System.out.println("list get error");
+			goodsClassPOList = null;
+		}
+		for(int i = 0; i < goodsClassPOList.size(); i ++) {
+			gc = new GoodsClassVO();
+			gc.toVO((GoodsClassPO)goodsClassPOList.get(i));
+			goodsClassVOList.add(gc);
+		}
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		GoodsController gc = new GoodsController();
