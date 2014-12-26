@@ -1519,7 +1519,7 @@ public class CommodityFrame extends JFrame {
 				str = new String[3];
 				str[0] = (i + 1) + "";
 				str[1] = 
-						(v.date.getYear() + 1900) + "/" + (v.date.getMonth() + 1) + "/" + v.date.getDay() + "  " +
+						(v.date.getYear() + 1900) + "/" + (v.date.getMonth() + 1) + "/" + v.date.getDate() + "  " +
 				        "客户: " + v.customerVOName + "" +
 						"商品: " + g.name + "/" + g.model + "(" + v.price + "/" + v.num + ")" + "" +
 				        "的赠送单审批通过";
