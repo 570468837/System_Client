@@ -53,6 +53,7 @@ import VO.CashVO;
 import VO.CollectionOrPaymentVO;
 import VO.GoodsVO;
 import VO.PurchaseListItemVO;
+import VO.PurchaseReceiptVO;
 import VO.ReportCommodityVO;
 import VO.SalesListItemVO;
 import VO.SalesReceiptVO;
@@ -63,10 +64,12 @@ import VO.UserVO;
 import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.InfoBLService.InfoController;
+import businesslogicservice.PurchseBLService.PurchaseController;
+import businesslogicservice.SaleBLService.SalesController;
 
 /*
  * 财务人员界面
- * @author shengyu
+ * @author 
  */
 public class FinanceFrame extends JFrame{
 	private FinanceController fController = new FinanceController() ;
@@ -1381,7 +1384,7 @@ public class FinanceFrame extends JFrame{
 			setLayout(null);
 			this.setBackground(Color.LIGHT_GRAY);
 			this.setBounds(80,74, 700,400);
-			
+			 
 			refreshTable();
 			
 			JLabel timesLabel = new JLabel("时间区间：");
@@ -1519,8 +1522,8 @@ public class FinanceFrame extends JFrame{
 			saleDetailTable.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
 					Point mousePoint = e.getPoint()  ;
-					if(saleDetailTable.rowAtPoint(mousePoint)== 5){
-						SalesReceiptPO thePO = receipts.get(saleDetailTable.columnAtPoint(mousePoint)) ;
+					if(saleDetailTable.columnAtPoint(mousePoint)== 5){
+						SalesReceiptPO thePO = receipts.get(saleDetailTable.rowAtPoint(mousePoint)) ;
 						String[] column2 = {"编号","名称","型号","数量","单价","金额","商品备注"};
 						ArrayList<Object> list = new ArrayList<>(thePO.getSalesList()) ;
 						new ShowListFrame(list, column2,"商品清单");
@@ -1979,17 +1982,34 @@ public class FinanceFrame extends JFrame{
 				fController.addCash(theReceipt) ;
 			}
 			if(type.equals("XSD")){//销售单
+				SalesController sController = new SalesController() ;
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
+				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
-					theItem.setTotalPrice(-theItem.getTotalPrice());
+					theItem.setTotalPrice(theItem.getTotalPrice());
 				}
-				theReceipt.setDiscout(-theReceipt.getDiscout());
-				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
-				theReceipt.setFinalprice(-theReceipt.getFinalprice());
 				theReceipt.setVocher(-theReceipt.getVocher());
+		    	SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				theReceipt.setSerialNumber(saleHelper.setSerialNumber(2));
+				theReceipt.setDiscout(-theReceipt.getDiscout());
+				theReceipt.setPriceBefore(theReceipt.getPriceBefore());
+				theReceipt.setFinalprice(theReceipt.getFinalprice());
+				
+				
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
+				for(SalesListItemPO item :theReceipt.getSalesList()){
+					System.out.println(item.getTotalPrice()+item.getQuantity());
+				}
+				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
+				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
+				sController.creatReceipt(theVO) ;
+				for(SalesListItemVO item :theVO.getSalesList()){
+					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
+				}
+				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
+				
 			}
 			if(type.equals("XSTHD")){//销售退货单
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
@@ -1997,12 +2017,17 @@ public class FinanceFrame extends JFrame{
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
 				}
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				theReceipt.setSerialNumber(saleHelper.setSerialNumber(-2));
 				theReceipt.setDiscout(-theReceipt.getDiscout());
 				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
 				theReceipt.setFinalprice(-theReceipt.getFinalprice());
 				theReceipt.setVocher(-theReceipt.getVocher());
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
+				SalesController sController = new SalesController() ;
+				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
+				sController.creatReceipt(theVO) ;
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){//进货单和进货退货单
 				PurchaseReceiptPO theReceipt = new PurchaseReceiptPO((PurchaseReceiptPO)result.get(currentRow)) ;
@@ -2010,9 +2035,20 @@ public class FinanceFrame extends JFrame{
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
 				}
+				if(type.equals("JHD")){
+					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+					theReceipt.setSerialNumber(saleHelper.setSerialNumber(1));
+				}else{
+					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+					theReceipt.setSerialNumber(saleHelper.setSerialNumber(-1));
+				}
 				theReceipt.setTotalPrice(theReceipt.getTotalPrice()) ;
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
+				PurchaseController pController = new PurchaseController() ;
+				PurchaseReceiptVO theVO = pController.toVO(theReceipt) ;
+				pController.creatReceipt(theVO) ;
+				
 			}
 			if(type.equals("BYD")||type.equals("BSD")){//报溢报损单
 				System.out.println("进入红冲");
@@ -2020,8 +2056,8 @@ public class FinanceFrame extends JFrame{
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.date = new Date();
 				CommodityController c = new CommodityController() ;
-				System.out.println(c.addReportCommodity(theReceipt)); 
-				System.out.println("完成红冲");
+				c.addReportCommodity(theReceipt); 
+				
 			}
 			if(type.equals("ZSD")){//赠送单
 				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
@@ -2053,22 +2089,22 @@ public class FinanceFrame extends JFrame{
 			}
 			if(type.equals("XSD")){
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
 				 SalesmanFrameHelper.AddSalesReceiptFrame frame = saleHelper.new AddSalesReceiptFrame(2, thePO, user) ;
 			}
 			if(type.equals("XSTHD")){
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
 				saleHelper.new AddSalesReceiptFrame(-2, thePO, user) ;
-			}
+			} 
 			if(type.equals("JHD")){
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
 				saleHelper.new AddPurchaseReceiptFrame(1, thePO, user) ;
 			}
 			if(type.equals("JHTHD")){
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper(null, user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
 				saleHelper.new AddPurchaseReceiptFrame(-1, thePO, user) ;
 			}
 		}
@@ -2332,10 +2368,10 @@ public class FinanceFrame extends JFrame{
 				oneRow.add(receipt.getUserPO().getUserName()) ;
 				oneRow.add(receipt.getCommodityNum()) ;
 				oneRow.add("展开");
-				oneRow.add(String.valueOf(receipt.getPriceBefore())) ;
-				oneRow.add(String.valueOf(receipt.getDiscout())) ;
-				oneRow.add("代金券总额") ;
-				oneRow.add(String.valueOf(receipt.getFinalprice())) ;
+				oneRow.add(receipt.getPriceBefore()) ;
+				oneRow.add(receipt.getDiscout()) ;
+				oneRow.add(String.valueOf(receipt.getVocher())) ;
+				oneRow.add(receipt.getFinalprice()) ;
 				oneRow.add(receipt.getComment()) ;
 				datas.add(oneRow) ;
 			}
@@ -2352,10 +2388,10 @@ public class FinanceFrame extends JFrame{
 					oneRow.add("展开");
 					oneRow.add(String.valueOf(receipt.getPriceBefore())) ;
 					oneRow.add(String.valueOf(receipt.getDiscout())) ;
-					oneRow.add("代金券总额") ;
+					oneRow.add(String.valueOf(receipt.getVocher())) ;
 					oneRow.add(String.valueOf(receipt.getFinalprice())) ;
 					oneRow.add(receipt.getComment()) ;
-					datas.add(oneRow) ;
+					datas.add(oneRow) ;                                          
 				}
 			}
 			
@@ -2366,6 +2402,7 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(item.getGoodsPO().getSerialNumber()) ;
 					oneRow.add(item.getGoodsPO().getName()) ;
 					oneRow.add(item.getGoodsPO().getModel()) ;
+					oneRow.add(item.getQuantity());
 					oneRow.add(item.getGoodsPO().getPrice()) ;
 					oneRow.add(item.getTotalPrice()) ;
 					oneRow.add(item.getGoodsPO().getComment()) ;

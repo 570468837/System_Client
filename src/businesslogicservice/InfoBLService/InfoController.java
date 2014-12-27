@@ -39,14 +39,12 @@ public class InfoController implements InfoBLService{
 		int time2 = Integer.parseInt(end.replaceAll("/", ""));
 		boolean isContain = false ;
 		for(SalesReceiptPO theReceipt:resultOfPO){
-		    
-		    if(theReceipt.isApprovedByCommodity()&&theReceipt.isApprovedByManager()){}
-		    else continue ;
+			
 		    
 		    if(!theReceipt.getSerialNumber().substring(0,3).equals("XSD")) continue ;
-		    
-		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
-			if(time1>=date||date>=time2) continue ;
+//		    System.out.println(theReceipt.getSerialNumber());
+//		    date = Integer.parseInt(theReceipt.getSerialNumber().substring(4,12));
+//			if(time1>=date||date>=time2) continue ;
 			
 			if(!theReceipt.getCustomerPO().getName().contains(condition.getCustomer())) continue ;
 			
@@ -57,7 +55,7 @@ public class InfoController implements InfoBLService{
 			if(!theReceipt.isApprovedByManager()) continue ;
 			
 			for(SalesListItemPO saleItem:theReceipt.getSalesList()){//判断该销售单是否含有查看的商品
-				if(saleItem.getGoodsPO().getName().equals(condition.getNameOfGood())){
+				if(saleItem.getGoodsPO().getName().contains(condition.getNameOfGood())){
 					isContain = true ;
 					break ;
 				}
@@ -153,6 +151,7 @@ public class InfoController implements InfoBLService{
 			ArrayList<SalesReceiptPO> receipts = new SalesController().show() ;
 			int time1 = Integer.parseInt(beginTime) ;
 			int time2 = Integer.parseInt(endTime);
+			boolean isContain = false ;
 			for(SalesReceiptPO theReceipt:receipts){
 			    
 				if(theReceipt.isApprovedByManager()){}
@@ -169,7 +168,16 @@ public class InfoController implements InfoBLService{
 				
 				if(!theReceipt.getCommodityNum().contains(condition.getRepository())) continue ;
 				
-				result.add(theReceipt) ;
+				for(SalesListItemPO saleItem:theReceipt.getSalesList()){//判断该销售单是否含有查看的商品
+					if(saleItem.getGoodsPO().getName().contains(condition.getNameOfGood())){
+						isContain = true ;
+						break ;
+					}
+				}
+				if(isContain){
+					result.add(theReceipt) ;
+				}
+				
 			}
 		}
 		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO

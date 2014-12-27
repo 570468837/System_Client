@@ -54,7 +54,9 @@ public class SalesController implements SalesBLService {
 	@Override
 	public ResultMessage creatReceipt(SalesReceiptVO salesReceiptVO) {
 		
+		System.out.println(salesReceiptVO.getFinalprice());
 		SalesReceiptPO po = this.toPO(salesReceiptVO);
+		System.out.println(po.getFinalprice());
 		Communication_Start com = new Communication_Start();
 		com.initial();
 		try {
