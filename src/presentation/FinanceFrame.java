@@ -61,6 +61,7 @@ import VO.ScreeningConditionVO;
 import VO.SendCommodityVO;
 import VO.TransferListItemVO;
 import VO.UserVO;
+import businesslogicservice.ApprovalBLService.ApprovalBLService_Controller;
 import businesslogicservice.CommodityBLService.CommodityController;
 import businesslogicservice.FinanceBLService.FinanceController;
 import businesslogicservice.InfoBLService.InfoController;
@@ -2005,6 +2006,10 @@ public class FinanceFrame extends JFrame{
 				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
 				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
 				sController.creatReceipt(theVO) ;
+				ArrayList<SalesReceiptPO> list = new ArrayList<SalesReceiptPO>() ;
+				list.add(theReceipt) ;
+				ApprovalBLService_Controller aController = new ApprovalBLService_Controller() ;
+				aController.salesChangeGoods(list);
 				for(SalesListItemVO item :theVO.getSalesList()){
 					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
 				}
@@ -2048,6 +2053,11 @@ public class FinanceFrame extends JFrame{
 				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptVO theVO = pController.toVO(theReceipt) ;
 				pController.creatReceipt(theVO) ;
+				ApprovalBLService_Controller aController = new ApprovalBLService_Controller();
+				ArrayList<PurchaseReceiptPO> list = new ArrayList<PurchaseReceiptPO>() ;
+				list.add(theReceipt) ;
+				aController.purchaseChangeGoods(list);
+				
 				
 			}
 			if(type.equals("BYD")||type.equals("BSD")){//报溢报损单
