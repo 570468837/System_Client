@@ -957,8 +957,8 @@ public class SalesmanFrameHelper {
 			user = new JTextField();
 			user.setText(uservo.getUserName());
 			user.setBounds(440, 100, 100, 20);
-			if(po!=null)
-				user.setText(po.getUserPO().getUserName());
+//			if(po!=null)
+//				user.setText(po.getUserPO().getUserName());
 			getContentPane().add(user);
 
 			beforePriceLabel = new JLabel("折让前价格");
