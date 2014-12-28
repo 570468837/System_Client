@@ -2688,6 +2688,6 @@ public class FinanceFrame extends JFrame{
     
     
     public static void main(String[] marg){
-		new FinanceFrame(new UserVO("hutao", "123", UserSort.Commodity, 1)) ;
+		new FinanceFrame(new UserVO("shengyu", "123", UserSort.Commodity, 1)) ;
 	}
 }
