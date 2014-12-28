@@ -599,8 +599,8 @@ public class SalesmanFrameHelper {
 			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
-			if(po!=null)
-				serialNumber.setText(po.getSerialNumber());
+//			if(po!=null)
+//				serialNumber.setText(po.getSerialNumber());
 			getContentPane().add(serialNumber);
 
 			customerLabel = new JLabel("供货商");
@@ -904,8 +904,8 @@ public class SalesmanFrameHelper {
 			}
 			serialNumber.setEditable(false);
 			serialNumber.setBounds(100, 20, 170, 20);
-			if(po!=null)
-				serialNumber.setText(po.getSerialNumber());
+////			if(po!=null)
+//				serialNumber.setText(po.getSerialNumber());
 			
 			getContentPane().add(serialNumber);
 
