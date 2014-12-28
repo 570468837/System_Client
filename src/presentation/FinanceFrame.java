@@ -1985,7 +1985,7 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("XSD")){//销售单
 				SalesController sController = new SalesController() ;
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
-				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
+//				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(theItem.getTotalPrice());
@@ -2000,25 +2000,25 @@ public class FinanceFrame extends JFrame{
 				
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
-				System.out.println("转VO前");
-				for(SalesListItemPO item :theReceipt.getSalesList()){
-					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
-				}
-				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
+//				System.out.println("转VO前");
+//				for(SalesListItemPO item :theReceipt.getSalesList()){
+//					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
+//				}
+//				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
 			
 				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
-				System.out.println("转VO后，creat前");
-				for(SalesListItemVO item :theVO.getSalesList()){
-					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
-				}
-				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
+//				System.out.println("转VO后，creat前");
+//				for(SalesListItemVO item :theVO.getSalesList()){
+//					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
+//				}
+//				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
 			
 				sController.creatReceipt(theVO) ;
-				System.out.println("create后");
-				for(SalesListItemVO item :theVO.getSalesList()){
-					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
-				}
-				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
+//				System.out.println("create后");
+//				for(SalesListItemVO item :theVO.getSalesList()){
+//					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
+//				}
+//				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
 			
 				
 				
