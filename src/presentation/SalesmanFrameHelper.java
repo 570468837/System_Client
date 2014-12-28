@@ -1400,67 +1400,109 @@ public class SalesmanFrameHelper {
 	}
 
 	// 设置单据编号
-	public String setSerialNumber(int type) {
-		String result = null;
-		// 自动填充
+			public String setSerialNumber(int type) {
+				String result = null;
+				// 自动填充
 
-		// 日期
-		String year = String.valueOf(yearNow);
-		String day = String.valueOf(dayNow);
-		if (day.length() < 2) {
-			day = "0" + day;
-		}
-		String month = String.valueOf(monthNow);
-		if (month.length() < 2) {
-			month = "0" + month;
-		}
+				// 日期
+				String year = String.valueOf(yearNow);
+				String day = String.valueOf(dayNow);
+				if (day.length() < 2) {
+					day = "0" + day;
+				}
+				String month = String.valueOf(monthNow);
+				if (month.length() < 2) {
+					month = "0" + month;
+				}
+				//更正日期格式
+				String date = year + month + day;
+				int count = 1;// 计算今天单据的个数
+				// 单据次序
+				String order = "";
 
-		String date = year + month + day;
-
-		// 单据次序
-		String order = "";
-
-		ArrayList<PurchaseReceiptPO> list = new PurchaseController().show();
-		int count = 1;// 计算今天单据的个数
-		if (list != null) {
-			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
-				PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
-						.next();
-
-				if (purchaseReceiptPO.getSerialNumber().contains(date)) {
-					count++;
+				ArrayList<PurchaseReceiptPO> purchaseList = new PurchaseController().show();
+				ArrayList<SalesReceiptPO> salesList=new SalesController().show();
+				//进货单
+				if(type==TYPE_PURCHASE){
+					if (purchaseList != null) {
+						for (Iterator iterator = purchaseList.iterator(); iterator.hasNext();) {
+							PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
+									.next();
+							if (purchaseReceiptPO.getSerialNumber().contains(date)&&purchaseReceiptPO.getSerialNumber().substring(0, 3).equals("JHD")) {
+								count++;
+							}
+						}
+					}			
+				}
+				//进货退货单
+				if(type==TYPE_PURCHASE_BACK){
+					if (purchaseList != null) {
+						for (Iterator iterator = purchaseList.iterator(); iterator.hasNext();) {
+							PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
+									.next();
+							if (purchaseReceiptPO.getSerialNumber().contains(date)&&purchaseReceiptPO.getSerialNumber().substring(0, 3).equals("JHT")) {
+								count++;
+							}
+						}
+					}
+				}
+				//销售单
+				if(type==TYPE_SALES){
+					if(salesList!=null){
+						for (Iterator iterator = salesList.iterator(); iterator
+								.hasNext();) {
+							SalesReceiptPO salesReceiptPO = (SalesReceiptPO) iterator
+									.next();
+							if(salesReceiptPO.getSerialNumber().contains(date)&&salesReceiptPO.getSerialNumber().substring(0, 3).equals("XSD")){
+								count++;
+							}
+							
+						}
+					}
+				}
+				//销售退货单
+				if(type==TYPE_SALES_BACK){
+					if(salesList!=null){
+						for (Iterator iterator = salesList.iterator(); iterator
+								.hasNext();) {
+							SalesReceiptPO salesReceiptPO = (SalesReceiptPO) iterator
+									.next();
+							if(salesReceiptPO.getSerialNumber().contains(date)&&salesReceiptPO.getSerialNumber().substring(0, 3).equals("XST")){
+								count++;
+							}
+							
+						}
+					}
 				}
 
+				if (count < 10) {
+					order = "0000" + count;
+				} else if (count < 100) {
+					order = "000" + count;
+				} else if (count < 1000) {
+					order = "00" + count;
+				} else if (count < 10000) {
+					order = "0" + count;
+				} else if (count < 100000) {
+					order = "" + count;
+				} else {
+					System.out.println("You must be crazy!!");
+				}
+
+				if (type == TYPE_PURCHASE) {
+					result = "JHD-" + date + "-" + order;
+				} else if (type == TYPE_PURCHASE_BACK) {
+					result = "JHTHD-" + date + "-" + order;
+				} else if (type == TYPE_SALES) {
+					result = "XSD-" + date + "-" + order;
+				} else if (type == TYPE_SALES_BACK) {
+					result = "XSTHD-" + date + "-" + order;
+				}
+
+				return result;
+
 			}
-		}
 
-		if (count < 10) {
-			order = "0000" + count;
-		} else if (count < 100) {
-			order = "000" + count;
-		} else if (count < 1000) {
-			order = "00" + count;
-		} else if (count < 10000) {
-			order = "0" + count;
-		} else if (count < 100000) {
-			order = "" + count;
-		} else {
-			System.out.println("You must be crazy!!");
-		}
-
-		if (type == TYPE_PURCHASE) {
-			result = "JHD-" + date + "-" + order;
-		} else if (type == TYPE_PURCHASE_BACK) {
-			result = "JHTHD-" + date + "-" + order;
-		} else if (type == TYPE_SALES) {
-			result = "XSD-" + date + "-" + order;
-		} else if (type == TYPE_SALES_BACK) {
-			result = "XSTHD-" + date + "-" + order;
-		}
-
-		return result;
-
-	}
 
 	public static void main(String[] args) {
 		SalesmanFrameHelper helper = new SalesmanFrameHelper("addSalesReceipt",
