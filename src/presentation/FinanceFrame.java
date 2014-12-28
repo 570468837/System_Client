@@ -2000,20 +2000,34 @@ public class FinanceFrame extends JFrame{
 				
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
+				System.out.println("转VO前");
 				for(SalesListItemPO item :theReceipt.getSalesList()){
-					System.out.println(item.getTotalPrice()+item.getQuantity());
+					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
 				}
 				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
+			
 				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
-				sController.creatReceipt(theVO) ;
-				ArrayList<SalesReceiptPO> list = new ArrayList<SalesReceiptPO>() ;
-				list.add(theReceipt) ;
-				ApprovalBLService_Controller aController = new ApprovalBLService_Controller() ;
-				aController.salesChangeGoods(list);
+				System.out.println("转VO后，creat前");
 				for(SalesListItemVO item :theVO.getSalesList()){
 					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
 				}
 				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
+			
+				sController.creatReceipt(theVO) ;
+				System.out.println("create后");
+				for(SalesListItemVO item :theVO.getSalesList()){
+					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
+				}
+				System.out.println(theVO.getSerialNumber()+" "+theVO.getCustomerVO().getName()+" "+theVO.getRetailer()+" "+theVO.getSalesman()+" "+theVO.getCommodityNum()+" "+theVO.getPriceBefore()+" "+theVO.getFinalprice());
+			
+				
+				
+				ArrayList<SalesReceiptPO> list = new ArrayList<SalesReceiptPO>() ;
+				list.add(theReceipt) ;
+				ApprovalBLService_Controller aController = new ApprovalBLService_Controller() ;
+				aController.salesChangeGoods(list);
+				
+				
 				
 			}
 			if(type.equals("XSTHD")){//销售退货单
