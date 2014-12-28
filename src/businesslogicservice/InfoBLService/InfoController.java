@@ -149,7 +149,6 @@ public class InfoController implements InfoBLService{
 		}
 		if(condition.getTypeOfReceipt().equals("XSTHD")){//销售退货单，返回的是PO
 			ArrayList<SalesReceiptPO> receipts = new SalesController().show() ;
-			System.out.println(receipts.size());
 			int time1 = Integer.parseInt(beginTime) ;
 			int time2 = Integer.parseInt(endTime);
 			boolean isContain = false ;
@@ -180,7 +179,6 @@ public class InfoController implements InfoBLService{
 				}
 				
 			}
-			System.out.println(result.size());
 		}
 		if(condition.getTypeOfReceipt().equals("JHD")){//进货单,返回PO
 			String storage = "仓库一";
