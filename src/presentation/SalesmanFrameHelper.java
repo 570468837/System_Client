@@ -1415,13 +1415,13 @@ public class SalesmanFrameHelper {
 			month = "0" + month;
 		}
 
-		String date = year.substring(2, 4) + month + day;
+		String date = year + month + day;
 
 		// 单据次序
 		String order = "";
 
 		ArrayList<PurchaseReceiptPO> list = new PurchaseController().show();
-		int count = 0;// 计算今天单据的个数
+		int count = 1;// 计算今天单据的个数
 		if (list != null) {
 			for (Iterator iterator = list.iterator(); iterator.hasNext();) {
 				PurchaseReceiptPO purchaseReceiptPO = (PurchaseReceiptPO) iterator
