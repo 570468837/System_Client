@@ -37,13 +37,13 @@ public class GoodsVO {
 		this.commodityQuantity = -1;
 	}
 	public GoodsVO(String serialNumber, String name, String model, 
-			double price, double totalPrice, String comment) {
+			double price, double salePrice, String comment) {
 		this();
 		this.serialNumber = serialNumber;
 		this.name = name;
 		this.model = model;
 		this.price = price;
-		this.totalPrice = totalPrice;
+		this.salePrice = salePrice;
 		this.comment = comment;
 	};
 	public GoodsVO(String serialNumber, String name, String model, 
