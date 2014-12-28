@@ -629,8 +629,8 @@ public class SalesmanFrameHelper {
 			time = new JTextField(yearNow + "-" + monthNow + "-" + dayNow);
 			time.setEditable(false);
 			time.setBounds(100, 100, 100, 20);
-			if(po!=null)
-				time.setText(po.getTime());
+//			if(po!=null)
+//				time.setText(po.getTime());
 			getContentPane().add(time);
 
 			commodityLabel = new JLabel("仓库");
@@ -725,6 +725,7 @@ public class SalesmanFrameHelper {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// 有点复杂
+
 					PurchaseReceiptVO receipt = new PurchaseReceiptVO(
 							new CustomerController()
 									.toVO(new CustomerController()
@@ -733,7 +734,8 @@ public class SalesmanFrameHelper {
 									.getText(), userVO, time.getText(), comment
 									.getText(), new Double(0)
 									.parseDouble(totalPrice.getText()));
-
+					
+					receipt.setPurchaseList(listItems);
 					ResultMessage result = new PurchaseController()
 							.creatReceipt(receipt);
 
@@ -936,8 +938,8 @@ public class SalesmanFrameHelper {
 			time = new JTextField(yearNow + "-" + monthNow + "-" + dayNow);
 			time.setEditable(false);
 			time.setBounds(100, 100, 100, 20);
-			if(po!=null)
-				time.setText(po.getTime());
+//			if(po!=null)
+//				time.setText(po.getTime());
 			getContentPane().add(time);
 
 			commodityLabel = new JLabel("仓库");
@@ -1037,22 +1039,13 @@ public class SalesmanFrameHelper {
 				}
 			});
 
-			// String[] columnTitle1={"商品编号","商品名称","商品数量","商品总价"};
-			// Object[][] tableData1={
-			// new Object[]{"TEST","TEST","100","0"},
-			// new Object[]{"TEST2","TEST2","100","0"},
-			// };
+
 			tableColName.add("商品编号");
 			tableColName.add("商品名称");
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
 
-//			tableRows.add("Test");
-//			tableRows.add("Test");
-//			tableRows.add("100");
-//			tableRows.add("100");
-//
-//			tableData.add(tableRows);
+
 			if(po!=null)
 				for(int i=0;i<po.getSalesList().size();i++){
 					Vector rows=new Vector();
@@ -1176,6 +1169,7 @@ public class SalesmanFrameHelper {
 					new Double(0).parseDouble(finalPrice.getText()),
 					time.getText(), comment.getText());
 			
+			receipt.setCustomerVO(new CustomerController().toVO(new CustomerController().getCustomerPOById(customer.getText())));
 			receipt.setVocher(new Double(0).parseDouble(vocher.getText()));
 
 			return receipt;
@@ -1507,6 +1501,8 @@ public class SalesmanFrameHelper {
 	public static void main(String[] args) {
 		SalesmanFrameHelper helper = new SalesmanFrameHelper("addSalesReceipt",
 				null);
+		
+		
 
 	}
 }
