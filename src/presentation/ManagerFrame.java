@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 
 
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,6 +34,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+
 
 
 
@@ -361,6 +363,7 @@ public class ManagerFrame extends JFrame{
 			ArrayList<ArrayList<SalesListItemPO>> salesItems=new ArrayList<ArrayList<SalesListItemPO>>();
 			for(int i=0;i<shows.size();i++){
 				SalesReceiptPO s=shows.get(i);
+				System.out.println("<<"+s.getSalesList().size());
 				ArrayList<Object> oneData=new ArrayList<Object>();
 				oneData.add(s.getSerialNumber());
 				oneData.add(s.getCustomerPO().getName());

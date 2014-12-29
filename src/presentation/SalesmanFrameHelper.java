@@ -880,6 +880,9 @@ public class SalesmanFrameHelper {
 		private Vector tableRows = new Vector();
 
 		public AddSalesReceiptFrame(int type,SalesReceiptPO po,UserVO uservo) {
+			
+//			salesListItems = po.getSalesList() ;
+			
 			if (type == 2) {
 				this.setTitle("创建销售单");
 			} else {

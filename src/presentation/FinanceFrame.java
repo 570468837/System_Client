@@ -1985,6 +1985,10 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("XSD")){//销售单
 				SalesController sController = new SalesController() ;
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
+				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
+				for(SalesListItemPO item : thePO.getSalesList()){
+					System.out.println("####"+item.getQuantity());
+				}
 //				System.out.println(theReceipt.getSerialNumber()+" "+theReceipt.getCustomerPO().getName()+" "+theReceipt.getRetailer()+" "+theReceipt.getSalesman()+" "+theReceipt.getCommodityNum()+" "+theReceipt.getPriceBefore()+" "+theReceipt.getFinalprice());
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
@@ -2000,6 +2004,9 @@ public class FinanceFrame extends JFrame{
 				
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
+				for(SalesListItemPO item : thePO.getSalesList()){
+					System.out.println("####"+item.getQuantity());
+				}
 //				System.out.println("转VO前");
 //				for(SalesListItemPO item :theReceipt.getSalesList()){
 //					System.out.println(item.getTotalPrice()+" "+item.getQuantity());
@@ -2433,7 +2440,7 @@ public class FinanceFrame extends JFrame{
 					oneRow.add(item.getGoodsPO().getName()) ;
 					oneRow.add(item.getGoodsPO().getModel()) ;
 					oneRow.add(item.getQuantity());
-					oneRow.add(item.getGoodsPO().getPrice()) ;
+					oneRow.add(item.getGoodsPO().getSalePrice()) ;
 					oneRow.add(item.getTotalPrice()) ;
 					oneRow.add(item.getGoodsPO().getComment()) ;
 					datas.add(oneRow) ;
