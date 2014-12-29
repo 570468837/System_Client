@@ -1985,6 +1985,8 @@ public class FinanceFrame extends JFrame{
 			if(type.equals("XSD")){//销售单
 				SalesController sController = new SalesController() ;
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
+				SalesReceiptVO theVO1 = sController.toVO(theReceipt) ;
+				theReceipt = sController.toPO(theVO1) ;
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
 				for(SalesListItemPO item : thePO.getSalesList()){
 					System.out.println("####"+item.getQuantity());
@@ -2038,7 +2040,10 @@ public class FinanceFrame extends JFrame{
 				
 			}
 			if(type.equals("XSTHD")){//销售退货单
+				SalesController sController = new SalesController() ;
 				SalesReceiptPO theReceipt = new SalesReceiptPO((SalesReceiptPO) result.get(currentRow));
+				SalesReceiptVO theVO1 = sController.toVO(theReceipt) ;
+				theReceipt = sController.toPO(theVO1) ;
 				for(SalesListItemPO theItem:theReceipt.getSalesList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -2051,7 +2056,6 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setVocher(-theReceipt.getVocher());
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
-				SalesController sController = new SalesController() ;
 				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
 				sController.creatReceipt(theVO) ;
 				
@@ -2062,7 +2066,10 @@ public class FinanceFrame extends JFrame{
 				aController.salesChangeCustomer(list);
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){//进货单和进货退货单
+				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptPO theReceipt = new PurchaseReceiptPO((PurchaseReceiptPO)result.get(currentRow)) ;
+			    PurchaseReceiptVO theVO1 = pController.toVO(theReceipt) ;
+			    theReceipt = pController.toPO(theVO1) ;
 				for(PurchaseListItemPO theItem : theReceipt.getPurchaseList()){
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
@@ -2077,7 +2084,6 @@ public class FinanceFrame extends JFrame{
 				theReceipt.setTotalPrice(theReceipt.getTotalPrice()) ;
 				theReceipt.setApprovedByCommodity(true);
 				theReceipt.setApprovedByManager(true);
-				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptVO theVO = pController.toVO(theReceipt) ;
 				pController.creatReceipt(theVO) ;
 				ApprovalBLService_Controller aController = new ApprovalBLService_Controller();
@@ -2126,24 +2132,32 @@ public class FinanceFrame extends JFrame{
 				new CashForFinancer(theVO) ;
 			}
 			if(type.equals("XSD")){
+				SalesController sController = new SalesController() ;
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
+				SalesReceiptVO theVO = sController.toVO(thePO) ;
 				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
-				 SalesmanFrameHelper.AddSalesReceiptFrame frame = saleHelper.new AddSalesReceiptFrame(2, thePO, user) ;
+				 SalesmanFrameHelper.AddSalesReceiptFrame frame = saleHelper.new AddSalesReceiptFrame(2, theVO, user) ;
 			}
 			if(type.equals("XSTHD")){
+				SalesController sController = new SalesController() ;
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
+				SalesReceiptVO theVO = sController.toVO(thePO) ;
 				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
-				saleHelper.new AddSalesReceiptFrame(-2, thePO, user) ;
+				saleHelper.new AddSalesReceiptFrame(-2, theVO, user) ;
 			} 
 			if(type.equals("JHD")){
+				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
+				PurchaseReceiptVO theVO = pController.toVO(thePO) ;
 				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
-				saleHelper.new AddPurchaseReceiptFrame(1, thePO, user) ;
+				saleHelper.new AddPurchaseReceiptFrame(1, theVO, user) ;
 			}
 			if(type.equals("JHTHD")){
+				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
+				PurchaseReceiptVO theVO = pController.toVO(thePO) ;
 				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
-				saleHelper.new AddPurchaseReceiptFrame(-1, thePO, user) ;
+				saleHelper.new AddPurchaseReceiptFrame(-1, theVO, user) ;
 			}
 		}
 }
