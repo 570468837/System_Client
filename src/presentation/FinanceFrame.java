@@ -2100,6 +2100,7 @@ public class FinanceFrame extends JFrame{
 				SendCommodityVO theReceipt = (SendCommodityVO) result.get(currentRow) ;
 				theReceipt.num = -theReceipt.num ;
 				theReceipt.checked = 1 ;
+				theReceipt.date = new Date();
 				CommodityController c = new CommodityController() ;
 				c.addSendCommodity(theReceipt) ;
 			}
