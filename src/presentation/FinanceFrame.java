@@ -2114,6 +2114,10 @@ public class FinanceFrame extends JFrame{
 		}
   
 		private void hcAndfz(String type){
+			if(currentRow == 10000){
+				new warningDialog("请选择单据");
+				return ;
+			}
 			hc(type) ;
 			if(type.equals("BYD")||type.equals("BSD")){
 				ReportCommodityVO theVO = (ReportCommodityVO) result.get(currentRow) ;
