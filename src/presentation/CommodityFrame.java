@@ -119,8 +119,8 @@ public class CommodityFrame extends JFrame {
 	 */
 	class GoodsPanel extends JPanel {
 		private JPanel goodsPanel = this;
-		private ArrayList<GoodsClassVO> gcvList = gc.getGoodsClassVOList();
-		private ArrayList<GoodsVO> gvList = gc.getGoodsVOList();
+		private ArrayList<GoodsClassVO> gcvList;
+		private ArrayList<GoodsVO> gvList;
 		private ArrayList<JScrollPane> jspList = new ArrayList<JScrollPane>(); //商品类层栈
 		private ArrayList<JTable> jtList = new ArrayList<JTable>(); //用来获取jtable的全局引用，和jspList联用
 		
@@ -208,6 +208,8 @@ public class CommodityFrame extends JFrame {
 		 * 初始化商品/商品分类管理的表格
 		 */
 		private void iniGoodsManager() {
+			gcvList = gc.getGoodsClassVOList();
+			gvList = gc.getGoodsVOList();
 			while(jspList.size() != 0) jspList.remove(0).setVisible(false);
 			jtList.clear();
 			
