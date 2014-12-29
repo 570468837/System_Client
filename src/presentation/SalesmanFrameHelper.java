@@ -91,7 +91,7 @@ public class SalesmanFrameHelper {
 
 		public AddPurchaseReceiptFrame(int type,PurchaseReceiptVO vo,UserVO uservo) {
 			userVO=uservo;
-			
+			listItems=vo.getPurchaseList();
 			if (type == 1) {
 				this.setTitle("创建进货单");
 			} else if (type == -1) {
