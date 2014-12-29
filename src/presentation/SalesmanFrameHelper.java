@@ -22,7 +22,11 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import presentation.SalesmanFrame.SalesmanFrameHelper.warningDialog;
+import presentation.SalesmanFrame.SalesmanFrameHelper.AddSalesReceiptFrame.AddItemFrame;
+import Config.PromotionSort;
 import PO.PurchaseReceiptPO;
+import PO.SalesLogPO;
 import PO.SalesReceiptPO;
 import ResultMessage.ResultMessage;
 import VO.GoodsVO;
@@ -34,6 +38,7 @@ import VO.SalesReceiptVO;
 import VO.UserVO;
 import businesslogicservice.CustomerBLService.CustomerController;
 import businesslogicservice.GoodsBLService.GoodsController;
+import businesslogicservice.LogBLService.SalesLogController;
 import businesslogicservice.PromotionBLService.PromotionController;
 import businesslogicservice.PurchseBLService.PurchaseController;
 import businesslogicservice.SaleBLService.SalesController;
@@ -64,7 +69,7 @@ public class SalesmanFrameHelper {
 	public int dayNow = this.getDateNow();
 
 	
-
+	GoodsController goodsController=new GoodsController();
 	
 
 	class AddPurchaseReceiptFrame extends JFrame {
@@ -85,7 +90,8 @@ public class SalesmanFrameHelper {
 		private Vector tableRows = new Vector();
 
 		public AddPurchaseReceiptFrame(int type,PurchaseReceiptVO vo,UserVO uservo) {
-
+			userVO=uservo;
+			
 			if (type == 1) {
 				this.setTitle("创建进货单");
 			} else if (type == -1) {
@@ -379,7 +385,7 @@ public class SalesmanFrameHelper {
 				discount, finalPrice, clerk,vocher;
 		private JTextArea comment;
 		private JButton cancelButton, confirmButton, addItemButton,
-				detectButton;
+				detectButton,calPriceButton;
 		private ArrayList<GoodsVO> goodsList;
 		// 用来保存商品列表
 		ArrayList<PurchaseListItemVO> listItems = new ArrayList<PurchaseListItemVO>();
@@ -390,10 +396,13 @@ public class SalesmanFrameHelper {
 		private Vector tableColName = new Vector();
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
+		
+		int promotionType=0;
+		ArrayList<PromotionVO> promotions=new ArrayList<PromotionVO>();
 
 		public AddSalesReceiptFrame(int type,SalesReceiptVO vo,UserVO uservo) {
-			
-//			salesListItems = po.getSalesList() ;
+			userVO=uservo;
+			salesListItems = vo.getSalesList() ;
 			
 			if (type == 2) {
 				this.setTitle("创建销售单");
@@ -518,9 +527,12 @@ public class SalesmanFrameHelper {
 			if(vo!=null)
 				finalPrice.setText(vo.getFinalprice()+"");
 			finalPrice.setBounds(100, 180, 100, 20);
-			
 			getContentPane().add(finalPrice);
 
+			calPriceButton=new JButton("计算");
+			calPriceButton.setBounds(210, 180, 100, 20);
+			getContentPane().add(calPriceButton);
+			
 			detectButton = new JButton("检测促销策略");
 			detectButton.setBounds(400, 210, 100, 20);
 			getContentPane().add(detectButton);
@@ -547,6 +559,20 @@ public class SalesmanFrameHelper {
 			addItemButton.setBounds(10, 300, 80, 20);
 			getContentPane().add(addItemButton);
 
+			
+			calPriceButton.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(promotion.getSelectedIndex()!=0&&promotions.get(promotion.getSelectedIndex()-1).getPromotionType()==PromotionSort.Package){
+						discount.setText((Double.parseDouble(discount.getText())+promotions.get(promotion.getSelectedIndex()-1).getOffPrice())+"");
+					}
+
+					finalPrice.setText((Double.parseDouble(beforePrice.getText())-Double.parseDouble(discount.getText())+""));
+					
+				}
+			});
+
 			addItemButton.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -554,23 +580,11 @@ public class SalesmanFrameHelper {
 				}
 			});
 
-
+			
 			tableColName.add("商品编号");
 			tableColName.add("商品名称");
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
-
-
-			if(vo!=null)
-				for(int i=0;i<vo.getSalesList().size();i++){
-					Vector rows=new Vector();
-					rows.add(vo.getSalesList().get(i).getGoodsVO().serialNumber);
-					rows.add(vo.getSalesList().get(i).getGoodsVO().name);
-					rows.add(vo.getSalesList().get(i).getQuantity());
-					rows.add(vo.getSalesList().get(i).getTotalPrice());
-					
-					tableData.add(rows);
-				}
 
 			table1.setModel(model);
 
@@ -602,13 +616,16 @@ public class SalesmanFrameHelper {
 				public void actionPerformed(ActionEvent e) {
 					// 有点复杂
 					SalesReceiptVO receipt = creatSalesReceipt();
+					if(promotion.getSelectedIndex()!=0){
+						receipt.setPromotionVO(promotions.get(promotion.getSelectedIndex()-1));
+					}
 
 					ResultMessage result = new SalesController()
 							.creatReceipt(receipt);
 
-					// 刷新外部表格
-					// TODO
-					if (result == ResultMessage.add_success) {
+					
+					
+					if (result.equals(ResultMessage.add_success)) {
 						dispose();
 					} else {
 						new warningDialog("保存失败!");
@@ -643,12 +660,16 @@ public class SalesmanFrameHelper {
 						SalesReceiptVO receipt=creatSalesReceipt();
 						ArrayList<PromotionVO> pakeges=new PromotionController().ifPackage(new SalesController().toPO(receipt));
 						
+						
+						
 						for (Iterator iterator = pakeges.iterator(); iterator
 								.hasNext();) {
 							PromotionVO promotionVO = (PromotionVO) iterator
 									.next();
 							promotion.addItem("买"+promotionVO.getPromotionGoods().get(0).getName()+"和"+promotionVO.getPromotionGoods().get(1).getName()+"减"+promotionVO.getOffPrice()+"元");
 							
+							promotions.add(promotionVO);
+							promotionType++;
 						}
 						
 						ArrayList<PromotionVO> gifts=new PromotionController().ifGift(new SalesController().toPO(receipt));
@@ -657,6 +678,9 @@ public class SalesmanFrameHelper {
 							PromotionVO promotionVO = (PromotionVO) iterator
 									.next();
 							promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getPresents().get(0).getName());
+							
+							promotions.add(promotionVO);
+							promotionType++;
 						}
 						
 						ArrayList<PromotionVO> Vouchers=new PromotionController().ifVoucher(new SalesController().toPO(receipt));
@@ -665,6 +689,9 @@ public class SalesmanFrameHelper {
 							PromotionVO promotionVO = (PromotionVO) iterator
 									.next();
 							promotion.addItem("满"+promotionVO.getLeastPrice()+"元送"+promotionVO.getVoucher()+"元代金券");
+							
+							promotions.add(promotionVO);
+							promotionType++;
 						}
 
 					}
@@ -733,10 +760,24 @@ public class SalesmanFrameHelper {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// 既然胡韬不改ID为string，这里只好强制转换
-						GoodsVO good = new GoodsController().getGoodsByID(new Long(
+						GoodsVO good = goodsController.getGoodsByID(new Long(
 								0).parseLong(goodsSerialNumber.getText()));
+					
 						
+						boolean isEnough=true;
+						//首先判断商品库存是否足够
+						if(serialNumber.getText().substring(0, 3).equals("XSD")){
+							if(Integer.parseInt(goodsQuantity.getText())>good.commodityQuantity){
+								new warningDialog("商品 "+good.name+" 库存不足！");
+								isEnough=false;
+							}
+						}
+						
+						
+						
+						// 在这里应当向frame添加商品列表中的商品
+						// 如果返回null说明没有此商品
+					if(isEnough){
 						if (good != null) {
 							// 添加商品列表
 							salesListItems.add(new SalesListItemVO(good,
@@ -751,6 +792,13 @@ public class SalesmanFrameHelper {
 							newRows.add(new Integer(0).parseInt(goodsQuantity
 									.getText()) * good.salePrice);
 							tableData.add(newRows);
+							
+							// 刷新总价
+							beforePrice.setText((Double
+									.parseDouble(beforePrice.getText()) + Integer.parseInt(goodsQuantity.getText())
+									* good.salePrice)
+									+ "");
+							
 							table1.updateUI();
 
 							dispose();
@@ -758,6 +806,7 @@ public class SalesmanFrameHelper {
 						} else {
 							new warningDialog("不存在此商品，添加失败!");
 						}
+					}
 					}
 				});
 
