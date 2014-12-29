@@ -1483,10 +1483,7 @@ public class CommodityFrame extends JFrame {
 		    num_saleIn,
 		    num_saleOut;
 		
-		private AlarmFrame(int x, int y) {
-			this(theFrame);
-			this.setLocation(x, y);
-		}
+		
 		
 		@SuppressWarnings("deprecation")
 		public AlarmFrame(JFrame theFrame) {
@@ -1656,7 +1653,7 @@ public class CommodityFrame extends JFrame {
 						alarmFrame.dispose();
 						theFrame.setVisible(true);
 						@SuppressWarnings("unused")
-						AlarmFrame alarmFrame2 = new AlarmFrame(alarmFrame.getX(), alarmFrame.getY());
+						AlarmFrame alarmFrame2 = new AlarmFrame(theFrame);
 						
 					}
 					
