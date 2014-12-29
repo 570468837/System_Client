@@ -1231,6 +1231,8 @@ public class CommodityFrame extends JFrame {
 				cctInfo = cc.checkCommodity(time1.getText(), time2.getText()).info;
 			}
 			catch (Exception e) {
+				e.printStackTrace();
+				//TODO
 				cctInfo = null;
 			}
 			
