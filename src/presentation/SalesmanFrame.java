@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import Config.Level;
+import Config.PromotionSort;
 import Config.Sort;
 import Config.UserSort;
 import PO.CustomerPO;
@@ -1396,6 +1397,10 @@ public class SalesmanFrame extends JFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
+						if(promotion.getSelectedIndex()!=0&&promotions.get(promotion.getSelectedIndex()-1).getPromotionType()==PromotionSort.Package){
+							discount.setText((Double.parseDouble(discount.getText())+promotions.get(promotion.getSelectedIndex()-1).getOffPrice())+"");
+						}
+
 						finalPrice.setText((Double.parseDouble(beforePrice.getText())-Double.parseDouble(discount.getText())+""));
 						
 					}
