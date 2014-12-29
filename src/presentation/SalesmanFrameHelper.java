@@ -581,6 +581,18 @@ public class SalesmanFrameHelper {
 			tableColName.add("商品数量");
 			tableColName.add("商品总价");
 
+			
+			if(vo!=null)
+				for(int i=0;i<vo.getSalesList().size();i++){
+					Vector rows=new Vector();
+					rows.add(vo.getSalesList().get(i).getGoodsVO().serialNumber);
+					rows.add(vo.getSalesList().get(i).getGoodsVO().name);
+					rows.add(vo.getSalesList().get(i).getQuantity());
+					rows.add(vo.getSalesList().get(i).getTotalPrice());
+					
+					tableData.add(rows);
+				}
+			
 			table1.setModel(model);
 
 			model.setDataVector(tableData, tableColName);
