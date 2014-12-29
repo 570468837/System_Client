@@ -2,6 +2,8 @@ package VO;
 
 import java.io.Serializable;
 
+import PO.SalesListItemPO;
+
 
 public class SalesListItemVO  {
 
@@ -35,4 +37,10 @@ public class SalesListItemVO  {
 	public void setGoodsVO(GoodsVO goodsVO) {
 		this.goodsVO = goodsVO;
 	}
+	
+	public SalesListItemPO toPO(){
+		SalesListItemPO result=new SalesListItemPO(goodsVO.toPO(), this.quantity);
+		return result;
+		
+	} 
 }

@@ -1,6 +1,5 @@
 package presentation;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,14 +22,9 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import Config.Level;
-import Config.Sort;
-import PO.CustomerPO;
 import PO.PurchaseReceiptPO;
 import PO.SalesReceiptPO;
-import PO.UserPO;
 import ResultMessage.ResultMessage;
-import VO.CustomerVO;
 import VO.GoodsVO;
 import VO.PromotionVO;
 import VO.PurchaseListItemVO;
@@ -69,491 +63,9 @@ public class SalesmanFrameHelper {
 	public int monthNow = this.getMonthNow();
 	public int dayNow = this.getDateNow();
 
-	public SalesmanFrameHelper(String command, UserVO vo) {
-		this.userVO = vo;
+	
 
-		switch (command) {
-		case "addCustomer":
-			new AddCustomerFrame();
-			break;
-
-		case "deleteCustomer":
-			new DeleteCustomerFrame();
-			break;
-
-		case "updateCustomer":
-			new UpdateCustomerFrame();
-			break;
-		case "addPurchaseReceipt":
-			new AddPurchaseReceiptFrame(1,null,null);
-			break;
-		case "addPurchaseBackReceipt":
-			new AddPurchaseReceiptFrame(-1,null,null);
-			break;
-		case "addSalesReceipt":
-			new AddSalesReceiptFrame(2,null,null);
-			break;
-		case "addSalesBackReceipt":
-			new AddSalesReceiptFrame(-2,null,null);
-			break;
-		}
-
-	}
-
-	class AddCustomerFrame extends JFrame {
-		private JButton confirmButton;
-		private JButton cancelButton;
-
-		private JLabel serialnumLabel;
-		private JTextField serialnum;
-		private JLabel classLabel;
-		private JComboBox classes;
-		private JLabel levelLabel;
-		private JComboBox level;
-		private JLabel nameLabel;
-		private JTextField name;
-		private JLabel phoneLabel;
-		private JTextField phone;
-		private JLabel adressLabel;
-		private JTextField adress;
-		private JLabel zipcodeLabel;
-		private JTextField zipcode;
-		private JLabel emailLabel;
-		private JTextField email;
-		private JLabel clerkLabel;
-		private JTextField clerk;
-
-		private JLabel payLabel, gettingLabel, degreeLabel;
-		private JLabel pay, getting, degree;
-
-		public AddCustomerFrame() {
-			this.setTitle("增加客户");
-			this.setVisible(true);
-			setBounds(100, 100, 556, 475);
-			this.setLocationRelativeTo(null);
-			getContentPane().setLayout(null);
-
-			payLabel = new JLabel("应付：");
-			payLabel.setBounds(400, 40, 100, 20);
-			getContentPane().add(payLabel);
-
-			pay = new JLabel("0", JLabel.CENTER);
-			pay.setBounds(450, 40, 100, 20);
-			getContentPane().add(pay);
-
-			gettingLabel = new JLabel("应收：");
-			gettingLabel.setBounds(400, 80, 100, 20);
-			getContentPane().add(gettingLabel);
-
-			getting = new JLabel("0", JLabel.CENTER);
-			getting.setBounds(450, 80, 100, 20);
-			getContentPane().add(getting);
-
-			degreeLabel = new JLabel("应收额度：");
-			degreeLabel.setBounds(400, 120, 100, 20);
-			getContentPane().add(degreeLabel);
-
-			degree = new JLabel("0", JLabel.CENTER);
-			degree.setBounds(450, 120, 100, 20);
-			getContentPane().add(degree);
-
-			serialnumLabel = new JLabel("客户编号");
-			serialnumLabel.setBounds(140, 40, 100, 20);
-			serialnumLabel.setBackground(Color.BLACK);
-			getContentPane().add(serialnumLabel);
-
-			classLabel = new JLabel("分类");
-			classLabel.setBounds(140, 80, 100, 20);
-			getContentPane().add(classLabel);
-
-			levelLabel = new JLabel("级别");
-			levelLabel.setBounds(140, 120, 100, 20);
-			getContentPane().add(levelLabel);
-
-			nameLabel = new JLabel("姓名");
-			nameLabel.setBounds(140, 160, 100, 20);
-			getContentPane().add(nameLabel);
-
-			phoneLabel = new JLabel("电话");
-			phoneLabel.setBounds(140, 200, 100, 20);
-			getContentPane().add(phoneLabel);
-
-			adressLabel = new JLabel("地址");
-			adressLabel.setBounds(140, 240, 100, 20);
-			getContentPane().add(adressLabel);
-
-			zipcodeLabel = new JLabel("邮编");
-			zipcodeLabel.setBounds(140, 280, 100, 20);
-			getContentPane().add(zipcodeLabel);
-
-			emailLabel = new JLabel("电子邮箱");
-			emailLabel.setBounds(140, 320, 100, 20);
-			getContentPane().add(emailLabel);
-
-			clerkLabel = new JLabel("业务员");
-			clerkLabel.setBounds(140, 360, 100, 20);
-			getContentPane().add(clerkLabel);
-
-			confirmButton = new JButton("确认");
-			confirmButton.setBounds(147, 394, 88, 30);
-			getContentPane().add(confirmButton);
-
-			cancelButton = new JButton("取消");
-			cancelButton.setBounds(296, 394, 88, 30);
-			getContentPane().add(cancelButton);
-
-			serialnum = new JTextField();
-			serialnum.setBounds(240, 40, 100, 20);
-			serialnum.setColumns(10);
-			getContentPane().add(serialnum);
-
-			classes = new JComboBox(new String[] { "进货商", "销售商" });
-			classes.setBounds(240, 80, 100, 21);
-			getContentPane().add(classes);
-
-			level = new JComboBox(new String[] { "一级", "二级", "三级", "四级",
-					"五级VIP" });
-			level.setBounds(240, 120, 100, 21);
-			getContentPane().add(level);
-
-			name = new JTextField();
-			name.setBounds(240, 160, 100, 20);
-			name.setColumns(10);
-			getContentPane().add(name);
-
-			phone = new JTextField();
-			phone.setBounds(240, 200, 150, 20);
-			phone.setColumns(10);
-			getContentPane().add(phone);
-
-			adress = new JTextField();
-			adress.setBounds(240, 240, 150, 20);
-			adress.setColumns(10);
-			getContentPane().add(adress);
-
-			zipcode = new JTextField();
-			zipcode.setBounds(240, 280, 100, 20);
-			zipcode.setColumns(10);
-			getContentPane().add(zipcode);
-
-			email = new JTextField();
-			email.setBounds(240, 320, 150, 20);
-			email.setColumns(10);
-			getContentPane().add(email);
-
-			clerk = new JTextField();
-			clerk.setBounds(240, 360, 100, 20);
-			clerk.setColumns(10);
-			getContentPane().add(clerk);
-
-			confirmButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					CustomerVO vo = new CustomerVO(serialnum.getText(),
-							getCustomerSort(classes.getSelectedItem()),
-							getCustomerLevel(level.getSelectedItem()), name
-									.getText(), phone.getText(), adress
-									.getText(), zipcode.getText(), email
-									.getText(), clerk.getText());
-
-					ResultMessage result = new CustomerController()
-							.addCustomer(vo);
-
-					if (result == ResultMessage.add_success) {
-						dispose();
-					} else {
-						new warningDialog("已经存在该客户！");
-					}
-				}
-			});
-
-			cancelButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-
-				}
-
-			});
-
-			this.repaint();
-		}
-
-	}
-
-	class DeleteCustomerFrame extends JFrame {
-		private JLabel serialNumberLabel;
-		private JTextField serialNumber;
-		private JButton confirmButton, cancelButton;
-
-		public DeleteCustomerFrame() {
-			this.setTitle("删除客户");
-			this.setVisible(true);
-			setBounds(100, 100, 250, 130);
-			this.setLocationRelativeTo(null);
-			getContentPane().setLayout(null);
-
-			serialNumberLabel = new JLabel("客户编号");
-			serialNumberLabel.setBounds(20, 20, 100, 20);
-			getContentPane().add(serialNumberLabel);
-
-			serialNumber = new JTextField();
-			serialNumber.setBounds(120, 20, 100, 20);
-			getContentPane().add(serialNumber);
-
-			confirmButton = new JButton("确认");
-			confirmButton.setBounds(40, 60, 80, 20);
-			getContentPane().add(confirmButton);
-
-			cancelButton = new JButton("取消");
-			cancelButton.setBounds(130, 60, 80, 20);
-			getContentPane().add(cancelButton);
-
-			confirmButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					CustomerPO customerPO = new CustomerController()
-							.getCustomerPOById(serialNumber.getText());
-					if (customerPO != null) {
-						new CustomerController()
-								.deleteCustomer(new CustomerController()
-										.toVO(customerPO));
-						dispose();
-					} else {
-						new warningDialog("查无此人！！");
-					}
-				}
-			});
-
-			cancelButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					dispose();
-				}
-			});
-
-		}
-
-	}
-
-	class UpdateCustomerFrame extends JFrame {
-
-		private JButton confirmButton;
-		private JButton cancelButton;
-
-		private JLabel serialnumLabel;
-		private JTextField serialnum;
-		private JLabel classLabel;
-		private JComboBox classes;
-		private JLabel levelLabel;
-		private JComboBox level;
-		private JLabel nameLabel;
-		private JTextField name;
-		private JLabel phoneLabel;
-		private JTextField phone;
-		private JLabel adressLabel;
-		private JTextField adress;
-		private JLabel zipcodeLabel;
-		private JTextField zipcode;
-		private JLabel emailLabel;
-		private JTextField email;
-		private JLabel clerkLabel;
-		private JTextField clerk;
-
-		private JLabel payLabel, gettingLabel, degreeLabel;
-		private JLabel pay, getting, degree;
-
-		public UpdateCustomerFrame() {
-			this.setTitle("修改客户");
-			this.setVisible(true);
-			setBounds(100, 100, 556, 475);
-			this.setLocationRelativeTo(null);
-			getContentPane().setLayout(null);
-
-			payLabel = new JLabel("应付：");
-			payLabel.setBounds(400, 40, 100, 20);
-			getContentPane().add(payLabel);
-
-			pay = new JLabel("0", JLabel.CENTER);
-			pay.setBounds(450, 40, 100, 20);
-			getContentPane().add(pay);
-
-			gettingLabel = new JLabel("应收：");
-			gettingLabel.setBounds(400, 80, 100, 20);
-			getContentPane().add(gettingLabel);
-
-			getting = new JLabel("0", JLabel.CENTER);
-			getting.setBounds(450, 80, 100, 20);
-			getContentPane().add(getting);
-
-			degreeLabel = new JLabel("应收额度：");
-			degreeLabel.setBounds(400, 120, 100, 20);
-			getContentPane().add(degreeLabel);
-
-			degree = new JLabel("0", JLabel.CENTER);
-			degree.setBounds(450, 120, 100, 20);
-			getContentPane().add(degree);
-
-			serialnumLabel = new JLabel("客户编号");
-			serialnumLabel.setBounds(140, 40, 100, 20);
-			serialnumLabel.setBackground(Color.BLACK);
-			getContentPane().add(serialnumLabel);
-
-			classLabel = new JLabel("分类");
-			classLabel.setBounds(140, 80, 100, 20);
-			getContentPane().add(classLabel);
-
-			levelLabel = new JLabel("级别");
-			levelLabel.setBounds(140, 120, 100, 20);
-			getContentPane().add(levelLabel);
-
-			nameLabel = new JLabel("姓名");
-			nameLabel.setBounds(140, 160, 100, 20);
-			getContentPane().add(nameLabel);
-
-			phoneLabel = new JLabel("电话");
-			phoneLabel.setBounds(140, 200, 100, 20);
-			getContentPane().add(phoneLabel);
-
-			adressLabel = new JLabel("地址");
-			adressLabel.setBounds(140, 240, 100, 20);
-			getContentPane().add(adressLabel);
-
-			zipcodeLabel = new JLabel("邮编");
-			zipcodeLabel.setBounds(140, 280, 100, 20);
-			getContentPane().add(zipcodeLabel);
-
-			emailLabel = new JLabel("电子邮箱");
-			emailLabel.setBounds(140, 320, 100, 20);
-			getContentPane().add(emailLabel);
-
-			clerkLabel = new JLabel("业务员");
-			clerkLabel.setBounds(140, 360, 100, 20);
-			getContentPane().add(clerkLabel);
-
-			confirmButton = new JButton("确认");
-			confirmButton.setBounds(147, 394, 88, 30);
-			getContentPane().add(confirmButton);
-
-			cancelButton = new JButton("取消");
-			cancelButton.setBounds(296, 394, 88, 30);
-			getContentPane().add(cancelButton);
-
-			serialnum = new JTextField("");
-			serialnum.setBounds(240, 40, 100, 20);
-			serialnum.setColumns(10);
-			getContentPane().add(serialnum);
-
-			classes = new JComboBox(new String[] { "进货商", "销售商" });
-			classes.setBounds(240, 80, 100, 21);
-			getContentPane().add(classes);
-
-			level = new JComboBox(new String[] { "一级", "二级", "三级", "四级",
-					"五级VIP" });
-			level.setBounds(240, 120, 100, 21);
-			getContentPane().add(level);
-
-			name = new JTextField();
-			name.setBounds(240, 160, 100, 20);
-			name.setColumns(10);
-			getContentPane().add(name);
-
-			phone = new JTextField();
-			phone.setBounds(240, 200, 150, 20);
-			phone.setColumns(10);
-			getContentPane().add(phone);
-
-			adress = new JTextField();
-			adress.setBounds(240, 240, 150, 20);
-			adress.setColumns(10);
-			getContentPane().add(adress);
-
-			zipcode = new JTextField();
-			zipcode.setBounds(240, 280, 100, 20);
-			zipcode.setColumns(10);
-			getContentPane().add(zipcode);
-
-			email = new JTextField();
-			email.setBounds(240, 320, 150, 20);
-			email.setColumns(10);
-			getContentPane().add(email);
-
-			clerk = new JTextField();
-			clerk.setBounds(240, 360, 100, 20);
-			clerk.setColumns(10);
-			getContentPane().add(clerk);
-
-			// 监听编号
-			Thread listener = new Thread(new Runnable() {
-
-				@Override
-				public void run() {
-					while (true) {
-						if (!serialnum.getText().equals("")) {
-							CustomerPO customerPO = new CustomerController()
-									.getCustomerPOById(serialnum.getText());
-							if (customerPO == null) {
-								new warningDialog("查无此人");
-
-							} else {
-								classes.setSelectedItem(customerPO.getClass());
-								level.setSelectedItem(customerPO.getLevel());
-								name.setText(customerPO.getName());
-								phone.setText(customerPO.getPhone());
-								adress.setText(customerPO.getAddress());
-								zipcode.setText(customerPO.getZipCode());
-								email.setText(customerPO.getMail());
-								clerk.setText(customerPO.getClerk());
-
-								break;
-							}
-						}
-					}
-				}
-			});
-
-			confirmButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					CustomerVO vo = new CustomerVO(serialnum.getText(),
-							getCustomerSort(classes.getSelectedItem()),
-							getCustomerLevel(level.getSelectedItem()), name
-									.getText(), phone.getText(), adress
-									.getText(), zipcode.getText(), email
-									.getText(), clerk.getText());
-
-					ResultMessage result = new CustomerController()
-							.updateCustmer(vo);
-
-					if (result == ResultMessage.add_success) {
-						listener.stop();
-						dispose();
-					} else {
-						new warningDialog("已经存在该客户！");
-					}
-				}
-			});
-
-			cancelButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					listener.stop();
-					dispose();
-
-				}
-
-			});
-
-			this.repaint();
-		}
-
-	}
+	
 
 	class AddPurchaseReceiptFrame extends JFrame {
 		private JLabel serialNumberLabel, customerLabel, userLabel, timeLabel,
@@ -572,7 +84,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddPurchaseReceiptFrame(int type,PurchaseReceiptPO po,UserVO uservo) {
+		public AddPurchaseReceiptFrame(int type,PurchaseReceiptVO vo,UserVO uservo) {
 
 			if (type == 1) {
 				this.setTitle("创建进货单");
@@ -609,8 +121,8 @@ public class SalesmanFrameHelper {
 
 			customer = new JTextField();
 			customer.setBounds(100, 60, 100, 20);
-			if(po!=null)
-				customer.setText(po.getCustomerPO().getName());
+			if(vo!=null)
+				customer.setText(vo.getCustomerVO().getName());
 			getContentPane().add(customer);
 
 			userLabel = new JLabel("操作员");
@@ -649,8 +161,8 @@ public class SalesmanFrameHelper {
 			totalPrice = new JTextField();
 			totalPrice.setText("0");
 			totalPrice.setBounds(440, 100, 100, 20);
-			if(po!=null)
-				totalPrice.setText(po.getTotalPrice()+"");
+			if(vo!=null)
+				totalPrice.setText(vo.getTotalPrice()+"");
 			getContentPane().add(totalPrice);
 
 			commentLabel = new JLabel("备注");
@@ -659,8 +171,8 @@ public class SalesmanFrameHelper {
 
 			comment = new JTextArea(50, 50);
 			comment.setBounds(100, 140, 440, 40);
-			if(po!=null)
-				comment.setText(po.getComments());
+			if(vo!=null)
+				comment.setText(vo.getComments());
 			getContentPane().add(comment);
 
 			addItemButton = new JButton("添加商品");
@@ -681,13 +193,13 @@ public class SalesmanFrameHelper {
 			tableColName.add("商品总价");
 
 
-			if(po!=null)
-				for(int i=0;i<po.getPurchaseList().size();i++){
+			if(vo!=null)
+				for(int i=0;i<vo.getPurchaseList().size();i++){
 					Vector rows=new Vector();
-					rows.add(po.getPurchaseList().get(i).getGoodsPO().getSerialNumber());
-					rows.add(po.getPurchaseList().get(i).getGoodsPO().getName());
-					rows.add(po.getPurchaseList().get(i).getQuantity());
-					rows.add(po.getPurchaseList().get(i).getTotalPrice());
+					rows.add(vo.getPurchaseList().get(i).getGoodsVO().serialNumber);
+					rows.add(vo.getPurchaseList().get(i).getGoodsVO().name);
+					rows.add(vo.getPurchaseList().get(i).getQuantity());
+					rows.add(vo.getPurchaseList().get(i).getTotalPrice());
 					
 					tableData.add(rows);
 				}
@@ -879,7 +391,7 @@ public class SalesmanFrameHelper {
 		private Vector tableData = new Vector();
 		private Vector tableRows = new Vector();
 
-		public AddSalesReceiptFrame(int type,SalesReceiptPO po,UserVO uservo) {
+		public AddSalesReceiptFrame(int type,SalesReceiptVO vo,UserVO uservo) {
 			
 //			salesListItems = po.getSalesList() ;
 			
@@ -920,8 +432,8 @@ public class SalesmanFrameHelper {
 
 			customer = new JTextField();
 			customer.setBounds(100, 60, 100, 20);
-			if(po!=null)
-				customer.setText(po.getCustomerPO().getName());
+			if(vo!=null)
+				customer.setText(vo.getCustomerVO().getName());
 			getContentPane().add(customer);
 
 			clerkLabel = new JLabel("业务员");
@@ -930,8 +442,8 @@ public class SalesmanFrameHelper {
 			// 自动填充
 			clerk = new JTextField();
 			clerk.setBounds(270, 60, 100, 20);
-			if(po!=null)
-				clerk.setText(po.getSalesman());
+			if(vo!=null)
+				clerk.setText(vo.getSalesman());
 			getContentPane().add(clerk);
 
 			timeLabel = new JLabel("创建时间");
@@ -970,8 +482,8 @@ public class SalesmanFrameHelper {
 
 			beforePrice = new JTextField();
 			beforePrice.setBounds(100, 140, 100, 20);
-			if(po!=null)
-				beforePrice.setText(po.getPriceBefore()+"");
+			if(vo!=null)
+				beforePrice.setText(vo.getPriceBefore()+"");
 				
 			getContentPane().add(beforePrice);
 
@@ -981,8 +493,8 @@ public class SalesmanFrameHelper {
 
 			discount = new JTextField();
 			discount.setBounds(270, 140, 100, 20);
-			if(po!=null)
-				discount.setText(po.getDiscout()+"");
+			if(vo!=null)
+				discount.setText(vo.getDiscout()+"");
 			getContentPane().add(discount);
 			
 			vocherLabel = new JLabel("代金券");
@@ -992,8 +504,8 @@ public class SalesmanFrameHelper {
 
 			vocher = new JTextField();
 			vocher.setText("0");//代金券默认为0
-			if(po!=null)
-				vocher.setText(po.getVocher()+"");
+			if(vo!=null)
+				vocher.setText(vo.getVocher()+"");
 			vocher.setBounds(440, 140, 100, 20);
 			
 			getContentPane().add(vocher);
@@ -1003,8 +515,8 @@ public class SalesmanFrameHelper {
 			getContentPane().add(finalPriceLabel);
 			// TODO 自动填充
 			finalPrice = new JTextField();
-			if(po!=null)
-				finalPrice.setText(po.getFinalprice()+"");
+			if(vo!=null)
+				finalPrice.setText(vo.getFinalprice()+"");
 			finalPrice.setBounds(100, 180, 100, 20);
 			
 			getContentPane().add(finalPrice);
@@ -1027,8 +539,8 @@ public class SalesmanFrameHelper {
 
 			comment = new JTextArea(50, 50);
 			comment.setBounds(100, 240, 440, 40);
-			if(po!=null)
-				comment.setText(po.getComment());
+			if(vo!=null)
+				comment.setText(vo.getComment());
 			getContentPane().add(comment);
 
 			addItemButton = new JButton("添加商品");
@@ -1049,13 +561,13 @@ public class SalesmanFrameHelper {
 			tableColName.add("商品总价");
 
 
-			if(po!=null)
-				for(int i=0;i<po.getSalesList().size();i++){
+			if(vo!=null)
+				for(int i=0;i<vo.getSalesList().size();i++){
 					Vector rows=new Vector();
-					rows.add(po.getSalesList().get(i).getGoodsPO().getSerialNumber());
-					rows.add(po.getSalesList().get(i).getGoodsPO().getName());
-					rows.add(po.getSalesList().get(i).getQuantity());
-					rows.add(po.getSalesList().get(i).getTotalPrice());
+					rows.add(vo.getSalesList().get(i).getGoodsVO().serialNumber);
+					rows.add(vo.getSalesList().get(i).getGoodsVO().name);
+					rows.add(vo.getSalesList().get(i).getQuantity());
+					rows.add(vo.getSalesList().get(i).getTotalPrice());
 					
 					tableData.add(rows);
 				}
@@ -1224,10 +736,7 @@ public class SalesmanFrameHelper {
 						// 既然胡韬不改ID为string，这里只好强制转换
 						GoodsVO good = new GoodsController().getGoodsByID(new Long(
 								0).parseLong(goodsSerialNumber.getText()));
-						// GoodsVO good=new GoodsVO("001", "hutao", "hutao",
-						// 100, 100, "a");//测试
-						// 在这里应当向frame添加商品列表中的商品
-						// 如果返回null说明没有此商品
+						
 						if (good != null) {
 							// 添加商品列表
 							salesListItems.add(new SalesListItemVO(good,
@@ -1311,43 +820,7 @@ public class SalesmanFrameHelper {
 		return hour + minute;
 	}
 
-	public Level getCustomerLevel(Object selected) {
-		Level customer = null;
-		switch ((String) selected) {
-		case "一级":
-			customer = Level.firstClass;
-			break;
-		case "二级":
-			customer = Level.secondClass;
-			break;
-		case "三级":
-			customer = Level.thirdClass;
-			break;
-		case "四级":
-			customer = Level.forthClass;
-			break;
-		case "五级VIP":
-			customer = Level.fiveClassVIP;
-			break;
-		}
-		return customer;
-	}
-
-	public Sort getCustomerSort(Object selected) {
-		Sort customer = null;
-		switch ((String) selected) {
-		case "进货商":
-			customer = Sort.importer;
-			break;
-		case "销售商":
-			customer = Sort.retailer;
-			break;
-
-		}
-
-		return customer;
-
-	}
+	
 
 	class MyTableModel extends AbstractTableModel { // 表格模型
 		private Object[][] tableData;
@@ -1500,12 +973,4 @@ public class SalesmanFrameHelper {
 
 			}
 
-
-	public static void main(String[] args) {
-		SalesmanFrameHelper helper = new SalesmanFrameHelper("addSalesReceipt",
-				null);
-		
-		
-
-	}
 }

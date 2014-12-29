@@ -82,7 +82,8 @@ public class PurchaseReceiptPO implements Serializable {
 		this.setApprovedByManager(po.isApprovedByManager());
 		this.setComments(po.getComments());
 		this.setCustomerPO(po.getCustomerPO());
-		this.setPurchaseList(po.getPurchaseList());
+		ArrayList<PurchaseListItemPO>  newPurchaseList=new ArrayList<PurchaseListItemPO>(po.getPurchaseList());
+		this.setPurchaseList(newPurchaseList);
 		this.setSerialNumber(po.getSerialNumber());
 		this.setTime(po.getTime());
 		this.setTotalPrice(po.getTotalPrice());
