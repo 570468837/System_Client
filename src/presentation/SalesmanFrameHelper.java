@@ -384,7 +384,6 @@ public class SalesmanFrameHelper {
 				detectButton,calPriceButton;
 		private ArrayList<GoodsVO> goodsList;
 		// 用来保存商品列表
-		ArrayList<PurchaseListItemVO> listItems = new ArrayList<PurchaseListItemVO>();
 		ArrayList<SalesListItemVO> salesListItems = new ArrayList<SalesListItemVO>();
 
 		private JTable table1 = new JTable();// 商品列表
