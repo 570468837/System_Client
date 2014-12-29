@@ -2026,7 +2026,7 @@ public class FinanceFrame extends JFrame{
 				list.add(theReceipt) ;
 				ApprovalBLService_Controller aController = new ApprovalBLService_Controller() ;
 				aController.salesChangeGoods(list);
-				
+				aController.salesChangeCustomer(list);
 				
 				
 			}
@@ -2047,6 +2047,12 @@ public class FinanceFrame extends JFrame{
 				SalesController sController = new SalesController() ;
 				SalesReceiptVO theVO = sController.toVO(theReceipt) ;
 				sController.creatReceipt(theVO) ;
+				
+				ArrayList<SalesReceiptPO> list = new ArrayList<SalesReceiptPO>() ;
+				list.add(theReceipt) ;
+				ApprovalBLService_Controller aController = new ApprovalBLService_Controller() ;
+				aController.salesChangeGoods(list);
+				aController.salesChangeCustomer(list);
 			}
 			if(type.equals("JHD")||type.equals("JHTHD")){//进货单和进货退货单
 				PurchaseReceiptPO theReceipt = new PurchaseReceiptPO((PurchaseReceiptPO)result.get(currentRow)) ;
@@ -2071,7 +2077,7 @@ public class FinanceFrame extends JFrame{
 				ArrayList<PurchaseReceiptPO> list = new ArrayList<PurchaseReceiptPO>() ;
 				list.add(theReceipt) ;
 				aController.purchaseChangeGoods(list);
-				
+				aController.purchaseChangeCustomer(list);
 				
 			}
 			if(type.equals("BYD")||type.equals("BSD")){//报溢报损单
