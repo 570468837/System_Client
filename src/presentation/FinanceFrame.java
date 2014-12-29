@@ -1997,7 +1997,7 @@ public class FinanceFrame extends JFrame{
 					theItem.setTotalPrice(theItem.getTotalPrice());
 				}
 				theReceipt.setVocher(-theReceipt.getVocher());
-		    	SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+		    	SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				theReceipt.setSerialNumber(saleHelper.setSerialNumber(2));
 				theReceipt.setDiscout(-theReceipt.getDiscout());
 				theReceipt.setPriceBefore(theReceipt.getPriceBefore());
@@ -2048,7 +2048,7 @@ public class FinanceFrame extends JFrame{
 					theItem.setQuantity(-theItem.getQuantity());
 					theItem.setTotalPrice(-theItem.getTotalPrice());
 				}
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				theReceipt.setSerialNumber(saleHelper.setSerialNumber(-2));
 				theReceipt.setDiscout(-theReceipt.getDiscout());
 				theReceipt.setPriceBefore(-theReceipt.getPriceBefore());
@@ -2075,10 +2075,10 @@ public class FinanceFrame extends JFrame{
 					theItem.setTotalPrice(-theItem.getTotalPrice());
 				}
 				if(type.equals("JHD")){
-					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 					theReceipt.setSerialNumber(saleHelper.setSerialNumber(1));
 				}else{
-					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+					SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 					theReceipt.setSerialNumber(saleHelper.setSerialNumber(-1));
 				}
 				theReceipt.setTotalPrice(theReceipt.getTotalPrice()) ;
@@ -2135,28 +2135,28 @@ public class FinanceFrame extends JFrame{
 				SalesController sController = new SalesController() ;
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
 				SalesReceiptVO theVO = sController.toVO(thePO) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				 SalesmanFrameHelper.AddSalesReceiptFrame frame = saleHelper.new AddSalesReceiptFrame(2, theVO, user) ;
 			}
 			if(type.equals("XSTHD")){
 				SalesController sController = new SalesController() ;
 				SalesReceiptPO thePO = (SalesReceiptPO) result.get(currentRow) ;
 				SalesReceiptVO theVO = sController.toVO(thePO) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				saleHelper.new AddSalesReceiptFrame(-2, theVO, user) ;
 			} 
 			if(type.equals("JHD")){
 				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
 				PurchaseReceiptVO theVO = pController.toVO(thePO) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				saleHelper.new AddPurchaseReceiptFrame(1, theVO, user) ;
 			}
 			if(type.equals("JHTHD")){
 				PurchaseController pController = new PurchaseController() ;
 				PurchaseReceiptPO thePO = (PurchaseReceiptPO)result.get(currentRow) ;
 				PurchaseReceiptVO theVO = pController.toVO(thePO) ;
-				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper("11", user);
+				SalesmanFrameHelper saleHelper = new SalesmanFrameHelper();
 				saleHelper.new AddPurchaseReceiptFrame(-1, theVO, user) ;
 			}
 		}
