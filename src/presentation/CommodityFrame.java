@@ -1078,12 +1078,12 @@ public class CommodityFrame extends JFrame {
 				}
 			});
 			
-			time1 = new JTextField("<例如2014/10/10>");
+			time1 = new JTextField("<例如2014-01-01>");
 			time1.setBounds(450, 65, 110, 25);
-			new AddWordsChange(time1, "<例如2014/10/10>");
-			time2 = new JTextField("<例如2014/10/11>");
+			new AddWordsChange(time1, "<例如2014-01-01>");
+			time2 = new JTextField("<例如2015-10-10>");
 			time2.setBounds(580, 65, 110, 25);
-			new AddWordsChange(time2, "<例如2014/10/11>");
+			new AddWordsChange(time2, "<例如2015-10-10>");
 			
 			comCheckLabel = new JLabel("库存查看", JLabel.CENTER);
 			comCheckLabel.setBounds(700, 50, 100, 50);
