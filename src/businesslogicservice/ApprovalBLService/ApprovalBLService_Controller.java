@@ -131,8 +131,8 @@ public class ApprovalBLService_Controller implements ApprovalBLService{
 		// TODO Auto-generated method stub
 		for(CollectionOrPaymentVO c:receipts){
 			c.setApprovedByManager(true);
+			new CustomerController().collectionOrPaymentChangePayOrGetting(new FinanceController().VOToPO(c));
 			new FinanceController().updateCollectionOrPayment(new FinanceController().VOToPO(c));
-			
 		}
 		
 	}
