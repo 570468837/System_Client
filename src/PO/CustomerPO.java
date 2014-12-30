@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import Config.Level;
 import Config.Sort;
-import ResultMessage.ResultMessage;
 
 public class CustomerPO implements Serializable{
 	
@@ -40,11 +39,6 @@ public class CustomerPO implements Serializable{
 		}
 
 		public void setPay(double pay) {
-			//不判断权限
-//			if(po.getLevel()!=3){
-//				System.out.println("权限过低");
-//				return;
-//			}
 			this.pay = pay;
 		}
 
