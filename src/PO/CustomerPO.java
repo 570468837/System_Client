@@ -52,16 +52,9 @@ public class CustomerPO implements Serializable{
 			return debt_upper_limit;
 		}
 
-		public ResultMessage setDebt_upper_limit(double debt_upper_limit,UserPO po) {
-			if(po.level==3){
-				this.debt_upper_limit=debt_upper_limit;
-				return ResultMessage.update_success;
-			}
-			else{
-				System.out.println("权限过低！");
-				return ResultMessage.update_failure;
-			}
-		}
+		public void setDebt_upper_limit(double debt_upper_limit) {
+			this.debt_upper_limit=debt_upper_limit;
+	}
 		
 		public CustomerPO(){}
 		
