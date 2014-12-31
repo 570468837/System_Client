@@ -1286,6 +1286,11 @@ public class CommodityFrame extends JFrame {
             		sendComponent[i].setVisible(false);
             	}
 			}
+			if(reportComponent != null) {
+            	for(int i = 0; i < reportComponent.length; i ++) {
+            		reportComponent[i].setVisible(false);
+            	}
+			}
 			
 			reportComponent = new JComponent[5];
 			
@@ -1379,6 +1384,11 @@ public class CommodityFrame extends JFrame {
 			if(reportComponent != null) {
             	for(int i = 0; i < reportComponent.length; i ++) {
             		reportComponent[i].setVisible(false);
+            	}
+			}
+			if(sendComponent != null) {
+				for(int i = 0; i < sendComponent.length; i ++) {
+            		sendComponent[i].setVisible(false);
             	}
 			}
 			
