@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -319,7 +320,7 @@ public class SalesmanFrame extends JFrame {
 		public PurchasePanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
-			this.setBackground(new Color(173, 137, 115, 255));
+			this.setBackground(new Color(174,255,143));
 
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
@@ -1478,7 +1479,7 @@ public class SalesmanFrame extends JFrame {
 						}
 					}
 				});
-
+				
 				cancelButton.addActionListener(new ActionListener() {
 
 					@Override
