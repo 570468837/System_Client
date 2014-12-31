@@ -1232,7 +1232,6 @@ public class CommodityFrame extends JFrame {
 			}
 			catch (Exception e) {
 				e.printStackTrace();
-				//TODO
 				cctInfo = null;
 			}
 			
@@ -1365,7 +1364,7 @@ public class CommodityFrame extends JFrame {
 			this.add(reportComponent[2]);
 			this.add(reportComponent[3]);
 			this.add(reportComponent[4]);
-			this.repaint();
+			theFrame.repaint();
 			
 		}
 		/**
@@ -1453,7 +1452,7 @@ public class CommodityFrame extends JFrame {
 			this.add(sendComponent[3]);
 			this.add(sendComponent[4]);
 			this.add(sendComponent[5]);
-			this.repaint();
+			theFrame.repaint();
 			
 		}
 		/**
@@ -1475,10 +1474,12 @@ public class CommodityFrame extends JFrame {
 		private JFrame alarmFrame, comFrame;
 		private JTable infoTable;
 		private JScrollPane jsp;
+		private ArrayList<GoodsVO> alarmVO;
 		private ArrayList<SendCommodityVO> passedVO;
 		private ArrayList<PurchaseReceiptVO> purchaseIn, purchaseOut;
 		private ArrayList<SalesReceiptVO> saleIn, saleOut;
 		private int
+		    num_alarm,
 		    num_send,
 		    num_purchaseIn,
 		    num_purchaseOut,
@@ -1497,12 +1498,20 @@ public class CommodityFrame extends JFrame {
 			this.setUndecorated(true);
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			
+			alarmVO = new ArrayList<GoodsVO>();
+			ArrayList<GoodsVO> voList = gc.getGoodsVOList();
+			for(GoodsVO v : voList) {
+				if(v.commodityQuantity >= 0 && v.commodityQuantity <= alarmNum)
+					alarmVO.add(new GoodsVO(v));
+			}
+			
 			passedVO = cc.showPassedSend();
 			purchaseIn = cc.showInPurchase();
 			purchaseOut = cc.showOutPurchase();
 			saleIn = cc.showInSale();
 			saleOut = cc.showOutSale();
-			num_send = passedVO.size();
+			num_alarm = alarmVO.size();
+			num_send = num_alarm + passedVO.size();
 			num_purchaseIn = num_send + purchaseIn.size();
 			num_purchaseOut = num_purchaseIn + purchaseOut.size();
 			num_saleIn = num_purchaseOut + saleIn.size();
@@ -1513,9 +1522,18 @@ public class CommodityFrame extends JFrame {
 			ArrayList<String[]> bodyArray = new ArrayList<String[]>();
 			String[] str;
 			
+			for(int i = 0; i < num_alarm; i ++) {
+				GoodsVO g = alarmVO.get(i);
+				str = new String[3];
+				str[0] = (i + 1) + "";
+				str[1] = g.name + " " + g.model + "数量不足";
+				str[2] = "";
+				bodyArray.add(str);
+			}
 			
-			for (int i = 0; i < num_send; i ++) {
-				SendCommodityVO v = passedVO.get(i);
+			
+			for (int i = num_alarm; i < num_send; i ++) {
+				SendCommodityVO v = passedVO.get(i - num_alarm);
 				GoodsVO g = gc.getGoodsByID(v.goodsVOId);
 				str = new String[3];
 				str[0] = (i + 1) + "";
@@ -1624,7 +1642,7 @@ public class CommodityFrame extends JFrame {
 					if(infoTable.getValueAt(x, y).equals("已完成")) {
 						int num = Integer.parseInt((String)infoTable.getValueAt(x, 0)) - 1;
 						if(num < num_send) {
-							SendCommodityVO sv = passedVO.get(num);
+							SendCommodityVO sv = passedVO.get(num - num_alarm);
 							sv.checked = SendCommodityVO.FINISH;
 							ArrayList<SendCommodityVO> svList = new ArrayList<SendCommodityVO>();
 							svList.add(sv);
@@ -1693,7 +1711,7 @@ public class CommodityFrame extends JFrame {
 		}
 	}
 	
-	
+	private static final int alarmNum = 10;
 	
 	
 	public static void main(String[] args) {
