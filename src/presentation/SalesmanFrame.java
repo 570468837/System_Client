@@ -320,7 +320,7 @@ public class SalesmanFrame extends JFrame {
 		public PurchasePanel(JFrame theFrame) {
 			this.setLayout(null);
 			this.setBounds(140, 25, 835, 550);
-			this.setBackground(new Color(174,255,143));
+			this.setBackground(new Color(100,100,100));
 
 			DefaultTableModel model = new DefaultTableModel();// 表格模型
 			Vector tableColName = new Vector();
