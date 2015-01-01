@@ -10,7 +10,7 @@ public class Communication_Start {
 	
 	public void initial(){
 		try {
-			client=(Communication)Naming.lookup("rmi://192.168.1.100:8888/MyServer");
+			client=(Communication)Naming.lookup("rmi://localhost:8888/MyServer");
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
