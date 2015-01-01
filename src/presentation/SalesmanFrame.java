@@ -447,11 +447,21 @@ public class SalesmanFrame extends JFrame {
 
 		public UserVO userVO;
 
-		public int yearNow = this.getYearNow();
-		public int monthNow = this.getMonthNow();
-		public int dayNow = this.getDateNow();
+		public String yearNow = this.getYearNow()+"";
+		public String monthNow = this.getMonthNow()+"";
+		public String dayNow = this.getDateNow()+"";
+		
+		
 
 		public SalesmanFrameHelper(String command, UserVO vo) {
+			
+			if (dayNow.length() < 2) {
+				dayNow = "0" + dayNow;
+			}
+			if (monthNow.length() < 2) {
+				monthNow = "0" + monthNow;
+			}
+			
 			this.userVO = vo;
 
 			switch (command) {
